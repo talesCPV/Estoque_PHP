@@ -78,7 +78,7 @@
                           </tr>";
 
              
-              $query =  "SELECT s.id, p.descricao, p.unidade, s.qtd, p.preco_comp, p.cod FROM tb_produto AS p INNER JOIN tb_subconj AS s ON p.cod = s.id_peca  AND s.id_conj = ". $cod_conj ." ;";
+              $query =  "SELECT s.id, p.descricao, p.unidade, s.qtd, p.preco_comp, p.cod FROM tb_produto AS p INNER JOIN tb_subconj AS s ON p.id = s.id_peca  AND s.id_conj = ". $cod_conj ." ;";
 
               $result = mysqli_query($conexao, $query);
 

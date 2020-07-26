@@ -36,6 +36,23 @@ if (IsSet($_POST ["cod_prod"])){
 
 	$query = "UPDATE tb_produto SET  descricao = \"". $nome ." \", estoque = \"". $estoque ." \", etq_min = \"". $est_min ." \", unidade = \"". $unidade ." \", cod = \"". $cod ." \",
 			cod_bar = \"". $cod_bar ." \", id_emp = \"". $forn ." \", ncm = \"". $ncm ." \", preco_comp = \"". $compra ." \", margem = \"". $margem ." \", tipo = \"". $tipo ." \", cod_cli = \"". $cod_cli ." \"  WHERE id = \"". $cod_prod ."\" ;";
+	mysqli_query($conexao, $query);
+	$query = "SET SQL_SAFE_UPDATES = 0;";
+	mysqli_query($conexao, $query);
+	$query = " UPDATE tb_produto as pd 
+		INNER JOIN
+		(SELECT item.id_conj, sum(p.preco_comp * s.qtd) as custo
+		FROM (SELECT id_conj FROM tb_subconj where id_peca = {$cod_prod}) as item 
+		inner join tb_subconj as s 
+		inner join tb_produto as p 
+		on  p.id = s.id_peca 
+		and s.id_conj = item.id_conj
+		group by item.id_conj
+		) as val 
+		SET pd.preco_comp = val.custo
+		WHERE pd.id = val.id_conj;";
+//		echo $query;
+
 }else{
 
 	$query = "INSERT INTO tb_produto ( descricao, estoque, etq_min, unidade, cod, cod_bar, id_emp, ncm, preco_comp, margem, tipo, cod_cli) 
@@ -49,6 +66,7 @@ $conexao->close();
 setcookie("message", "Novo produto cadastrado com sucesso!", time()+3600);
 //setcookie("message", $query, time()+3600);
 
-header('Location: cad_prod.php');
+header('Location: pesq_prod.php');
+//header('Location: ' . $_SERVER['HTTP_REFERER']);
 
 ?>

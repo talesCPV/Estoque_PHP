@@ -853,11 +853,11 @@ $(document).ready(function(){
                 }
     
                 Btn = Btn + "<td><button name='adicionar' id='btnAdd'>Adicionar</button></td></tr></table></form>";
-    
+  
                 $(document).off('click', '#btnAdd').on('click', '#btnAdd', function() {
                     if(cod_conj != id){
                         var qtd =  parseFloat($('#edtQtd').val(),10);
-                        var query = "query=INSERT INTO tb_subconj VALUES (DEFAULT, "+cod_conj+", "+codProd+", "+ qtd +");";
+                        var query = "query=INSERT INTO tb_subconj VALUES (DEFAULT, "+cod_conj+", "+id+", "+ qtd +");";
                         queryDB(query);
                         $('#frmAddItem').submit();    
                     }else{

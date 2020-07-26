@@ -80,8 +80,27 @@
 	        	$preco = $fetch[2];
 				$query = "UPDATE tb_produto
 						  SET estoque = estoque + '$qtd', preco_comp = '$preco'
-						  WHERE id = '$id_prod';";
+						  WHERE id = '$id_prod';";						  
 				mysqli_query($conexao, $query);
+
+				$query = "SET SQL_SAFE_UPDATES = 0;";
+				mysqli_query($conexao, $query);
+				$query = " UPDATE tb_produto as pd 
+					INNER JOIN
+					(SELECT item.id_conj, sum(p.preco_comp * s.qtd) as custo
+					FROM (SELECT id_conj FROM tb_subconj where id_peca = {$id_prod}) as item 
+					inner join tb_subconj as s 
+					inner join tb_produto as p 
+					on  p.id = s.id_peca 
+					and s.id_conj = item.id_conj
+					group by item.id_conj
+					) as val 
+					SET pd.preco_comp = val.custo
+					WHERE pd.id = val.id_conj;";
+					mysqli_query($conexao, $query);				
+				
+
+				
 //				echo $query ."<br>";
 
 	        }

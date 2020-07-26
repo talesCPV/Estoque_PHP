@@ -181,6 +181,7 @@
 
                     $cod_prod = $fetch[0];
                     $qtd = $fetch[4];
+                    $cod = $fetch[1];
 
                       echo "<tr class='tbl_row' id='".$fetch[1]."'><td>" .$fetch[1] . "</td>".
                        "<td>" .$fetch[2] . "</td>".
