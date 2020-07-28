@@ -36,6 +36,12 @@
 				    		"id": "menuCadAgenda",
 						"perm": [10,4,3]
 					},
+					{
+						"nome": "Ordem de Fabr.",
+						"link": "cad_of.php",
+				    		"id": "menuCadOF",
+						"perm": [10,4]
+					},
 		 			{
 						"nome": "Usuário",
 						"link": "cad_user.php",
@@ -68,6 +74,12 @@
 						"link": "pesq_agenda.php",
 				    		"id": "menuPesqAgenda",
 						"perm": [10,4,3]
+					},
+					{
+						"nome": "Ordem de Fabr.",
+						"link": "pesq_of.php",
+				    		"id": "menuPesqOF",
+						"perm": [10,4]
 					},
 		 			{
 						"nome": "Usuários",

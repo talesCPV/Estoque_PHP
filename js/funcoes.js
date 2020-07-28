@@ -2,12 +2,24 @@
 
 /* SCRIPTS DE VALIDAÇÃO DE DADOS - SISTEMA FLEXIBUS*/      
 
-      function confirma(msg) {
-        return confirm(msg);
+
+    function readCookie(value) {
+        var resp = "";
+        var cookies = document.cookie.split(';');
+
+        cookies.forEach(element => {
+                item = element.split('=');
+                if($.trim(item[0]) == value){
+                    resp = item[1];
+                }
+            });
+            
+        return resp;
     }
 
     function queryDB(query) {        
         var resp = '';
+        alert(query);
         $.ajax({
             url: 'ajax/ajax.php',
             type: 'POST',
@@ -271,6 +283,24 @@ $(document).ready(function(){
 
     });     
 
+    $('#btn_FechaOF').click(function(){ 
+
+        if (confirm('Deseja Encerrar esta OF?')) {
+            var id_of = readCookie('cod_serv');
+
+//            var query = "query=SET SQL_SAFE_UPDATES = 0;";
+//            queryDB(query);
+
+            var query = "query=UPDATE tb_produto as p INNER JOIN tb_item_serv as i INNER JOIN tb_servico as s SET p.estoque = (p.estoque + i.qtd), s.status = 'FECHADO' WHERE p.id = i.id_item AND i.id_serv =  s.id AND s.id = "+ id_of +";";
+//            var query = "query=UPDATE tb_produto  SET estoque = 10 WHERE cod = '1263' ;";
+            resp = queryDB(query);    
+
+alert(resp);
+
+
+        }
+
+    });     
 
      // POPUP CLOSE
     $('.close').click(function(){ // BOTÃO FECHAR DO POPUP
@@ -875,7 +905,64 @@ $(document).ready(function(){
     
 
 
-            break;                
+            break;  
+        case 'cad_item_of.php#':
+                var id_prod = $.trim($(this).children('td').slice(0, 1).text().toUpperCase());
+                var cod_prod = $.trim($(this).children('td').slice(1, 2).text().toUpperCase());
+                var desc = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
+                var und = $.trim($(this).children('td').slice(3, 4).text());
+                var tipo = $.trim($(this).children('td').slice(4, 5).text().toUpperCase());
+                var id_of = $.trim($(this).children('td').slice(5, 6).text().toUpperCase());
+
+                var table = "<table><td>Cod.:</td><td>"+cod_prod+"</td></tr><td>Tipo:</td><td>"+ tipo +"</td></tr><td>Und.:</td><td>"+und+"</td></tr></table>";
+                var form = "<form id='frmAddItem' method='POST' action='#'><input type='hidden' name='id_prod' value='"+id_prod+"'>";
+                var Btn = "<table><tr><td><label> Quantidade </label></td><td><input id='edtQtd' type='text' name='qtd'/></td>";    
+                Btn = Btn + "<td><button name='adicionar' id='btnAdd'>Adicionar</button></td></tr></table></form>";
+
+                $(document).off('click', '#btnAdd').on('click', '#btnAdd', function() {
+                    var qtd =  parseFloat($('#edtQtd').val(),10);
+                    var query = "query=INSERT INTO tb_item_serv VALUES (DEFAULT, "+id_of+", "+id_prod+", "+ qtd +");";
+                    queryDB(query);
+                    $('#frmAddItem').submit();    
+                });
+
+                $(".content").html(table+form+Btn);
+                $('#popTitle').html(desc);
+
+
+            break;  
+              
+            case 'pesq_of.php#':
+                    var id_of = $.trim($(this).children('td').slice(0, 1).text().toUpperCase());
+                    var num_of = $.trim($(this).children('td').slice(1, 2).text().toUpperCase());
+                    var resp = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
+                    var func = $.trim($(this).children('td').slice(3, 4).text().toUpperCase());
+                    var tipo = $.trim($(this).children('td').slice(4, 5).text().toUpperCase());
+                    var data = $.trim($(this).children('td').slice(5, 6).text());
+                    var status = $.trim($(this).children('td').slice(6, 7).text().toUpperCase());
+    
+                    var table = "<table><tr><td>Cod.:</td><td>"+id_of+"</td></tr><tr><td>Tipo:</td><td>"+ tipo +"</td></tr><tr><td>Emit.:</td><td>"+resp+"</td></tr>";
+                    table += " <tr><td>Func.:</td><td>"+func+"</td></tr><tr><td>Data.:</td><td>"+data+"</td></tr><tr><td>Status.:</td><td>"+status+"</td></tr></table>";
+                    var form = "<form id='frmDetalhar' method='POST' action='cad_item_of.php'><input type='hidden' name='id_prod' value='"+id_prod+"'>";
+                    var Btn = "<table><tr><td><button name='adicionar' id='btnDet'>Detalhar</button></td></tr></table></form>";
+    
+                    $(document).off('click', '#btnDet').on('click', '#btnDet', function() {
+                        var now = new Date();
+                        now.setTime(now.getTime() + 1 * 3600 * 1000);
+                        document.cookie = "cod_serv="+id_of+"; expires=" + now.toUTCString() + "; path=/";
+        
+                        $('#frmDetalhar').submit();    
+                    });
+    
+                    $(".content").html(table+form+Btn);
+                    if(tipo == "OF"){
+                        $('#popTitle').html('OF - '+num_of);
+                    }else{
+                        $('#popTitle').html('OS - '+num_of);
+                    }
+    
+    
+                break;              
         }
 
         $(".overlay").css("visibility", "visible").css("opacity", "1");  
@@ -942,6 +1029,28 @@ $(document).ready(function(){
 
         }        
 
+        if(arr[arr.length-1] == 'cad_item_of.php#' || arr[arr.length-1] == 'cad_item_of.php'){ // CAD ITEM OF
+            var cod_item = $(this).children('td').slice(0, 1).text();
+            var qtd = parseFloat($.trim($(this).children('td').slice(3, 4).text().toUpperCase()));
+            var prod_id = parseFloat($.trim($(this).children('td').slice(4, 5).text().toUpperCase()));
+            var item_id = parseFloat($.trim($(this).children('td').slice(5, 6).text().toUpperCase()));
+            $('[name="edtCod_item"]').val(cod_item);
+            $('[name="edtEdt_Qtd"]').val(qtd);
+            
+            $(document).off('click', '#btn_alt').on('click', '#btn_alt', function() {
+                qtd = parseFloat($('#edtEdt_Qtd').val());
+                var query = "query=UPDATE tb_item_serv SET qtd = "+ qtd +" WHERE id = "+ item_id +" ;";
+                queryDB(query);
+
+            });
+
+            $(document).off('click', '#btn_del').on('click', '#btn_del', function() {
+                var query = "query=DELETE FROM tb_item_serv WHERE id = "+ item_id +";";
+                queryDB(query);
+              
+            });
+
+        }     
 
     });
 
