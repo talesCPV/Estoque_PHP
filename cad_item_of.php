@@ -111,23 +111,23 @@
             if($qtd_itens > 0 && $status == 'ABERTO'){
               echo"<div class=\"page_form\" id=\"no_margin\">
                     <table class=\"search-table\"  border=\"0\">
-                      <tr>";      
-              echo"   <form class=\"login-form\" method=\"POST\" action=\"#\">
-                        <input type=\"hidden\" name=\"cod_serv\" value=\"". $cod_serv ."\">
-                        <td><label> Cod.: </label> </td>
-                        <td><input type=\"text\" name=\"edtCod_item\" maxlength=\"6\" readonly/></td>
-                        <td><label> Qtd.: </label> </td>
-                        <td><input type=\"text\" id=\"edtEdt_Qtd\" name=\"edtEdt_Qtd\" maxlength=\"8\" onkeyup=\"return money(this)\"/></td>
-                        <td><button name=\"alterar\" id=\"btn_alt\" type=\"submit\" onclick=\"return confirma('Deseja realmente alterar este item?')\">Alterar</button></td>
-                        <td><button name=\"remover\" id=\"btn_del\" type=\"submit\" onclick=\"return confirma('Deseja realmente remover este item?')\">Remover</button></td>
-                      </form>";
-
-              echo"
-
-
+                      <tr>
+                        <form class=\"login-form\" method=\"POST\" action=\"#\">
+                          <input type=\"hidden\" name=\"cod_serv\" value=\"". $cod_serv ."\">
+                          <td><label> Cod.: </label> </td>
+                          <td><input type=\"text\" name=\"edtCod_item\" maxlength=\"6\" readonly/></td>
+                          <td><label> Qtd.: </label> </td>
+                          <td><input type=\"text\" id=\"edtEdt_Qtd\" name=\"edtEdt_Qtd\" maxlength=\"8\" onkeyup=\"return money(this)\"/></td>
+                          <td><button name=\"alterar\" id=\"btn_alt\" type=\"submit\" onclick=\"return confirma('Deseja realmente alterar este item?')\">Alterar</button></td>
+                          <td><button name=\"remover\" id=\"btn_del\" type=\"submit\" onclick=\"return confirma('Deseja realmente remover este item?')\">Remover</button></td>
+                        </form>
                       </tr>
                     </table>
                   </div> ";   
+
+            }
+            if($status == 'ABERTO'){
+
 
             echo"  <div class=\"page_form\" id=\"no_margin\">
                     <form class=\"login-form\" method=\"POST\" action=\"#\">
@@ -215,7 +215,8 @@
             echo"<div class=\"page_form\" id=\"no_margin\">
                   <table class=\"search-table\"  border=\"0\">
                     <tr>";      
-            echo"   <form class=\"login-form\" method=\"POST\" action=\"#\">
+            echo"   <form class=\"login-form\" method=\"POST\" action=\"save_of.php\">
+                      <input type=\"hidden\" name=\"novo\" value='0'\">
                       <input type=\"hidden\" name=\"cod_serv\" value=\"". $cod_serv ."\">
                       <td><button name=\"remover\" id=\"btn_FechaOF\" type=\"submit\" \">Encerrar</button></td>
                     </form>";

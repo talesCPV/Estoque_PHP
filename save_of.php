@@ -1,12 +1,7 @@
 <?php 
 // RECEBENDO OS DADOS PREENCHIDOS DO FORMUL�RIO !
 
-if (IsSet($_POST ["num_of"])){
-    $num_of = $_POST ["num_of"];
-    $data_of = $_POST ["data_of"];
-    $func  = $_POST ["func"];
-    $resp    = $_POST ["responsavel"];
-	$tipo    = $_POST ["selTipo"];
+if (IsSet($_POST ["novo"])){
     $novo    = $_POST ["novo"];
 
     include "conecta_mysql.inc";
@@ -14,20 +9,30 @@ if (IsSet($_POST ["num_of"])){
 		die ("Erro de conex�o com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
 	if ($novo == 0){ // edit cabeçalho
+		$cod_serv    = $_POST ["cod_serv"];	
+		
+		$query = "UPDATE tb_produto as p INNER JOIN tb_subconj as s INNER JOIN tb_item_serv as se
+			SET p.estoque = (p.estoque - (s.qtd * se.qtd))
+			WHERE p.id = s.id_peca and s.id_conj = se.id_item and se.id_serv = {$cod_serv};";   
+			
+   		mysqli_query($conexao, $query);
 
-//		$query = "UPDATE tb_servico SET  id_emp = \"". $cliente ." \", data_ped = \"". $data_ped ." \", data_ent = \"". $data_ent ." \", resp = \"". $resp ." \", comp = \"". $comp ." \",
-//			num_ped = \"". $num_ped ." \", desconto = \"". $desconto ." \", cond_pgto = \"". $cond_pgto ." \", obs = \"". $obs ." \", origem = \"". $origem ." \" WHERE id = \"". $id ."\" ;";
+		$query = "UPDATE tb_produto as p INNER JOIN tb_item_serv as i INNER JOIN tb_servico as s 
+				SET p.estoque = (p.estoque + i.qtd), s.status = 'FECHADO' 
+				WHERE p.id = i.id_item AND i.id_serv =  s.id AND s.id = {$cod_serv};";
+		mysqli_query($conexao, $query);
 
-//		mysqli_query($conexao, $query);
+	}else if ($novo == 1){
 
-//        $cod_ped = $id;
-	}else{
+		$num_of = $_POST ["num_of"];
+		$data_of = $_POST ["data_of"];
+		$func  = $_POST ["func"];
+		$resp    = $_POST ["responsavel"];
+		$tipo    = $_POST ["selTipo"];		
 
 		$query = "INSERT INTO tb_servico ( num_serv, resp, func, tipo )
              VALUES ('$num_of', '$resp', '$func', '$tipo');";   
-             
-//echo ($query);
-	
+             	
 		mysqli_query($conexao, $query);
 		$query = "SELECT MAX(Id) FROM tb_servico;";
 
@@ -51,7 +56,7 @@ if (IsSet($_POST ["num_of"])){
     
 
 }else{
-	setcookie("message", "Houve algum problema na gravacao."   , time()+3600);	
+	setcookie("message", "Você chegou até aqui por meios não oficiais."   , time()+3600);	
     header('Location: main.php');
 }
 

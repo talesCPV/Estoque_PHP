@@ -19,7 +19,6 @@
 
     function queryDB(query) {        
         var resp = '';
-        alert(query);
         $.ajax({
             url: 'ajax/ajax.php',
             type: 'POST',
@@ -281,26 +280,7 @@ $(document).ready(function(){
 
         $(".overlay").css("visibility", "visible").css("opacity", "1");  
 
-    });     
-
-    $('#btn_FechaOF').click(function(){ 
-
-        if (confirm('Deseja Encerrar esta OF?')) {
-            var id_of = readCookie('cod_serv');
-
-//            var query = "query=SET SQL_SAFE_UPDATES = 0;";
-//            queryDB(query);
-
-            var query = "query=UPDATE tb_produto as p INNER JOIN tb_item_serv as i INNER JOIN tb_servico as s SET p.estoque = (p.estoque + i.qtd), s.status = 'FECHADO' WHERE p.id = i.id_item AND i.id_serv =  s.id AND s.id = "+ id_of +";";
-//            var query = "query=UPDATE tb_produto  SET estoque = 10 WHERE cod = '1263' ;";
-            resp = queryDB(query);    
-
-alert(resp);
-
-
-        }
-
-    });     
+    });         
 
      // POPUP CLOSE
     $('.close').click(function(){ // BOTÃO FECHAR DO POPUP
@@ -467,7 +447,7 @@ alert(resp);
             if ($(this).perm(classe,'edit')){
                 Btn = "<table><tr><td><button id='btnEditar'>Editar</button><button id='btnDeletar'>Deletar</button>";
                 
-                if(tipo == 'CONJ'){
+                if(tipo == 'CONJ' || tipo == 'SERVICO'){
                     Btn += "<button id='btnSubconj'>Itens</button> ";
 
                     $(document).off('click', '#btnSubconj').on('click', '#btnSubconj', function() {
@@ -943,17 +923,36 @@ alert(resp);
     
                     var table = "<table><tr><td>Cod.:</td><td>"+id_of+"</td></tr><tr><td>Tipo:</td><td>"+ tipo +"</td></tr><tr><td>Emit.:</td><td>"+resp+"</td></tr>";
                     table += " <tr><td>Func.:</td><td>"+func+"</td></tr><tr><td>Data.:</td><td>"+data+"</td></tr><tr><td>Status.:</td><td>"+status+"</td></tr></table>";
-                    var form = "<form id='frmDetalhar' method='POST' action='cad_item_of.php'><input type='hidden' name='id_prod' value='"+id_prod+"'>";
-                    var Btn = "<table><tr><td><button name='adicionar' id='btnDet'>Detalhar</button></td></tr></table></form>";
-    
+                    var form = "<form id='frmDetalhar' method='POST' action='cad_item_of.php'><input type='hidden' name='id_prod' value='"+id_prod+"'></form>";
+                    form +=    "<form id='frmImprimir' method='POST' action='pdf_of.php'><input type='hidden' name='cod_serv' value='"+id_of+"'></form>";
+                    form +=    "<form id='frmRefresh' method='POST' action='#'></form>";
+                    var Btn =  "<table><tr><td><button name='adicionar' id='btnDet'>Detalhar</button></td><td><button name='imprimir' id='btnImp'>Imprimir</button></td>";
+                    if(status == "ABERTO"){
+                        Btn += "<td><button name='deletar' id='btnDel'>Deletar</button></td>";
+                    }
+                        Btn += "</tr></table>";
                     $(document).off('click', '#btnDet').on('click', '#btnDet', function() {
                         var now = new Date();
                         now.setTime(now.getTime() + 1 * 3600 * 1000);
-                        document.cookie = "cod_serv="+id_of+"; expires=" + now.toUTCString() + "; path=/";
-        
+                        document.cookie = "cod_serv="+id_of+"; expires=" + now.toUTCString() + "; path=/";        
                         $('#frmDetalhar').submit();    
                     });
     
+                    $(document).off('click', '#btnImp').on('click', '#btnImp', function() {
+                        $('#frmImprimir').submit();    
+                    });     
+
+                    $(document).off('click', '#btnDel').on('click', '#btnDel', function() {
+                        if (confirm('Confirma a exclusão desta OF?')) {
+                            var query = "query=DELETE FROM tb_item_serv WHERE id_serv = "+ id_of +";";
+                            queryDB(query);
+                            var query = "query=DELETE FROM tb_servico WHERE id = "+ id_of +";";
+                            queryDB(query);
+                            $('#frmRefresh').submit();    
+
+                        }
+                    }); 
+
                     $(".content").html(table+form+Btn);
                     if(tipo == "OF"){
                         $('#popTitle').html('OF - '+num_of);
