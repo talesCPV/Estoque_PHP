@@ -23,13 +23,13 @@
     	$classe = $fetch[3];
     	$cod_user = $fetch[0];
 
-		setcookie("logado", "true", time()+3600);
-		setcookie("classe", $classe, time()+3600);
-		setcookie("usuario", $user, time()+3600);
-		setcookie("cod_user", $cod_user, time()+3600);
-		setcookie("email", $fetch[5], time()+3600);
-		setcookie("mail_pass", $fetch[7], time()+3600);
-		setcookie("message", $user .", Bem vindo", time()+3600);
+		setcookie("logado", "true", 8 * time()+3600);
+		setcookie("classe", $classe, 8 * time()+3600);
+		setcookie("usuario", $user, 8 * time()+3600);
+		setcookie("cod_user", $cod_user, 8 * time()+3600);
+		setcookie("email", $fetch[5], 8 * time()+3600);
+		setcookie("mail_pass", $fetch[7], 8 * time()+3600);
+		setcookie("message", $user .", Bem vindo", 8 * time()+3600);
         header("Location: main.php");
 
 	}else{

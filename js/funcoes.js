@@ -225,6 +225,30 @@ $(document).ready(function(){
         }
     });
 
+    $("#btn_NovoCargo").click(function(event){
+
+        var table = "<table><tr><td>Cargo *</td><td> <input type='text' name='cargo' maxlength='40' id='edtCargo'/></td></tr>";
+        table +=   "<tr><td>Tipo</td><td><select name='tipo' id= 'selTipo'> <option value='HORA'>HORISTA</option><option value='MENSAL'>MENSALISTA</option></select></td></tr>";
+        table +=   "<tr><td>Salário *</td><td> <input type='text' name='edtSal' id='edtSal' onkeyup='return money(this)' /></td></tr>";
+        table +=   "<tr><td></td><td><button id='btn_Save'>Salvar</button></td></tr></table>";
+
+        $(document).off('click', '#btn_Save').on('click', '#btn_Save', function() {
+            var cargo = $('#edtCargo').val().trim().toUpperCase();
+            if(cargo != "" && $('#edtSal').val().trim() != ""){
+                var sal = parseFloat($('#edtSal').val());
+                var tipo = $('#selTipo').val();
+                var query = "query=INSERT INTO tb_cargos VALUES (DEFAULT, '"+ cargo +"', "+ sal +", '"+ tipo+"');";
+                queryDB(query);                
+            }else{
+                alert('Todos os campos com * são obrigatórios');
+
+            }
+        });
+
+        $(".content").html(table);
+        $('#popTitle').html('Cadastro de Cargos e Funções');        
+        $(".overlay").css("visibility", "visible").css("opacity", "1");  
+    });
 
     $('.btnNovoEmail').click(function(){ 
 
