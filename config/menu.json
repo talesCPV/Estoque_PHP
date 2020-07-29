@@ -115,25 +115,19 @@
 			"link": "#",
 			"icone": "fa fa-address-book",
 			"id": "menuFinanceiro",
-			"perm": [10,4,1],
+			"perm": [10,4],
 			"itens": [	
 						{
 						   "nome": "Cargos e Funções",
-						   "link": "cad_cargos.php",
-							   "id": "menuCadCargos",
-						   "perm": [10]
+						   "link": "cargos.php",
+							   "id": "menuCargos",
+						   "perm": [10,4]
 					   },
-					   {
-						"nome": "Cad. Funcionários",
-						"link": "cad_func.php",
-							"id": "menuCadFunc",
-						"perm": [10]
-						},
 					 	{
-						   "nome": "Pesq. Funcionários",
-						   "link": "pesq_func.php",
-							   "id": "menuPesqFunc",
-						   "perm": [10]
+						   "nome": "Funcionários",
+						   "link": "funcionarios.php",
+							   "id": "menuFuncionarios",
+						   "perm": [10,4]
 					   },
 					   {
 							"nome": "Horas",

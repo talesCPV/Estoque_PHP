@@ -43,10 +43,6 @@
                         <th>Salario</th>
                     </tr>";
                     while($fetch = mysqli_fetch_row($result)){
-
-                        $cod_ped = $fetch[0];
-                        $status = $fetch[6];
-
                         echo "<tr class='tbl_row'>".
                                     "<td>" .$fetch[0] . "</td>".
                                     "<td>" .$fetch[1] . "</td>";

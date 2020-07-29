@@ -118,7 +118,7 @@ width:150px;
 }
 
 
-#botao_inline{
+.botao_inline{
   margin: 0 0 15px;
 
 }
@@ -316,8 +316,6 @@ body {
     background-color: #2E2E2E; /* COR DA BARRA */
     color: #43ce27;
     padding: 10px;
-
-
  }
 
 

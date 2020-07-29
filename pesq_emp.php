@@ -32,7 +32,7 @@
 	    </select></td><td>
 
       <input type="text" name="valor" maxlength="12"/></td><td>
-	  <button id="botao_inline" type="submit">OK</button></td></tr>  </table>
+	  <button class="botao_inline" type="submit">OK</button></td></tr>  </table>
 
     	</form>
 	  </div>
