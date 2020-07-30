@@ -275,6 +275,12 @@ body {
     cursor: pointer;
 } 
 
+#tabHoras tr:hover{
+  opacity:0.4;
+  background-color:#777;
+  cursor: pointer;
+}
+
 .login-form label {
 	width: 100%;
  	font-size: 15px;
@@ -383,6 +389,10 @@ body {
 
 .content input{
   background-color: #F0F0F0;
+}
+
+.tblPopUp input, .tblPopUp select{
+  width: 300px;
 }
 
 /* LOADING */

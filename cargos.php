@@ -29,7 +29,7 @@
         if (!$conexao)
             die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-            $query =  "SELECT *	FROM tb_cargos;";
+            $query =  "SELECT *	FROM tb_cargos ORDER BY cargo;";
 
         $result = mysqli_query($conexao, $query);
 				  

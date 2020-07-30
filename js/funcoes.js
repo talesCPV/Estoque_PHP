@@ -296,7 +296,7 @@ $(document).ready(function(){
             option += "<option value='"+resp[i].id+"'>"+resp[i].cargo+"</option>";
         }
 
-        var table = "<table><tr><td>Nome *</td><td> <input type='text' name='edtNome' maxlength='30' id='edtNome'/></td></tr>";
+        var table = "<table class='tblPopUp'><tr><td>Nome *</td><td> <input type='text' name='edtNome' maxlength='30' id='edtNome'/></td></tr>";
         table +=   "<tr><td>RG </td><td> <input type='text' name='edtRG' id='edtRG' onkeyup='return money(this)' /></td></tr>";
         table +=   "<tr><td>CPF </td><td> <input type='text' name='edtCPF' id='edtCPF' onkeyup='return money(this)' /></td></tr>";
         table +=   "<tr><td>PIS </td><td> <input type='text' name='edtPIS' id='edtPIS' onkeyup='return money(this)' /></td></tr>";
@@ -326,7 +326,7 @@ $(document).ready(function(){
                 var id_cargo = parseInt($('#selCargo').val());
                 var adm = $('#cmbAdm').val();
 
-                var query = "query=INSERT INTO tb_funcionario VALUES (DEFAULT, '"+ nome +"', "+ rg +", '"+ cpf+"', '"+ pis+"', '"+ end+"', '"+ cid+"', '"+ est+"', '"+ cep+"', '"+ adm+"', 'DEFAULT', '"+ id_cargo+"', '"+ tel+"', '"+ cel+"', 'ATIVO');";
+                var query = "query=INSERT INTO tb_funcionario VALUES (DEFAULT, '"+ nome +"', '"+ rg +"', '"+ cpf+"', '"+ pis+"', '"+ end+"', '"+ cid+"', '"+ est+"', '"+ cep+"', '"+ adm+"', 'DEFAULT', '"+ id_cargo+"', '"+ tel+"', '"+ cel+"', 'ATIVO');";
                 queryDB(query);   
                 $('#frmRefresh').submit();                               
             }else{
@@ -402,6 +402,23 @@ $(document).ready(function(){
         $(".overlay").css("visibility", "hidden").css("opacity", "0");
 
     }); 
+
+    // CLIQUE NA TABELA tabHoras    
+    var tbl = document.getElementById("tabHoras");
+    $('#tabHoras').on( 'click', 'td', function () {
+        var row = $(this).closest("tr").index();
+        var col = $(this).closest("td").index();
+        var func = tbl.rows[0].cells[Math.ceil(col/2)].innerHTML;
+
+//        alert("row:"+row+" col:"+col);
+
+//        alert(tbl.rows[0].cells[1].innerHTML);
+//        alert(tbl.rows[0].cells[2].innerHTML);
+
+        alert(func);
+
+    });
+
 
     // DUPLO CLIQUE NA TEBELA tabItens
     $('#tabItens').on('dblclick','.tbl_row', function(){ // SELECIONANDO UM ÍTEM DA TABELA (DUPLO CLIQUE)
@@ -1106,7 +1123,7 @@ $(document).ready(function(){
                     }
 
 
-                    var table = "<table><tr><td>Nome *</td><td> <input type='text' name='edtNome' maxlength='30' id='edtNome' value='"+nome+"'/></td></tr>";
+                    var table = "<table class='tblPopUp'><tr><td>Nome *</td><td> <input type='text' name='edtNome' maxlength='30' id='edtNome' value='"+nome+"'/></td></tr>";
                     table  +=   "<tr><td>RG </td><td> <input type='text' name='edtRG' id='edtRG' onkeyup='return money(this)' value='"+rg+"'/></td></tr>";
                     table  +=   "<tr><td>CPF </td><td> <input type='text' name='edtCPF' id='edtCPF' onkeyup='return money(this)' value='"+cpf+"'/></td></tr>";
                     table  +=   "<tr><td>PIS </td><td> <input type='text' name='edtPIS' id='edtPIS' onkeyup='return money(this)' value='"+pis+"'/></td></tr>";
