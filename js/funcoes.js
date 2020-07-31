@@ -437,26 +437,29 @@ $(document).ready(function(){
         var mes  = data.split("/")[1];
         var ano  = data.split("/")[2];
 
-        var table = "<table><tr><td>ENTRADA</td><td> <input type='text' maxlength='5' id='edtEntrada' onkeyup='return hora(this)'/></td></tr>";
-        table +=   "<tr><td>SAIDA</td><td> <input type='text' id='edtSaida' maxlength='5' onkeyup='return hora(this)' /></td></tr>";
+        if(col%2 == 0){
+            var ent = tbl.rows[row].cells[col].innerHTML;
+            var sai = tbl.rows[row].cells[col+1].innerHTML;
+        }else{
+            var ent = tbl.rows[row].cells[col-1].innerHTML;
+            var sai = tbl.rows[row].cells[col].innerHTML;
+        }
+
+        var table = "<table><tr><td>ENTRADA</td><td> <input type='text' maxlength='5' id='edtEntrada' value='"+ent+"' onkeyup='return hora(this)'/></td></tr>";
+        table +=   "<tr><td>SAIDA</td><td> <input type='text' id='edtSaida' maxlength='5'  value='"+sai+"'onkeyup='return hora(this)' /></td></tr>";
         table +=   "<tr><td></td><td><button id='btn_Save'>Salvar</button></td></tr></table>";
         table +=   "<form id='frmRefresh' method='POST' action='#'></form>";
 
         $(document).off('click', '#btn_Save').on('click', '#btn_Save', function() {
             
             if($('#edtEntrada').val().length == 5 && $('#edtSaida').val().length == 5){
-//                var sai = new Date(mes+'/'+dia+'/'+ano +' '+ $('#edtSaida').val() +':00') ;
-
                 var ent = ano+'-'+mes+'-'+dia +' '+ $('#edtEntrada').val() +':00' ;
                 var sai = ano+'-'+mes+'-'+dia +' '+ $('#edtSaida').val() +':00' ;   
-                
-
 
                 if(new Date(sai) < new Date(ent) ){ // entrou em um dia e saiu em outro
                     var nova =  new Date(sai);
                     nova.setDate(nova.getDate() + 1);
                     nova = nova.toString();
-                    alert(nova);
                     dia = nova.substr(8,2);
                     if(dia == '01'){
                         mes = parseInt(mes)+1;
@@ -468,25 +471,23 @@ $(document).ready(function(){
                         }                        
                     }
                     var sai = ano+'-'+mes+'-'+dia +' '+ $('#edtSaida').val() +':00' ;   
-                    var sai = ano+'-'+mes+'-'+dia +' '+ $('#edtSaida').val() +':00' ;   
-                    alert('-> '+sai);
 
+    alert(ent+" - "+sai);
                 }
                 
                 var query = "query=SELECT * FROM tb_hora_extra WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO') AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%';";
-                alert('query ->'+query);
                 resp = queryDB(query);
-                alert('qd results: '+resp.length);
-
+    alert(query);
                 if(resp.length == 0){
                     var query = "query=INSERT INTO tb_hora_extra VALUES (DEFAULT, (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO'),'"+ent+"','"+sai+"');";
                 }else{
                     var query = "query=UPDATE tb_hora_extra  SET entrada = '"+ent+"', saida = '"+sai+"'  WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO') AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
+                    alert(query);
                 }
                 queryDB(query);  
-//                $('#frmRefresh').submit();
+                $('#frmRefresh').submit();
 
-                    alert(query);
+//                    alert(query);
 
             }else{
                 alert('Horarios incompletos')

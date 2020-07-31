@@ -89,12 +89,12 @@
 					$th_entsai = $th_entsai . "<th class='center_text'>Ent.</th><th class='center_text'>Sai.</th>";
 					$func[] = $fetch[0];
                 }
-
+/*
 				for($i=0; $i<$qtd_func;$i++){
 					echo $func[$i]."|";
-
 				}
-echo "<br>";
+*/				
+//echo "<br>";
 				echo ("<tr>{$th_func}</tr><tr>{$th_entsai}</tr><th>");
 
 				$d = $inicio;
@@ -106,16 +106,23 @@ echo "<br>";
 					$query =  "SELECT * FROM tb_hora_extra  WHERE entrada like '". date('Y-m-d',$d) ."%'";
 					$result = mysqli_query($conexao, $query);
 
+					$he = [];
+					while($fetch = mysqli_fetch_row($result)){
+						$he[] = $fetch;
+					}
+
 //					echo $result->num_rows;
 					$find_func = false;
 					for($i=0; $i<$qtd_func;$i++){
-						echo '->'.$func[$i]."<-";
+//						echo '->'.$func[$i]."<-";	
 
-						while($fetch = mysqli_fetch_row($result)){
-							echo $func[$i].'=='.$fetch[1]." ";
-							if($func[$i] == $fetch[1]){
+//						while($fetch = mysqli_fetch_row($result)){
+						for($j=0; $j < count($he); $j++){
+//							echo $func[$i].'=='.$he[$j][1]." ";
+							if($func[$i] == $he[$j][1]){
 								$find_func = true;
-								echo "<td class='center_text'>".substr($fetch[2], -8, 5)."</td><td class='center_text'>".substr($fetch[3], -8, 5)."</td>"; 
+								echo "<td class='center_text'>".substr($he[$j][2], -8, 5)."</td><td class='center_text'>".substr($he[$j][3], -8, 5)."</td>"; 
+								break;
 							}
 
 						}
@@ -124,7 +131,7 @@ echo "<br>";
 						}
 						$find_func = false;
 					}
-					echo "<br>";
+//					echo "<br>";
 					echo"</tr>";
 					$d = date(strtotime('+1 day', $d));
 				}
