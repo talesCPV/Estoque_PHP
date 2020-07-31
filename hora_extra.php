@@ -37,6 +37,30 @@
 	  </div>
 
 	  <?php
+	  		function weekday($num){
+				  $resp = ["DOM","style='background-color:#F5C5C6;'"];
+				  switch ($num) {
+					case 1:
+						$resp = ["SEG","style='background-color:#FFF;'"];
+					break;
+					case 2:
+						$resp = ["TER","style='background-color:#EEE;;5C6;'"];
+					break;
+					case 3:
+						$resp = ["QUA","style='background-color:#FFF;'"];
+					break;
+					case 4:
+						$resp = ["QUI","style='background-color:#EEE;;'"];
+					break;
+					case 5:
+						$resp = ["SEX","style='background-color:#FFF;'"];
+					break;
+					case 6:
+						$resp = ["SAB","style='background-color:#F5C5C6;'"];
+					break;
+				  }
+				  return $resp;				  
+			  }
 
 		    if (IsSet($_POST ["valor"])){
                 $valor = $_POST ["valor"];
@@ -52,34 +76,55 @@
                             <table class=\"search-tabl\" id=\"tabHoras\" >";
 
 
-                $query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.status='ATIVO'  AND f.id_cargo = c.id;";
+                $query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.status='ATIVO'  AND f.id_cargo = c.id AND c.tipo = 'HORA';";
 				$result = mysqli_query($conexao, $query);
 				$qtd_func = $result->num_rows;
 
-                $th_func="<th></th>";
-				$th_entsai="<th class='center_text' style='width:1%;'>Data</th>";
-				$nomes = [];
+                $th_func="<th colspan='2'></th>";
+				$th_entsai="<th class='center_text' style='width:1%;' colspan='2'>Data</th>";
+				$func = [];
                 while($fetch = mysqli_fetch_row($result)){
-					$prim_nome = explode(" ", $fetch[1])[0];
-					$nomes[] = $prim_nome;	
-                    $th_func = $th_func . "<th class='center_text' colspan='2' id={$fetch[0]}>{$prim_nome}</th>";
-                    $th_entsai = $th_entsai . "<th class='center_text'>Ent.</th><th class='center_text'>Sai.</th>";
+					$nome = explode(" ", $fetch[1])[0];
+                    $th_func = $th_func . "<th class='center_text' colspan='2' id={$fetch[0]}>{$nome}</th>";
+					$th_entsai = $th_entsai . "<th class='center_text'>Ent.</th><th class='center_text'>Sai.</th>";
+					$func[] = $fetch[0];
                 }
 
-				echo ("<tr>".$th_func."</tr><tr>".$th_entsai."</tr>");
+				for($i=0; $i<$qtd_func;$i++){
+					echo $func[$i]."|";
+
+				}
+echo "<br>";
+				echo ("<tr>{$th_func}</tr><tr>{$th_entsai}</tr><th>");
 
 				$d = $inicio;
+//				echo date('Y-m-d',$d);
 				while($d <= $final){
-					$dw = date('w', $d);
-					if($dw == 0 || $dw == 6){
-						echo "<tr style='background-color:#F5C5C6;' class='tbl_row'>";
-					}else if($dw == 2 || $dw == 4){
-						echo "<tr style='background-color:#EEE;' class='tbl_row'>";
-					}else{
-						echo "<tr style='background-color:#FFF;' class='tbl_row'>";
+					$dw =  weekday(date('w', $d));
+					echo "<tr {$dw[1]} class='tbl_row'><th>".(date("d/m/Y", $d))."</th><th>{$dw[0]}</th>";
+
+					$query =  "SELECT * FROM tb_hora_extra  WHERE entrada like '". date('Y-m-d',$d) ."%'";
+					$result = mysqli_query($conexao, $query);
+
+//					echo $result->num_rows;
+					$find_func = false;
+					for($i=0; $i<$qtd_func;$i++){
+						echo '->'.$func[$i]."<-";
+
+						while($fetch = mysqli_fetch_row($result)){
+							echo $func[$i].'=='.$fetch[1]." ";
+							if($func[$i] == $fetch[1]){
+								$find_func = true;
+								echo "<td class='center_text'>".substr($fetch[2], -8, 5)."</td><td class='center_text'>".substr($fetch[3], -8, 5)."</td>"; 
+							}
+
+						}
+						if(!$find_func){
+							echo "<td class='center_text'>00:00</td><td class='center_text'>00:00</td>"; 
+						}
+						$find_func = false;
 					}
-					echo "<th>".(date("d/m/Y", $d))."</th>";
-					for($i=0; $i<$qtd_func;$i++){echo "<td class='center_text'>{$dw}</td><td class='center_text'>00:00</td>"; }
+					echo "<br>";
 					echo"</tr>";
 					$d = date(strtotime('+1 day', $d));
 				}
