@@ -47,15 +47,15 @@
 				<td> <input type="date" name="data_ini" class="selData" value="<?php echo date('Y-m-d',mktime(0, 0, 0, date('m') , 1 , date('Y'))); ?>"> </td>
 				<td> <input type="date" name="data_fin" class="selData" value="<?php echo date('Y-m-d',mktime(23, 59, 59, date('m'), date("t"), date('Y'))); ?>"> </td></tr> </table>
 			<label> Tipo de Pagto.</label>
-			<select name="selPgt" id="selPgt">";
-				<option value="TDS" selected> Todos </option>"
-				<option value="BOL"> Boleto </option>"
-				<option value="DEB"> Cartão de Débto </option>"
-				<option value="CRD"> Cartão de Crédito </option>"
-				<option value="CHQ"> Cheque </option>"
-				<option value="DIN"> Dinheiro </option>"
-				<option value="DEP"> Depósito </option>"
-				<option value="AUT"> Débto Automático </option>"
+			<select name="selPgt" id="selPgt">
+				<option value="TDS" selected> Todos </option>
+				<option value="BOL"> Boleto </option>
+				<option value="DEB"> Cartão de Débto </option>
+				<option value="CRD"> Cartão de Crédito </option>
+				<option value="CHQ"> Cheque </option>
+				<option value="DIN"> Dinheiro </option>
+				<option value="DEP"> Depósito </option>
+				<option value="AUT"> Débto Automático </option>
 			</select>			
 
     	</form>

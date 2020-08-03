@@ -123,19 +123,25 @@
 							   "id": "menuCargos",
 						   "perm": [10,4]
 					   },
-					 	{
+					   {
+						"nome": "Feriados",
+						"link": "feriados.php",
+							"id": "menuFeriados",
+						"perm": [10,4]
+						},
+						{
 						   "nome": "Funcionários",
 						   "link": "funcionarios.php",
 							   "id": "menuFuncionarios",
 						   "perm": [10,4]
-					   },
-					   {
-							"nome": "Horas",
-							"link": "hora_extra.php",
-								"id": "menuHoraExtra",
-							"perm": [10]
-						}					   
-					  ]
+					    },
+						{
+							 "nome": "Horas",
+							 "link": "hora_extra.php",
+								 "id": "menuHoraExtra",
+							 "perm": [10,4]
+						 }					   
+					   ]
 		   },		
 	 	{"modulo": "Cotações e Pedidos",
 		 "link": "#",

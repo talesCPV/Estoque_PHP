@@ -6,7 +6,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-    <title>Cargos e Funções</title>
+    <title>Feriados</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/funcoes.js"></script>
@@ -19,8 +19,8 @@
   </header>
   <div class="page_container">  
   	  <div class="page_form">
-  	  	<p class="logo"> Cargos e Funções</p> <br>
-      <button id="btn_NovoCargo">Novo</button>
+  	  	<p class="logo"> Feriados</p> <br>
+      <button id="btn_NovoFeriado">Novo</button>
 
 	  </div>
 	  <?php
@@ -29,29 +29,23 @@
         if (!$conexao)
             die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-            $query =  "SELECT *	FROM tb_cargos ORDER BY cargo;";
+            $query =  "SELECT *	FROM tb_feriados ORDER BY mes, dia;";
 
         $result = mysqli_query($conexao, $query);
 				  
 
         echo"  <div class=\"page_form\" id=\"no_margin\">
-                <table class=\"search-table\" id=\"tabItens\" >   
+                <table class=\"search-table\" id=\"tabChoise\" >   
                     <tr>
-                        <th>Cod.</th>
-                        <th>Cargo</th>
-                        <th>Tipo</th>
-                        <th>Salario</th>
+                        <th>Data.</th>
+                        <th>Descrição</th>
                     </tr>";
                     while($fetch = mysqli_fetch_row($result)){
                         echo "<tr class='tbl_row'>".
-                                    "<td>" .$fetch[0] . "</td>".
-                                    "<td>" .$fetch[1] . "</td>";
-                        if($fetch[3] == 'HORA'){
-                            echo   "<td>HORISTA</td>";
-                        }else{
-                            echo   "<td>MENSALISTA</td>";
-                        }
-                        echo        "<td>" .money_format('%=*(#0.2n', $fetch[2]). "</td></tr>";
+                                    "<td style='display: none;'>" .$fetch[0] . "</td>".
+                                    "<td>" .sprintf("%02d", $fetch[1])  ."/".sprintf("%02d", $fetch[2]) . "</td>".
+                                    "<td style='display: none;'>" .$fetch[3] . "</td>".
+                                    "<td>" .$fetch[4] . "</td></tr>";
                                     
                     }
         echo"    </table> 

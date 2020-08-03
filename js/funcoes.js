@@ -303,6 +303,45 @@ $(document).ready(function(){
         $(".overlay").css("visibility", "visible").css("opacity", "1");  
     });
 
+    $("#btn_NovoFeriado").click(function(event){
+        var today = new Date();
+        var d = String(today.getDate()).padStart(2, '0');
+        var m = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var a = today.getFullYear();
+        today = a+'-'+m+'-'+d;
+
+        var table = "<table><tr><td>Descrição *</td><td> <input type='text' maxlength='40' id='edtDesc'/></td></tr>";
+        table +=   "<tr><td>Data </td><td> <input type='date' id='cmbData' class='selData' value='"+ today +"'></td></tr>";
+        table +=   "<tr><td> </td><td> <input type='checkbox' id='ckbAnual' name='ckbAnual' value='1' checked><label for='ckbAnual'> Recorrência Anual</label></td></tr>";
+        table +=   "<tr><td></td><td><button id='btn_Save'>Salvar</button></td></tr></table>";
+        table +=   "<form id='frmRefresh' method='POST' action='#'></form>";
+
+        $(document).off('click', '#btn_Save').on('click', '#btn_Save', function() {
+            var desc = $('#edtDesc').val().trim().toUpperCase();
+            if(desc != "" ){
+                var data = $('#cmbData').val();
+                d = data.substr(8,2);
+                m = data.substr(5,2);
+                if ($('#ckbAnual').is(":checked")){
+                    a='DEFAULT';
+                }else{
+                    a = data.substr(0,4);
+                }           
+
+                var query = "query=INSERT INTO tb_feriados VALUES (DEFAULT, "+ d +", "+ m +", "+ a+", '"+ desc+"');";
+                queryDB(query);   
+                $('#frmRefresh').submit();                               
+            }else{
+                alert('Todos os campos com * são obrigatórios');
+
+            }
+        });
+
+        $(".content").html(table);
+        $('#popTitle').html('Cadastro de Feriados');        
+        $(".overlay").css("visibility", "visible").css("opacity", "1");  
+    });
+
     $("#btn_NovoFunc").click(function(event){
         event.preventDefault(); // cancela o submit do form;
         var today = new Date();
@@ -433,9 +472,10 @@ $(document).ready(function(){
         var col = $(this).closest("td").index();
         var func = tbl.rows[0].cells[Math.ceil((col-1)/2)].innerHTML;
         var data = tbl.rows[row].cells[0].innerHTML;
-        var dia  = data.split("/")[0];
-        var mes  = data.split("/")[1];
-        var ano  = data.split("/")[2];
+        var dia  = data.substr(-14,2);
+        var mes  = data.substr(-11,2);
+        var ano  = data.substr(-8,4);
+
 
         if(col%2 == 0){
             var ent = tbl.rows[row].cells[col].innerHTML;
@@ -457,33 +497,33 @@ $(document).ready(function(){
                 var sai = ano+'-'+mes+'-'+dia +' '+ $('#edtSaida').val() +':00' ;   
 
                 if(new Date(sai) < new Date(ent) ){ // entrou em um dia e saiu em outro
+
                     var nova =  new Date(sai);
                     nova.setDate(nova.getDate() + 1);
                     nova = nova.toString();
-                    dia = nova.substr(8,2);
-                    if(dia == '01'){
-                        mes = parseInt(mes)+1;
-                        if(mes > 12){
-                            mes = '01';
-                            ano = parseInt(ano)+1;
-                        }else if(mes < 10){
-                            mes = '0'+mes;
+                    d = nova.substr(8,2);
+                    m = mes;
+                    a = ano;
+                    if(d == '01'){
+                        m = parseInt(m)+1;
+                        if(m > 12){
+                            m = '01';
+                            a = parseInt(ano)+1;
+                        }else if(m < 10){
+                            m = '0'+m;
                         }                        
                     }
-                    var sai = ano+'-'+mes+'-'+dia +' '+ $('#edtSaida').val() +':00' ;   
-
-    alert(ent+" - "+sai);
+                    var sai = a+'-'+m+'-'+d +' '+ $('#edtSaida').val() +':00' ;   
                 }
                 
                 var query = "query=SELECT * FROM tb_hora_extra WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO') AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%';";
                 resp = queryDB(query);
-    alert(query);
                 if(resp.length == 0){
                     var query = "query=INSERT INTO tb_hora_extra VALUES (DEFAULT, (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO'),'"+ent+"','"+sai+"');";
                 }else{
                     var query = "query=UPDATE tb_hora_extra  SET entrada = '"+ent+"', saida = '"+sai+"'  WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO') AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
-                    alert(query);
                 }
+                
                 queryDB(query);  
                 $('#frmRefresh').submit();
 
@@ -1327,6 +1367,62 @@ $(document).ready(function(){
                 $("#edtEdtPreco").val($(this).moeda(txt));
             }); 
         }
+
+        if(arr[arr.length-1] == 'feriados.php#' || arr[arr.length-1] == 'feriados.php'){ // CAD ITEM PED - TAB 1
+
+            var id_fer = $.trim($(this).children('td').slice(0, 1).text().toUpperCase());
+            var dia = $.trim($(this).children('td').slice(1, 2).text().toUpperCase());
+            var mes = dia.substr(3,2);
+            dia = dia.substr(0,2);
+            var ano = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
+            var nome = $.trim($(this).children('td').slice(3, 4).text().toUpperCase());
+            var check = '';
+            if(ano == 0){
+                ano = '2000';
+                check = 'checked'
+            }
+            today = ano+'-'+mes+'-'+dia;
+
+            var table = "<table><tr><td>Descrição *</td><td> <input type='text' maxlength='40' id='edtDesc' value='"+ nome +"'/></td></tr>";
+            table +=   "<tr><td>Data </td><td> <input type='date' id='cmbData' class='selData' value='"+ today +"'></td></tr>";
+            table +=   "<tr><td> </td><td> <input type='checkbox' id='ckbAnual' name='ckbAnual' value='1' "+check+"><label for='ckbAnual'> Recorrência Anual</label></td></tr>";
+            table +=   "<tr><td></td><td><button id='btn_Save'>Salvar</button><button id='btn_Del'>Deletar</button></td></tr></table>";
+            table +=   "<form id='frmRefresh' method='POST' action='#'></form>";
+    
+
+            $(document).off('click', '#btn_Save').on('click', '#btn_Save', function() {
+                var desc = $('#edtDesc').val().trim().toUpperCase();
+                if(desc != "" ){
+                    var data = $('#cmbData').val();
+                    d = data.substr(8,2);
+                    m = data.substr(5,2);
+                    if ($('#ckbAnual').is(":checked")){
+                        a='DEFAULT';
+                    }else{
+                        a = data.substr(0,4);
+                    }           
+    
+                    var query = "query=UPDATE tb_feriados SET dia="+ d +", mes="+ m +", ano="+ a+", nome='"+ desc+"' WHERE id="+id_fer+";";
+                    queryDB(query);   
+                    $('#frmRefresh').submit();                               
+                }else{
+                    alert('Todos os campos com * são obrigatórios');
+    
+                }
+            });    
+            
+            $(document).off('click', '#btn_Del').on('click', '#btn_Del', function() {
+                if (confirm('Deseja remover '+nome+' da lista de feriados?')) {                    
+                    var query = "query=DELETE FROM tb_feriados WHERE id="+id_fer+";";
+                    queryDB(query);                                              
+                    $('#frmRefresh').submit();                               
+                }
+            });
+
+            $(".content").html(table);
+            $('#popTitle').html('Cadastro de Feriados');        
+            $(".overlay").css("visibility", "visible").css("opacity", "1");  
+        }    
 
         if(arr[arr.length-1] == 'cad_item_ent.php#' || arr[arr.length-1] == 'cad_item_ent.php'){ // CAD ITEM PED - TAB 1
             $('[name="cod_prod"]').val($.trim($(this).children('td').slice(0, 1).text().toUpperCase()));
