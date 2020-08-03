@@ -28,8 +28,8 @@
             </tr></table>
 
 			<select name="selStatus" id="selStatus">				
-				<option value="TDS" selected> Todos </option>
-				<option value="ATV"> Ativos </option>
+				<option value="TDS"> Todos </option>
+				<option value="ATV" selected> Ativos </option>
 				<option value="DEM"> Demitidos </option>				
 			</select>
 			<label for="ckbDatas">Início / Final</label>			
@@ -231,6 +231,7 @@
 				  if($inicio <= $final){
 					echo"
 						<div class='page_form' id='no_margin'>
+						<form class='login-form' method='POST' action='pdf_he.php'>
 						<p class='logo' id='lblPesq'> Resumo </p> <br>
 						<table class='search-table'> 
 							<tr class='center_text'>
@@ -244,10 +245,25 @@
 							</tr>";
 					for($i=0; $i<count($nome_func);$i++){
 						echo "<tr class='center_text'><th>{$nome_func[$i]}</th><td>".number_format($h[$i], 2, '.', '')."</td><td>".number_format($falta[$i], 2, '.', '')."</td><td>".number_format($an[$i], 2, '.', '')."</td><td>".number_format($he_50[$i], 2, '.', '')."</td><td>".number_format($he_100[$i], 2, '.', '')."</td><td>".number_format($he_an[$i], 2, '.', '')."</td></tr>";
+						echo "<input type='hidden' name='nome_{$i}' value='". $nome_func[$i]."'>
+							  <input type='hidden' name='horas_{$i}' value='". $h[$i]."'>
+							  <input type='hidden' name='faltas_{$i}' value='". $falta[$i]."'>
+							  <input type='hidden' name='adn_{$i}' value='". $an[$i]."'>
+							  <input type='hidden' name='he50_{$i}' value='". $he_50[$i]."'>
+							  <input type='hidden' name='he100_{$i}' value='". $he_100[$i]."'>
+							  <input type='hidden' name='headn_{$i}' value='". $he_an[$i]."'>
+						";					
 					}
 
-						echo"</table> 
-						</div>
+						echo"</table>";
+						
+						echo "<br>
+								<button class='botao_inline' type='submit'>Relatório</button>	
+								<input type='hidden' name='inicio' value='{$inicio}'>
+								<input type='hidden' name='final' value='{$final}'>																								  
+							</form>";
+
+						echo"</div>
 					";
 				  }
 

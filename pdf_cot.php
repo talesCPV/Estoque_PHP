@@ -29,7 +29,7 @@
 
 	$cod_ped = $_POST ["cod_ped"];
 
-	$query =  "SELECT p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.resp, e.endereco, e.cnpj, e.ie, e.cidade, e.estado, e.cep, e.tel, p.status, p.desconto, p.cond_pgto, p.obs
+	$query =  "SELECT p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.resp, e.endereco, e.cnpj, e.ie, e.cidade, e.estado, e.cep, e.tel, p.status, p.desconto, p.cond_pgto, p.obs, p.id
 	         FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
 	         ON p.id = '". $cod_ped ."' AND p.id_emp = e.id ;";
 
@@ -38,13 +38,14 @@
 	$pdf->SetFont('Arial','',10);
 
 	while($fetch = mysqli_fetch_row($result)){
+		$p_id = $fetch[17];
 	  	$num_ped = $fetch[0];
 	  	$desconto = $fetch[14];
 		$num_cot = strtoupper($fetch[0]);
 	  	if($fetch[13] == 'ABERTO'){
-	  		$pdf->Cell(150,5,"Cotacao: ".$num_cot,0,0,"L");
+	  		$pdf->Cell(150,5,$p_id." - Cotacao: ".$num_cot,0,0,"L");
 	  	}else{
-	  		$pdf->Cell(150,5,"Pedido: ".strtoupper($fetch[0]),0,0,"L");
+	  		$pdf->Cell(150,5,$p_id." - Pedido: ".strtoupper($fetch[0]),0,0,"L");
 		  }
 		$pdf->Cell(35,5,"Data: ".date('d/m/Y', strtotime($fetch[3])),0,0,"L");
 		$pdf->Ln(5);

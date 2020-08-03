@@ -487,8 +487,13 @@ $(document).ready(function(){
 
         var table = "<table><tr><td>ENTRADA</td><td> <input type='text' maxlength='5' id='edtEntrada' value='"+ent+"' onkeyup='return hora(this)'/></td></tr>";
         table +=   "<tr><td>SAIDA</td><td> <input type='text' id='edtSaida' maxlength='5'  value='"+sai+"'onkeyup='return hora(this)' /></td></tr>";
-        table +=   "<tr><td></td><td><button id='btn_Save'>Salvar</button></td></tr></table>";
+        if ($(this).perm(classe,'edit')){
+            table +=   "<tr><td></td><td><button id='btn_Save'>Salvar</button></td></tr></table>";
+        }else{
+            table +=   "<tr><td></td><td>Acesso apenas p/ consulta</td></tr></table>";
+        }
         table +=   "<form id='frmRefresh' method='POST' action='#'></form>";
+
 
         $(document).off('click', '#btn_Save').on('click', '#btn_Save', function() {
             

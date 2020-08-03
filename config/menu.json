@@ -115,31 +115,31 @@
 			"link": "#",
 			"icone": "fa fa-address-book",
 			"id": "menuFinanceiro",
-			"perm": [10,4],
+			"perm": [10,4,1],
 			"itens": [	
 						{
 						   "nome": "Cargos e Funções",
 						   "link": "cargos.php",
 							   "id": "menuCargos",
-						   "perm": [10,4]
+						   "perm": [10,4,1]
 					   },
 					   {
 						"nome": "Feriados",
 						"link": "feriados.php",
 							"id": "menuFeriados",
-						"perm": [10,4]
+						"perm": [10,4,1]
 						},
 						{
 						   "nome": "Funcionários",
 						   "link": "funcionarios.php",
 							   "id": "menuFuncionarios",
-						   "perm": [10,4]
+						   "perm": [10,4,1]
 					    },
 						{
 							 "nome": "Horas",
 							 "link": "hora_extra.php",
 								 "id": "menuHoraExtra",
-							 "perm": [10,4]
+							 "perm": [10,4,1]
 						 }					   
 					   ]
 		   },		
@@ -255,6 +255,10 @@
 		{"url": "cad_prod.php",
 		"open": [10,4,3],
 		"edit": [10,4,3]
-		}
-	]		
+		},
+		{"url": "hora_extra.php",
+			"open": [10,4,1],
+			"edit": [10,4]
+			}
+		]		
 }
