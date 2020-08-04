@@ -51,20 +51,20 @@
 			  	$campo = $_POST ["campo"];
 			  	$valor = $_POST ["valor"];
 			  	if ($campo == "todos"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id order by en.data_ent desc;";
 			  	}
 			  	else
 			  	if ($campo == "cod"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
 	                         AND en.id = '".$valor."';";
 			  	}
 			  	else
 			  	if ($campo == "forn"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
 	                         AND e.nome LIKE '%".$valor."%' ;";
@@ -72,14 +72,14 @@
 			  	}
 			  	else
 			  	if ($campo == "nf"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
 	                         AND en.nf = '".$valor."';";
 			  	}
 			  	else
 			  	if ($campo == "nome_prod"){
-					$query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+					$query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 							  FROM tb_entrada AS en 
 							  INNER JOIN tb_empresa AS e 
 							  INNER JOIN tb_item_compra AS i
@@ -91,7 +91,7 @@
 					}
 					else
 			  	if ($campo == "cod_int_prod"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 							FROM tb_entrada AS en 
 							INNER JOIN tb_empresa AS e 
 							INNER JOIN tb_item_compra AS i
@@ -103,7 +103,7 @@
 			  	}
 			  	else
 			  	if ($campo == "cod_prod"){
-					$query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+					$query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 							  FROM tb_entrada AS en 
 							  INNER JOIN tb_empresa AS e 
 							  INNER JOIN tb_item_compra AS i
@@ -115,13 +115,13 @@
 					}
 					else
 					if ($campo == "data"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id ;";
 			  	}
 			  	else
 			  	if ($campo == "aberta"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp
+	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
 	                         AND en.status = 'ABERTO';";
@@ -144,6 +144,7 @@
 			                  <th>Data</th>
 			                  <th>Status</th>
 			                  <th>Resp.</th>
+			                  <th>NF</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
 
@@ -155,7 +156,16 @@
 								     	 "<td>" .$fetch[2] . "</td>".
 								         "<td>" . date('d/m/Y', strtotime($fetch[3])) . "</td>".
 								     	 "<td>" .$fetch[4] . "</td>".
-								     	 "<td>" .$fetch[5] . "</td></tr>";
+										 "<td>" .$fetch[5] . "</td>";
+										 if($fetch[6] == null){ // Se não existe NF em PDF
+											echo "<td></td>";
+										 }else{
+											echo "<td>@</td>";
+										 }
+
+								echo	 "<td style='display: none;'>" .$fetch[6] . "</td>".
+										 "<td style='display: none;'>" .$fetch[7] . "</td>".
+									 "</tr>";
 					        }
 
 

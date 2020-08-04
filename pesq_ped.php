@@ -68,7 +68,7 @@
   
 				if ($campo == "todos"){
 
-	            	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	            	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 					FROM tb_pedido AS p 
 					INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 					ON p.id = i.id_ped
@@ -84,7 +84,7 @@
 			  	else
 				  if ($campo == "sanf"){
 
-	            	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	            	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 					FROM tb_pedido AS p 
 					INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 					ON p.id = i.id_ped
@@ -100,7 +100,7 @@
 			  	else
 				  if ($campo == "funi"){
 
-	            	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	            	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 					FROM tb_pedido AS p 
 					INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 					ON p.id = i.id_ped
@@ -115,7 +115,7 @@
 			  	}
 			  	else
 			  	if ($campo == "num_ped"){
-	              	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	              	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 				  			FROM tb_pedido AS p 
 				  			INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 							ON p.id = i.id_ped
@@ -126,7 +126,7 @@
 			  	}
 			  	else
 			  	if ($campo == "cliente"){
-	              	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	              	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 						FROM tb_pedido AS p 
 						INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 						ON p.id = i.id_ped
@@ -142,7 +142,7 @@
 			  	}
 			  	else
 			  	if ($campo == "vendfechado"){
-	              	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	              	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 						FROM tb_pedido AS p 
 						INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 						ON p.id = i.id_ped
@@ -159,7 +159,7 @@
 			  	}
 			  	else
 			  	if ($campo == "vendtotal"){
-	              	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	              	$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 						FROM tb_pedido AS p 
 						INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 						ON p.id = i.id_ped
@@ -175,7 +175,7 @@
 			  	}
 				else
 			  	if ($campo == "aberto"){
-					$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+					$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 						FROM tb_pedido AS p 
 						INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 						ON p.id = i.id_ped
@@ -191,7 +191,7 @@
 				}
 			  	else
 			  	if ($campo == "fechado"){
-	              $query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	              $query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 						FROM tb_pedido AS p 
 						INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 						ON p.id = i.id_ped
@@ -207,7 +207,7 @@
 			  	}
 			  	else
 			  	if ($campo == "cod"){
-	              $query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda
+	              $query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
 						FROM tb_pedido AS p 
 						INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
 						ON p.id = i.id_ped
@@ -240,6 +240,7 @@
 			                  <th>Data</th>
 			                  <th>Status</th>
 			                  <th>Valor</th>
+			                  <th>NF</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
 
@@ -260,7 +261,15 @@
 												echo "<td> <b>NF-".$status."</b></td>";
 											}
 										  }
-										  echo "<td>" . money_format('%=*(#0.2n',$fetch[7]) . "</td></tr>";
+										  echo "<td>" . money_format('%=*(#0.2n',$fetch[7]) . "</td>";
+										  
+										  if($fetch[8] == null){ // Se não existe NF em PDF
+											echo "<td></td>";
+										 }else{
+											echo "<td>@</td>";
+										 }										  
+
+										  echo "<td style='display: none;'>" .$fetch[8] . "</td></tr>";
 										  $total = $total + $fetch[7];
 										  
 					        }

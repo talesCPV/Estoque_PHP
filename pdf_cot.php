@@ -43,7 +43,7 @@
 	  	$desconto = $fetch[14];
 		$num_cot = strtoupper($fetch[0]);
 	  	if($fetch[13] == 'ABERTO'){
-	  		$pdf->Cell(150,5,$p_id." - Cotacao: ".$num_cot,0,0,"L");
+	  		$pdf->Cell(150,5,$p_id.utf8_decode(" - Cotação: ".$num_cot),0,0,"L");
 	  	}else{
 	  		$pdf->Cell(150,5,$p_id." - Pedido: ".strtoupper($fetch[0]),0,0,"L");
 		  }
@@ -94,7 +94,7 @@
 		break;
 		default:
 			$pdf->SetFont('Arial','',15);
-	   		$pdf->Cell(190,5,"Cotacao: ".$num_cot,0,0,"C");
+	   		$pdf->Cell(190,5,utf8_decode("Cotação: ".$num_cot),0,0,"C");
 		  	$pdf->Ln(10);
   
 	}
@@ -137,7 +137,7 @@
 		    include "pdf_cabrod.inc";
 			$pdf->SetFont('Arial','B',10);
 		  	$pdf->Cell(15,5,"Cod.",0,0,"L");
-		  	$pdf->Cell(85,5,"Descricao",0,0,"L");
+		  	$pdf->Cell(85,5,utf8_decode("Descrição"),0,0,"L");
 //		  	$pdf->Cell(18,5,"NCM.",0,0,"L");
 		  	$pdf->Cell(25,5,"Cod.Prod.",0,0,"L");
 		  	$pdf->Cell(10,5,"Und.",0,0,"L");

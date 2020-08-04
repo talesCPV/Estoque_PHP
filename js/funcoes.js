@@ -555,28 +555,53 @@ $(document).ready(function(){
 
         switch (arr[arr.length-1]){
         case 'pesq_ped.php#': // PÁGINA PESQ_PED (PESQUISA DE PEDIDOS)
-    
+            var cod = $.trim($(this).children('td').slice(0, 1).text());
             var num = $.trim($(this).children('td').slice(1, 2).text());
             var cli = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
             var data = $.trim($(this).children('td').slice(3, 4).text().toUpperCase());
             var status = $.trim($(this).children('td').slice(4, 5).text());
             var valor = $.trim($(this).children('td').slice(5, 6).text().toUpperCase());
+            var have_nf = $.trim($(this).children('td').slice(6, 7).text());
+            var path = $.trim($(this).children('td').slice(7, 8).text());
 
+            var table = "<table><tr><td>Cliente:</td><td>"+cli+"</td></tr><tr><td>Data:</td><td>"+data+"</td></tr>"; 
             if(status == "COT"){
-                var table = "<table><tr><td>Cliente:</td><td>"+cli+"</td></tr><td>Data:</td><td>"+data+"</td></tr><td>Status:</td><td>Cotação</td></tr><td>Valor:</td><td>"+valor+"</td></tr></table>";
+                table += "<tr><td>Status:</td><td>Cotação</td></tr><tr><td>Valor:</td><td>"+valor+"</td></tr>";
             }else{
-                if(status == "PED"){
-                    var table = "<table><tr><td>Cliente:</td><td>"+cli+"</td></tr><td>Data:</td><td>"+data+"</td></tr><td>Status:</td><td>Pedido</td></tr><td>NF:</td><td><input type='text' id='edtNF' name='edtNF' maxlength='14'></td><td><button id='btnTransfVenda'>Adicionar</button></td> </tr><td>Valor:</td><td>"+valor+"</td></tr></table>";
-                }else{
-                    var table = "<table><tr><td>Cliente:</td><td>"+cli+"</td></tr><td>Data:</td><td>"+data+"</td></tr><td>Status:</td><td>Venda</td></tr><td>NF:</td><td><input type='text' id='edtNF' name='edtNF' maxlength='14' value="+status.substring(3, status.length)+"></td><td><button id='btnTransfVenda'>Adicionar</button></td> </tr><td>Valor:</td><td>"+valor+"</td></tr></table>";
-                }
+                table += "<tr><td>Status:</td><td>Pedido</td></tr>"
+                table += "<tr><td>Valor:</td><td>"+valor+"</td></tr>";
+                table += "<tr><td>PDF:</td><td><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
+                table += "<input type='file' name='up_pdf' accept='.pdf'>";
+                table += "<input type='hidden' name='cod' value='"+cod+"'>";
+                table += "<input type='hidden' name='eid' value='FB'>";                
+                table += "<input type='hidden' name='destino' value='venda'>";
+                table += "<button type='submit' id='btnUpload'>Upload</button></td></form></tr>";                
+                table += "</td></tr>";
+                $(document).off('click', '#btnUpload').on('click', '#btnUpload', function() {
+                    $('#frmUpload').submit();
+                });                
             }
+            table += "</table>";
             var form = "<form id='frmPesqPed' method='POST' action='pdf_analise.php'><input type='hidden' name='cod_ped' value='"+id+"'><input type='hidden' name='status' value='"+status+"'></form>";
             var Btn = "<br>Acesso apenas p/ consulta<br>";
 
             if ($(this).perm(classe,'edit')){
 
-                Btn = "<table><tr><td><button id='btnAnalisar'>Analisar</button></td><td><button id='btnVisualizar'>Visualizar</button><button id='btnDeletar'>Deletar</button></td></tr></table>";
+                Btn = "<table><tr><td><button id='btnAnalisar'>Analisar</button></td><td><button id='btnVisualizar'>Visualizar</button><button id='btnDeletar'>Deletar</button>";
+                if(have_nf == "@"){
+                    Btn += "<button id='btnVerPDF'>Abrir PDF</button>";
+                        
+                    $(document).off('click', '#btnVerPDF').on('click', '#btnVerPDF', function() {
+                        var out = '';
+                        for(i=0; i<arr.length-1; i++){
+                            out += arr[i]+'/';
+                        }
+                        out += path;
+                        window.open(out, '_blank');
+                    });
+    
+                }                
+                Btn +="</td></tr></table>";
 
                 $(document).off('click', '#btnAnalisar').on('click', '#btnAnalisar', function() {
                     $('#frmPesqPed').attr('action', 'pdf_analise.php');
@@ -1000,14 +1025,18 @@ $(document).ready(function(){
             break;
 
         case 'pesq_ent.php#':
-
+            var cod = $.trim($(this).children('td').slice(0, 1).text());
             var nf = $.trim($(this).children('td').slice(1, 2).text().toUpperCase());
             var forn = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
             var data = $.trim($(this).children('td').slice(3, 4).text());
             var status = $.trim($(this).children('td').slice(4, 5).text().toUpperCase());
             var resp = $.trim($(this).children('td').slice(5, 6).text().toUpperCase());
-            var table = "<table><tr><td>Nota Fiscal:</td><td>"+nf+"</td></tr><td>Fornecedor:</td><td>"+forn+"</td></tr><td>Data:</td><td>"+data+"</td></tr><td>Status:</td><td>"+status+"</td></tr></table>";
-            var form = "<form id='frmPesqEnt' method='POST' action='edita_ent.php'><input type='hidden' name='cod_ent' value='"+id+"'><input type='hidden' name='status' value='"+status+"'></form>";
+            var have_nf = $.trim($(this).children('td').slice(6, 7).text());
+            var path = $.trim($(this).children('td').slice(7, 8).text());
+            var e_id = $.trim($(this).children('td').slice(8, 9).text());
+            var form = "<form id='frmPesqEnt' method='POST' action='edita_ent.php'><input type='hidden' name='cod_ent' value='"+id+"'>";
+            form    += "<input type='hidden' name='status' value='"+status+"'>";
+            var table = "<table><tr><td>Nota Fiscal:</td><td>"+nf+"</td></tr><tr><td>Fornecedor:</td><td>"+forn+"</td></tr><tr><td>Data:</td><td>"+data+"</td></tr><tr><td>Status:</td><td>"+status+"</td></tr>";
             var Btn =  "<table><tr><td><button id='btnVisualizar'>Visualizar</button>";
 
 
@@ -1021,13 +1050,42 @@ $(document).ready(function(){
                     Btn += "<button id='btnDeletar'>Deletar</button>";
                     
                     $(document).off('click', '#btnDeletar').on('click', '#btnDeletar', function() {
-                    if (confirm('Deseja remover o ítem definitivamente do sistema?')) {
-                        $('#frmPesqEnt').attr('action', 'del_ent.php');
-                        $('#frmPesqEnt').submit();
-                    }
-                });
+                        if (confirm('Deseja remover o ítem definitivamente do sistema?')) {
+                            $('#frmPesqEnt').attr('action', 'del_ent.php');
+                            $('#frmPesqEnt').submit();
+                        }
+                    });
             }
-            Btn += "</td></tr></table>";
+            if(status == 'FECHADO'){
+                table += "<tr><td>PDF:</td><td><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
+                table += "<input type='file' name='up_pdf' accept='.pdf'>";
+                table += "<input type='hidden' name='cod' value='"+cod+"'>";
+                table += "<input type='hidden' name='eid' value='"+e_id+"'>";
+                table += "<input type='hidden' name='destino' value='compra'>";
+                table += "<button type='submit' id='btnUpload'>Upload</button></td></form></tr>";
+                
+                $(document).off('click', '#btnUpload').on('click', '#btnUpload', function() {
+                    $('#frmUpload').submit();
+                });
+
+                if(have_nf == "@"){
+                    Btn += "<button id='btnVerPDF'>Abrir PDF</button>";
+                        
+                    $(document).off('click', '#btnVerPDF').on('click', '#btnVerPDF', function() {
+                        var out = '';
+                        for(i=0; i<arr.length-1; i++){
+                            out += arr[i]+'/';
+                        }
+                        out += path;
+                        window.open(out, '_blank');
+                    });
+    
+                }
+    
+            }
+            table += "</table>";
+            form  += "</form>";
+            Btn   += "</td></tr></table>";
 
             $(".content").html(table+form+Btn);
             $('#popTitle').html(forn+' NF:'+nf);

@@ -20,10 +20,10 @@
 
 
 		$pdf->SetFont('Arial','B',10);
-	  	$pdf->Cell(20,5,"Cod.",0,0,"L");
-	  	$pdf->Cell(80,5,"Descricao",0,0,"L");
-	  	$pdf->Cell(25,5,"NCM.",0,0,"C");
-	  	$pdf->Cell(25,5,"Und.",0,0,"C");
+	  	$pdf->Cell(10,5,"Cod.",0,0,"L");
+	  	$pdf->Cell(85,5,"Descricao",0,0,"L");
+	  	$pdf->Cell(25,5,"NCM.",0,0,"L");
+	  	$pdf->Cell(15,5,"Und.",0,0,"L");
 	  	$pdf->Cell(20,5,"Qtd..",0,0,"C");
 		if(isset($_POST['ver_preco'])){	  	
 		  	$pdf->Cell(15,5,"Preco.",0,0,"C");
@@ -41,10 +41,10 @@
 			if ($pdf->Gety() > 265){
 			    include "pdf_cabrod.inc";
 				$pdf->SetFont('Arial','B',10);
-			  	$pdf->Cell(20,5,"Cod.",0,0,"L");
-			  	$pdf->Cell(80,5,"Descricao",0,0,"L");
-			  	$pdf->Cell(25,5,"NCM.",0,0,"C");
-			  	$pdf->Cell(25,5,"Und.",0,0,"C");
+			  	$pdf->Cell(10,5,"Cod.",0,0,"L");
+			  	$pdf->Cell(85,5,utf8_decode("Descrição"),0,0,"L");
+			  	$pdf->Cell(25,5,"NCM.",0,0,"L");
+			  	$pdf->Cell(15,5,"Und.",0,0,"L");
 			  	$pdf->Cell(20,5,"Qtd..",0,0,"C");
 				if(isset($_POST['ver_preco'])){	  	
 				  	$pdf->Cell(15,5,"Preco.",0,0,"C");
@@ -57,11 +57,11 @@
 
 			}
 
-  		  	$pdf->Cell(20,5,strtoupper($fetch[1]),0,0,"L");
-		  	$pdf->Cell(80,5,substr(strtoupper($fetch[2]), 0, 35),0,0,"L");
-		  	$pdf->Cell(25,5,strtoupper($fetch[9]),0,0,"C");
-		  	$pdf->Cell(25,5,strtoupper($fetch[3]),0,0,"C");
-		  	$pdf->Cell(20,5,strtoupper($fetch[4]),0,0,"C");
+  		  	$pdf->Cell(10,5,utf8_decode(strtoupper($fetch[1])),0,0,"L");
+		  	$pdf->Cell(85,5,utf8_decode(substr(strtoupper($fetch[2]), 0, 35)),0,0,"L");
+		  	$pdf->Cell(25,5,utf8_decode(strtoupper($fetch[9])),0,0,"L");
+		  	$pdf->Cell(15,5,utf8_decode(strtoupper($fetch[3])),0,0,"L");
+		  	$pdf->Cell(20,5,utf8_decode(strtoupper($fetch[4])),0,0,"C");
   			if(isset($_POST['ver_preco'])){	  	
 				$pdf->Cell(15,5,money_format('%=*(#0.2n', $venda),0,0,"L");
 			}else{

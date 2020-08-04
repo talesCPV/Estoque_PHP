@@ -22,16 +22,18 @@
   	  	<form class="login-form" method="POST" action="#">
   	  		<table class="search-table"  border="0"><tr>
                 <td><label> Funcionário: </label></td>
+				<td>
+					<select name="selStatus" id="selStatus">				
+						<option value="TDS"> Todos </option>
+						<option value="ATV" selected> Ativos </option>
+						<option value="DEM"> Demitidos </option>				
+					</select>
+				</td>
                 <td><input type="text" name="valor" maxlength="30"/></td>
                 <td><button class="botao_inline" type="submit">OK</button></td>
-                <td><button class="botao_inline" id="btn_NovaHora">Novo</button></td>
+
             </tr></table>
 
-			<select name="selStatus" id="selStatus">				
-				<option value="TDS"> Todos </option>
-				<option value="ATV" selected> Ativos </option>
-				<option value="DEM"> Demitidos </option>				
-			</select>
 			<label for="ckbDatas">Início / Final</label>			
 			<table class="search-table"  border="0"><tr>
 				<?php $m = date('m'); $y = date('Y');?>
