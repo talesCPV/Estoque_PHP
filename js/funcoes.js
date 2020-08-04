@@ -570,7 +570,7 @@ $(document).ready(function(){
             }else{
                 table += "<tr><td>Status:</td><td>Pedido</td></tr>"
                 table += "<tr><td>Valor:</td><td>"+valor+"</td></tr>";
-                table += "<tr><td>PDF:</td><td><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
+                table += "<tr><td colspan='2'><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
                 table += "<input type='file' name='up_pdf' accept='.pdf'>";
                 table += "<input type='hidden' name='cod' value='"+cod+"'>";
                 table += "<input type='hidden' name='eid' value='FB'>";                
@@ -1057,7 +1057,7 @@ $(document).ready(function(){
                     });
             }
             if(status == 'FECHADO'){
-                table += "<tr><td>PDF:</td><td><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
+                table += "<tr><td colspan='2'><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
                 table += "<input type='file' name='up_pdf' accept='.pdf'>";
                 table += "<input type='hidden' name='cod' value='"+cod+"'>";
                 table += "<input type='hidden' name='eid' value='"+e_id+"'>";

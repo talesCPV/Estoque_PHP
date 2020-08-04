@@ -157,32 +157,7 @@
 				$conexao->close();
 
 		    }
-
-			if ($qtd_lin == 1){
-		    	echo"
-			  	  <div class=\"page_form\" id= \"no_margin\">
-			  	  		<table class=\"search-table\"  border=\"0\">
-			  	  			<tr>
-			  	  				<td><form class=\"login-form\" method=\"POST\" action=\"pdf_analise.php\">
-			  	  					<input type=\"hidden\" name=\"cod_ped\" value=\"". $cod_ped ."\">
-			  	  					<button id=\"botao_inline\" type=\"submit\">Analisar</button>
-			  	  				</form></td>
-			  	  				<td><form class=\"login-form\" method=\"POST\" action=\"edita_ped.php\">
-			  	  					<input type=\"hidden\" name=\"cod_ped\" value=\"". $cod_ped ."\">
-			  	  					<button id=\"botao_inline\" type=\"submit\">Visualizar</button>
-			  	  				</form></td>
-			  	  				<td><form class=\"login-form\" method=\"POST\" action=\"del_ped.php\" onsubmit=\"return confirma('Deseja realmente deletar esta cotação?')\"  >
-			  	  					<input type=\"hidden\" name=\"cod_ped\" value=\"". $cod_ped ."\">
-			  	  					<input type=\"hidden\" name=\"status\" value=\"". $status ."\">
-			  	  					<button id=\"botao_inline\" type=\"submit\">Deletar</button>
-			  	  				</form></td>
-			  	  			</tr>
-			  	  		</table>
-			    	</form>
-
-
-				  </div>";
-			}		    
+	    
 
 	  ?>
   	  
