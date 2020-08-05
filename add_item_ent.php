@@ -30,6 +30,19 @@
 			$icms = $_POST ["icms"];
 			$mva = $_POST ["mva"];
 			$preco = $_POST ["preco"];
+			if(trim($icms) == ''){
+				$icms = 0;
+			}
+			if(trim($mva) == ''){
+				$mva = 0;
+			}
+			if(trim($preco) == ''){
+				$preco = 0;
+			}
+			if(trim($ipi) == ''){
+				$ipi = 0;
+			}
+
 			$val_icms = ($icms/100)*$preco;
 			$val_ipi = ($ipi/100)*$preco;
 			$base_mva = ($preco + $val_ipi) * (1+$mva/100);
@@ -37,7 +50,11 @@
 			$preco_custo =  number_format($preco + ($val_icms_st - $val_icms) + $val_ipi, 2, '.', '');
 			
 //		    echo ($preco);
-		    $qtd = $_POST ["qtd"];
+			$qtd = $_POST ["qtd"];
+			if(trim($qtd) == ''){
+				$qtd = 1;
+			}
+			
 			$query = "INSERT INTO tb_item_compra ( id_prod, id_ent, qtd, preco) VALUES ('$cod_prod', '$cod_ent', '$qtd', '$preco_custo')";   
 	        break;
 

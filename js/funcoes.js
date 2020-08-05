@@ -570,23 +570,35 @@ $(document).ready(function(){
             }else{
                 table += "<tr><td>Status:</td><td>Pedido</td></tr>"
                 table += "<tr><td>Valor:</td><td>"+valor+"</td></tr>";
-                table += "<tr><td colspan='2'><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
-                table += "<input type='file' name='up_pdf' accept='.pdf'>";
-                table += "<input type='hidden' name='cod' value='"+cod+"'>";
-                table += "<input type='hidden' name='eid' value='FB'>";                
-                table += "<input type='hidden' name='destino' value='venda'>";
-                table += "<button type='submit' id='btnUpload'>Upload</button></td></form></tr>";                
+              
                 table += "</td></tr>";
                 $(document).off('click', '#btnUpload').on('click', '#btnUpload', function() {
                     $('#frmUpload').submit();
                 });                
             }
-            table += "</table>";
+
+            var Btn = "";
+            if(have_nf == "@"){
+                Btn += "<button id='btnVerPDF'>Abrir PDF</button>";
+                    
+                $(document).off('click', '#btnVerPDF').on('click', '#btnVerPDF', function() {
+                    var out = '';
+                    for(i=0; i<arr.length-1; i++){
+                        out += arr[i]+'/';
+                    }
+                    out += path;
+                    window.open(out, '_blank');
+                });
+
+            }               
             var form = "<form id='frmPesqPed' method='POST' action='pdf_analise.php'><input type='hidden' name='cod_ped' value='"+id+"'><input type='hidden' name='status' value='"+status+"'></form>";
-            var Btn = "<br>Acesso apenas p/ consulta<br>";
-
             if ($(this).perm(classe,'edit')){
-
+                table += "<tr><td colspan='2'><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
+                table += "<input type='file' name='up_pdf' accept='.pdf'>";
+                table += "<input type='hidden' name='cod' value='"+cod+"'>";
+                table += "<input type='hidden' name='eid' value='FB'>";                
+                table += "<input type='hidden' name='destino' value='venda'>";
+                table += "<button type='submit' id='btnUpload'>Upload</button></td></form></tr>";                  
                 Btn = "<table><tr><td><button id='btnAnalisar'>Analisar</button></td><td><button id='btnVisualizar'>Visualizar</button><button id='btnDeletar'>Deletar</button>";
                 if(have_nf == "@"){
                     Btn += "<button id='btnVerPDF'>Abrir PDF</button>";
@@ -642,8 +654,12 @@ $(document).ready(function(){
                         });
                     }
                 });
+            }else{
+                Btn += "<br>Acesso apenas p/ consulta<br>";
+
             }
 
+            table += "</table>";
             $(".content").html(table+form+Btn);
             $('#popTitle').html(num);
 
@@ -1039,50 +1055,56 @@ $(document).ready(function(){
             var table = "<table><tr><td>Nota Fiscal:</td><td>"+nf+"</td></tr><tr><td>Fornecedor:</td><td>"+forn+"</td></tr><tr><td>Data:</td><td>"+data+"</td></tr><tr><td>Status:</td><td>"+status+"</td></tr>";
             var Btn =  "<table><tr><td><button id='btnVisualizar'>Visualizar</button>";
 
-
-                $(document).off('click', '#btnVisualizar').on('click', '#btnVisualizar', function() {
-                    $('#frmPesqEnt').attr('action', 'edita_ent.php');
-                    $('#frmPesqEnt').submit();
-                });
-
-                if ($(this).perm(classe,'edit')){
-
-                    Btn += "<button id='btnDeletar'>Deletar</button>";
+            if(have_nf == "@"){
+                Btn += "<button id='btnVerPDF'>Abrir PDF</button>";
                     
-                    $(document).off('click', '#btnDeletar').on('click', '#btnDeletar', function() {
-                        if (confirm('Deseja remover o ítem definitivamente do sistema?')) {
-                            $('#frmPesqEnt').attr('action', 'del_ent.php');
-                            $('#frmPesqEnt').submit();
-                        }
-                    });
-            }
-            if(status == 'FECHADO'){
-                table += "<tr><td colspan='2'><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
-                table += "<input type='file' name='up_pdf' accept='.pdf'>";
-                table += "<input type='hidden' name='cod' value='"+cod+"'>";
-                table += "<input type='hidden' name='eid' value='"+e_id+"'>";
-                table += "<input type='hidden' name='destino' value='compra'>";
-                table += "<button type='submit' id='btnUpload'>Upload</button></td></form></tr>";
-                
-                $(document).off('click', '#btnUpload').on('click', '#btnUpload', function() {
-                    $('#frmUpload').submit();
+                $(document).off('click', '#btnVerPDF').on('click', '#btnVerPDF', function() {
+                    var out = '';
+                    for(i=0; i<arr.length-1; i++){
+                        out += arr[i]+'/';
+                    }
+                    out += path;
+                    window.open(out, '_blank');
                 });
 
-                if(have_nf == "@"){
-                    Btn += "<button id='btnVerPDF'>Abrir PDF</button>";
-                        
-                    $(document).off('click', '#btnVerPDF').on('click', '#btnVerPDF', function() {
-                        var out = '';
-                        for(i=0; i<arr.length-1; i++){
-                            out += arr[i]+'/';
-                        }
-                        out += path;
-                        window.open(out, '_blank');
+            }            
+
+            $(document).off('click', '#btnVisualizar').on('click', '#btnVisualizar', function() {
+                $('#frmPesqEnt').attr('action', 'edita_ent.php');
+                $('#frmPesqEnt').submit();
+            });
+
+
+
+            if ($(this).perm(classe,'edit')){
+
+                Btn += "<button id='btnDeletar'>Deletar</button>";
+                
+                $(document).off('click', '#btnDeletar').on('click', '#btnDeletar', function() {
+                    if (confirm('Deseja remover o ítem definitivamente do sistema?')) {
+                        $('#frmPesqEnt').attr('action', 'del_ent.php');
+                        $('#frmPesqEnt').submit();
+                    }
+                });
+
+                if(status == 'FECHADO'){
+                    table += "<tr><td colspan='2'><form id='frmUpload' action='upload_nf.php' method='post' enctype='multipart/form-data'>";
+                    table += "<input type='file' name='up_pdf' accept='.pdf'>";
+                    table += "<input type='hidden' name='cod' value='"+cod+"'>";
+                    table += "<input type='hidden' name='eid' value='"+e_id+"'>";
+                    table += "<input type='hidden' name='destino' value='compra'>";
+                    table += "<button type='submit' id='btnUpload'>Upload</button></td></form></tr>";
+                    
+                    $(document).off('click', '#btnUpload').on('click', '#btnUpload', function() {
+                        $('#frmUpload').submit();
                     });
-    
+        
                 }
-    
+
+            }else{
+                Btn += "<br>Acesso apenas p/ consulta<br>";
             }
+
             table += "</table>";
             form  += "</form>";
             Btn   += "</td></tr></table>";

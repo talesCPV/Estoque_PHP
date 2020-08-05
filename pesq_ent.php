@@ -30,12 +30,15 @@
 	        <option value="nome_prod">Nome do Produto</option>
 	        <option value="cod_int_prod">Cod. Interno Prod.</option>
 	        <option value="cod_prod">Cod. Produto.</option>
-	        <option value="data">Data</option>
 	        <option value="aberta">Aberta</option>
 	    </select></td><td>
       <input type="text" name="valor" maxlength="12"/></td><td>
 	  <button class="botao_inline" type="submit">OK</button></td></tr>  </table>
-
+		<label for="ckbDatas">Início / Final</label>			
+		<table class="search-table"  border="0"><tr>
+			<td> <input type="date" name="data_ini" id="selData_ini" value="<?php echo date('Y-m-d',mktime(0, 0, 0, date('m') , 1 , date('Y'))); ?>"> </td>
+			<td> <input type="date" name="data_fin" id="selData_fin" value="<?php echo date('Y-m-d',mktime(23, 59, 59, date('m'), date("t"), date('Y'))); ?>"> </td></tr>
+		</table>
     	</form>
 	  </div>
 
@@ -44,30 +47,34 @@
 	  		$qtd_lin = 0;
 		    if (IsSet($_POST ["campo"])){
 
+				$dat_ini = $_POST ["data_ini"];
+				$dat_fin = $_POST ["data_fin"];		
+
 				include "conecta_mysql.inc";
 				if (!$conexao)
 					die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
 			  	$campo = $_POST ["campo"];
-			  	$valor = $_POST ["valor"];
+				  $valor = $_POST ["valor"];
+				  
 			  	if ($campo == "todos"){
 	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
-	                         ON en.id_emp = e.id order by en.data_ent desc;";
+	                         ON en.id_emp = e.id AND data_ent >= '". $dat_ini ."' AND data_ent <= '". $dat_fin ."' order by en.data_ent desc;";
 			  	}
 			  	else
 			  	if ($campo == "cod"){
 	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
-	                         AND en.id = '".$valor."';";
+	                         AND en.id = '".$valor."' ;";
 			  	}
 			  	else
 			  	if ($campo == "forn"){
 	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
-	                         AND e.nome LIKE '%".$valor."%' ;";
+	                         AND e.nome LIKE '%".$valor."%' AND data_ent >= '". $dat_ini ."' AND data_ent <= '". $dat_fin ."';";
 
 			  	}
 			  	else
@@ -75,7 +82,7 @@
 	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
-	                         AND en.nf = '".$valor."';";
+	                         AND en.nf = '".$valor."' ;";
 			  	}
 			  	else
 			  	if ($campo == "nome_prod"){
@@ -87,7 +94,7 @@
 							  ON en.id_emp = e.id 
 							  AND en.id = i.id_ent
 							  AND i.id_prod = p.id
-							  AND p.descricao LIKE '%".$valor."%';";
+							  AND p.descricao LIKE '%".$valor."%' ;";
 					}
 					else
 			  	if ($campo == "cod_int_prod"){
@@ -99,7 +106,7 @@
 							ON en.id_emp = e.id 
 							AND en.id = i.id_ent
 							AND i.id_prod = p.id
-							AND p.cod = '".$valor."';";
+							AND p.cod = '".$valor."' ;";
 			  	}
 			  	else
 			  	if ($campo == "cod_prod"){
@@ -111,20 +118,14 @@
 							  ON en.id_emp = e.id 
 							  AND en.id = i.id_ent
 							  AND i.id_prod = p.id
-							  AND p.cod_bar LIKE '%".$valor."%';";
-					}
-					else
-					if ($campo == "data"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
-	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
-	                         ON en.id_emp = e.id ;";
-			  	}
+							  AND p.cod_bar LIKE '%".$valor."%' ;";
+				}
 			  	else
 			  	if ($campo == "aberta"){
 	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
-	                         AND en.status = 'ABERTO';";
+	                         AND en.status = 'ABERTO' ;";
 			  	}
 
 //			  	echo $query;
@@ -177,29 +178,7 @@
 				  ";
 				$conexao->close();
 
-		    }
-
-			if ($qtd_lin == 1){
-		    	echo"
-			  	  <div class=\"page_form\" id= \"no_margin\">
-			  	  		<table class=\"search-table\"  border=\"0\">
-			  	  			<tr>
-			  	  				<td><form class=\"login-form\" method=\"POST\" action=\"edita_ent.php\">
-			  	  					<input type=\"hidden\" name=\"cod_ent\" value=\"". $cod_ent ."\">
-			  	  					<button id=\"botao_inline\" type=\"submit\">Visualizar</button>
-			  	  				</form></td>
-			  	  				<td><form class=\"login-form\" method=\"POST\" action=\"del_ent.php\" onclick=\"return confirma('Deseja deletar esta NF?')\">
-			  	  					<input type=\"hidden\" name=\"cod_ent\" value=\"". $cod_ent ."\">
-			  	  					<input type=\"hidden\" name=\"status\" value=\"". $status ."\">
-			  	  					<button id=\"botao_inline\" type=\"submit\">Deletar</button>
-			  	  				</form></td>
-			  	  			</tr>
-			  	  		</table>
-			    	</form>
-
-
-				  </div>";
-			}		    
+		    }	    
 
 	  ?>
   	  
