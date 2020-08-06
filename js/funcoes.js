@@ -521,12 +521,12 @@ $(document).ready(function(){
                     var sai = a+'-'+m+'-'+d +' '+ $('#edtSaida').val() +':00' ;   
                 }
                 
-                var query = "query=SELECT * FROM tb_hora_extra WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO') AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%';";
+                var query = "query=SELECT * FROM tb_hora_extra WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ) AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%';";
                 resp = queryDB(query);
                 if(resp.length == 0){
-                    var query = "query=INSERT INTO tb_hora_extra VALUES (DEFAULT, (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO'),'"+ent+"','"+sai+"');";
+                    var query = "query=INSERT INTO tb_hora_extra VALUES (DEFAULT, (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ),'"+ent+"','"+sai+"');";
                 }else{
-                    var query = "query=UPDATE tb_hora_extra  SET entrada = '"+ent+"', saida = '"+sai+"'  WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' AND status='ATIVO') AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
+                    var query = "query=UPDATE tb_hora_extra  SET entrada = '"+ent+"', saida = '"+sai+"'  WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ) AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
                 }
                 
                 queryDB(query);  

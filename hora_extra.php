@@ -23,10 +23,19 @@
   	  		<table class="search-table"  border="0"><tr>
                 <td><label> Funcionário: </label></td>
 				<td>
-					<select name="selStatus" id="selStatus">				
-						<option value="TDS"> Todos </option>
-						<option value="ATV" selected> Ativos </option>
-						<option value="DEM"> Demitidos </option>				
+					<select name="selStatus" id="selStatus">	
+						<optgroup label="Ativos">			
+						<option value="ATV" selected> Horista </option>
+						<option value="MAT"> Mensalistas </option>
+						<option value="HMA"> Todos </option>
+						<optgroup label="Demitidos">			
+						<option value="DEM"> Horista </option>				
+						<option value="MDE"> Mensalistas </option>				
+						<option value="HMD"> Todos  </option>				
+						<optgroup label="Todos">			
+						<option value="TDS"> Horista </option>
+						<option value="MTD"> Mensalistas </option>
+						<option value="HMT"> Todos  </option>
 					</select>
 				</td>
                 <td><input type="text" name="valor" maxlength="30"/></td>
@@ -90,8 +99,20 @@
 					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.id_cargo = c.id AND c.tipo = 'HORA';";
 				}else if ($status == "ATV"){
 					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.status='ATIVO'  AND f.id_cargo = c.id AND c.tipo = 'HORA';";
-				}else{
+				}else if ($status == "DEM"){
 					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.status='DEMIT'  AND f.id_cargo = c.id AND c.tipo = 'HORA';";
+				}else if ($status == "MTD"){
+					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.id_cargo = c.id AND c.tipo = 'MENSAL';";
+				}else if ($status == "MAT"){
+					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.status='ATIVO'  AND f.id_cargo = c.id AND c.tipo = 'MENSAL';";
+				}else if ($status == "MDE"){
+					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.status='DEMIT'  AND f.id_cargo = c.id AND c.tipo = 'MENSAL';";
+				}else if ($status == "HMT"){
+					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.id_cargo = c.id ;";
+				}else if ($status == "HMA"){
+					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.status='ATIVO'  AND f.id_cargo = c.id ;";
+				}else if ($status == "HMD"){
+					$query =  "SELECT f.id, f.nome FROM tb_funcionario AS f INNER JOIN tb_cargos AS c WHERE f.nome LIKE '%{$valor}%' AND f.status='DEMIT'  AND f.id_cargo = c.id ;";
 				}
 
 
