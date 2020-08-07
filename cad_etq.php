@@ -8,7 +8,8 @@
     <title>Configuracoes</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script> 
+    <script src="js/cad_etq.js"></script> 
 </head>
 <body>
 
@@ -100,7 +101,7 @@
                         $desc = $fetch[2];
                         $cod_prefix = $fetch[3];
 
-                          echo "<tr class='tbl_row' id='".$fetch[1]."'>
+                          echo "<tr class='tbl_row'>
                                   <td class=\"center_text\" >" .$fetch[1] . "</td>
                                   <td>" .$fetch[2] . "</td>
                                   <td class=\"center_text\" >" .$fetch[3] . "</td>
@@ -177,8 +178,8 @@
                   </select>
                   <table><tr>
                     <td><label> Qtd. Etiquetas </label></td>
-                    <td><input type=\"number\" name=\"qtd\" maxlength=\"2\" value=\"1\"/></td>
-                    <td><button name=\"adicionar\" id=\"botao_inline\" type=\"submit\">Adicionar</button></td>
+                    <td><input type='number' name='qtd' maxlength='2' value='1' onkeyup='return float_number(this)'/></td>
+                    <td><button name='adicionar' id='botao_inline' type='submit'>Adicionar</button></td>
                   </tr></table>
                    <input type=\"hidden\" name=\"cod_prod\" value=\"<?php echo ".get_etq("CPD")." ?>\">
                   </form>

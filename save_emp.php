@@ -1,23 +1,34 @@
 <?php 
+
+function clear_num($num){
+	$out = "";
+	$perm = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0"); 
+	for($i=0;$i<strlen($num);$i++){
+		if (in_array($num[$i], $perm)) { 
+			$out = $out . $num[$i];
+		}        
+	}
+	return $out;
+}
+
 // RECEBENDO OS DADOS PREENCHIDOS DO FORMUL�RIO !
-$nome	= $_POST ["nome"];
-$endereco	= $_POST ["endereco"];
-$cidade	= $_POST ["cidade"];
+$nome	= strtoupper($_POST ["nome"]);
+$endereco	= strtoupper($_POST ["endereco"]);
+$cidade	= strtoupper($_POST ["cidade"]);
 $estado	= $_POST ["estado"];
 $cep    = $_POST ["cep"];
-$cnpj	= $_POST ["cnpj"];
-$ie  	= $_POST ["ie"];
+$cnpj	= clear_num($_POST ["cnpj"]);
+$ie  	= clear_num($_POST ["ie"]);
 $tipo  	= $_POST ["tipo"];
 $fone  	= $_POST ["fone"];
-$bairro  	= $_POST ["bairro"];
+$bairro = strtoupper($_POST ["bairro"]);
 $num  	= $_POST ["num"];
+
 
 //Gravando no banco de dados !
 include "conecta_mysql.inc";
 if (!$conexao)
 	die ("Erro de conex�o com localhost, o seguinte erro ocorreu -> ".mysql_error());
-
-
 
 if (IsSet($_POST ["cod_emp"])){
 	$cod_emp  = $_POST ["cod_emp"];

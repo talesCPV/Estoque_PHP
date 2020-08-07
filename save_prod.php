@@ -1,16 +1,33 @@
 <?php 
+
+function clear_num($num){
+	$out = "";
+	$perm = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0"); 
+	for($i=0;$i<strlen($num);$i++){
+		if (in_array($num[$i], $perm)) { 
+			$out = $out . $num[$i];
+		}        
+	}
+
+	if(trim($out)==""){
+		$out = 0;
+	}
+
+	return $out;
+}
+
 // RECEBENDO OS DADOS PREENCHIDOS DO FORMUL�RIO !
-$nome	= $_POST ["nome"];
+$nome	= strtoupper($_POST ["nome"]);
 $forn	= $_POST ["forn"];
-$estoque	= $_POST ["estoque"];
-$est_min	= $_POST ["est_min"];
-$unidade    = $_POST ["und"];
-$cod_bar  	= $_POST ["cod_bar"];
-$cod_cli  	= $_POST ["cod_cli"];
+$estoque	= clear_num($_POST ["estoque"]);
+$est_min	= clear_num($_POST ["est_min"]);
+$unidade    = strtoupper($_POST ["und"]);
+$cod_bar  	= strtoupper($_POST ["cod_bar"]);
+$cod_cli  	= strtoupper($_POST ["cod_cli"]);
 $ncm  	= $_POST ["ncm"];
 $compra  	= $_POST ["compra"];
 $margem  	= $_POST ["margem"];
-$tipo  	= $_POST ["tipo"];
+$tipo  	= strtoupper($_POST ["tipo"]);
 // SELECT cod FROM tb_produto WHERE tipo NOT LIKE '%TINTA%' order by cod desc limit 1;
 
 include "conecta_mysql.inc";

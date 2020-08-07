@@ -8,7 +8,7 @@
     <title>Cadastro de Produtos</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
 </head>
 <body>
   <header>
@@ -60,7 +60,7 @@
           fclose($fp);
       ?>
       <label> Estoque </label>
-      <input type="text" name="estoque" maxlength="10" onkeyup="return money(this)"/>
+      <input type="text" name="estoque" maxlength="10" onkeyup="return float_number(this)"/>
       <label> Tipo </label>
       <select name="tipo" >";
         <option value="VENDA"> PRODUTO </option>"
@@ -69,7 +69,7 @@
         <option value="PIGMTO"> PIGMENTO </option>"
       </select>
       <label> Estoque Minimo </label>
-      <input type="text" name="est_min" maxlength="14"/>
+      <input type="text" name="est_min" maxlength="14" onkeyup="return float_number(this)"/>
       <label> Codigo do Produto</label>
       <input type="text" name="cod_bar" maxlength="15"/>
       <label> Codigo de Barras</label>
@@ -77,9 +77,9 @@
       <label> NCM </label>
       <input type="text" name="ncm" maxlength="8"/>
       <label> Preço de Compra R$</label>
-      <input type="text" name="compra" maxlength="15" onkeyup="return money(this)"/>
+      <input type="text" name="compra" maxlength="15" onkeyup="return float_number(this)"/>
       <label> Margem de Lucro %</label>
-      <input type="text" name="margem" maxlength="15" onkeyup="return money(this)"/>
+      <input type="text" name="margem" maxlength="15" onkeyup="return float_number(this)"/>
       <button type="submit">Cadastrar</button>
     </form>
   </div>

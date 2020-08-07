@@ -8,7 +8,7 @@
     <title>Cadastro de Produtos</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
 </head>
 <body>
   <header>
@@ -52,9 +52,9 @@
       <input type="text" name="cod_bar" maxlength="15"/>
       <input type="hidden" name="ncm" value="38081010" />
       <label> Preço de Custo R$ - 900ml *</label>
-      <input type="text" name="compra" maxlength="15" onkeyup="return money(this)" id="edtPreco"/>
+      <input type="text" name="compra" maxlength="15" onkeyup="return float_number(this)" id="edtPreco"/>
       <label> Margem de Lucro %</label>
-      <input type="text" name="margem" value="90" maxlength="15" onkeyup="return money(this)"/>
+      <input type="text" name="margem" value="90" maxlength="15" onkeyup="return float_number(this)"/>
       <button name="save" type="submit" id="btnSaveTinta" >Cadastrar</button>
       </form>
 
@@ -70,11 +70,9 @@
             $compra = $_POST ["compra"];
             $margem = $_POST ["margem"];
 
-
             include "conecta_mysql.inc";
             if (!$conexao)
               die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
-
 
             $query = "INSERT INTO tb_produto ( descricao, estoque, etq_min, unidade, cod, cod_bar, id_emp, ncm, preco_comp, margem, tipo) 
             VALUES ('$nome', '99', '0','LATA', '$cod', '$cod_bar', 16, '32081010', '$compra', '$margem', 'TINTA')";
