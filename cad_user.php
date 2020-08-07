@@ -8,7 +8,7 @@
     <title>Cadastro de Usuários</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
 </head>
 <body>
 
@@ -23,11 +23,11 @@
     <p class="logo"> Cadastro de Usuários</p> <br>
     <form class="login-form" name="cadastro" method="POST" action="save_user.php"  >
       <label> Usuário *</label>
-      <input type="text" name="user" maxlength="12"/>
+      <input type="text" name="user" id="edtUser" maxlength="12"/>
       <label> Senha *</label>
-      <input type="password" name="pass"  maxlength="12"  />
+      <input type="password" name="pass" id="edtSenha1" maxlength="12"  />
       <label> Repita a senha *</label>
-      <input type="password" name="repass"  maxlength="12" />
+      <input type="password" name="repass" id="edtSenha2" maxlength="12" />
       <label> Tipo de Acesso </label>
       <select name="classe" id="classe">
           <option value="1">Contador</option>
@@ -36,7 +36,7 @@
           <option value="4">Gerente</option>
           <option value="10">CEO</option>
       </select>
-      <button type="submit" >Cadastrar</button>
+      <button type="submit" onclick="return obrigatorio(['edtUser','edtSenha1']) && verif_senha(['edtSenha1','edtSenha2'])">Cadastrar</button>
 
     </form>
   </div>

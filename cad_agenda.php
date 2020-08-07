@@ -8,7 +8,7 @@
     <title>Agenda</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
 </head>
 <body>
   <header>
@@ -49,11 +49,11 @@
       <label> Email </label>
       <input type="text" name="email" id="Lower_Case" maxlength="70"/>
       <label> Celular </label>
-      <input type="text" name="fone1" class="checkFone" maxlength="15"/>
+      <input type="text" name="fone1" class="checkFone" maxlength="15" onkeyup="return format_fone(this)"/>
       <label> Telefone Fixo </label>
-      <input type="text" name="fone2" class="checkFone" maxlength="15"/>
+      <input type="text" name="fone2" class="checkFone" maxlength="15" onkeyup="return format_fone(this)"/>
+      <button type="submit" id="btnCadastrar" onclick="return obrigatorio(['edtNome'])">Cadastrar</button>
     </form>
-    <button type="submit" id="btnSaveAgenda" >Cadastrar</button>
   </div>
 </div>
 

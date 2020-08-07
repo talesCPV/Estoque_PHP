@@ -55,7 +55,7 @@
       <input type="text" name="compra" maxlength="15" onkeyup="return float_number(this)" id="edtPreco"/>
       <label> Margem de Lucro %</label>
       <input type="text" name="margem" value="90" maxlength="15" onkeyup="return float_number(this)"/>
-      <button name="save" type="submit" id="btnSaveTinta" >Cadastrar</button>
+      <button name="save" type="submit" id="btnSaveTinta" onclick="return obrigatorio(['edtDesc','edtPreco'])">Cadastrar</button>
       </form>
 
 <?php

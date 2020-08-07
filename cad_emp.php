@@ -72,9 +72,8 @@
         <option value="CLI">Cliente</option>
       </select>
       <label> Telefone </label>
-      <input type="text" name="fone" maxlength="14" onkeyup="return phone(this)"/>
-      <button type="submit">Cadastrar</button>
-
+      <input type="text" name="fone" maxlength="14" onkeyup="return format_fone(this)"/>
+      <button type="submit" onclick="return obrigatorio(['edtNome'])">Cadastrar</button>
     </form>
   </div>
 </div>

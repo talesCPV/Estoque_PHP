@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
     <title>Pedido de Compra</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
 </head>
 <body>
   <header>
@@ -33,10 +33,9 @@
       $result = mysqli_query($conexao, $query);
       $qtd_lin  = $result->num_rows + 1;
 
-
 echo"
       <label> OF Num. * </label>
-      <input type=\"text\" name=\"num_of\" maxlength=\"15\" value=\"".$gera_cod."-".$qtd_lin."\" />
+      <input type=\"text\" name=\"num_of\" id='edtNumOF' maxlength=\"15\" value=\"".$gera_cod."-".$qtd_lin."\" />
 ";
 
       ?>
@@ -51,7 +50,7 @@ echo"
       <input type="text" name="func" maxlength="30" />
       <label> Emitido por</label>
       <input type="text" name="responsavel" value="<?php if (IsSet($_COOKIE["usuario"])){ echo $_COOKIE["usuario"]; } ?>" readonly/>
-      <button type="submit">Gerar</button>
+      <button type="submit" onclick="return obrigatorio(['edtNumOF'])">Gerar</button>
       <input type="hidden" name="novo" value="1">
 
     </form>

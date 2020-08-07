@@ -80,7 +80,7 @@
       <input type="text" name="compra" maxlength="15" onkeyup="return float_number(this)"/>
       <label> Margem de Lucro %</label>
       <input type="text" name="margem" maxlength="15" onkeyup="return float_number(this)"/>
-      <button type="submit">Cadastrar</button>
+      <button type="submit" id="btnCadastrar" onclick="return obrigatorio(['edtDesc'])" >Cadastrar</button>
     </form>
   </div>
 </div>

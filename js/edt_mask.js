@@ -52,7 +52,7 @@ function float_number(campo,casas=2){
     campo.value = out_text;
 }
 
-function phone(param){ // formata a string no padrão TELEFONE
+function format_fone(param){ // formata a string no padrão TELEFONE
     var ok_chr = new Array('1','2','3','4','5','6','7','8','9','0');
     var num = param.value;
     var out = '';
@@ -157,4 +157,36 @@ function format_cep(param){ // formata a string no padrão CEP
     }
 
     param.value = out;
+}
+
+
+//************** VALIDAÇÕES DE DADOS **************//
+
+
+function obrigatorio(param){ // verifica se os campos obrigatorios estao preenchidos (recebe um array com os IDs como param)
+	for(i=0;i<param.length;i++){
+        obj = document.getElementById(param[i]);
+		var val = obj.value;
+		if(val == ''){
+            event.preventDefault(); // cancela o submit do form;
+			alert("Todos os campos com * são obrigatórios.");
+			obj.focus();
+			return false;
+		}
+	}
+	return true;
+}
+
+function verif_senha(param){ // verifica se as senhas coincidem (recebe um array com os IDs como param)
+        obj1 = document.getElementById(param[0]);
+        obj2 = document.getElementById(param[1]);
+		var val1 = obj1.value;
+		var val2 = obj2.value;
+		if(val1 != val2){
+            event.preventDefault(); // cancela o submit do form;
+			alert("As senhas não coincidem");
+			obj2.focus();
+			return false;
+		}
+	return true;
 }
