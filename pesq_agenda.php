@@ -8,7 +8,8 @@
     <title>Agenda de Contatos</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
+    <script src="js/pesq_agenda.js"></script>
 </head>
 <body>
   <header>

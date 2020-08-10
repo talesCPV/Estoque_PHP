@@ -52,6 +52,45 @@ function float_number(campo,casas=2){
     campo.value = out_text;
 }
 
+
+function format_num(campo,casas=2){
+    var ok_chr = new Array('1','2','3','4','5','6','7','8','9','0');
+    var text = campo;
+    var after_dot = '';
+    var before_dot = '';
+    var dot = false;
+    var out_text = '';
+    for(var i=text.length-1; i>=0; i--){
+
+//        alert("->"+text.charAt(i))
+
+        if((text.charAt(i) == ',' || text.charAt(i) == '.')){
+            dot =  true;
+        }else{
+
+            if(ok_chr.includes(text.charAt(i))){
+                if (dot){ // antes da virgula
+                    before_dot = text.charAt(i) + before_dot ;                    
+                }else{
+                    after_dot = text.charAt(i) + after_dot ;                    
+                }
+            }
+            
+        }
+
+    }
+//    alert('out: '+before_dot+'.'+after_dot);
+
+
+    if(before_dot == '' && after_dot == ''){
+        out_text = 0;
+    }else{
+        out_text = parseFloat(before_dot+'.'+after_dot).toFixed(casas)
+    }
+
+    return out_text;
+}
+
 function format_fone(param){ // formata a string no padrão TELEFONE
     var ok_chr = new Array('1','2','3','4','5','6','7','8','9','0');
     var num = param.value;
@@ -189,4 +228,21 @@ function verif_senha(param){ // verifica se as senhas coincidem (recebe um array
 			return false;
 		}
 	return true;
+}
+
+//************** MANIPULAÇÃO DE DADOS **************//
+
+function getCookies(name){
+
+    var ca = document.cookie.split(';');
+    
+	for(i=0; i<ca.length;i++){
+
+        val = ca[i].split('=')    
+
+		if(name.trim() == val[0].trim()){
+			return val[1];
+		}
+	}
+
 }

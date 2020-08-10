@@ -8,7 +8,8 @@
     <title>Análise Financeira</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
+    <script src="js/pesq_anafin.js"></script>
 </head>
 <body>
   <header>
@@ -181,7 +182,7 @@
 					        	$cod_ped = $fetch[0];
 					        	$status = $fetch[5];
 
-								echo "<tr class='tbl_row' id='".$fetch[0]."'><td>" .$fetch[0] . "</td>";
+								echo "<tr class='tbl_row'><td>" .$fetch[0] . "</td>";
 								if ($fetch[5] == 'ENTRADA'){
 									$tot_ent = $tot_ent + $fetch[4];
 									 echo "<td> ENTRADA</td>";

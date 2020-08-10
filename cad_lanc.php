@@ -8,7 +8,7 @@
     <title>Financeiro</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
 </head>
 <body>
   <header>
@@ -51,13 +51,13 @@
         <option value="AUT"> Débto Automático </option>"
       </select>
       <label> Valor do Título R$ *</label>
-      <input type="text" name="valor" id="edtValor" maxlength="15" onkeyup="return money(this)"/>
+      <input type="text" name="valor" id="edtValor" maxlength="15" onkeyup="return float_number(this)" />
       <label> Cadastrado por</label>
       <input type="text" name="resp" id="edtResp" value="<?php if (IsSet($_COOKIE["usuario"])){ echo $_COOKIE["usuario"]; } ?>" readonly/>
       <label> Emitido em </label>
       <input type="text" name="data_ent" id="edtDataEnt" value="<?php echo date('d/m/Y'); ?>" readonly/>
+      <button type="submit" onclick="return obrigatorio(['edtRef','edtDest','edtValor'])">Salvar</button>
     </form>
-    <button name="salvar" type="submit" id="btnSalvar">Salvar</button>
   </div>
 </div>
 

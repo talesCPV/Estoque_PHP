@@ -8,7 +8,8 @@
     <title>Pesquisa por Empresas</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>	
-    <script src="js/funcoes.js"></script>
+    <script src="js/edt_mask.js"></script>
+    <script src="js/pesq_emp.js"></script>
 </head>
 <body>
   <header>
@@ -111,7 +112,7 @@
 
 					        	$cod_emp = $fetch[0];
 
-								echo "<tr class='tbl_row' id='".$fetch[0]."'>".
+								echo "<tr class='tbl_row'>".
 										 "<td>" .$fetch[0] . "</td>".
 								         "<td>" .$fetch[1] . "</td>".
 								         "<td>" . CNPJ($fetch[2]) . "</td>".

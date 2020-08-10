@@ -8,7 +8,8 @@
     <title>Pesquisa por Produto</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/pesq_prod.js"></script>
+    <script src="js/edt_mask.js"></script>
 </head>
 <body>
   <header>
@@ -120,7 +121,7 @@
 					        	$cod_prod = $fetch[0];
 					        	$preco = $fetch[7] * (1 + $fetch[8]/100);
 
-								echo "<tr class='tbl_row' id='".$fetch[0]."'>".
+								echo "<tr class='tbl_row'>".
 										 "<td class=\"center_text\" >" .$fetch[1] . "</td>".
 								     	 "<td>" .$fetch[2] . "</td>".
 								         "<td class=\"center_text\">" .$fetch[3] . "</td>".
@@ -131,6 +132,7 @@
 										  <td style='display: none;'>".money_format('%=*(#0.2n', $fetch[7])."</td>
 										  <td style='display: none;'>".$fetch[8]."</td>
 										  <td style='display: none;'>".$fetch[10]."</td>
+										  <td style='display: none;'>".$fetch[0]."</td>
 									  </tr>";
 								     	 
 					        }

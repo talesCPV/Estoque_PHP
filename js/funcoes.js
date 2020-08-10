@@ -545,7 +545,7 @@ $(document).ready(function(){
     });
 
 
-    // DUPLO CLIQUE NA TEBELA tabItens
+    // DUPLO CLIQUE NA TABELA tabItens
     $('#tabItens').on('dblclick','.tbl_row', function(){ // SELECIONANDO UM ÍTEM DA TABELA (DUPLO CLIQUE)
 
         var arr = window.location.href.split("/");
@@ -1251,7 +1251,7 @@ $(document).ready(function(){
     
                     var table = "<table><tr><td>Cod.:</td><td>"+id_of+"</td></tr><tr><td>Tipo:</td><td>"+ tipo +"</td></tr><tr><td>Emit.:</td><td>"+resp+"</td></tr>";
                     table += " <tr><td>Func.:</td><td>"+func+"</td></tr><tr><td>Data.:</td><td>"+data+"</td></tr><tr><td>Status.:</td><td>"+status+"</td></tr></table>";
-                    var form = "<form id='frmDetalhar' method='POST' action='cad_item_of.php'><input type='hidden' name='id_prod' value='"+id_prod+"'></form>";
+                    var form = "<form id='frmDetalhar' method='POST' action='cad_item_of.php'><input type='hidden' name='cod_serv' value='"+id_prod+"'></form>";
                     form +=    "<form id='frmImprimir' method='POST' action='pdf_of.php'><input type='hidden' name='cod_serv' value='"+id_of+"'></form>";
                     form +=    "<form id='frmRefresh' method='POST' action='#'></form>";
                     var Btn =  "<table><tr><td><button name='adicionar' id='btnDet'>Detalhar</button></td><td><button name='imprimir' id='btnImp'>Imprimir</button></td>";

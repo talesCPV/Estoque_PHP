@@ -396,3 +396,18 @@ $.fn.perm = function(classe, area){
 	});
 	return (stay);
 }
+
+function queryDB(query) {        
+	var resp = '';
+	$.ajax({
+		url: 'ajax/ajax.php',
+		type: 'POST',
+		dataType: 'html',
+		data: query,
+		async: false,
+		success: function(data){
+			resp = jQuery.parseJSON( data );
+		}
+	});   
+	return resp;     
+}   

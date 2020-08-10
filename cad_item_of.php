@@ -22,10 +22,9 @@
       <div class="page_form">
 
         <?php                
-            if (IsSet($_COOKIE["cod_serv"])){
-                $cod_serv = $_COOKIE["cod_serv"];
-        
-            
+            if (IsSet($_POST["cod_serv"])){
+                $cod_serv = $_POST["cod_serv"];
+                    
                 include "conecta_mysql.inc";
                 if (!$conexao)
                     die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
