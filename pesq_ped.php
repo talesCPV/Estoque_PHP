@@ -8,7 +8,8 @@
     <title>Pedido de Compra</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/pesq_ped.js"></script>
+	<script src="js/edt_mask.js"></script>
 </head>
 <body>
   <header>
@@ -30,6 +31,7 @@
 	        <option value="fechado">Pedidos</option>
 	        <option value="cod">Codigo</option>
 	        <option value="num_ped">Numero</option>
+	        <option value="cod_prod">Cod. Produto</option>
 	        <option value="cliente">Cliente</option>
 	        <option value="vendtotal">Vendedor Total</option>
 	        <option value="vendfechado">Vendedor Fechados</option>
@@ -220,7 +222,16 @@
 					}				  
 					$query = $query . " ORDER BY p.data_ped DESC;";
 							 
-			  	}
+				  }
+			  	if ($campo == "cod_prod"){
+					$query =  " SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path 
+					FROM tb_pedido AS p 
+					INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i 
+					ON p.id = i.id_ped INNER JOIN tb_empresa AS e ON p.id_emp = e.id 
+					INNER JOIN tb_item_ped as ip INNER JOIN tb_produto as prod 
+					ON p.id = ip.id_ped  AND ip.id_prod = prod.id AND prod.cod = '". $valor ."' ORDER BY p.data_ped DESC;";
+																   
+					}				  
 
 //			  	echo $query;
 
@@ -229,7 +240,6 @@
 				$qtd_lin = $result->num_rows;
 				  
 				$total = 0;
-
 
 				echo"  <div class=\"page_form\" id=\"no_margin\">
 						<table class=\"search-table\" id=\"tabItens\" >   
@@ -247,7 +257,7 @@
 					        	$cod_ped = $fetch[0];
 					        	$status = $fetch[6];
 
-					            echo "<tr class='tbl_row' id='".$fetch[0]."'><td>" .$fetch[0] . "</td>".
+					            echo "<tr class='tbl_row'><td>" .$fetch[0] . "</td>".
 								     	 "<td>" .$fetch[1] . "</td>".
 								     	 "<td>" .$fetch[2] . "</td>".
 								         "<td>" . date('d/m/Y', strtotime($fetch[4])) . "</td>";
