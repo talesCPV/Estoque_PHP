@@ -118,7 +118,6 @@ $(document).ready(function(){
 //                            alert('->'+num);
     
                     var dados = "query=UPDATE tb_pedido  set status ='"+NF+"' where num_ped = '"+num+"';";
-                    //alert(dados);
                     $.ajax({
                         url: 'ajax/ajax.php',
                         type: 'POST',

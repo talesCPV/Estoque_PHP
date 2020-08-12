@@ -71,15 +71,15 @@
               $campo = $_POST ["campo"];
               $valor = $_POST ["valor"];
               if ($campo == "desc"){
-                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE descricao LIKE '%".$valor."%' AND tipo ='TINTA' ORDER BY cod ;";
+                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE descricao LIKE '%".$valor."%' ORDER BY cod ;";
               }
               else
               if ($campo == "cod"){
-                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE cod = '".$valor."' AND tipo ='TINTA' ORDER BY cod ;";
+                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE cod = '".$valor."' ORDER BY cod ;";
               }
               else
               if ($campo == "cod_bar"){
-                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE cod_bar = '".$valor."' AND tipo ='TINTA' ORDER BY cod ;";
+                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE cod_bar = '".$valor."' ORDER BY cod ;";
               }
 
               $result = mysqli_query($conexao, $query);
