@@ -6,7 +6,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-    <title>Pedido de Compra</title>
+    <title>Ordem de Fabricação</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/edt_mask.js"></script>

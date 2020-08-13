@@ -30,13 +30,14 @@
         <tr>
           <td><button name="prod" type="submit">Produto</button></td>
           <td><button name="campos" type="submit">Campos</button></td>
-          <td><button name="visualizar" type="submit">Visualizar</button></td>
+          <td><button name="visualizar" type="submit" id="btnVisualizar" >Visualizar</button></td>
         </tr>
       </table>
       
     </form>    
   </div>
 
+  <div id="div_frm"></div>
     <?php
 
       $file = "config/etiqueta.cfg \r\n";
@@ -70,8 +71,9 @@
 
               $campo = $_POST ["campo"];
               $valor = $_POST ["valor"];
+
               if ($campo == "desc"){
-                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE descricao LIKE '%".$valor."%' ORDER BY cod ;";
+                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE descricao LIKE '%".$valor."%' AND cod >=7000 ORDER BY cod desc;";
               }
               else
               if ($campo == "cod"){
@@ -116,29 +118,7 @@
             $conexao->close();
 
             }
-
-          if ($qtd_lin == 1){
-
-              echo"
-                <div class=\"page_form\" id= \"no_margin\">
-                    <table class=\"search-table\"  border=\"0\">
-                      <tr>
-                        <td><form class=\"login-form\" method=\"POST\" action=\"#\"   >
-                          <button name=\"campos\" id=\"botao_inline\" type=\"submit\">Selecionar</button>
-                          <input type=\"hidden\" name=\"cod_prod\" value=\"". $cod_prod ."\">
-                          <input type=\"hidden\" name=\"pass_desc\" value=\"". trim($cod_prefix)." - ".trim($desc)."\">
-                        </form></td>
-                      </tr>
-                    </table>
-
-                </form>
-
-
-              </div>";
-              post_etq("NOM",$desc,$file);
-              post_etq("CPD",$cod_prefix,$file);
-
-          }       
+  
 
           break;
 
@@ -150,9 +130,15 @@
                   <input type=\"text\" name=\"forn\" maxlength=\"30\" value=\"FLEXIBUS SANFONADOS LTDA\" />
                   <label> Cliente </label>
                   <input type=\"text\" name=\"cli\" maxlength=\"30\"/>
-                  <label> Descrição </label>
-                  <input type=\"text\" name=\"desc\" maxlength=\"60\" value=\"".get_etq("NOM") ."\" />
-                  <label> Tipo de Tinta </label>
+                  <label> Descrição </label>";
+
+                  if (IsSet($_POST ["desc"])){
+                    echo "<input type=\"text\" name=\"desc\" id='edtDesc' maxlength=\"60\" value='".$_POST["desc"]."' />";
+                  }else{
+                    echo "<input type=\"text\" name=\"desc\" id='edtDesc' maxlength=\"60\" value='' />";
+                  }
+
+              echo "<label> Tipo de Tinta </label>
                   <select name=\"tipo\">
                     <option value=\"ES\">Esmalte Sintético</option>
                     <option selected=\"selected\" value=\"AC\">PU Acrílico</option>
@@ -179,9 +165,9 @@
                   <table><tr>
                     <td><label> Qtd. Etiquetas </label></td>
                     <td><input type='number' name='qtd' maxlength='2' value='1' onkeyup='return float_number(this)'/></td>
-                    <td><button name='adicionar' id='botao_inline' type='submit'>Adicionar</button></td>
+                    <td><button name='adicionar' id='botao_inline' class'btnAdicionar' type='submit'>Adicionar</button></td>
                   </tr></table>
-                   <input type=\"hidden\" name=\"cod_prod\" value=\"<?php echo ".get_etq("CPD")." ?>\">
+                   <input type=\"hidden\" name=\"cod_prod\" id='hdn_CPD' value=\"<?php echo ".get_etq("CPD")." ?>\">
                   </form>
                 </div>"; 
                  
@@ -196,6 +182,12 @@
               $fp = fopen("config/etq_data.cfg", "a");
               fwrite($fp, $text);
               fclose($fp);
+
+              echo '<script>
+                        $(document).ready(function(){ 
+                            $("#btnVisualizar").click();
+                        });
+                    </script>';
           }
                
           break;
