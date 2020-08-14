@@ -9,9 +9,10 @@
       if($dest == "compra"){
           $query = "UPDATE tb_entrada SET path= '{$path}' WHERE id={$cod};";
       }else{
-          $query = "UPDATE tb_pedido SET path= '{$path}' WHERE id={$cod};";
+          $query = "UPDATE tb_pedido SET path= '{$path}', status='PAGO', data_ped = now() WHERE id={$cod};";
       }
 
+      
 //echo $query;      
 
       mysqli_query($conexao, $query);

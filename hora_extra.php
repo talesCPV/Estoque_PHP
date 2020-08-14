@@ -28,7 +28,7 @@
 						<option value="ATV" selected> Horista </option>
 						<option value="MAT"> Mensalistas </option>
 						<option value="HMA"> Todos </option>
-						<optgroup label="Demitidos">			
+						<optgroup label="Inativos">			
 						<option value="DEM"> Horista </option>				
 						<option value="MDE"> Mensalistas </option>				
 						<option value="HMD"> Todos  </option>				

@@ -29,6 +29,7 @@
 	        <option value="funi">Fun. e Pintura</option>
 	        <option value="aberto">Cotacoes</option>
 	        <option value="fechado">Pedidos</option>
+	        <option value="faturado">Faturados</option>
 	        <option value="cod">Codigo</option>
 	        <option value="num_ped">Numero</option>
 	        <option value="cod_prod">Cod. Produto</option>
@@ -206,7 +207,23 @@
 					}				  
 					$query = $query . " ORDER BY p.data_ped DESC;";
 				 
-			  	}
+				}
+			  	if ($campo == "faturado"){
+					$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
+						  FROM tb_pedido AS p 
+						  INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
+						  ON p.id = i.id_ped
+						  INNER JOIN tb_empresa AS e 
+						  ON p.id_emp = e.id
+						  AND p.status = 'PAGO'";
+					  if($on){
+						  $query = $query . " AND p.data_ped >= '". $dat_ini ."'
+						  AND p.data_ped <= '". $dat_fin ."'";
+					  }				  
+					  $query = $query . " ORDER BY p.data_ped DESC;";
+				   
+				}
+					
 			  	else
 			  	if ($campo == "cod"){
 	              $query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
@@ -268,7 +285,7 @@
 												echo "<td> PED</td>";
 											}else{
 // NF AQUI												
-												echo "<td> <b>NF-".$status."</b></td>";
+												echo "<td> <b>FAT</b> </td>";
 											}
 										  }
 										  echo "<td>" . money_format('%=*(#0.2n',$fetch[7]) . "</td>";

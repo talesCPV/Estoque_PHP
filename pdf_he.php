@@ -69,7 +69,7 @@
             $pdf->Cell(15,5,money_format('%=*(#0.2n', $salario),0,0,"C");
             $pdf->Cell(15,5,"0082",0,0,"C");
             $pdf->Cell(25,5,"HE 100%",0,0,"L");
-            $pdf->Cell(10,5,$he100,0,0,"C");
+            $pdf->Cell(10,5,number_format($he100, 2, '.', ''),0,0,"C");
             $pdf->Cell(20,5,$tipo,0,0,"C");
             $pdf->Ln(5);
             $pdf->Cell(10,5,$id_func,0,0,"C");
@@ -78,7 +78,7 @@
             $pdf->Cell(15,5,money_format('%=*(#0.2n', $salario),0,0,"C");
             $pdf->Cell(15,5,"0106",0,0,"C");
             $pdf->Cell(25,5,"HE 100%+AD 20%",0,0,"L");
-            $pdf->Cell(10,5,$headn,0,0,"C");
+            $pdf->Cell(10,5,number_format($headn, 2, '.', ''),0,0,"C");
             $pdf->Cell(20,5,$tipo,0,0,"C");
             $pdf->Ln(5);
             $pdf->Cell(10,5,$id_func,0,0,"C");
@@ -87,7 +87,7 @@
             $pdf->Cell(15,5,money_format('%=*(#0.2n', $salario),0,0,"C");
             $pdf->Cell(15,5,"1182",0,0,"C");
             $pdf->Cell(25,5,"AD 20%",0,0,"L");
-            $pdf->Cell(10,5,$adn,0,0,"C");
+            $pdf->Cell(10,5,number_format($adn, 2, '.', ''),0,0,"C");
             $pdf->Cell(20,5,$tipo,0,0,"C");
             $pdf->Ln(5);
             $pdf->Cell(10,5,$id_func,0,0,"C");
@@ -96,7 +96,7 @@
             $pdf->Cell(15,5,money_format('%=*(#0.2n', $salario),0,0,"C");
             $pdf->Cell(15,5,"0106",0,0,"C");
             $pdf->Cell(25,5,"Faltas",0,0,"L");
-            $pdf->Cell(10,5,$faltas,0,0,"C");
+            $pdf->Cell(10,5,number_format($faltas, 2, '.', ''),0,0,"C");
             $pdf->Cell(20,5,$tipo,0,0,"C");
             $pdf->Ln(5);
 
