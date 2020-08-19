@@ -30,6 +30,7 @@
 	        <option value="aberto">Cotacoes</option>
 	        <option value="fechado">Pedidos</option>
 	        <option value="faturado">Faturados</option>
+	        <option value="interno">Uso Interno</option>
 	        <option value="cod">Codigo</option>
 	        <option value="num_ped">Numero</option>
 	        <option value="cod_prod">Cod. Produto</option>
@@ -222,8 +223,17 @@
 					  }				  
 					  $query = $query . " ORDER BY p.data_ped DESC;";
 				   
-				}
-					
+				}					
+			  	else
+			  	if ($campo == "interno"){
+					$query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
+						  FROM tb_pedido AS p 
+						  INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
+						  ON p.id = i.id_ped
+						  INNER JOIN tb_empresa AS e 
+						  ON p.id_emp = e.id
+						  AND p.status = 'INTERNO' ORDER BY p.data_ped DESC;";				   
+				}					
 			  	else
 			  	if ($campo == "cod"){
 	              $query =  "SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path
@@ -280,14 +290,16 @@
 								         "<td>" . date('d/m/Y', strtotime($fetch[4])) . "</td>";
 								         if ($fetch[6] == 'ABERTO'){
 								     	 	echo "<td> COT</td>";
-								     	 }else{
-											if ($fetch[6] == 'FECHADO'){
+								     	 }else if ($fetch[6] == 'FECHADO'){
 												echo "<td> PED</td>";
+											}else if($fetch[6] == 'INTERNO'){
+												echo "<td> <b>INT</b> </td>";
+												$fetch[7] = 0;
+
 											}else{
-// NF AQUI												
 												echo "<td> <b>FAT</b> </td>";
 											}
-										  }
+										  
 										  echo "<td>" . money_format('%=*(#0.2n',$fetch[7]) . "</td>";
 										  
 										  if($fetch[8] == null){ // Se não existe NF em PDF

@@ -22,14 +22,22 @@
       <div class="page_form">
 
         <?php                
-            if (IsSet($_POST["cod_serv"])){
-                $cod_serv = $_POST["cod_serv"];
+            if (IsSet($_POST["cod_serv"]) || IsSet($_COOKIE["cod_serv"])){
+              
+                if(IsSet($_POST["cod_serv"])){
+                  $cod_serv = $_POST["cod_serv"];
+                }else{
+                  $cod_serv = $_COOKIE["cod_serv"];
+                }
                     
                 include "conecta_mysql.inc";
                 if (!$conexao)
                     die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
                 $query =  "SELECT * FROM tb_servico WHERE id =". $cod_serv .";";
+
+//                echo $query."<br>";
+
 
                 $result = mysqli_query($conexao, $query);
 
@@ -141,7 +149,7 @@
                       </select></td><td>
                       <input type=\"text\" name=\"valor\" maxlength=\"12\"/></td><td>
                       <button id=\"botao_inline\" type=\"submit\">OK</button></td></tr>  </table>
-                      <input type='hidden' name='cod_prod' value='". $cod_serv ."'>
+                      <input type='hidden' name='cod_serv' value='". $cod_serv ."'>
                     </form>
                   </div>";
 
@@ -157,11 +165,11 @@
           $campo = $_POST ["campo"];
           $valor = $_POST ["valor"];
           if ($campo == "desc"){
-            $query =  "SELECT id, cod, descricao, unidade, tipo FROM tb_produto WHERE descricao LIKE '%".$valor."%' AND (tipo = 'CONJ' OR tipo = 'SERVICO') ORDER BY cod;";
+            $query =  "SELECT id, cod, descricao, unidade, tipo FROM tb_produto WHERE descricao LIKE '%".$valor."%' AND (tipo = 'CONJ' OR tipo = 'SERVICO' OR tipo = 'TINTA_E') ORDER BY cod;";
           }
           else
           if ($campo == "cod"){
-            $query =  "SELECT id, cod, descricao, unidade, tipo FROM tb_produto WHERE cod LIKE '".$valor."%' AND (tipo = 'CONJ' OR tipo = 'SERVICO') ORDER BY cod;";
+            $query =  "SELECT id, cod, descricao, unidade, tipo FROM tb_produto WHERE cod LIKE '".$valor."%' AND (tipo = 'CONJ' OR tipo = 'SERVICO' OR tipo = 'TINTA_E') ORDER BY cod;";
           }
           else
           if ($campo == "conj"){

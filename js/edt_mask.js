@@ -232,6 +232,22 @@ function verif_senha(param){ // verifica se as senhas coincidem (recebe um array
 
 //************** MANIPULAÇÃO DE DADOS **************//
 
+
+function queryDB(query) {        
+    var resp = '';
+    $.ajax({
+        url: 'ajax/ajax.php',
+        type: 'POST',
+        dataType: 'html',
+        data: query,
+        async: false,
+        success: function(data){
+            resp = jQuery.parseJSON( data );
+        }
+    });   
+    return resp;     
+}
+
 function getCookies(name){
 
     var ca = document.cookie.split(';');

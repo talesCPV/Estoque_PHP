@@ -76,8 +76,10 @@ $(document).ready(function(){
             if (confirm('Confirma a exclusão desta OF?')) {
                 var query = "query=DELETE FROM tb_item_serv WHERE id_serv = "+ id_of +";";
                 queryDB(query);
+
                 var query = "query=DELETE FROM tb_servico WHERE id = "+ id_of +";";
                 queryDB(query);
+
                 $('#frmRefresh').submit();    
 
             }

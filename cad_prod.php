@@ -60,7 +60,7 @@
           fclose($fp);
       ?>
       <label> Estoque </label>
-      <input type="text" name="estoque" maxlength="10" onkeyup="return float_number(this)"/>
+      <input type="text" name="estoque" maxlength="10" onkeyup="return float_number(this)" value="0"/>
       <label> Tipo </label>
       <select name="tipo" >";
         <option value="VENDA"> PRODUTO </option>"
@@ -69,7 +69,7 @@
         <option value="PIGMTO"> PIGMENTO </option>"
       </select>
       <label> Estoque Minimo </label>
-      <input type="text" name="est_min" maxlength="14" onkeyup="return float_number(this)"/>
+      <input type="text" name="est_min" maxlength="14" onkeyup="return float_number(this)" value="0"/>
       <label> Codigo do Produto</label>
       <input type="text" name="cod_bar" maxlength="15"/>
       <label> Codigo de Barras</label>
@@ -77,9 +77,9 @@
       <label> NCM </label>
       <input type="text" name="ncm" maxlength="8"/>
       <label> Preço de Compra R$</label>
-      <input type="text" name="compra" maxlength="15" onkeyup="return float_number(this)"/>
+      <input type="text" name="compra" maxlength="15" onkeyup="return float_number(this)" value="0"/>
       <label> Margem de Lucro %</label>
-      <input type="text" name="margem" maxlength="15" onkeyup="return float_number(this)"/>
+      <input type="text" name="margem" maxlength="15" onkeyup="return float_number(this)" value="100"/>
       <button type="submit" id="btnCadastrar" onclick="return obrigatorio(['edtDesc'])" >Cadastrar</button>
     </form>
   </div>

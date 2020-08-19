@@ -55,7 +55,7 @@ $(document).ready(function(){
         var tipo = $.trim($(this).children('td').slice(9, 10).text().toUpperCase());
         var id = $.trim($(this).children('td').slice(10, 11).text().toUpperCase());
 
-        if(cod_int < 7000){
+        if(cod_int < 7000 || tipo == 'TINTA_E'){
             var table = "<table><tr><td>Unidade</td><td>"+und+"</td></tr><tr><td>Estoque</td><td>"+etq+"</td></tr><tr><td>Cód. Fab</td><td>"+codprod+"</td></tr><tr><td>Custo</td><td>"+custo+"</td></tr><tr><td>Margem</td><td>"+margem+"%</td></tr><tr><td>Preço</td><td>"+preco+"</td></tr></table>";
         }else{
             var val = parseFloat(preco.substring(2,preco.length-3)+'.'+preco.substring(preco.length-2,preco.length)) ;
@@ -68,7 +68,7 @@ $(document).ready(function(){
         if ($(this).perm(classe,'edit')){
             Btn = "<table><tr><td><button id='btnEditar'>Editar</button><button id='btnDeletar'>Deletar</button>";
             
-            if(tipo == 'CONJ' || tipo == 'SERVICO'){
+            if(tipo == 'CONJ' || tipo == 'SERVICO' || tipo == 'TINTA_E'){
                 Btn += "<button id='btnSubconj'>Itens</button> ";
 
                 $(document).off('click', '#btnSubconj').on('click', '#btnSubconj', function() {

@@ -34,21 +34,6 @@ $(document).ready(function(){
         return (stay);
     }
 
-    function queryDB(query) {        
-        var resp = '';
-        $.ajax({
-            url: 'ajax/ajax.php',
-            type: 'POST',
-            dataType: 'html',
-            data: query,
-            async: false,
-            success: function(data){
-                resp = jQuery.parseJSON( data );
-            }
-        });   
-        return resp;     
-    }  
-
     var classe = getCookies('classe');
 
     if (!$(this).perm(classe,'open')){
@@ -107,7 +92,14 @@ $(document).ready(function(){
                     var yyyy = today.getFullYear();                    
                     today = yyyy + '-' + mm + '-' + dd;                    
 
-                    dados = "query=UPDATE tb_pedido  set status ='PAGO', data_ped = '"+ today +"' where num_ped = '"+num+"';";
+
+                    if(num.trim().toUpperCase() == 'USO INTERNO'){
+                        dados = "query=UPDATE tb_pedido  set status ='INTERNO' where num_ped = '"+num+"';";
+                    }else{
+                        dados = "query=UPDATE tb_pedido  set status ='PAGO', data_ped = '"+ today +"' where num_ped = '"+num+"';";
+                    }
+
+//                    alert(dados);
                     queryDB(dados);
                     $('#frmRefresh').submit();
                 });
@@ -124,7 +116,7 @@ $(document).ready(function(){
                 table += "<input type='hidden' name='cod' value='"+cod+"'>";
                 table += "<input type='hidden' name='eid' value='FB'>";                
                 table += "<input type='hidden' name='destino' value='venda'>";
-                table += "<button type='submit' id='btnUpload'>Upload</button></td></form></tr>";                                      
+                table += "<button type='submit' id='btnUpload'>Upload</button></td></tr>";                                      
             }
 
             Btn += "<button id='btnAnalisar'>Analisar</button></td><td><button id='btnVisualizar'>Visualizar</button><button id='btnDeletar'>Deletar</button>";           
@@ -164,7 +156,7 @@ $(document).ready(function(){
         }
 
         Btn +="</td></tr></table>";
-        table += "</table>";
+        table += "</form></table>";
         form += "<form id='frmRefresh' method='POST' action='#'></form>"
         $(".content").html(table+form+Btn);
         $('#popTitle').html(num);

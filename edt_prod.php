@@ -102,6 +102,7 @@
         <option <?php if(trim($tipo) == 'VENDA'){echo"selected";} ?> value="VENDA"> PRODUTO </option>"
         <option <?php if(trim($tipo) == 'SERVICO'){echo"selected";} ?> value="SERVICO"> SERVICO </option>"
         <option <?php if(trim($tipo) == 'TINTA'){echo"selected";} ?> value="TINTA"> TINTA </option>"
+        <option <?php if(trim($tipo) == 'TINTA_E'){echo"selected";} ?> value="TINTA_E"> TINTA PRONTA MODIFICADA</option>"
         <option <?php if(trim($tipo) == 'PIGMTO'){echo"selected";} ?> value="PIGMTO"> PIGMENTO </option>"
         <option <?php if(trim($tipo) == 'CONJ'){echo"selected";} ?> value="CONJ"> CONJUNTO </option>"     
       </select>

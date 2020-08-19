@@ -75,7 +75,7 @@
               die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
             $query = "INSERT INTO tb_produto ( descricao, estoque, etq_min, unidade, cod, cod_bar, id_emp, ncm, preco_comp, margem, tipo) 
-            VALUES ('$nome', '99', '0','LATA', '$cod', '$cod_bar', 16, '32081010', '$compra', '$margem', 'TINTA')";
+            VALUES ('$nome', '99', '0','1/4', '$cod', '$cod_bar', 16, '32081010', '$compra', '$margem', 'TINTA')";
             
             mysqli_query($conexao, $query);
             $conexao->close();
