@@ -35,7 +35,7 @@
       if (!$conexao)
         die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-        $query = "SELECT * from tb_produto where tipo = \"TINTA\" ORDER BY  cod";
+        $query = "SELECT * from tb_produto ORDER BY  cod";
         $result = mysqli_query($conexao, $query);
         $cod = 0;
 
