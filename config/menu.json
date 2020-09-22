@@ -30,6 +30,12 @@
 				    		"id": "menuCadEmp",
 						"perm": [10,4,3]
 					},
+					{
+						"nome": "Serviços Executados",
+						"link": "cad_serv.php",
+				    		"id": "menuCadServ",
+						"perm": [10,4,3]
+					},
 		 			{
 						"nome": "Agenda",
 						"link": "cad_agenda.php",
@@ -70,6 +76,12 @@
 						"perm": [10,4]
 					},
 		 			{
+						"nome": "Serviços Executados",
+						"link": "pesq_serv.php",
+				    		"id": "menuPesqServ",
+						"perm": [10,4,3]
+					},
+					{
 						"nome": "Agenda",
 						"link": "pesq_agenda.php",
 				    		"id": "menuPesqAgenda",
