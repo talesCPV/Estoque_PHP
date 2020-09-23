@@ -38,6 +38,7 @@
           <tr>
             <td> <input type="checkbox" id="ckbDatas" name="ckbDatas" ></td>
 			<td> <input type="date" name="data_exec" id="selData_Exec" value="<?php echo date('Y-m-d'); ?>"> </td>
+			<td> <input type="date" name="data_fin" id="selData_Fin" value="<?php echo date('Y-m-d'); ?>"> </td>
           </tr>
 
 		</table>
@@ -54,6 +55,7 @@
 			  	$campo = $_POST ["campo"];
 				$valor = $_POST ["valor"];
 				$data_exec = $_POST ["data_exec"];
+				$data_fin = $_POST ["data_fin"];
 
                 $query_opt = "";
 
@@ -69,7 +71,7 @@
                 }
 
                 if (IsSet($_POST ["ckbDatas"])){
-                    $query_opt = $query_opt . " AND s.data_exec = '". $data_exec ."'";
+                    $query_opt = $query_opt . " AND s.data_exec >= '". $data_exec ."' AND s.data_exec <= '". $data_fin ."'";
                 }
             
                   $query_opt = $query_opt . " order by data_exec";
@@ -93,12 +95,12 @@
 			                  <th>Cod.</th>
 			                  <th>Cliente</th>
 			                  <th>Carro</th>
-			                  <th>Data</th>
+			                  <th>Execução</th>
 			                  <th>NF</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
 
-					        	$cod_ped = $fetch[0];
+					        	$cliente = $fetch[1];
 
                                 echo "<tr class='tbl_row'>".
                                          "<td>" .$fetch[0] . "</td>".
@@ -120,6 +122,26 @@
 				$conexao->close();
 
 		    }
+
+			if ($qtd_lin > 0){
+		    	echo"
+			  	  <div class=\"page_form\" id= \"no_margin\">
+			  	  		<table class=\"search-table\"  border=\"0\">
+			  	  			<tr>
+			  	  				<td><form class=\"login-form\" method=\"POST\" action=\"pdf_serv.php\">
+			  	  					<input type=\"hidden\" name=\"query\" value=\"". $query ."\">
+			  	  					<input type=\"hidden\" name=\"cliente\" value=\"". $cliente ."\">
+			  	  					<input type=\"hidden\" name=\"ini\" value=\"". $data_exec ."\">
+			  	  					<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">
+			  	  					<button id=\"botao_inline\" type=\"submit\">Relatório</button>
+			  	  				</form></td>
+			  	  			</tr>
+			  	  		</table>
+			    	</form>
+
+
+				  </div>";
+			}	
 
 	  ?>
   	  
