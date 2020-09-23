@@ -29,6 +29,7 @@
 	        <option value="cli">Cliente</option>
 	        <option value="nf">NF</option>
 	        <option value="ped">Pedido</option>
+	        <option value="num">Numero do Carro</option>
 	    </select></td><td>
       <input type="text" name="valor" maxlength="12"/></td><td>
 	  <button id="botao_inline" type="submit">OK</button></td></tr>  </table>
@@ -37,10 +38,6 @@
           <tr>
             <td> <input type="checkbox" id="ckbDatas" name="ckbDatas" ></td>
 			<td> <input type="date" name="data_exec" id="selData_Exec" value="<?php echo date('Y-m-d'); ?>"> </td>
-          </tr>
-          <tr>
-            <td> <input type="checkbox" id="ckbNumCar" name="ckbNumCar" ></td>
-            <td> <input type="text" name="num_car" maxlength="15" id="edtNum" placeholder="Número do Carro"/></td>
           </tr>
 
 		</table>
@@ -57,7 +54,6 @@
 			  	$campo = $_POST ["campo"];
 				$valor = $_POST ["valor"];
 				$data_exec = $_POST ["data_exec"];
-                $num_car = $_POST ["num_car"];
 
                 $query_opt = "";
 
@@ -68,16 +64,14 @@
                     $query_opt = $query_opt . " AND s.nf LIKE '%".$valor."%'";
                 }else if($campo == "ped"){
                     $query_opt = $query_opt . " AND s.pedido LIKE '%".$valor."%'";
+                }else if($campo == "num"){
+                    $query_opt = $query_opt . " AND s.num_carro LIKE '%".$valor."%'";
                 }
 
                 if (IsSet($_POST ["ckbDatas"])){
                     $query_opt = $query_opt . " AND s.data_exec = '". $data_exec ."'";
                 }
-
-                if (IsSet($_POST ["ckbNumCar"])){
-                    $query_opt = $query_opt . " AND s.num_carro LIKE '%".$num_car."%'";
-                }                
-
+            
                   $query_opt = $query_opt . " order by data_exec";
 
                   $query =  "SELECT s.id, e.nome, s.num_carro, s.data_exec,  s.func, s.obs, s.nf, s.pedido
@@ -100,6 +94,7 @@
 			                  <th>Cliente</th>
 			                  <th>Carro</th>
 			                  <th>Data</th>
+			                  <th>NF</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
 
@@ -112,7 +107,7 @@
 								     	 "<td>" .date('d/m/Y', strtotime($fetch[3]))  . "</td>".
 								         "<td style='display: none;'>" . $fetch[4] . "</td>".
 								         "<td style='display: none;'>" . $fetch[5] . "</td>".
-								         "<td style='display: none;'>" . $fetch[6] . "</td>".
+								         "<td>" . $fetch[6] . "</td>".
                                          "<td style='display: none;'>" . $fetch[7] . "</td>";
 										  
 					        }
