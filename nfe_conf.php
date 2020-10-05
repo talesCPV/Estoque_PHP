@@ -772,10 +772,11 @@
 
             $texto = $texto . "YA\r\nYA01|1|15|".number_format(get_id("TOT"), 2, '.', '')."|\r\nZ||".$txt_comp."|\r\n";
 
-            $string_encoded = iconv( mb_detect_encoding( $texto ), 'UTF-8', $texto );
+//            $string_encoded = iconv( mb_detect_encoding( $texto ), 'UTF-8', $texto );
 
             $fp = fopen($NF, "w");
-            fwrite($fp, $string_encoded);
+//            fwrite($fp, $string_encoded);
+            fwrite($fp, $texto);
             fclose($fp);
 
           break;
