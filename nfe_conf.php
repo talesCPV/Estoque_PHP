@@ -774,9 +774,13 @@
 
 //            $string_encoded = iconv( mb_detect_encoding( $texto ), 'UTF-8', $texto );
 
+            $original =      array("Ã", "ã", "Á", "á", "Â", "â", "É", "é", "Ê", "ẽ", "Í", "í", "Ó", "ó", "Õ", "õ", "Ú", "ú", "Ç", "ç");
+            $substituido   = array("A", "a", "A", "a", "A", "a", "E", "e", "E", "e", "I", "i", "O", "o", "O", "o", "U", "u", "C", "c");
+            $string_encoded = str_replace($original, $substituido, $texto);
+
             $fp = fopen($NF, "w");
-//            fwrite($fp, $string_encoded);
-            fwrite($fp, $texto);
+            fwrite($fp, $string_encoded);
+//            fwrite($fp, $texto);
             fclose($fp);
 
           break;

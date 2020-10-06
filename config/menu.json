@@ -13,12 +13,6 @@
 						"perm": [10,4,3]
 					},
 		 			{
-						"nome": "Etiquetas",
-						"link": "cad_etq.php",
-				    		"id": "menuCadEtq",
-						"perm": [10,4,3]
-					},
-		 			{
 						"nome": "Produtos",
 						"link": "cad_prod.php",
 				    		"id": "menuCadProd",
@@ -82,12 +76,6 @@
 						"perm": [10,4,3]
 					},
 					{
-						"nome": "Agenda",
-						"link": "pesq_agenda.php",
-				    		"id": "menuPesqAgenda",
-						"perm": [10,4,3]
-					},
-					{
 						"nome": "Ordem de Fabr.",
 						"link": "pesq_of.php",
 				    		"id": "menuPesqOF",
@@ -103,6 +91,32 @@
 		 		  ]
 
 		},
+		{"modulo": "Ferramentas",
+			"link": "#",
+			"icone": "fa fa-globe",
+			"id": "menuFerramentas",
+			"perm": [10,4,3],
+			"itens": [	
+						{
+						   "nome": "PCP",
+						   "link": "pcp.php",
+						   "id": "menuPCP",
+						   "perm": [10,4]
+					   },
+					   {
+							"nome": "Etiquetas",
+							"link": "cad_etq.php",
+								"id": "menuCadEtq",
+							"perm": [10,4,3]
+						},					   
+					   {
+							"nome": "Agenda Comercial",
+							"link": "pesq_agenda.php",
+							"id": "menuPesqAgenda",
+							"perm": [10,4,3]
+						}
+					  ]
+		},		
 	 	{"modulo": "Financeiro",
 		 "link": "#",
 		 "icone": "fa fa-address-book",
