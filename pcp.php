@@ -86,8 +86,9 @@
                                 $suporte = $fetch[3];
                                 $costura = $fetch[4];
                                 $montagem = $fetch[5];                                
-                
-                                echo "<tr class='tbl_row'><td style='display: none;'> {$id}</td><td style='display: none;'> {$look_day}</td><th>{$days_week[$i]}</th><td>{$frente}</td><td>{$suporte}</td><td>{$costura}</td><td>{$montagem}</td></tr>";
+                                                
+
+                                echo "<tr class='tbl_row'  style='white-space: pre-line;'><td style='display: none;'> {$id}</td><td style='display: none;'> {$look_day}</td><th>{$days_week[$i]}</th><td>{$frente}</td><td>{$suporte}</td><td>{$costura}</td><td>{$montagem}</td></tr>";
                               }            
 
 						    echo"
@@ -107,8 +108,6 @@
             $costura = $_POST ["txtCostura"];
             $montagem = $_POST ["txtMontagem"];
             $data = $_POST ["hdn_data"];
-
-            echo $data;
 
             include "conecta_mysql.inc";
             if (!$conexao)
