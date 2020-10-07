@@ -34,7 +34,7 @@
 
 	  <?php
 
-	  		$qtd_lin = 0;
+
 		    if (IsSet($_POST ["check"])){
 
 				include "conecta_mysql.inc";
@@ -92,11 +92,21 @@
                               }            
 
 						    echo"
-						</table> 
+                </table> 
 
-				  </div>
-				  ";
-				$conexao->close();
+              </div>
+              ";
+            $conexao->close();
+            
+
+            echo"  <div class=\"page_form\" id=\"no_margin\">
+
+                    <form class='login-form' method='POST' action='pdf_pcp.php'>                                          
+                        <button class='botao_inline' type='submit'>Imprimir</button>
+                        <input type='hidden' name='hdnStart' value='{$new_dto->format('Y-m-d')}' >
+                    </form>
+
+                  </div>";
 
         }
         if (IsSet($_POST ["hdn_save"])){
