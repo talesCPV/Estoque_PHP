@@ -30,12 +30,6 @@
 				    		"id": "menuCadServ",
 						"perm": [10,4,3]
 					},
-		 			{
-						"nome": "Agenda",
-						"link": "cad_agenda.php",
-				    		"id": "menuCadAgenda",
-						"perm": [10,4,3]
-					},
 					{
 						"nome": "Ordem de Fabr.",
 						"link": "cad_of.php",

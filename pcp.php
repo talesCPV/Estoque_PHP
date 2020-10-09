@@ -24,10 +24,11 @@
 			
 			<table class="search-table"  border="0"><tr>
 				<td> <label> Selecione a Semana</label> </td>
-				<td> <input type="date" name="data_pcp" class="selData" value="<?php echo date('Y-m-d'); ?>"> </td></tr>                
-            </table>
-            <button class="botao_inline" type="submit">OK</button>
+				<td> <input type="date" name="data_pcp" class="selData" value="<?php echo date('Y-m-d'); ?>"> </td>           
+        <td> <button class="botao_inline" type="submit">OK</button> </td>
             <input type="hidden" name="check" value="1" >
+            </tr> 
+      </table>
 		
     	</form>
 	  </div>

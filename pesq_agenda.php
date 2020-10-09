@@ -20,19 +20,21 @@
   <div class="page_container">  
   	  <div class="page_form">
   	  	<p class="logo"> Agenda de Contatos</p> <br>
-  	  	<form class="login-form" method="POST" action="#">
-  	  		<table class="search-table"  border="0"><tr><td>
-  		  <label> Busca por: </label> </td><td>
-	      <select name="campo">
-	        <option selected="selected" value="nome">Nome</option>
-	        <option value="emp">Empresa</option>
-	        <option value="cod">Codigo</option>
-	    </select></td><td>
- 
-      <input type="text" name="valor" maxlength="12"/></td><td>
-	  <button class="botao_inline" type="submit">OK</button></td></tr>  </table>
+  	  	<form class="login-form" id="frmBusca" method="POST" action="#">
+  	  		<table class="search-table"  border="0"><tr>
+				<td><label> Busca por: </label> </td>
+				<td> <select name="campo">
+					<option selected="selected" value="nome">Nome</option>
+					<option value="emp">Empresa</option>
+					<option value="cod">Codigo</option>
+				</select> </td>
+				<td> <input type="text" name="valor" maxlength="12"/></td>
+				<td> <button class="botao_inline" type="submit">OK</button></td>
+				<td> <button class="botao_inline" id="btnNovo">Novo</button></td>
+				</tr>  	  
+	  		</table>
+		</form>
 
-    	</form>
 	  </div>
 
 	  <?php

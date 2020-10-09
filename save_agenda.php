@@ -1,6 +1,7 @@
 <?php 
 // RECEBENDO OS DADOS PREENCHIDOS DO FORMUL�RIO !
 $nome	= $_POST ["nome"];
+$emp	= $_POST ["emp"];
 $dep	= $_POST ["dep"];
 $email	= $_POST ["email"];
 $cel	= $_POST ["fone1"];
@@ -20,8 +21,10 @@ if (!$conexao)
 
 		if($_POST ["hidDel"] == '1'){
 			$query = "DELETE FROM tb_agenda WHERE id = '$id';";   
-		}else{
-			$query = "UPDATE tb_agenda SET  nome='$nome', email='$email' , cel1='$cel', cel2='$fone', depart='$dep' WHERE id = '$id';";   
+		}else if(($_POST ["hidDel"] == '2')){
+			$query = "UPDATE tb_agenda SET  nome='$nome', email='$email' , cel1='$cel', cel2='$fone', depart='$dep', id_emp='$emp' WHERE id = '$id';";   
+		}else {
+			$query = "INSERT INTO tb_agenda ( nome, email, cel1, cel2, id_emp, depart) VALUES ('$nome', '$email', '$cel', '$fone', '$emp', '$dep')";
 		}
 
 	}else{
