@@ -101,7 +101,7 @@
 						   "nome": "PCP",
 						   "link": "pcp.php",
 						   "id": "menuPCP",
-						   "perm": [10,4]
+						   "perm": [10,4,3]
 					   },
 					   {
 							"nome": "Etiquetas",

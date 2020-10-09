@@ -19,7 +19,7 @@
   </header>
   <div class="page_container">  
   	  <div class="page_form">
-  	  	<p class="logo"> Programação e Controle de Produção</p> <br>
+  	  	<p class="logo"> Planejamento e Controle de Produção</p> <br>
   	  	<form class="login-form" method="POST" action="#">
 			
 			<table class="search-table"  border="0"><tr>
@@ -69,27 +69,26 @@
 			                  <th>Montagem</th>
 							  </tr>";
 
+                          for($i=0; $i < 7; $i++){
+                            $look_day = $dto->format('Y-m-d');
+                            
+                            $dto->modify('+1 days');
 
-                              for($i=0; $i < 7; $i++){
-                                $look_day = $dto->format('Y-m-d');
-                                
-                                $dto->modify('+1 days');
+                            $query =  "SELECT * from tb_pcp WHERE data_serv = '{$look_day}'";
 
-                                $query =  "SELECT * from tb_pcp WHERE data_serv = '{$look_day}'";
+                            $result = mysqli_query($conexao, $query);
+                            $fetch = mysqli_fetch_row($result);
 
-                                $result = mysqli_query($conexao, $query);
-                                $fetch = mysqli_fetch_row($result);
+                            $id = $fetch[0];
+                            $dia = $fetch[1];
+                            $frente = $fetch[2];
+                            $suporte = $fetch[3];
+                            $costura = $fetch[4];
+                            $montagem = $fetch[5];                                
+                                            
 
-                                $id = $fetch[0];
-                                $dia = $fetch[1];
-                                $frente = $fetch[2];
-                                $suporte = $fetch[3];
-                                $costura = $fetch[4];
-                                $montagem = $fetch[5];                                
-                                                
-
-                                echo "<tr class='tbl_row'  style='white-space: pre-line;'><td style='display: none;'> {$id}</td><td style='display: none;'> {$look_day}</td><th>{$days_week[$i]}</th><td>{$frente}</td><td>{$suporte}</td><td>{$costura}</td><td>{$montagem}</td></tr>";
-                              }            
+                            echo "<tr class='tbl_row'  style='white-space: pre-line;'><td style='display: none;'> {$id}</td><td style='display: none;'> {$look_day}</td><th>{$days_week[$i]}</th><td>{$frente}</td><td>{$suporte}</td><td>{$costura}</td><td>{$montagem}</td></tr>";
+                          }            
 
 						    echo"
                 </table> 

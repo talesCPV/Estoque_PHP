@@ -52,10 +52,10 @@ $(document).ready(function(){
         var montagem = $.trim($(this).children('td').slice(5, 6).text().toUpperCase());
 
         var form = "<form id='frmPCP' method='POST' ><input type='hidden' name='id' value='"+id+"'><input type='hidden' name='hidDel' id='hidDel' value='0'>";
-        var table = "<table><tr><td>Equipe de Frente</td><td> <textarea id=\"txtFrente\" name=\"txtFrente\" rows=\"6\" cols=\"50\">"+ frente +"</textarea>  </td></tr>";
-        table = table + "<tr><td>Equipe de Suporte</td><td> <textarea id=\"txtSuporte\" name=\"txtSuporte\" rows=\"6\" cols=\"50\">"+ suporte +"</textarea>  </td></tr>";
-        table = table + "<tr><td>Costura</td><td> <textarea id=\"txtCostura\" name=\"txtCostura\" rows=\"6\" cols=\"50\">"+ costura +"</textarea>  </td></tr>";
-        table = table + "<tr><td>Montagem</td><td> <textarea id=\"txtMontagem\" name=\"txtMontagem\" rows=\"6\" cols=\"50\">"+ montagem +"</textarea>  </td></tr>";
+        var table = "<table><tr><td>Equipe de Frente</td><td> <textarea id=\"txtFrente\" name=\"txtFrente\" rows=\"6\" cols=\"45\" style=\"resize: none; text-transform: uppercase;\">"+ frente +"</textarea>  </td></tr>";
+        table = table + "<tr><td>Equipe de Suporte</td><td> <textarea id=\"txtSuporte\" name=\"txtSuporte\" rows=\"6\" cols=\"45\" style=\"resize: none; text-transform: uppercase;\">"+ suporte +"</textarea>  </td></tr>";
+        table = table + "<tr><td>Costura</td><td> <textarea id=\"txtCostura\" name=\"txtCostura\" rows=\"6\" cols=\"45\" style=\"resize: none; text-transform: uppercase;\">"+ costura +"</textarea>  </td></tr>";
+        table = table + "<tr><td>Montagem</td><td> <textarea id=\"txtMontagem\" name=\"txtMontagem\" rows=\"6\" cols=\"45\" style=\"resize: none; text-transform: uppercase;\">"+ montagem +"</textarea>  </td></tr>";
         var Btn = "<br>Acesso apenas p/ consulta<br><br>";
 
 
