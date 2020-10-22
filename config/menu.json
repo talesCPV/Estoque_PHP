@@ -104,9 +104,15 @@
 							"perm": [10,4,3]
 						},					   
 					   {
-							"nome": "Agenda Comercial",
+							"nome": "Agenda de Contatos",
 							"link": "pesq_agenda.php",
 							"id": "menuPesqAgenda",
+							"perm": [10,4,3]
+						},
+						{
+							"nome": "Calendário",
+							"link": "calendario.php",
+							"id": "menuCalendario",
 							"perm": [10,4,3]
 						}
 					  ]

@@ -226,9 +226,9 @@ body {
     color: #2E2E2E;
     padding: 10px;
     height: auto;
-    width: 2200px;  /* controla a largura da página (1200 é o normal) */
+    width: 1600px;  /* controla a largura da página (1200 é o normal) */
     background: rgb(255, 255, 255);
-    max-width: 800px;
+    max-width: 80%;
     margin: 100px auto 10px;
     padding: 20px 45px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
