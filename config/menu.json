@@ -114,7 +114,13 @@
 							"link": "calendario.php",
 							"id": "menuCalendario",
 							"perm": [10,4,3]
-						}
+						},
+						{
+							"nome": "Feriados",
+							"link": "feriados.php",
+								"id": "menuFeriados",
+							"perm": [10,4,1]
+						}						
 					  ]
 		},		
 	 	{"modulo": "Financeiro",
@@ -149,12 +155,6 @@
 							   "id": "menuCargos",
 						   "perm": [10,4,1]
 					   },
-					   {
-						"nome": "Feriados",
-						"link": "feriados.php",
-							"id": "menuFeriados",
-						"perm": [10,4,1]
-						},
 						{
 						   "nome": "Funcionários",
 						   "link": "funcionarios.php",

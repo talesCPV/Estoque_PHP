@@ -51,12 +51,12 @@
                   
                 $month = $data_pcp->format('m');
                 $next_month = $start_day->format('m');
-                $year = $data_pcp->format("Y");
+                $year = $data_pcp->format("Y");                
 
                 echo"  <div class=\"page_form\" id=\"no_margin\">
 
-                        <p class=\"logo\" id=\"lblPesq\"> ".strtoupper($user)." - {$month}/{$year} </p> <br>
-						<table class=\"search-table\" id=\"tabItens\" >   
+                        <p class=\"logo\" id=\"lblPesq\"> ".strtoupper($user)." - Mês {$month}/{$year} </p> <br>
+						<table class=\"search-tabl\" id=\"tabHoras\" >   
 			                <tr>
 			                  <th style='width: 5%;'>Dia</th>
 			                  <th>Agenda</th>
@@ -69,18 +69,40 @@
                             
                             $start_day->modify('+1 days');
                             $next_month = $start_day->format('m');
+                            $day = $start_day->format('d');
+                            $weekday = $start_day->format('w');
 
+
+                            $query =  "SELECT * FROM tb_feriados  WHERE dia=".substr($look_day, 8, 2)." AND mes=".substr($look_day, 5, 2)." ";
+                            $result = mysqli_query($conexao, $query);
+                            $feriado = $result->num_rows;
 
                             $query =  "SELECT * from tb_calendario WHERE id_user = '{$cod_user}' AND data_agd = '{$look_day}'";
 
                             $result = mysqli_query($conexao, $query);
                             $fetch = mysqli_fetch_row($result);
-
+                            
                             $id = $fetch[0];
                             $dia = $fetch[1];
                             $obs = $fetch[2];
-                            $hint = $fetch[3];
-                            echo "<tr class='tbl_row'><th>{$show_day}</th><td style='display: none;'>{$id}</td><td style='display: none;'>{$dia}</td><td>{$obs}</td><td style='display: none;'>{$hint}</td></tr>";
+                            $hint = $fetch[3];                  
+                  
+                            if($day % 2 == 0){
+                              $backcolor = '#EEE';
+                            }else{
+                              $backcolor = '#FFF';
+                            }
+
+                            if($weekday == 0 || $weekday == 1 || $feriado > 0){
+                              $backcolor = "#F5C5C6";
+                            }
+
+                            if($result->num_rows > 0){
+                              $backcolor = "#BCD0FE";
+                            }
+
+
+                            echo "<tr class='tbl_row' style='white-space: pre-line; background-color:{$backcolor}'; ><th title='{$hint}'>{$show_day}</th><td style='display: none;'>{$id}</td><td style='display: none;'>{$look_day}</td><td>{$obs}</td><td style='display: none;'>{$hint}</td></tr>";
 //                            echo "<tr class='tbl_row'  style='white-space: pre-line;'><td style='display: none;'> {$id}</td><td style='display: none;'> {$look_day}</td><th>{$days_week[$i]}</th><td>{$frente}</td><td>{$suporte}</td></tr>";
                           }            
 
@@ -92,39 +114,39 @@
             $conexao->close();
             
 
-            echo"  <div class=\"page_form\" id=\"no_margin\">
-
-                    <form class='login-form' method='POST' action='pdf_pcp.php'>                                          
-                        <button class='botao_inline' type='submit'>Imprimir</button>
-                        <input type='hidden' name='hdnStart' value='' >
-                    </form>
-
-                  </div>";
 
         }
         if (IsSet($_POST ["hdn_save"])){
           $save_opt = $_POST ["hdn_save"];
           
           if($save_opt == 1){
-            $frente = $_POST ["txtFrente"];
-            $suporte = $_POST ["txtSuporte"];
-            $costura = $_POST ["txtCostura"];
-            $montagem = $_POST ["txtMontagem"];
+            $obs = $_POST ["txtObs"];
+            $hint = $_POST ["txtHint"];
             $data = $_POST ["hdn_data"];
 
             include "conecta_mysql.inc";
             if (!$conexao)
             die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-
-            $query =  "INSERT INTO tb_pcp VALUES (DEFAULT, '{$data}','{$frente}','{$suporte}','{$costura}','{$montagem}') ON DUPLICATE KEY UPDATE
-            frente = '{$frente}', suporte = '{$suporte}', costura = '{$costura}', montagem = '{$montagem}' ";
+            $query =  "INSERT INTO tb_calendario VALUES ({$cod_user}, '{$data}','{$obs}','{$hint}') ON DUPLICATE KEY UPDATE
+            obs = '{$obs}', hint = '{$hint}' ";
 
             $result = mysqli_query($conexao, $query);
 
             $conexao->close();
 
+          }
+          if($save_opt == 2){
+            $data = $_POST ["hdn_data"];
 
+            include "conecta_mysql.inc";
+            if (!$conexao)
+            die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
+
+            $query =  "DELETE FROM tb_calendario WHERE id_user = '{$cod_user}' AND data_agd = '{$data}' ";
+            $result = mysqli_query($conexao, $query);
+
+            $conexao->close();
           }
 
 

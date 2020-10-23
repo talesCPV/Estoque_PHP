@@ -51,16 +51,16 @@
 
 
 			  	if ($campo == "nome"){
-			  		$query = "SELECT a.id, a.nome, a.depart, a.email, a.cel1, a.cel2, e.nome FROM tb_agenda a, tb_empresa e WHERE a.nome LIKE '%".$valor."%' AND a.id_emp = e.id ; ";
+			  		$query = "SELECT a.id, a.nome, a.depart, a.email, a.cel1, a.cel2, e.nome FROM tb_agenda a, tb_empresa e WHERE a.nome LIKE '%".$valor."%' AND a.id_emp = e.id ORDER BY e.nome; ";
 			  	}
 			  	else
 			  	if ($campo == "emp"){
-			  		$query =  "SELECT a.id, a.nome, a.depart, a.email, a.cel1, a.cel2, e.nome FROM tb_agenda AS a INNER JOIN tb_empresa AS e ON e.nome LIKE '%".$valor."%' AND a.id_emp = e.id ;";
+			  		$query =  "SELECT a.id, a.nome, a.depart, a.email, a.cel1, a.cel2, e.nome FROM tb_agenda AS a INNER JOIN tb_empresa AS e ON e.nome LIKE '%".$valor."%' AND a.id_emp = e.id ORDER BY e.nome;";
 			  	}
 
 			  	else
 			  	if ($campo == "cod"){
-			  		$query =  "SELECT a.id, a.nome, a.depart, a.email, a.cel1, a.cel2, e.nome FROM tb_agenda AS a INNER JOIN tb_empresa AS e ON a.id = ".$valor." AND a.id_emp = e.id ;";
+			  		$query =  "SELECT a.id, a.nome, a.depart, a.email, a.cel1, a.cel2, e.nome FROM tb_agenda AS a INNER JOIN tb_empresa AS e ON a.id = ".$valor." AND a.id_emp = e.id ORDER BY e.nome;";
 
 			  	}
 
@@ -74,6 +74,7 @@
 						<table class=\"search-table\" id=\"tabItens\" >
 						  	<tr>
 						    	<th>Nome</th>
+						    	<th>Celular</th>
 						    	<th>Telefone</th>
 						    	<th>Empresa</th>
 						  	</tr>";
@@ -86,7 +87,7 @@
 								         "<td>" .strtoupper($fetch[1]) . "</td>".
 								         "<td style='display: none;'>" .strtoupper($fetch[2]) . "</td>".
 								         "<td style='display: none;'>" .strtolower($fetch[3]) . "</td>".
-								     	 "<td style='display: none;'>" .strtoupper($fetch[4]) . "</td>".
+								     	 "<td>" .strtoupper($fetch[4]) . "</td>".
 								     	 "<td>" .strtoupper($fetch[5]) . "</td>".
 								     	 "<td>" .strtoupper($fetch[6]) . "</td></tr>";
 					        }

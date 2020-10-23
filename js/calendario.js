@@ -40,9 +40,8 @@ $(document).ready(function(){
         $(window.document.location).attr('href',$(this).urlPath(window.location.href) + 'main.php');
     }
 
-alert('ON')
-    // DUPLO CLIQUE NA TEBELA tabItens
-    $('#tabItens').on('dblclick','.tbl_row', function(){ // SELECIONANDO UM ÍTEM DA TABELA (DUPLO CLIQUE)
+    // DUPLO CLIQUE NA TEBELA tabHoras
+    $('#tabHoras').on('dblclick','.tbl_row', function(){ // SELECIONANDO UM ÍTEM DA TABELA (DUPLO CLIQUE)
 
         var dia = $.trim($(this).children('th').slice(0, 1).text().toUpperCase());
         var id = $.trim($(this).children('td').slice(0, 1).text().toUpperCase());
@@ -50,9 +49,9 @@ alert('ON')
         var obs = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
         var hint = $.trim($(this).children('td').slice(3, 4).text().toUpperCase());
 
-        var form = "<form id='frmPCP' method='POST' ><input type='hidden' name='id' value='"+id+"'><input type='hidden' name='hidDel' id='hidDel' value='0'>";
-        var table = "<table><tr><td>Agenda do dia</td><td> <textarea id=\"txtFrente\" name=\"txtFrente\" rows=\"6\" cols=\"45\" style=\"resize: none; text-transform: uppercase;\">"+ obs +"</textarea>  </td></tr>";
-        table = table + "<tr><td>Lembrete</td><td> <textarea id=\"txtSuporte\" name=\"txtSuporte\" rows=\"2\" cols=\"45\" style=\"resize: none; text-transform: uppercase;\">"+ hint +"</textarea>  </td></tr>";
+        var form = "<form id='frmAgenda' method='POST' ><input type='hidden' name='id' value='"+id+"'><input type='hidden' name='hidDel' id='hidDel' value='0'>";
+        var table = "<table><tr><td>Agenda do dia</td><td> <textarea id=\"txtFrente\" name=\"txtObs\" rows=\"6\" cols=\"45\" style=\"resize: none; text-transform: uppercase;\">"+ obs +"</textarea>  </td></tr>";
+        table = table + "<tr><td>Lembrete</td><td> <textarea id=\"txtSuporte\" name=\"txtHint\" rows=\"2\" cols=\"45\" style=\"resize: none; text-transform: uppercase;\">"+ hint +"</textarea>  </td></tr>";
         var Btn = "<br>Acesso apenas p/ consulta<br><br>";
 
 
@@ -66,21 +65,21 @@ alert('ON')
 
             $(document).off('click', '#btnSalvar').on('click', '#btnSalvar', function() {
                 $('#hdn_save').val('1');
-                $('#frmPCP').attr('action', '#');
-                $('#frmPCP').submit();
+                $('#frmAgenda').attr('action', '#');
+                $('#frmAgenda').submit();
             });
 
             $(document).off('click', '#btnDeletar').on('click', '#btnDeletar', function() {
                 $('#hdn_save').val('2');
                 if (confirm('Deseja remover este registro definitivamente do sistema?')) {
-                    $('#frmPCP').attr('action', '#');
-                    $('#frmPCP').submit();
+                    $('#frmAgenda').attr('action', '#');
+                    $('#frmAgenda').submit();
                 }
             });
         }
 
         $(".content").html(form + Btn);
-        $('#popTitle').html(dia+' - '+data.substring(8,10) +"/"+data.substring(5,7) +"/"+data.substring(4,0));
+        $('#popTitle').html(dia);
 
         $(".overlay").css("visibility", "visible").css("opacity", "1");  
 
