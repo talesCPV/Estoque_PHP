@@ -58,18 +58,19 @@
                         <p class=\"logo\" id=\"lblPesq\"> ".strtoupper($user)." - Mês {$month}/{$year} </p> <br>
 						<table class=\"search-tabl\" id=\"tabHoras\" >   
 			                <tr>
-			                  <th style='width: 5%;'>Dia</th>
-			                  <th>Agenda</th>
+			                  <th style='width: 80px;'>Dia</th>
+			                  <th style='width: 95%;'>Agenda</th>
 							  </tr>";
 
                             while($next_month == $month){
 
                             $look_day = $start_day->format('Y-m-d');
                             $show_day = $start_day->format('d/m/Y');
+                            $day = $start_day->format('d');
+                            $days_week = array("SAB","DOM","SEG","TER","QUA","QUI","SEX");
                             
                             $start_day->modify('+1 days');
                             $next_month = $start_day->format('m');
-                            $day = $start_day->format('d');
                             $weekday = $start_day->format('w');
 
 
@@ -102,7 +103,7 @@
                             }
 
 
-                            echo "<tr class='tbl_row' style='white-space: pre-line; background-color:{$backcolor}'; ><th title='{$hint}'>{$show_day}</th><td style='display: none;'>{$id}</td><td style='display: none;'>{$look_day}</td><td>{$obs}</td><td style='display: none;'>{$hint}</td></tr>";
+                            echo "<tr class='tbl_row' style='text-align: left; white-space: pre-line; background-color:{$backcolor}'; ><th title='{$hint}'>{$day}-{$days_week[$weekday]}</th><td style='display: none;'>{$id}</td><td style='display: none;'>{$look_day}</td><td>{$obs}</td><td style='display: none;'>{$hint}</td></tr>";
 //                            echo "<tr class='tbl_row'  style='white-space: pre-line;'><td style='display: none;'> {$id}</td><td style='display: none;'> {$look_day}</td><th>{$days_week[$i]}</th><td>{$frente}</td><td>{$suporte}</td></tr>";
                           }            
 

@@ -8,7 +8,8 @@
     <title>Hora Extra</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/horas.js"></script>
+    <!--<script src="js/funcoes.js"></script> -->
 </head>
 <body>
   <header>
@@ -227,7 +228,7 @@
 
 //								echo $nome_func[$i]." ".date("d/m/Y",$ent*3600)." HT:". $ht." HE:".$extra." NOT:".$noturno." HE+NOT:".$extra_noturno." Falta:".$falta_dia.   "<br>";
 								
-								echo "<td class='center_text'>".date("H:i",$ent*3600)."</td><td class='center_text'>".date("H:i",$sai*3600)."</td>"; 
+								echo "<td class='center_text' style='background-color:#BCD0FE;' >".date("H:i",$ent*3600)."</td><td class='center_text' style='background-color:#BCD0FE;' >".date("H:i",$sai*3600)."</td>"; 
 								break;
 							}
 
