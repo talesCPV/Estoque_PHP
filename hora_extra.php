@@ -226,9 +226,9 @@
 								$falta[$i] = $falta[$i] + $falta_dia;
 
 								if($falta_dia == 0){
-									$cor = "BCD0FE";
+									$cor = "BCD0FE"; // Azul claro
 								}else{
-									$cor = "E55064";
+									$cor = "E55064"; // Vermelho Claro
 								}
 
 

@@ -101,7 +101,13 @@
 
 			  	$result = mysqli_query($conexao, $query);
 
-			  	$qtd_lin = $result->num_rows;
+				$qtd_lin = $result->num_rows;
+				
+				if($qtd_lin == 0){
+					$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod = '".$valor."' AND p.id_emp = e.id ;";
+					$result = mysqli_query($conexao, $query);
+					$qtd_lin = $result->num_rows;
+				}
 
 
 

@@ -33,6 +33,7 @@
       $main_name = $e['modulo'];
       $main_perm = $e['perm'];
       $main_link = $e['link'];
+      
       if(in_array($classe, $main_perm)){
         echo"<li><a href='". $main_link ."'>". $main_name ."</a><ul>";
 
@@ -49,12 +50,15 @@
     echo"
 		    </nav>
 		    </div>
-		    <div class=\"top_bar_rigth\">".strtoupper($user);
+        
+		    <div class='top_bar_rigth'> <form method='POST' action='pesq_prod.php'> <input type='text' name='valor' /><input type='hidden' name='campo' value='desc'>  ".strtoupper($user);
+        
+
         if (IsSet($_COOKIE["mail_pass"])){
             echo " <a href=\"email.php\"><img src=\"img/small_mail.png\"></a>";
         }
      echo" <a href=\"profile.php\"><img src=\"img/small_gear.png\"></a> <a href=\"logout.php\"><img src=\"img/small_logout.png\"></a></div>
-
+        </form>
         </div>"; // fim do echo principal
 
 
