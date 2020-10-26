@@ -225,10 +225,16 @@
 								$he_an[$i] = $he_an[$i] + $extra_noturno;
 								$falta[$i] = $falta[$i] + $falta_dia;
 
+								if($falta_dia == 0){
+									$cor = "BCD0FE";
+								}else{
+									$cor = "E55064";
+								}
+
 
 //								echo $nome_func[$i]." ".date("d/m/Y",$ent*3600)." HT:". $ht." HE:".$extra." NOT:".$noturno." HE+NOT:".$extra_noturno." Falta:".$falta_dia.   "<br>";
 								
-								echo "<td class='center_text' style='background-color:#BCD0FE;' >".date("H:i",$ent*3600)."</td><td class='center_text' style='background-color:#BCD0FE;' >".date("H:i",$sai*3600)."</td>"; 
+								echo "<td class='center_text' style='background-color:#{$cor};' >".date("H:i",$ent*3600)."</td><td class='center_text' style='background-color:#{$cor};' >".date("H:i",$sai*3600)."</td>"; 
 								break;
 							}
 
