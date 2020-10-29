@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="js/funcoes.js"></script> 
 </head>
-<body>
+<body >
   <header>
     <?php
       include "menu.inc";
@@ -27,6 +27,7 @@
 
 
   <?php 
+                
 
   if (file_exists("lousa/".$user.".txt")) {
     echo"  <div class=\"page_form\" id=\"no_margin\">";

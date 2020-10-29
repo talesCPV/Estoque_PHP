@@ -2,6 +2,8 @@
     <script src="js/jqFunc.js"></script>                                                      
 
 <?php
+  session_start();
+
   include "valida.inc";
 //    if (!IsSet($_COOKIE["logado"])){ // Valida se o usuario esta logado
 //        header('Location: login.php');
@@ -9,16 +11,33 @@
 
   setlocale(LC_MONETARY,"pt_BR", "ptb");
 
-  if (IsSet($_COOKIE["classe"])){
-    $classe = $_COOKIE["classe"];
-    $user = $_COOKIE["usuario"];
+    $cor_menu =  '#f0f0f0';
+		$cor_barra =  '#f0f0f0';
+		$cor_fundo =  '#2e2e2e';
+		$cor_container =  '#ffffff';
+		$cor_botao =  '#2e2e2e';
+		$cor_fonte_menu =  '#2e2e2e';
+		$cor_fonte_cont =  '#2e2e2e';
+
+  if (IsSet($_SESSION["classe"])){
+    $classe = $_SESSION["classe"];
+    $user = $_SESSION["usuario"];
+    $cor_menu =  $_SESSION["cor_menu"] ;
+		$cor_barra =  $_SESSION["cor_barra"] ;
+		$cor_fundo =  $_SESSION["cor_fundo"] ;
+		$cor_container =  $_SESSION["cor_container"] ;
+		$cor_botao =  $_SESSION["cor_botao"] ;
+		$cor_fonte_menu =  $_SESSION["cor_fonte_menu"] ;
+		$cor_fonte_cont =  $_SESSION["cor_fonte_cont"] ;
+
+
   }
 	echo"
-		 <div class=\"top_bar\">
-		    <div class=\"top_bar_left\">
+		 <div style='background: {$cor_barra};' class=\"top_bar\">
+		    <div style='background: {$cor_barra};'class=\"top_bar_left\">
 		     <nav>
-		      <ul class=\"menu\">
-		      <li> <a href=\"main.php\"><img src=\"img/menu_logo.png\"></a> </li>";
+		      <ul class=\"menu\" >
+		      <li style='background: {$cor_menu};, color:{$cor_fonte_menu};'> <a href=\"main.php\" style='color: {$cor_fonte_menu};' ><img src=\"img/menu_logo.png\"></a> </li>";
 
 
     // LÊ O ARQUIVO MENU.JSON
@@ -35,11 +54,11 @@
       $main_link = $e['link'];
       
       if(in_array($classe, $main_perm)){
-        echo"<li><a href='". $main_link ."'>". $main_name ."</a><ul>";
+        echo"<li style='background: {$cor_menu};, color:{$cor_fonte_menu};'><a href='". $main_link ."'>". $main_name ."</a><ul>";
 
         foreach ($e['itens'] as $a ) {
           if(in_array($classe, $a['perm'])){
-            echo"<li><a href='". $a['link']."'>". $a['nome'] ."</a></li>";
+            echo"<li style='background: {$cor_menu};, color:{$cor_fonte_menu};'><a href='". $a['link']."'>". $a['nome'] ."</a></li>";
           }
         }
         echo("</ul></li>");
@@ -51,7 +70,7 @@
 		    </nav>
 		    </div>
         
-		    <div class='top_bar_rigth'> <form method='POST' action='pesq_prod.php'> <input type='text' name='valor' /><input type='hidden' name='campo' value='desc'>  ".strtoupper($user);
+		    <div style='background: {$cor_barra};, color:{$cor_fonte_menu};' class='top_bar_rigth'> <form method='POST' action='pesq_prod.php'> <input type='text' name='valor' /><input type='hidden' name='campo' value='desc'>  ".strtoupper($user);
         
 
         if (IsSet($_COOKIE["mail_pass"])){

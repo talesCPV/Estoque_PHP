@@ -93,7 +93,7 @@ $.fn.getText = function(path_file){
 }
 
 $.fn.getColor = function(){
-
+/*
 	//"config/".$user."_colors.txt"
 	dados = 'path=../config/' + $(this).getCookies('usuario') + '_colors.txt';
 
@@ -122,7 +122,7 @@ $.fn.getColor = function(){
 		}
 
 	});
-
+*/
 }
 
 

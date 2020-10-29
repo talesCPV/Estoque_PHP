@@ -37,11 +37,48 @@
         fwrite($fp, $texto);
         fclose($fp);
       }
+
       if (IsSet($_POST ["menu-color"])){
-        $texto = $_POST ["barra-color"] ."\r\n".$_POST ["background-color"] ."\r\n".$_POST ["btn0-color"]."\r\n".$_POST ["menu-color"]."\r\n".$_POST ["sel-color"]."\r\n".$_POST ["form-color"]."\r\n".$_POST ["fonte-color"];
+//        $texto = $_POST ["barra-color"] ."\r\n".$_POST ["background-color"] ."\r\n".$_POST ["btn0-color"]."\r\n".$_POST ["menu-color"]."\r\n".$_POST ["sel-color"]."\r\n".$_POST ["form-color"]."\r\n".$_POST ["fonte-color"];
+
+        $arquivo = "config/colors.json";
+        $fp = fopen($arquivo, "r");
+        $color_json = fread($fp, filesize($arquivo));
+        fclose($fp);
+      
+        $json_str = json_decode($color_json, true);
+
+        $json_str[$_SESSION["usuario"]] = array(
+                "barra" => "{$_POST ["barra-color"]}",
+                "menu" => "{$_POST ["menu-color"]}",
+                "fundo" => "{$_POST ["background-color"]}",
+                "container" => "{$_POST ["form-color"]}",
+                "botao" => "{$_POST ["btn0-color"]}",
+                "fonte_menu" => "{$_POST ["form-color"]}",
+                "fonte_container" => "{$_POST ["sel-color"]}"
+          );
+
+          echo $json_str["{$user}"]["menu"];
+
+          $cor_menu = $_POST ["menu-color"];
+          $_SESSION["cor_menu"] = $_POST ["menu-color"];
+          $_SESSION["cor_barra"] = $json_str["{$user}"]["barra"];
+          $_SESSION["cor_fundo"] = $json_str["{$user}"]["fundo"];
+          $_SESSION["cor_container"] = $json_str["{$user}"]["container"];
+          $_SESSION["cor_botao"] = $json_str["{$user}"]["botao"];
+          $_SESSION["cor_fonte_menu"] = $json_str["{$user}"]["fonte_menu"];
+          $_SESSION["cor_fonte_cont"] = $json_str["{$user}"]["fonte_container"];
+
+
+          $fp = fopen($arquivo, "w");
+          fwrite($fp, json_encode($json_str));
+          fclose($fp);
+
+/*
         $fp = fopen($color, "w");
         fwrite($fp, $texto);
         fclose($fp);
+*/        
      }
 
 
