@@ -54,20 +54,25 @@
                 "fundo" => "{$_POST ["background-color"]}",
                 "container" => "{$_POST ["form-color"]}",
                 "botao" => "{$_POST ["btn0-color"]}",
-                "fonte_menu" => "{$_POST ["form-color"]}",
-                "fonte_container" => "{$_POST ["sel-color"]}"
+                "fonte_menu" => "{$_POST ["sel-color"]}",
+                "fonte_container" => "{$_POST ["form-color"]}"
           );
 
-          echo $json_str["{$user}"]["menu"];
+          echo $json_str["{$user}"]["barra"]."<br>";
+          echo $json_str["{$user}"]["menu"]."<br>";
+          echo $json_str["{$user}"]["fundo"]."<br>";
+          echo $json_str["{$user}"]["container"]."<br>";
+          echo $json_str["{$user}"]["botao"]."<br>";
+          echo $json_str["{$user}"]["fonte_menu"]."<br>";
+          echo $json_str["{$user}"]["fonte_container"]."<br>";
 
-          $cor_menu = $_POST ["menu-color"];
           $_SESSION["cor_menu"] = $_POST ["menu-color"];
-          $_SESSION["cor_barra"] = $json_str["{$user}"]["barra"];
-          $_SESSION["cor_fundo"] = $json_str["{$user}"]["fundo"];
-          $_SESSION["cor_container"] = $json_str["{$user}"]["container"];
-          $_SESSION["cor_botao"] = $json_str["{$user}"]["botao"];
-          $_SESSION["cor_fonte_menu"] = $json_str["{$user}"]["fonte_menu"];
-          $_SESSION["cor_fonte_cont"] = $json_str["{$user}"]["fonte_container"];
+          $_SESSION["cor_barra"] = $_POST ["barra-color"];
+          $_SESSION["cor_fundo"] = $_POST ["background-color"];
+          $_SESSION["cor_container"] = $_POST ["form-color"];
+          $_SESSION["cor_botao"] = $_POST ["btn0-color"];
+          $_SESSION["cor_fonte_menu"] = $_POST ["sel-color"];
+          $_SESSION["cor_fonte_cont"] = $_POST ["form-color"];
 
 
           $fp = fopen($arquivo, "w");
@@ -82,16 +87,25 @@
      }
 
 
-     if(file_exists ($color)){
-       $fp = fopen($color, "a+");
-       $barra = fgets($fp,4096);
-       $back = fgets($fp,4096);
-       $btn0 = fgets($fp,4096);
-       $menu = fgets($fp,4096);
-       $menuSel = fgets($fp,4096);
-       $form = fgets($fp,4096);
-       $fonte = fgets($fp,4096);
-       fclose($fp);
+     $arquivo = "config/colors.json";
+
+     if(file_exists ($arquivo)){    
+       
+      
+      $fp = fopen($arquivo, "r");
+      $color_json = fread($fp, filesize($arquivo));
+      fclose($fp);
+
+      $json_str = json_decode($color_json, true);
+
+       $barra = $json_str["{$user}"]["barra"];
+       $back = $json_str["{$user}"]["fundo"];
+       $btn0 = $json_str["{$user}"]["botao"];
+       $menu = $json_str["{$user}"]["menu"];
+       $menuSel = $json_str["{$user}"]["fonte_menu"];
+       $form = $json_str["{$user}"]["container"];
+       $fonte = $json_str["{$user}"]["fonte_container"];
+
      }else{
       $barra = '#f0f0f0';
       $back =  '#2e2e2e';
