@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/edt_mask.js"></script>
 </head>
-<body>
+<body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
     <?php
       include "menu.inc";

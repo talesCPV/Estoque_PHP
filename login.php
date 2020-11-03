@@ -7,7 +7,6 @@
     <script src="js/funcoes.js"></script>
 </head>
 <body>
-
 <div class="login-page">
   <div class="form">
     <p class="logo"> <a href="https://www.flexibus.com.br"><img src="img/logo.png"></a></p> <br>

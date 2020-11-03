@@ -1,3 +1,6 @@
+<?php
+  include "valida.inc";
+?>
 <!DOCTYPE HTML>
 <html lang="pt-br">
 <head>
@@ -7,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/funcoes.js"></script>
 </head>
-<body>
+<body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
 
 
   <header>
@@ -39,7 +42,6 @@
       }
 
       if (IsSet($_POST ["menu-color"])){
-//        $texto = $_POST ["barra-color"] ."\r\n".$_POST ["background-color"] ."\r\n".$_POST ["btn0-color"]."\r\n".$_POST ["menu-color"]."\r\n".$_POST ["sel-color"]."\r\n".$_POST ["form-color"]."\r\n".$_POST ["fonte-color"];
 
         $arquivo = "config/colors.json";
         $fp = fopen($arquivo, "r");
@@ -55,16 +57,8 @@
                 "container" => "{$_POST ["form-color"]}",
                 "botao" => "{$_POST ["btn0-color"]}",
                 "fonte_menu" => "{$_POST ["sel-color"]}",
-                "fonte_container" => "{$_POST ["form-color"]}"
+                "fonte_container" => "{$_POST ["fonte-color"]}"
           );
-
-          echo $json_str["{$user}"]["barra"]."<br>";
-          echo $json_str["{$user}"]["menu"]."<br>";
-          echo $json_str["{$user}"]["fundo"]."<br>";
-          echo $json_str["{$user}"]["container"]."<br>";
-          echo $json_str["{$user}"]["botao"]."<br>";
-          echo $json_str["{$user}"]["fonte_menu"]."<br>";
-          echo $json_str["{$user}"]["fonte_container"]."<br>";
 
           $_SESSION["cor_menu"] = $_POST ["menu-color"];
           $_SESSION["cor_barra"] = $_POST ["barra-color"];
@@ -72,18 +66,13 @@
           $_SESSION["cor_container"] = $_POST ["form-color"];
           $_SESSION["cor_botao"] = $_POST ["btn0-color"];
           $_SESSION["cor_fonte_menu"] = $_POST ["sel-color"];
-          $_SESSION["cor_fonte_cont"] = $_POST ["form-color"];
+          $_SESSION["cor_fonte_cont"] = $_POST ["fonte-color"];
 
 
           $fp = fopen($arquivo, "w");
           fwrite($fp, json_encode($json_str));
           fclose($fp);
-
-/*
-        $fp = fopen($color, "w");
-        fwrite($fp, $texto);
-        fclose($fp);
-*/        
+     
      }
 
 
@@ -120,7 +109,7 @@
   </header>
 
 <div class="page_container">  
-  <div class="page_form">
+  <div class="page_form" <?php echo" style='background: {$_SESSION["cor_container"]}; color: {$_SESSION["cor_fonte_cont"]} ;' "; ?>>
     <p class="logo"> Configuracao</p> <br>
     <form class="login-form" name="cadastro" method="POST" action="#" onsubmit="return validaCampo(); return false;">
       <label> Unidades de Medida </label>

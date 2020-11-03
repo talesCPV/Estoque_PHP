@@ -11,7 +11,7 @@
     <script src="js/horas.js"></script>
     <!--<script src="js/funcoes.js"></script> -->
 </head>
-<body>
+<body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
     <?php
       include "menu.inc";

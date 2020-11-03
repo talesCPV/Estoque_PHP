@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="js/funcoes.js"></script>
 </head>
-<body>
+<body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
 
     <?php

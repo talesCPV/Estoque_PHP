@@ -1,5 +1,12 @@
 {
 	"menu": [
+		{"modulo": "Flexibus",
+		"link": "main.php",
+		"icone": "fa fa-home",
+		"id": "menuHome",
+		"perm": [10,4,3,2,1],
+		"itens": []
+		},
 	 	{"modulo": "Cadastro",
 		 "link": "#",
 		 "icone": "fa fa-edit",
@@ -9,37 +16,43 @@
 		 			{
 						"nome": "Tintas",
 						"link": "cad_tinta.php",
-				    		"id": "menuCadTinta",
+						"id": "menuCadTinta",
+						"icone": "fa fa-tint",
 						"perm": [10,4,3]
 					},
 		 			{
 						"nome": "Produtos",
 						"link": "cad_prod.php",
-				    		"id": "menuCadProd",
+						"id": "menuCadProd",
+						"icone": "fa fa-archive",
 						"perm": [10,4,3]
 					},
 		 			{
 						"nome": "Empresas",
 						"link": "cad_emp.php",
-				    		"id": "menuCadEmp",
+						"id": "menuCadEmp",
+						"icone": "fa fa-industry",
 						"perm": [10,4,3]
 					},
 					{
-						"nome": "Serviços Executados",
+						"nome": "Serv. Executados",
 						"link": "cad_serv.php",
-				    		"id": "menuCadServ",
+						"id": "menuCadServ",
+						"icone": "fa fa-bus",
 						"perm": [10,4,3]
 					},
 					{
 						"nome": "Ordem de Fabr.",
 						"link": "cad_of.php",
-				    		"id": "menuCadOF",
+						"id": "menuCadOF",
+						"icone": "fa fa-wrench",
 						"perm": [10,4]
 					},
 		 			{
 						"nome": "Usuário",
 						"link": "cad_user.php",
-				    		"id": "menuCadUser",
+						"id": "menuCadUser",
+						"icone": "fa fa-user",
 						"perm": [10]
 					}
 		 		  ]
@@ -54,31 +67,36 @@
 		 			{
 						"nome": "Produtos",
 						"link": "pesq_prod.php",
-				    		"id": "menuPesqProd",
+						"id": "menuPesqProd",
+						"icone": "fa fa-archive",
 						"perm": [10,4,3]
 					},
 		 			{
 						"nome": "Empresas",
 						"link": "pesq_emp.php",
-				    		"id": "menuPesqEmp",
+						"id": "menuPesqEmp",
+						"icone": "fa fa-industry",
 						"perm": [10,4]
 					},
 		 			{
-						"nome": "Serviços Executados",
+						"nome": "Serv. Executados",
 						"link": "pesq_serv.php",
-				    		"id": "menuPesqServ",
+						"id": "menuPesqServ",
+						"icone": "fa fa-bus",
 						"perm": [10,4,3]
 					},
 					{
 						"nome": "Ordem de Fabr.",
 						"link": "pesq_of.php",
-				    		"id": "menuPesqOF",
+						"id": "menuPesqOF",
+						"icone": "fa fa-wrench",
 						"perm": [10,4]
 					},
 		 			{
 						"nome": "Usuários",
 						"link": "#",
-				    		"id": "menuPesqUser",
+						"id": "menuPesqUser",
+						"icone": "fa fa-user",						
 						"perm": [10]
 					}
 	
@@ -87,7 +105,7 @@
 		},
 		{"modulo": "Ferramentas",
 			"link": "#",
-			"icone": "fa fa-globe",
+			"icone": "fa fa-wrench",
 			"id": "menuFerramentas",
 			"perm": [10,4,3],
 			"itens": [	
@@ -95,123 +113,137 @@
 						   "nome": "PCP",
 						   "link": "pcp.php",
 						   "id": "menuPCP",
+						   "icone": "fa fa-bar-chart",
 						   "perm": [10,4,3]
 					   },
 					   {
 							"nome": "Etiquetas",
 							"link": "cad_etq.php",
-								"id": "menuCadEtq",
+							"id": "menuCadEtq",
+							"icone": "fa fa-tag",
 							"perm": [10,4,3]
 						},					   
 					   {
 							"nome": "Agenda de Contatos",
 							"link": "pesq_agenda.php",
 							"id": "menuPesqAgenda",
+							"icone": "fa fa-address-book",
 							"perm": [10,4,3]
 						},
 						{
 							"nome": "Calendário",
 							"link": "calendario.php",
 							"id": "menuCalendario",
+							"icone": "fa fa-calendar-check-o",
 							"perm": [10,4,3]
 						},
 						{
 							"nome": "Feriados",
 							"link": "feriados.php",
-								"id": "menuFeriados",
+							"id": "menuFeriados",
+							"icone": "fa fa-bed",
 							"perm": [10,4,1]
 						}						
 					  ]
 		},		
 	 	{"modulo": "Financeiro",
 		 "link": "#",
-		 "icone": "fa fa-address-book",
+		 "icone": "fa fa-usd",
 		 "id": "menuFinanceiro",
 		 "perm": [10,4,1],
 		 "itens": [	
 		 			{
 						"nome": "Lançamentos",
 						"link": "cad_lanc.php",
-				    		"id": "menuCotNova",
+						"id": "menuCotNova",
+						"icone": "fa fa-credit-card",
 						"perm": [10,4]
 					},
 		 			{
 						"nome": "Análise",
 						"link": "pesq_anafin.php",
-				    		"id": "menuCotBusca",
+						"id": "menuCotBusca",
+						"icone": "fa fa-bar-chart",
 						"perm": [10,4,1]
 					}
 		 		  ]
 		},
 		{"modulo": "RH",
 			"link": "#",
-			"icone": "fa fa-address-book",
+			"icone": "fa fa-user",
 			"id": "menuFinanceiro",
 			"perm": [10,4,1],
 			"itens": [	
 						{
 						   "nome": "Cargos e Funções",
 						   "link": "cargos.php",
-							   "id": "menuCargos",
+							"id": "menuCargos",
+							"icone": "fa fa-briefcase",
 						   "perm": [10,4,1]
 					   },
 						{
 						   "nome": "Funcionários",
 						   "link": "funcionarios.php",
-							   "id": "menuFuncionarios",
+							"id": "menuFuncionarios",
+							"icone": "fa fa-users",
 						   "perm": [10,4,1]
 					    },
 						{
-							 "nome": "Horas",
-							 "link": "hora_extra.php",
-								 "id": "menuHoraExtra",
-							 "perm": [10,4,1]
+							"nome": "Horas",
+							"link": "hora_extra.php",
+							"id": "menuHoraExtra",
+							"icone": "fa fa-clock-o",
+							"perm": [10,4,1]
 						 }					   
 					   ]
 		   },		
 	 	{"modulo": "Cotações e Pedidos",
 		 "link": "#",
-		 "icone": "fa fa-shopping-cart",
+		 "icone": "fa fa-line-chart",
 		 "id": "menuCompras",
-		 "perm": [10,4,3],
+		 "perm": [10,4,3,1],
 		 "itens": [	
 		 			{
 						"nome": "Nova Cotação",
 						"link": "cad_ped.php",
-				    		"id": "menuNovaCot",
+						"id": "menuNovaCot",
+						"icone": "fa fa-handshake-o",
 						"perm": [10,4,3]
 					},
 		 			{
 						"nome": "Pesquisa",
 						"link": "pesq_ped.php",
-				    		"id": "menuPesqCot",
-						"perm": [10,4,3]
+						"id": "menuPesqCot",
+						"icone": "fa fa-search",
+						"perm": [10,4,3,1]
 					}
 		 		  ]
 		},
 	 	{"modulo": "Compras",
 		 "link": "#",
-		 "icone": "fa fa-globe",
+		 "icone": "fa fa-shopping-cart",
 		 "id": "menuCompras",
-		 "perm": [10,4,3],
+		 "perm": [10,4,3,1],
 		 "itens": [	
 		 			{
 						"nome": "Nova NF",
 						"link": "cad_ent.php",
 				    	"id": "menuNFConfig",
+						"icone": "fa fa-file-powerpoint-o",
 						"perm": [10,4]
 					},
 		 			{
 						"nome": "Pesquisa",
 						"link": "pesq_ent.php",
 				    	"id": "menuNFGerar",
-						"perm": [10,4,3]
+						"icone": "fa fa-search",
+						"perm": [10,4,3,1]
 					}
 		 		  ]
 		},
 	 	{"modulo": "NFe",
 		 "link": "#",
-		 "icone": "fa fa-globe",
+		 "icone": "fa fa-print",
 		 "id": "menuNF",
 		 "perm": [10,4],
 		 "itens": [	
@@ -219,19 +251,21 @@
 						"nome": "Configurações",
 						"link": "nfe_conf.php",
 				    	"id": "menuNFConfig",
+						"icone": "fa fa-pencil-square-o",
 						"perm": [10,4]
 					},
 		 			{
 						"nome": "Exportar",
 						"link": "gera_NFe.php",
 				    	"id": "menuNFGerar",
+						"icone": "fa fa-external-link",
 						"perm": [10,4]
 					}
 		 		  ]
 		},
 	 	{"modulo": "Preferências",
 		 "link": "config.php",
-		 "icone": "fa fa-globe",
+		 "icone": "fa fa-cogs",
 		 "id": "menuNF",
 		 "perm": [10,4,3,2,1],
 		 "itens": []
@@ -239,7 +273,7 @@
 	],
 	"access": [
 		{"url": "pesq_ped.php",
-		"open": [10,4,3],
+		"open": [10,4,3,1],
 		"edit": [10,4,3]
 		},
 		{"url": "pesq_prod.php",
@@ -255,8 +289,8 @@
 		"edit": [10,4]
 		},
 		{"url": "pesq_ent.php",
-			"open": [10,4,3],
-			"edit": [10,4]
+		"open": [10,4,3,1],
+		"edit": [10,4]
 		},		
 		{"url": "cad_lanc.php",
 		"open": [10,4],
@@ -282,9 +316,13 @@
 		"open": [10,4,3],
 		"edit": [10,4,3]
 		},
+		{"url": "cad_user.php",
+		"open": [10],
+		"edit": [10]
+		},
 		{"url": "hora_extra.php",
-			"open": [10,4,1],
-			"edit": [10,4]
-			}
+		"open": [10,4,1],
+		"edit": [10,4]
+		}
 		]		
 }

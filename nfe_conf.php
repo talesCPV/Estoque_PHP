@@ -1,3 +1,6 @@
+<?php
+  include "valida.inc";
+?>
 <!DOCTYPE HTML>
 <html lang="pt-br">
 <head>
@@ -7,9 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/funcoes.js"></script>
 </head>
-<body>
-
-
+<body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
     <?php
       include "menu.inc";

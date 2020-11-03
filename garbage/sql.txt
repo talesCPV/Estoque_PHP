@@ -1,0 +1,112 @@
+use flexib52_db_estoque;
+
+show tables;
+
+create table tb_usuario(
+	id INT NOT NULL AUTO_INCREMENT,
+    user VARCHAR(12) NOT NULL,
+    pass VARCHAR(12) NOT NULL,
+    class INT,
+    PRIMARY KEY(ID)
+)DEFAULT CHARSET=UTF8;
+
+create table tb_empresa(
+	id INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    cnpj VARCHAR(14),
+    ie VARCHAR(14),
+    endereco VARCHAR(60),
+    cidade VARCHAR(30),
+    estado VARCHAR(2),
+    tipo VARCHAR(3),
+    tel VARCHAR(14),
+    cep VARCHAR(10),
+    PRIMARY KEY(ID)
+)DEFAULT CHARSET=UTF8;
+
+create table tb_agenda(
+	id INT NOT NULL AUTO_INCREMENT,
+    id_emp INT NOT NULL,
+    nome VARCHAR(40) NOT NULL,
+    email VARCHAR(70),
+    cel1 VARCHAR(14),
+    cel2 VARCHAR(14),
+    PRIMARY KEY(ID),
+    FOREIGN KEY(id_emp) REFERENCES tb_empresa(id)
+)DEFAULT CHARSET=UTF8;
+
+create table tb_produto(
+	id INT NOT NULL AUTO_INCREMENT,
+    id_emp INT NOT NULL,
+    descricao VARCHAR(80) NOT NULL,
+    estoque DOUBLE NOT NULL DEFAULT 0,
+    etq_min DOUBLE NOT NULL DEFAULT 0,
+    unidade VARCHAR(10),
+    cod VARCHAR(15) not null UNIQUE,
+    cod_bar VARCHAR(15),
+    PRIMARY KEY(ID),
+    FOREIGN KEY(id_emp) REFERENCES tb_empresa(id)
+)DEFAULT CHARSET=UTF8;
+
+create table tb_pedido(
+	id INT NOT NULL AUTO_INCREMENT,
+    id_emp INT NOT NULL,
+    data_ped DATE,
+    data_ent DATE,
+    id_resp INT,
+    comprador VARCHAR(30),
+    num_ped VARCHAR(15),
+    PRIMARY KEY(ID),
+    FOREIGN KEY(id_emp) REFERENCES tb_empresa(id)
+)DEFAULT CHARSET=UTF8;
+
+create table tb_item_ped(
+	id INT NOT NULL AUTO_INCREMENT,
+    id_prod INT NOT NULL,
+    id_ped INT,
+    PRIMARY KEY(ID),
+    FOREIGN KEY(id_prod) REFERENCES tb_produto(id),
+    FOREIGN KEY(id_ped) REFERENCES tb_pedido(id)
+
+)DEFAULT CHARSET=UTF8;
+
+
+drop table tb_usuarios;
+
+drop table tb_agenda;
+
+drop table tb_produto;
+
+drop table tb_empresa;
+
+select * from tb_usuario;
+
+select * from tb_produto;
+
+select * from tb_empresa;
+
+select * from tb_agenda;
+
+INSERT INTO td_fornecedor ( nome, endereco, cidade, cep, cnpj, ie) VALUES ('1', 'Rua Doutor Rosalvo de Almeida Telles', 'Cacapava', '12286-010', '005195470001', '1234567899');
+  
+delete from td_fornecedor where id = 1;  
+
+select p.descricao, f.nome from tb_produto p, tb_empresa f where p.id_emp = f.id;
+
+select p.cod, p.descricao, p.unidade, f.nome, p.estoque, p.etq_min, p.cod_bar from tb_produto p, tb_empresa f where p.id_emp = f.id;
+
+SELECT a.nome, f.nome, a.email, a.cel FROM tb_agenda a, tb_empresa f WHERE a.id_emp = f.id;
+
+SELECT p.descricao, f.nome, p.unidade, p.estoque, p.etq_min, p.cod, p.cod_bar FROM tb_produto p, tb_empresa f WHERE p.id_emp = f.id;
+
+SELECT p.descricao, f.nome, p.unidade, p.estoque, p.etq_min, p.cod, p.cod_bar FROM tb_produto p, tb_empresa f WHERE p.id_emp = f.id and descricao='cola';
+
+SELECT * FROM tb_produto where descricao='cola';
+
+SELECT * FROM tb_empresa WHERE id = 4; 
+
+SELECT * FROM tb_produto WHERE id = 4; 
+
+delete from tb_produto where id = 4;  
+
+UPDATE tb_produto SET descricao = "teste 1 ", estoque = " ", etq_min = " ", unidade = " ", cod = " ", cod_bar = " ", id_emp = " " WHERE id = "2" ; 

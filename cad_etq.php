@@ -11,9 +11,7 @@
     <script src="js/edt_mask.js"></script> 
     <script src="js/cad_etq.js"></script> 
 </head>
-<body>
-
-
+<body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
     <?php
       include "menu.inc";
