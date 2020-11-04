@@ -60,7 +60,7 @@
 
         while($fetch = mysqli_fetch_row($result)){
             echo $fetch[1] . "<br>";
-            echo "<option value=\"". $fetch[0] ."\">". $fetch[1] ."</option>";
+            echo "<option value=\"". $fetch[0] ."\">". str_pad($fetch[0],3,'0', STR_PAD_LEFT)." - ". strtoupper($fetch[1]) ."</option>";
         }
 
             echo "</select> </td>";

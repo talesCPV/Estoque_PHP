@@ -6,7 +6,8 @@
 <head>
   <meta charset="UTF-8">
     <title>Pedido de Compra</title>
-    <link rel="stylesheet" type="text/css"  href="estilo.css" />
+    <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/funcoes.js"></script>
 
 </head>
@@ -15,6 +16,7 @@
 
     <?php
       include "menu.inc";
+
       if (IsSet($_POST ["cod_ped"])){
 
         $cod_ped = $_POST ["cod_ped"];
