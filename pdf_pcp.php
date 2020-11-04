@@ -11,7 +11,7 @@
     function print_line($pdf,$text,$space){
         $text = strtoupper("* ".$text);
         $width = 42;
-        while(strlen($text) > $width){
+        while(strlen(trim($text)) > $width){
             $line =  substr($text,0,$width);
             $text =  substr($text,$width);
             $pdf->Cell($space,5,"",0,0,"L");
@@ -19,7 +19,9 @@
             $pdf->Ln(4);
         }
         $pdf->Cell($space,5,"",0,0,"L");
-        $pdf->Cell(30,5,$text,0,0,"L");
+//        if(strlen(trim($text)) > 0){
+            $pdf->Cell(30,5,$text,0,0,"L");
+//        }
         $pdf->Ln(4);
 
     }
