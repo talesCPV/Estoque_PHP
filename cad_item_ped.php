@@ -9,7 +9,8 @@
      <!-- Aqui chamamos o nosso arquivo css externo -->
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/cad_item_ped.js"></script>
+    <script src="js/edt_mask.js"></script>
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -29,7 +30,7 @@
               if (!$conexao)
                   die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-              $query =  "SELECT p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, p.id
+              $query =  "SELECT p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, p.id, e.cidade, e.estado
                          FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                          ON p.id = '". $cod_ped ."' AND p.id_emp = e.id ;";
 
@@ -42,6 +43,8 @@
                   $comp = $fetch[2];
                   $data_ped = $fetch[3];
                   $data_ent = $fetch[4];
+                  $cidade = $fetch[7];
+                  $estado = $fetch[8];
                   if($fetch[5] == 'ABERTO'){
                     $status = 'Cotacao';
                   }else{
@@ -56,7 +59,7 @@
 
 
         <p class="logo"><?php echo$status; ?></p> <br>
-          <table class="search-table">
+          <table class="search-table" id="pedido" >
                 <tr>
                   <th>Numero</th>
                   <th>Empresa</th>
@@ -70,7 +73,9 @@
                    "<td>" .$emp . "</td>".
                    "<td>" .$comp . "</td>".
                    "<td>" . date('d/m/Y', strtotime($data_ped))  . "</td>".
-                   "<td>" .date('d/m/Y', strtotime($data_ent)) . "</td></tr>";
+                   "<td>" . date('d/m/Y', strtotime($data_ent))  . "</td>".
+                   "<td style='display: none;'>{$cidade}</td>".
+                   "<td style='display: none;'>{$estado}</td></tr>";
 
               echo "
                     </table> <br><br>
@@ -78,7 +83,9 @@
                       <form class=\"login-form\" method=\"POST\" action=\"edt_ped.php\">
                         <input type=\"hidden\" name=\"cod_ped\" value=\"". $cod_ped ."\">
                         <button id=\"botao_inline\" type=\"submit\">Editar</button>              
-                      </form> </td></tr>";
+                      </form></td><td> 
+                      <button id=\"botao_inline\" class='btnDist' >Distancia</button>              
+                      </td></tr>";
                           
               echo"</table></div>  
 
@@ -264,6 +271,7 @@
                        "<td>" .$fetch[6] . "</td>".
                        "<td style='visibility: collapse' >" .$cod_ped . "</td>".
                        "<td style='visibility: collapse' >" .$tipo . "</td>".
+                       "<td style='visibility: collapse' >" .$fetch[0] . "</td>".
                        "</tr>";
                   }
                 echo"
