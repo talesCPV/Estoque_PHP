@@ -57,33 +57,27 @@ $(document).ready(function(){
         var origins = city01;
         var destinations = city02;
 
-        dados = 'units='+units+'&origins='+origins+'&destinations='+destinations+'&key='+key;
+//        dados = 'units='+units+'&origins='+origins+'&destinations='+destinations+'&key='+key;
+        dados ='origins='+origins+'&destinations='+destinations 
 
-        alert(url+'?'+dados);   
-/*
+//        alert(url+'?'+dados);   
+
         $.ajax({
-            url: url,
-            contentType: "application/json",
-            dataType: 'json',
+            url: 'ajax/ajax_API_REST.php',
+            type: 'POST',
+            dataType: 'html',
             data: dados,
-            success: function(resp){
-                alert('1');
-                alert(resp);
-//                fileJson = data;
-    
+            async: false,
+            success: function(data){
+                fileJson = data;                
             }
     
         });	
-*/
-        $.ajax({
-            type:"GET",
-            url: url,
-//            data: dados,
-            success: function(data){
-                alert(data);
-            }
-          });
 
+        var par = $.parseJSON(fileJson);
+        resp = par['rows'][0]['elements'][0]['distance']['text']; 
+//        alert(resp);
+        return (resp);
 
     }
 
@@ -100,9 +94,9 @@ $(document).ready(function(){
         cells = rows[1].getElementsByTagName('td');
         var cidade = $.trim(cells[5].innerHTML);
         var estado = $.trim(cells[6].innerHTML);
-        $(this).distancia('Cacapava,SP',cidade+','+estado);
+        var dist =  $(this).distancia('Cacapava,SP',cidade+','+estado);
 //        $(this).distancia('Caçapava,SP','São Paulo,SP');
-        alert('Distância aproximada entre Caçapava,SP e ' + cidade +','+estado+' -> ');
+        alert('Distância aproximada entre Caçapava,SP e ' + cidade +','+estado+' é de ' + dist);
 
     });
 
