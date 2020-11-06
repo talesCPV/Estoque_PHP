@@ -14,7 +14,6 @@
       <input type="text" placeholder="username" name="user" />
       <input type="password" placeholder="password" name="pass" />
       <button id="btn_centro">login</button>
-
     </form>
   </div>
 </div>

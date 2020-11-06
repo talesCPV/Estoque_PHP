@@ -71,12 +71,13 @@
 		    </nav>
 		    </div>
         
-		    <div style='background: {$cor_barra}; color:{$cor_fonte_menu};' class='top_bar_rigth'> <form method='POST' action='pesq_prod.php'> <input type='text' name='valor' placeholder='Pesq. Produto' /><input type='hidden' name='campo' value='desc'> <i class='fa fa-user-circle-o' aria-hidden='true'> - </i>".strtoupper($user);
+		    <div style='background: {$cor_barra}; color:{$cor_fonte_menu};' class='top_bar_rigth'> <form method='POST' action='pesq_prod.php'> <input type='text' name='valor' placeholder='Pesq. Produto' size='10' /><input type='hidden' name='campo' value='desc'> <i class='fa fa-user-circle-o' aria-hidden='true'> - </i>".strtoupper($user);
         
 
-        if (IsSet($_COOKIE["mail_pass"])){
-            echo " <a href=\"email.php\"><img src=\"img/small_mail.png\"></a>";
-        }
+//        if (IsSet($_COOKIE["mail_pass"])){
+//            echo " <a href=\"email.php\"><img src=\"img/small_mail.png\"></a>";
+//        }
+
      echo" <a href=\"profile.php\"><img src=\"img/small_gear.png\"></a> <a href=\"logout.php\"><img src=\"img/small_logout.png\"></a></div>
         </form>
         </div>"; // fim do echo principal

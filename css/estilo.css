@@ -74,11 +74,13 @@ width:150px;
   position: relative;
   z-index: 1;
   background: #FFFFFF;
+  opacity: 0.9;
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 20px;
 }
 .form input, .form select, .page_form input, .page_form select, .page_form textarea {
   font-family: "Roboto", sans-serif;

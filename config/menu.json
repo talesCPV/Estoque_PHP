@@ -124,10 +124,17 @@
 							"perm": [10,4,3]
 						},					   
 					   {
-							"nome": "Agenda de Contatos",
+							"nome": "Agenda Telefônica",
 							"link": "pesq_agenda.php",
 							"id": "menuPesqAgenda",
 							"icone": "fa fa-address-book",
+							"perm": [10,4,3]
+						},
+						{
+							"nome": "E-mail",
+							"link": "email.php",
+							"id": "menuEmail",
+							"icone": "fa fa-envelope-o",
 							"perm": [10,4,3]
 						},
 						{
@@ -136,7 +143,7 @@
 							"id": "menuCalendario",
 							"icone": "fa fa-calendar-check-o",
 							"perm": [10,4,3]
-						},
+						},						
 						{
 							"nome": "Feriados",
 							"link": "feriados.php",
