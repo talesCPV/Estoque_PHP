@@ -1,4 +1,5 @@
 
+
     function ClearMoney(campo){
         var ok_chr = new Array('1','2','3','4','5','6','7','8','9','0');
         var text = campo;
@@ -55,10 +56,10 @@ $(document).ready(function(){
         var key = 'AIzaSyD06swca9-Qs7pxu_295dHm6NI-UmStL7M';
         var units = 'metric';
         var origins = city01;
-        var destinations = city02;
+        var destinations = decodeURIComponent(city02);
 
-//        dados = 'units='+units+'&origins='+origins+'&destinations='+destinations+'&key='+key;
-        dados ='origins='+origins+'&destinations='+destinations 
+        dados = 'units='+units+'&origins='+origins+'&destinations='+destinations+'&key='+key;
+//        dados = 'origins=' + origins + '&destinations=' + destinations;
 
 //        alert(url+'?'+dados);   
 
@@ -75,7 +76,8 @@ $(document).ready(function(){
         });	
 
         var par = $.parseJSON(fileJson);
-        resp = par['rows'][0]['elements'][0]['distance']['text']; 
+        resp = par['rows'][0]['elements'][0]['distance']['text'] + ' com tempo de ' + par['rows'][0]['elements'][0]['duration']['text']; 
+//        resp = par['rows'][0]['elements'][0]['distance']['text']; 
 //        alert(resp);
         return (resp);
 

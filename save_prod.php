@@ -23,7 +23,7 @@
 			$new_cod = $fetch[0] + 1 ;
 		}
 
-		echo($new_cod."<br>");
+//		echo($new_cod."<br>");
 
 	if (IsSet($_COOKIE["classe"])){
 		$classe = $_COOKIE["classe"];

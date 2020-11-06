@@ -43,8 +43,8 @@
                   $comp = $fetch[2];
                   $data_ped = $fetch[3];
                   $data_ent = $fetch[4];
-                  $cidade = $fetch[7];
-                  $estado = $fetch[8];
+                  $cidade = utf8_decode($fetch[7]);
+                  $estado = utf8_decode($fetch[8]);
                   if($fetch[5] == 'ABERTO'){
                     $status = 'Cotacao';
                   }else{
@@ -84,7 +84,7 @@
                         <input type=\"hidden\" name=\"cod_ped\" value=\"". $cod_ped ."\">
                         <button id=\"botao_inline\" type=\"submit\">Editar</button>              
                       </form></td><td> 
-                      <button id=\"botao_inline\" class='btnDist' >Distancia</button>              
+                      <button id=\"botao_inline\" class='btnDist' >Add Frete</button>              
                       </td></tr>";
                           
               echo"</table></div>  

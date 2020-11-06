@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
     <title>Cadastro de Empresas</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
-    <script src="js/funcoes.js"></script>
+
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
