@@ -58,8 +58,8 @@
 
             break;
             case 'btnLimpar':
-                if (file_exists($path))
-                   {unlink($path);
+                if (file_exists($path)){
+                   unlink($path);
                 }
             break;
             case 'btnDel':    
@@ -105,6 +105,7 @@
                         }
                     }
                     $conexao->close();
+                    unlink($path);
                 }
                 fclose($fp);                
             break; 
@@ -143,7 +144,7 @@
                 <form class=\"login-form\" name=\"cadastro\" method=\"POST\" action='#' >
                     <td><select name=\"sel_opt\" >
                         <option value='1'>Retirar do Estoque</option>
-                        <option value='2'>Alterar o Estoque</option>
+                        <option value='2'>Fazer o Inventario da Lista</option>
                     </td></select>
                   <td><button name=\"btnOK\" id=\"botao_inline\" type=\"submit\">Confirmar</button></td>
                 </form>  
