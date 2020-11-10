@@ -48,6 +48,13 @@
 						"icone": "fa fa-wrench",
 						"perm": [10,4]
 					},
+					{
+						"nome": "Inventário",
+						"link": "inventario.php",
+						"id": "menuInventario",
+						"icone": "fa fa-wrench",
+						"perm": [10,4]
+					},
 		 			{
 						"nome": "Usuário",
 						"link": "cad_user.php",

@@ -271,7 +271,7 @@
               <form class=\"login-form\" name=\"cadastro\" method=\"POST\" action=\"#\" onsubmit=\"return validaCampo(new Array(cadastro.nome)); return false;\">
                 <input type=\"hidden\" name=\"cUF\" value=\"35\" >      
 
-                <input type=\"hidden\" name=\"cNF\" value=\"". rand (10000000,99999999)."\" >                
+                <input type=\"hidden\" name=\"cNF\" value=\"". rand (10000000,99999999)."\" >                 
 
                 <label> Natureza da Operação *</label>
                 <input type=\"text\" name=\"natOp\" maxlength=\"60\" value=\"". get_id("B03") ."\" />
@@ -367,7 +367,11 @@
 
                 <input type=\"hidden\" name=\"dhCont\" value=\"". get_id("B21") ."\" >                
 
-                <input type=\"hidden\" name=\"xJust\" value=\"". get_id("B22") ."\" >                
+                <input type=\"hidden\" name=\"xJust\" value=\"". get_id("B22") ."\" > 
+
+                <td>
+                  <input type='checkbox' name='ckbSimpRem' style=' margin: 5px; width: 0%; border: 3px solid green; padding: 10px; '/> Simples Remessa                  
+                </td>
 
                 <td><button name=\"save_fiscal\" type=\"submit\">Salvar</button></td>
 
@@ -600,7 +604,16 @@
               <option value='SAN'> Sanfonados </option>
               <option value='OUT'> Outro </option>
             </select></td></tr>
-            <tr><td><button name=\"save_fatura\" type=\"submit\">Gerar NFe</button></td></tr></table>";
+            <tr>
+            <td><button name=\"import_txt\" id=\"btnImpTxt\">Textos</button></td>
+            <td><select name='textos' id='selTxt'>
+              <option value='FUN'> Funilaria e Pintura </option>
+            </select></td>
+            
+            </tr>
+            <tr><td><button name=\"save_fatura\" type=\"submit\">Gerar NFe</button></td></tr>
+
+            <tr></tr></table>";
 
             }else{
               echo " <label> Não existe ítens disponíveis, favor gerar pedido</label>";
@@ -636,6 +649,15 @@
             post_id("B21",$_POST ["dhCont"]);
             post_id("B22",$_POST ["xJust"]);
             monta();
+
+            if(isset($_POST['ckbSimpRem']))
+              {
+                echo "NF Simples Remessa! <br/>";
+                $_SESSION["simp_rem"]='1';
+              }else{
+                echo "NF ". $_POST ["natOp"] ."<br/>";
+                $_SESSION["simp_rem"]='0';
+              }
 
             break;
 
@@ -762,16 +784,25 @@
             $texto =  $texto . fread($fp, filesize($file_itens));
             fclose($fp);
 
-            $texto = $texto . "Y|\r\nY02|".str_pad($qtd_parc,3,'0', STR_PAD_LEFT)."|".number_format(get_id("TOT"), 2, '.', '')."|0.00|".number_format(get_id("TOT"), 2, '.', '')."|\r\n";
+            $valores = "Y|\r\nY02|".str_pad($qtd_parc,3,'0', STR_PAD_LEFT)."|".number_format(get_id("TOT"), 2, '.', '')."|0.00|".number_format(get_id("TOT"), 2, '.', '')."|\r\n";
 
             for($i=1; $i< $qtd_parc+1; $i++){
               $pagto = date('Y-m-d', strtotime("+".$dias_parc[$i-1]."days",strtotime(date('Y-m-d'))));
 
-              $texto = $texto . "Y07|".str_pad(trim($i),3,'0', STR_PAD_LEFT)."|".$pagto."|".number_format($val_parc, 2, '.', '')."|\r\n";
+              $valores = $valores . "Y07|".str_pad(trim($i),3,'0', STR_PAD_LEFT)."|".$pagto."|".number_format($val_parc, 2, '.', '')."|\r\n";
   
             }
 
-            $texto = $texto . "YA\r\nYA01|1|15|".number_format(get_id("TOT"), 2, '.', '')."|\r\nZ||".$txt_comp."|\r\n";
+
+            $valores = $valores . "YA\r\nYA01|1|15|".number_format(get_id("TOT"), 2, '.', '')."|\r\nZ||".$txt_comp."|\r\n";
+            
+            if(IsSet($_SESSION["simp_rem"])){              
+              if($_SESSION["simp_rem"] == '1'){
+                $valores = "X03|FLEXIBUS SANFONADOS LTDA|234033845113|AV. DR. ROSALVO DE ALMEIDA TELLES,2070- NOVA CAÇAPAVA|Cacapava|SP|\r\nX04|00519547000106|\r\nYA\r\nYA01|1|90|0.00|\r\nZ||".$txt_comp."|\r\n";
+              }            
+            }
+
+            $texto = $texto . $valores;
 
 //            $string_encoded = iconv( mb_detect_encoding( $texto ), 'UTF-8', $texto );
 

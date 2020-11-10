@@ -20,6 +20,7 @@
       $unid = 'config/unidades.txt';
       $ass = 'config/'.$user.'_ass.txt';
       $color = "config/".$user."_colors.txt";
+      $txtNF = 'config/nftxt.txt';
 
       if (IsSet($_POST ["edtUnd"]) and $classe >=4 ){
          $texto = $_POST ["edtUnd"];
@@ -140,10 +141,32 @@
       
       echo "</textarea>";
   
-
       include "conecta_mysql.inc";
       if (!$conexao)
         die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
+
+
+      echo"  <td><select name=\"selTexto\" >
+        <option selected value=\"0\"> Nenhum </option>";
+
+
+     while($fetch = mysqli_fetch_row($result)){
+         echo $fetch[1] . "<br>";
+         echo "<option value=\"". $fetch[1] ."\">". $fetch[1] ."</option>";
+     }
+
+         echo "</select> </td>";        
+
+      echo "<label> Textos da NF </label>
+      
+      <textarea class='edtTextArea' name=\"edtNF\" cols=\"112\" rows=\"5\" >";
+      
+      
+      
+      echo "</textarea>";
+
+
+
 
         $query = "SELECT * from tb_usuario where user != \"".$user."\"";
         $result = mysqli_query($conexao, $query);
