@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/funcoes.js"></script>
+    <script src="js/fatura.js"></script>
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -199,7 +200,8 @@
           <td><button style='width: 95%;' name="fiscal" type="submit">Fiscal</button></td>
           <td><button style='width: 95%;' name="pedido" type="submit">Pedido</button></td>
           <td><button style='width: 95%;' name="itens" type="submit">Ítens</button></td>
-          <td><button style='width: 95%;' name="fatura" type="submit">Fatura</button></td>
+          <td><button style='width: 95%;' name="fatura" type="submit">Gera NFE</button></td>
+          <td><button style='width: 95%;' name="nfs" type="submit">Gera NFS.</button></td>
         </tr>
       </table>
       
@@ -211,7 +213,7 @@
 
     <?php
       global $file, $topo, $A, $B, $C, $C02, $C05;
-      switch (get_post_action('emitente', 'fiscal', 'save_emit', 'save_fiscal', 'pedido', 'save_ped', 'itens', 'fatura', 'save_itens', 'save_fatura','add_bol')) {
+      switch (get_post_action('emitente', 'fiscal', 'save_emit', 'save_fiscal', 'pedido', 'save_ped', 'itens', 'fatura', 'save_itens', 'save_fatura','add_bol','nfs','save_nfs')) {
           case 'emitente':
 
             echo" <p class=\"logo\"> Dados do Emitente</p> <br>";
@@ -574,44 +576,148 @@
 
             break;
 
-          case 'fatura': 
-            echo" <p class=\"logo\"> Dados de Fatura</p> <br>";
+            case 'fatura': 
+              echo" <p class=\"logo\"> Dados de Fatura - NF Venda</p> <br>";
+              echo" <form class=\"login-form\" name=\"cadastro\" method=\"POST\" action=\"#\" />";
+  
+              if (file_exists($file_itens)){
+                $aliquota = 2.82;
+                $icms = money_format('%=*(#0.2n',get_id("TOT")*($aliquota * 0.01));
+                $pedido = get_id("ENP");
+                echo"
+                  <input type='hidden' id='icms' value='{$icms}'>
+                  <input type='hidden' id='aliquota' value='{$aliquota}'>
+                  <input type='hidden' id='pedido' value='{$pedido}'>
+                ";
+                echo" 
+                    <label class=\"logo\"> Dias entre as parcelas</label>
+                    <input type=\"text\" name=\"dias_parc\" maxlength=\"15\" value=\"30/45/60\" onkeyup=\"return dias_pgto(this)\" />
+                    <label> Valor total da NF: ". money_format('%=*(#0.2n',get_id("TOT"))."</label><br><br>
+  
+                    <label> Texto complementar </label>
+                    <textarea class='edtTextArea' name=\"txt_comp\" cols=\"112\" rows=\"5\" id='txt_comp' >DOC. EMITIDO POR ME OU EPP OPTANTE S.NACIONAL";
+  
+                    if(strlen(trim(get_id("E03"))) != "" ){
+  
+                      echo  ", NÃO GERA DIREITO A CREDITO FISCAL DE ISSQN E IPI, PERMITE O APROVEITAMENTO DE CREDITO DO ICMS NO VALOR DE {$icms} CORRESPONDENTE A ALIQUOTA DE ".str_replace('.',',', $aliquota)."% NOS TERMOS DO ARTIGO 23 DA LC 123";
+                    }
+  
+                    echo ", APROVADO ATRAVES DO PEDIDO {$pedido}";
+  
+                echo"</textarea>
+  
+  
+              <br><br> <table>
+              <tr>
+                <td><button name=\"import_txt\" id=\"btnImpTxt\">Importar</button></td>
+                <td><select name='textos' id='selTxt'>";
+  
+                global $conexao;
+  
+                include "conecta_mysql.inc";
+  
+                if (!$conexao)
+                  die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
+  
+  
+                $query =  "SELECT * FROM tb_texto_nf";
+                $result = mysqli_query($conexao, $query);
+                while($fetch = mysqli_fetch_row($result)){
+                  echo "<option value='{$fetch[0]}'>{$fetch[1]}</option>";         
+                }
+  
+                $conexao->close(); 
+  
+        echo"  </select></td>
+                <td><button name=\"add_txt\" id=\"btnAddTxt\">+</button></td>
+              </tr>
+              <tr>
+                <td><button name=\"add_bol\" type=\"submit\">Add Boletos</button></td>
+                <td><select name='origem' id='selOrig'>
+                  <option value='FUN'> Funilaria e Pintura </option>
+                  <option value='SAN'> Sanfonados </option>
+                  <option value='OUT'> Outro </option>
+                </select></td></tr>
+              <tr>            
+              <tr>
+                <td><button name=\"save_fatura\" type=\"submit\">Gerar NFe</button></td>
+              </tr>
+  
+              <tr></tr></table>";
+  
+              }else{
+                echo " <label> Não existe ítens disponíveis, favor gerar pedido</label>";
+              }
+  
+  
+              echo"      </form>";
+  
+              break;            
+
+          case 'nfs': 
+            echo" <p class=\"logo\"> Dados de Fatura - NF Serviço</p> <br>";
             echo" <form class=\"login-form\" name=\"cadastro\" method=\"POST\" action=\"#\" />";
 
             if (file_exists($file_itens)){
+              $aliquota = get_id("TXS");
+              $nfs = get_id("NFS");              
+              $pedido = get_id("ENP");
+              $val_nf = money_format('%=*(#0.2n',get_id("TOT"));
+              echo"
+                <input type='hidden' id='icms' value='{$icms}'>
+                <input type='hidden' id='aliquota' value='{$aliquota}'>
+                <input type='hidden' id='pedido' value='{$pedido}'>
+              ";
               echo" 
                   <label class=\"logo\"> Dias entre as parcelas</label>
                   <input type=\"text\" name=\"dias_parc\" maxlength=\"15\" value=\"30/45/60\" onkeyup=\"return dias_pgto(this)\" />
-                  <label> Total da NF: ". money_format('%=*(#0.2n',get_id("TOT"))."</label><br><br>
-
-                  <label> Texto complementar </label>
-                  <textarea class='edtTextArea' name=\"txt_comp\" cols=\"112\" rows=\"5\" >DOC. EMITIDO POR ME OU EPP OPTANTE S.NACIONAL";
-
-                  if(strlen(trim(get_id("E03"))) != "" ){
-
-                    echo  ", NÃO GERA DIREITO A CREDITO FISCAL DE ISSQN E IPI, PERMITE O APROVEITAMENTO DE CREDITO DO ICMS NO VALOR DE ". money_format('%=*(#0.2n',get_id("TOT")*0.0282)." CORRESPONDENTE A ALIQUOTA DE 2,82% NOS TERMOS DO ARTIGO 23 DA LC 123";
-                  }
-
-                  echo ", APROVADO ATRAVES DO PEDIDO " . get_id("ENP") ;
-
-              echo"</textarea>
+                  <label> Valor total da NF: {$val_nf}</label><br><br>
+                  <label> Número da NFS</label>
+                  <input type='text' name='edtNumNFServ' value='{$nfs}'>
+                  <label> Aliquota %</label>
+                  <input type='text' name='edtAliNFServ' value='{$aliquota}'>
+                  <label> Discriminação do Serviço</label>
+                  <textarea class='edtTextArea' name=\"txt_disc\" cols=\"112\" rows=\"5\" id='txt_disc'> </textarea>
+              <label> Dedução / Outras Informações</label>
+              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"5\" id='txt_info' > </textarea>
 
 
-            <br><br> <table><tr>
-            <td><button name=\"add_bol\" type=\"submit\">Add Boletos</button></td>
-            <td><select name='origem' id='selOrig'>
-              <option value='FUN'> Funilaria e Pintura </option>
-              <option value='SAN'> Sanfonados </option>
-              <option value='OUT'> Outro </option>
-            </select></td></tr>
+
+            <br><br> <table>
             <tr>
-            <td><button name=\"import_txt\" id=\"btnImpTxt\">Textos</button></td>
-            <td><select name='textos' id='selTxt'>
-              <option value='FUN'> Funilaria e Pintura </option>
-            </select></td>
-            
+              <td><button name=\"import_txt\" id=\"btnImpTxt\">Importar</button></td>
+              <td><select name='textos' id='selTxt'>";
+
+              global $conexao;
+
+              include "conecta_mysql.inc";
+
+              if (!$conexao)
+                die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
+
+
+              $query =  "SELECT * FROM tb_texto_nf";
+              $result = mysqli_query($conexao, $query);
+              while($fetch = mysqli_fetch_row($result)){
+                echo "<option value='{$fetch[0]}'>{$fetch[1]}</option>";         
+              }
+
+              $conexao->close(); 
+
+      echo"  </select></td>
+              <td><button name=\"add_txt\" id=\"btnAddTxt\">+</button></td>
             </tr>
-            <tr><td><button name=\"save_fatura\" type=\"submit\">Gerar NFe</button></td></tr>
+            <tr>
+              <td><button name=\"add_bol\" type=\"submit\">Add Boletos</button></td>
+              <td><select name='origem' id='selOrig'>
+                <option value='FUN'> Funilaria e Pintura </option>
+                <option value='SAN'> Sanfonados </option>
+                <option value='OUT'> Outro </option>
+              </select></td></tr>
+            <tr>            
+            <tr>
+              <td><button name=\"save_nfs\" type=\"submit\">Gerar NFS</button></td>
+            </tr>
 
             <tr></tr></table>";
 
@@ -757,65 +863,115 @@
 
             }
             break;
+            case 'save_fatura': 
+              $qtd_parc = 0;
+              $dias_parc = 0;
+              $txt_comp = "";
+  
+              if (IsSet($_POST ["dias_parc"])){
+                $dias_parc = explode("/", $_POST["dias_parc"]); 
+                $qtd_parc = count($dias_parc);
+                $txt_comp = $_POST ["txt_comp"] ; 
+              }
+  
+              $val_parc = get_id("TOT") / $qtd_parc;
+  
+              global $file, $file_itens;
+  
+              $texto = "";
+  
+              monta();
+              $fp = fopen($file, "r");
+              $texto =  fread($fp, filesize($file));
+              fclose($fp);
+  
+              $fp = fopen($file_itens, "r");
+              $texto =  $texto . fread($fp, filesize($file_itens));
+              fclose($fp);
+  
+              $valores = "Y|\r\nY02|".str_pad($qtd_parc,3,'0', STR_PAD_LEFT)."|".number_format(get_id("TOT"), 2, '.', '')."|0.00|".number_format(get_id("TOT"), 2, '.', '')."|\r\n";
+  
+              for($i=1; $i< $qtd_parc+1; $i++){
+                $pagto = date('Y-m-d', strtotime("+".$dias_parc[$i-1]."days",strtotime(date('Y-m-d'))));
+  
+                $valores = $valores . "Y07|".str_pad(trim($i),3,'0', STR_PAD_LEFT)."|".$pagto."|".number_format($val_parc, 2, '.', '')."|\r\n";
+    
+              }
+  
+  
+              $valores = $valores . "YA\r\nYA01|1|15|".number_format(get_id("TOT"), 2, '.', '')."|\r\nZ||".$txt_comp."|\r\n";
+              
+              if(IsSet($_SESSION["simp_rem"])){              
+                if($_SESSION["simp_rem"] == '1'){
+                  $valores = "X03|FLEXIBUS SANFONADOS LTDA|234033845113|AV. DR. ROSALVO DE ALMEIDA TELLES,2070- NOVA CAÇAPAVA|Cacapava|SP|\r\nX04|00519547000106|\r\nYA\r\nYA01|1|90|0.00|\r\nZ||".$txt_comp."|\r\n";
+                }            
+              }
+  
+              $texto = $texto . $valores;
+  
+  //            $string_encoded = iconv( mb_detect_encoding( $texto ), 'UTF-8', $texto );
+  
+              $original =      array("Ã", "ã", "Á", "á", "Â", "â", "É", "é", "Ê", "ẽ", "Í", "í", "Ó", "ó", "Õ", "õ", "Ú", "ú", "Ç", "ç");
+              $substituido   = array("A", "a", "A", "a", "A", "a", "E", "e", "E", "e", "I", "i", "O", "o", "O", "o", "U", "u", "C", "c");
+              $string_encoded = str_replace($original, $substituido, $texto);
+  
+              $fp = fopen($NF, "w");
+              fwrite($fp, $string_encoded);
+  //            fwrite($fp, $texto);
+              fclose($fp);
+  
+            break;
 
-          case 'save_fatura': 
+          case 'save_nfs': 
             $qtd_parc = 0;
             $dias_parc = 0;
-            $txt_comp = "";
+//            get_id("ENP");
+
+            
 
             if (IsSet($_POST ["dias_parc"])){
+              post_id("TXS",$_POST ["edtAliNFServ"]);
+              post_id("NFS",$_POST ["edtNumNFServ"]);
+
+//              str_replace('.',',', $aliquota)
+
               $dias_parc = explode("/", $_POST["dias_parc"]); 
               $qtd_parc = count($dias_parc);
-              $txt_comp = $_POST ["txt_comp"] ; 
-            }
+              $txt_disc = trim($_POST ["txt_disc"]); 
+              $txt_info = trim($_POST ["txt_info"]); 
+              $txs = get_id("TXS");
+              $nfs_num = get_id("NFS");
+              $NFS_val = str_replace('.',',', get_id("TOT"));
+              $imp =  number_format((floatval(get_id("TOT")) * (floatval($txs) * 0.01)), 2, ',', '');
 
+            }
+            $numNF = '000000000';
+
+            if (IsSet($_POST ["edtNumNFServ"])){
+              $numNF =  str_pad($_POST ["edtNumNFServ"],9,'0', STR_PAD_LEFT) ;
+
+            }
             $val_parc = get_id("TOT") / $qtd_parc;
 
             global $file, $file_itens;
 
-            $texto = "";
+            $texto = "10|".get_id("C08")."|". date("d/m/Y")."|".date("d/m/Y")."|1|2.00|\r\n";
+            $texto = $texto . "20|P|{$numNF}|NFE|". date("d/m/Y")."|". date("d/m/Y G:i:s")."|||||2|00519547000106|Flexibus Sanfonados LTDA ME|Rua Doutor Rosalvo de Almeida Telles|2070||Parque Residencial Nova Caçapava|CAÇAPAVA|SP|12283020|dantas@flexibus.com.br|4|01/07/2007| 3,47|1|||2|";
+            $texto = $texto . get_id("E07")."|". get_id("E01")."|". get_id("E08")."|". get_id("E10")."|". get_id("E11")."|". get_id("E12")."|". get_id("E14")."|". get_id("E15")."||||||". get_id("E12")."|". get_id("E14")."||14.01|";
+            $texto = $texto . $txt_disc."|{$NFS_val}|0,00|".$txt_info."|{$NFS_val}|{$txs}|{$imp}|0,00|\r\n";
+            $texto = $texto . "90|00001|{$NFS_val}|{$txs}|0,00|0,00|0|0,00|";
 
-            monta();
-            $fp = fopen($file, "r");
-            $texto =  fread($fp, filesize($file));
-            fclose($fp);
-
-            $fp = fopen($file_itens, "r");
-            $texto =  $texto . fread($fp, filesize($file_itens));
-            fclose($fp);
-
-            $valores = "Y|\r\nY02|".str_pad($qtd_parc,3,'0', STR_PAD_LEFT)."|".number_format(get_id("TOT"), 2, '.', '')."|0.00|".number_format(get_id("TOT"), 2, '.', '')."|\r\n";
-
-            for($i=1; $i< $qtd_parc+1; $i++){
-              $pagto = date('Y-m-d', strtotime("+".$dias_parc[$i-1]."days",strtotime(date('Y-m-d'))));
-
-              $valores = $valores . "Y07|".str_pad(trim($i),3,'0', STR_PAD_LEFT)."|".$pagto."|".number_format($val_parc, 2, '.', '')."|\r\n";
-  
-            }
-
-
-            $valores = $valores . "YA\r\nYA01|1|15|".number_format(get_id("TOT"), 2, '.', '')."|\r\nZ||".$txt_comp."|\r\n";
-            
-            if(IsSet($_SESSION["simp_rem"])){              
-              if($_SESSION["simp_rem"] == '1'){
-                $valores = "X03|FLEXIBUS SANFONADOS LTDA|234033845113|AV. DR. ROSALVO DE ALMEIDA TELLES,2070- NOVA CAÇAPAVA|Cacapava|SP|\r\nX04|00519547000106|\r\nYA\r\nYA01|1|90|0.00|\r\nZ||".$txt_comp."|\r\n";
-              }            
-            }
-
-            $texto = $texto . $valores;
-
-//            $string_encoded = iconv( mb_detect_encoding( $texto ), 'UTF-8', $texto );
-
-            $original =      array("Ã", "ã", "Á", "á", "Â", "â", "É", "é", "Ê", "ẽ", "Í", "í", "Ó", "ó", "Õ", "õ", "Ú", "ú", "Ç", "ç");
-            $substituido   = array("A", "a", "A", "a", "A", "a", "E", "e", "E", "e", "I", "i", "O", "o", "O", "o", "U", "u", "C", "c");
+            $original =      array("Ã", "ã", "Á", "á", "Â", "â", "É", "é", "Ê", "ẽ", "Í", "í", "Ó", "ó", "Õ", "õ", "Ú", "ú", "Ç", "ç","a‡");
+            $substituido   = array("A", "a", "A", "a", "A", "a", "E", "e", "E", "e", "I", "i", "O", "o", "O", "o", "U", "u", "C", "c","ç");
             $string_encoded = str_replace($original, $substituido, $texto);
 
-            $fp = fopen($NF, "w");
+            $fp = fopen("config/NFS.txt", "w");
             fwrite($fp, $string_encoded);
 //            fwrite($fp, $texto);
             fclose($fp);
 
           break;
+          
           case 'add_bol':
             $qtd_parc = 0;
             $dias_parc = 0;
@@ -855,6 +1011,13 @@
 
 </div>
 
+<div class="overlay"> 
+  <div class="popup">
+    <h2 id="popTitle"></h2>
+    <div class="close" >&times</div>
+    <div class="content"></div>
+  </div>
+</div>
 
 </body>
 </html>

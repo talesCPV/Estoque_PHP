@@ -1,0 +1,309 @@
+--
+-- Table structure for table `tb_agenda`
+--
+
+DROP TABLE IF EXISTS `tb_agenda`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_agenda` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_emp` int(11) NOT NULL,
+  `nome` varchar(40) NOT NULL,
+  `email` varchar(70) DEFAULT NULL,
+  `depart` varchar(15) DEFAULT NULL,
+  `cel1` varchar(15) DEFAULT NULL,
+  `cel2` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_emp` (`id_emp`)
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_cargos`
+--
+
+DROP TABLE IF EXISTS `tb_cargos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_cargos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cargo` varchar(30) DEFAULT NULL,
+  `salario` double NOT NULL DEFAULT '0',
+  `tipo` varchar(6) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_empresa`
+--
+
+DROP TABLE IF EXISTS `tb_empresa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_empresa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `cnpj` varchar(14) DEFAULT NULL,
+  `ie` varchar(14) DEFAULT NULL,
+  `endereco` varchar(60) DEFAULT NULL,
+  `cidade` varchar(30) DEFAULT NULL,
+  `estado` varchar(2) DEFAULT NULL,
+  `tipo` varchar(3) DEFAULT NULL,
+  `tel` varchar(15) DEFAULT NULL,
+  `cep` varchar(10) DEFAULT NULL,
+  `bairro` varchar(60) DEFAULT NULL,
+  `num` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_entrada`
+--
+
+DROP TABLE IF EXISTS `tb_entrada`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_entrada` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nf` varchar(10) DEFAULT NULL,
+  `id_emp` int(11) NOT NULL,
+  `data_ent` date DEFAULT NULL,
+  `resp` varchar(15) DEFAULT NULL,
+  `status` varchar(7) NOT NULL DEFAULT 'ABERTO',
+  PRIMARY KEY (`id`),
+  KEY `id_emp` (`id_emp`)
+) ENGINE=MyISAM AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_financeiro`
+--
+
+DROP TABLE IF EXISTS `tb_financeiro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_financeiro` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(7) NOT NULL DEFAULT 'ENTRADA',
+  `data_ini` date DEFAULT NULL,
+  `data_pg` date DEFAULT NULL,
+  `preco` double NOT NULL DEFAULT '0',
+  `ref` varchar(30) DEFAULT NULL,
+  `resp` varchar(15) DEFAULT NULL,
+  `emp` varchar(50) DEFAULT NULL,
+  `origem` varchar(3) DEFAULT 'FUN',
+  `pgto` varchar(3) NOT NULL DEFAULT 'BOL',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ref` (`ref`)
+) ENGINE=MyISAM AUTO_INCREMENT=672 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_funcionario`
+--
+
+DROP TABLE IF EXISTS `tb_funcionario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_funcionario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(30) DEFAULT NULL,
+  `rg` varchar(15) DEFAULT NULL,
+  `cpf` varchar(15) DEFAULT NULL,
+  `pis` varchar(15) DEFAULT NULL,
+  `endereco` varchar(60) DEFAULT NULL,
+  `cidade` varchar(30) DEFAULT NULL,
+  `estado` varchar(2) DEFAULT NULL,
+  `cep` varchar(10) DEFAULT NULL,
+  `data_adm` datetime DEFAULT CURRENT_TIMESTAMP,
+  `data_dem` datetime DEFAULT NULL,
+  `id_cargo` int(11) NOT NULL,
+  `tel` varchar(15) DEFAULT NULL,
+  `cel` varchar(15) DEFAULT NULL,
+  `status` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_cargo` (`id_cargo`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+--
+-- Table structure for table `tb_item_compra`
+--
+
+DROP TABLE IF EXISTS `tb_item_compra`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_item_compra` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_prod` int(11) NOT NULL,
+  `id_ent` int(11) DEFAULT NULL,
+  `qtd` double NOT NULL DEFAULT '0',
+  `preco` double NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `id_prod` (`id_prod`),
+  KEY `id_ent` (`id_ent`)
+) ENGINE=MyISAM AUTO_INCREMENT=373 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_item_ped`
+--
+
+DROP TABLE IF EXISTS `tb_item_ped`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_item_ped` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_prod` int(11) NOT NULL,
+  `id_ped` int(11) DEFAULT NULL,
+  `qtd` double NOT NULL DEFAULT '0',
+  `preco` double NOT NULL DEFAULT '0',
+  `und` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_prod` (`id_prod`),
+  KEY `id_ped` (`id_ped`)
+) ENGINE=MyISAM AUTO_INCREMENT=1532 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_item_serv`
+--
+
+DROP TABLE IF EXISTS `tb_item_serv`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_item_serv` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_serv` int(11) NOT NULL,
+  `id_item` int(11) NOT NULL,
+  `qtd` double NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `id_serv` (`id_serv`),
+  KEY `id_item` (`id_item`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_pedido`
+--
+
+DROP TABLE IF EXISTS `tb_pedido`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_pedido` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_emp` int(11) NOT NULL,
+  `data_ped` date DEFAULT NULL,
+  `data_ent` date DEFAULT NULL,
+  `resp` varchar(15) DEFAULT NULL,
+  `comp` varchar(30) DEFAULT NULL,
+  `num_ped` varchar(60) DEFAULT NULL,
+  `status` varchar(7) NOT NULL DEFAULT 'ABERTO',
+  `desconto` double NOT NULL DEFAULT '0',
+  `cond_pgto` varchar(100) DEFAULT '28 d.d.d',
+  `obs` varchar(100) DEFAULT NULL,
+  `origem` varchar(3) DEFAULT 'FUN',
+  PRIMARY KEY (`id`),
+  KEY `id_emp` (`id_emp`)
+) ENGINE=MyISAM AUTO_INCREMENT=391 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_produto`
+--
+
+DROP TABLE IF EXISTS `tb_produto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_produto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_emp` int(11) NOT NULL,
+  `descricao` varchar(80) NOT NULL,
+  `estoque` double NOT NULL DEFAULT '0',
+  `etq_min` double NOT NULL DEFAULT '0',
+  `unidade` varchar(10) DEFAULT NULL,
+  `ncm` varchar(8) DEFAULT NULL,
+  `cod` int(11) DEFAULT NULL,
+  `cod_bar` varchar(15) DEFAULT NULL,
+  `reserva` double NOT NULL DEFAULT '0',
+  `preco_comp` double NOT NULL DEFAULT '0',
+  `margem` double NOT NULL DEFAULT '40',
+  `tipo` varchar(7) DEFAULT 'VENDA',
+  `cod_cli` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cod` (`cod`),
+  KEY `id_emp` (`id_emp`)
+) ENGINE=MyISAM AUTO_INCREMENT=475 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_servico`
+--
+
+DROP TABLE IF EXISTS `tb_servico`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_servico` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `num_serv` varchar(15) DEFAULT NULL,
+  `resp` varchar(15) DEFAULT NULL,
+  `func` varchar(30) DEFAULT NULL,
+  `tipo` varchar(2) NOT NULL DEFAULT 'OF',
+  `data_serv` datetime DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(7) NOT NULL DEFAULT 'ABERTO',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_subconj`
+--
+
+DROP TABLE IF EXISTS `tb_subconj`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_subconj` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_conj` int(11) NOT NULL,
+  `id_peca` int(11) NOT NULL,
+  `qtd` double NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `id_conj` (`id_conj`),
+  KEY `id_peca` (`id_peca`)
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tb_usuario`
+--
+
+DROP TABLE IF EXISTS `tb_usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` varchar(12) NOT NULL,
+  `pass` varchar(12) NOT NULL,
+  `class` int(11) DEFAULT NULL,
+  `nome` varchar(40) DEFAULT NULL,
+  `email` varchar(70) DEFAULT NULL,
+  `cel` varchar(15) DEFAULT NULL,
+  `mail_pass` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+CREATE TABLE tb_inventario (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  cod_prod int(11) NOT NULL,
+  oper varchar(1) DEFAULT '1',
+  qtd int(11) NOT NULL,
+  user varchar(10) DEFAULT NULL,
+  dia datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
+
+

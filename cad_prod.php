@@ -36,8 +36,7 @@
           echo "<td><select name=\"forn\" id=\"forn\">";
 
 
-        while($fetch = mysqli_fetch_row($result)){
-            echo $fetch[1] . "<br>";
+        while($fetch = mysqli_fetch_row($result)){            
             echo "<option value=\"". $fetch[0] ."\">". str_pad($fetch[0],3,'0', STR_PAD_LEFT)." - ". strtoupper($fetch[1]) ."</option>";
         }
 

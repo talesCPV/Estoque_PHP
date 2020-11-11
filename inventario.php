@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/edt_mask.js"></script> 
-    <script src="js/cad_etq.js"></script> 
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -26,9 +25,9 @@
         <form class="login-form" method="POST" action="#">
             <table class="search-table"  border="0"><tr>
                     <td> <label> Cod. do Produto</label> </td>
-                    <td> <input type="text" name="edtCodProd" id="edtCodProd"> </td>  
+                    <td> <input type="text" autofocus value='0' onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" name="edtCodProd" id="edtCodProd" onkeyup='return int_number(this)' > </td>  
                     <td> <label> Quantidade</label> </td>
-                    <td> <input type="text" name="edt_Qtd" id="edtQtd"> </td>                           
+                    <td> <input type="text" value='0' name="edt_Qtd" id="edtQtd" onkeyup='return int_number(this)' > </td>                           
                     <td> <button name="btnAdd" class="botao_inline" type="submit">Adicionar</button> </td>
                     <input type="hidden" name="check" value="1" >
                     </tr> 
@@ -44,7 +43,7 @@
             case 'btnAdd':
                 if (IsSet($_POST ["edtCodProd"]) && IsSet($_POST ["edt_Qtd"]) ){
                     $line = $_POST ["edtCodProd"] ."->".$_POST ["edt_Qtd"]."\r\n";
-                    if (file_exists($path)){
+                    if (file_exists($path) && filesize($path) > 0){
                         $fp = fopen($path, "r");
                         $invent = fread($fp, filesize($path));
                         fclose($fp);
@@ -83,7 +82,7 @@
                 }
             break; 
             case 'btnOK':            
-                if (file_exists($path)){
+                if (file_exists($path) && filesize($path) > 0){
                     $fp = fopen($path, "r");
                     include "conecta_mysql.inc";
                     if (!$conexao)
@@ -95,19 +94,28 @@
                             $cod = trim($field[0]);
                             $qtd = trim($field[1]);
                             $opt = $_POST ["sel_opt"];
+                            $query = " SELECT estoque FROM tb_produto WHERE cod = '{$cod}';";                            
+                            $result = mysqli_query($conexao, $query);
+                            $fetch = mysqli_fetch_row($result);
+                            $ant = $fetch[0];
+
                             if($opt == '1'){
                                 $query = " UPDATE tb_produto SET estoque = estoque - {$qtd} WHERE cod = '{$cod}';";
+                                mysqli_query($conexao, $query);
                             }else{
                                 $query = " UPDATE tb_produto SET estoque = {$qtd} WHERE cod = '{$cod}';";
+                                mysqli_query($conexao, $query);
                             }
-                            echo $query;
-                            $result = mysqli_query($conexao, $query);
+                            if(mysqli_affected_rows($conexao) > 0){
+                              $query = " INSERT INTO tb_inventario (cod_prod, qtd, oper, user, ant) VALUES ({$cod},{$qtd},'{$opt}','{$user}', {$ant});";
+                              mysqli_query($conexao, $query);  
+                            }
                         }
                     }
                     $conexao->close();
                     unlink($path);
-                }
-                fclose($fp);                
+                    fclose($fp);                
+                  }
             break; 
             default:
            //no action sent
@@ -147,6 +155,9 @@
                         <option value='2'>Fazer o Inventario da Lista</option>
                     </td></select>
                   <td><button name=\"btnOK\" id=\"botao_inline\" type=\"submit\">Confirmar</button></td>
+                </form>
+                <form method='POST' action='pesq_invent.php' >
+                <td><button name=\"btnHist\" id=\"botao_inline\" type=\"submit\">Historico</button></td>
                 </form>  
                 </tr></table>
                 </div>";

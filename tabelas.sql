@@ -227,9 +227,26 @@ CREATE TABLE tb_calendario (
     obs varchar(300),
     hint varchar(100),
     PRIMARY KEY (id_user, data_agd),
-    FOREIGN KEY(id_user) REFERENCES tb_usuario(id)    
+    FOREIGN KEY(id_user) REFERENCES tb_usuario(id)    	
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+CREATE TABLE tb_texto_nf (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    nome varchar(50),
+    texto varchar(500),
+    PRIMARY KEY (id),
+    UNIQUE KEY (nome)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_inventario (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  cod_prod int(11) NOT NULL,
+  oper varchar(1) DEFAULT '1',
+  qtd int(11) NOT NULL,
+  user varchar(10) DEFAULT NULL,
+  dia datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 d rop table tb_pcp;
 //d rop table tb_serv_exec;

@@ -62,7 +62,7 @@
       if (!$conexao)
         die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-        $query = "SELECT * from tb_empresa where tipo = \"FOR\"";
+        $query = "SELECT * from tb_empresa where tipo = \"FOR\" order by nome";
         $result = mysqli_query($conexao, $query);
 
           echo "<td><select name=\"forn\" id=\"forn\">";
@@ -70,9 +70,9 @@
 
         while($fetch = mysqli_fetch_row($result)){
             if ($id_emp == $fetch[0]){
-              echo "<option selected=\"selected\" value=\"". $fetch[0] ."\">". $fetch[1] ."</option>";
+              echo "<option selected=\"selected\" value=\"". $fetch[0] ."\">". str_pad($fetch[0],3,'0', STR_PAD_LEFT)." - ". strtoupper($fetch[1]) ."</option>";
             }else{
-              echo "<option value=\"". $fetch[0] ."\">". $fetch[1] ."</option>";
+              echo "<option value=\"". $fetch[0] ."\">". str_pad($fetch[0],3,'0', STR_PAD_LEFT)." - ". strtoupper($fetch[1]) ."</option>";
             }            
         }
 

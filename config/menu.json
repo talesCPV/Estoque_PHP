@@ -48,13 +48,6 @@
 						"icone": "fa fa-wrench",
 						"perm": [10,4]
 					},
-					{
-						"nome": "Inventário",
-						"link": "inventario.php",
-						"id": "menuInventario",
-						"icone": "fa fa-wrench",
-						"perm": [10,4]
-					},
 		 			{
 						"nome": "Usuário",
 						"link": "cad_user.php",
@@ -150,14 +143,22 @@
 							"id": "menuCalendario",
 							"icone": "fa fa-calendar-check-o",
 							"perm": [10,4,3]
-						},						
+						},
+						{
+							"nome": "Almoxarifado",
+							"link": "inventario.php",
+							"id": "menuInventario",
+							"icone": "fa fa-eye",
+							"perm": [10,4]
+						},											
 						{
 							"nome": "Feriados",
 							"link": "feriados.php",
 							"id": "menuFeriados",
 							"icone": "fa fa-bed",
 							"perm": [10,4,1]
-						}						
+						}
+											
 					  ]
 		},		
 	 	{"modulo": "Financeiro",
@@ -269,7 +270,14 @@
 						"perm": [10,4]
 					},
 		 			{
-						"nome": "Exportar",
+						"nome": "Exportar NFE",
+						"link": "gera_NFe.php",
+				    	"id": "menuNFGerar",
+						"icone": "fa fa-external-link",
+						"perm": [10,4]
+					},
+					{
+						"nome": "Exportar NFS",
 						"link": "gera_NFe.php",
 				    	"id": "menuNFGerar",
 						"icone": "fa fa-external-link",
