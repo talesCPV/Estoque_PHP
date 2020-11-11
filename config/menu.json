@@ -278,7 +278,7 @@
 					},
 					{
 						"nome": "Exportar NFS",
-						"link": "gera_NFe.php",
+						"link": "gera_NFs.php",
 				    	"id": "menuNFGerar",
 						"icone": "fa fa-external-link",
 						"perm": [10,4]
