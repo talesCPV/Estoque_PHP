@@ -4,8 +4,8 @@
 	session_cache_limiter('private');
 	$cache_limiter = session_cache_limiter();
 
-	/* define o prazo do cache em 5 hrs */
-	session_cache_expire(300);
+	/* define o prazo do cache em 9 hrs */
+	session_cache_expire(540);
 	$cache_expire = session_cache_expire();
 
 	/* inicia a sessão */

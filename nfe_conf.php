@@ -660,11 +660,12 @@
 
             if (file_exists($file_itens)){
               $aliquota = get_id("TXS");
-              $nfs = get_id("NFS");              
+              $nfs =  intval(get_id("NFS")) + 1; 
+                           
               $pedido = get_id("ENP");
               $val_nf = money_format('%=*(#0.2n',get_id("TOT"));
               echo"
-                <input type='hidden' id='icms' value='{$icms}'>
+                <input type='hidden' id='valor' value='{$nfs}'>
                 <input type='hidden' id='aliquota' value='{$aliquota}'>
                 <input type='hidden' id='pedido' value='{$pedido}'>
               ";
@@ -673,40 +674,18 @@
                   <input type=\"text\" name=\"dias_parc\" maxlength=\"15\" value=\"30/45/60\" onkeyup=\"return dias_pgto(this)\" />
                   <label> Valor total da NF: {$val_nf}</label><br><br>
                   <label> Número da NFS</label>
-                  <input type='text' name='edtNumNFServ' value='{$nfs}'>
+                  <input type='text' name='edtNumNFServ' value='{$nfs}' onkeyup='return number(this)'>
                   <label> Aliquota %</label>
-                  <input type='text' name='edtAliNFServ' value='{$aliquota}'>
+                  <input type='text' name='edtAliNFServ' value='{$aliquota}' onkeyup='return money(this)'>
                   <label> Discriminação do Serviço</label>
                   <textarea class='edtTextArea' name=\"txt_disc\" cols=\"112\" rows=\"5\" id='txt_disc'> </textarea>
               <label> Dedução / Outras Informações</label>
-              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"5\" id='txt_info' > </textarea>
+              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > </textarea>
 
 
 
             <br><br> <table>
-            <tr>
-              <td><button name=\"import_txt\" id=\"btnImpTxt\">Importar</button></td>
-              <td><select name='textos' id='selTxt'>";
 
-              global $conexao;
-
-              include "conecta_mysql.inc";
-
-              if (!$conexao)
-                die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
-
-
-              $query =  "SELECT * FROM tb_texto_nf";
-              $result = mysqli_query($conexao, $query);
-              while($fetch = mysqli_fetch_row($result)){
-                echo "<option value='{$fetch[0]}'>{$fetch[1]}</option>";         
-              }
-
-              $conexao->close(); 
-
-      echo"  </select></td>
-              <td><button name=\"add_txt\" id=\"btnAddTxt\">+</button></td>
-            </tr>
             <tr>
               <td><button name=\"add_bol\" type=\"submit\">Add Boletos</button></td>
               <td><select name='origem' id='selOrig'>
@@ -926,7 +905,7 @@
             $qtd_parc = 0;
             $dias_parc = 0;
 //            get_id("ENP");
-
+//          gera_chave(get_id("C08"),get_id("NFS"))
             
 
             if (IsSet($_POST ["dias_parc"])){
@@ -939,13 +918,16 @@
               $qtd_parc = count($dias_parc);
               $txt_disc = trim($_POST ["txt_disc"]); 
               $txt_info = trim($_POST ["txt_info"]); 
-              $txs = get_id("TXS");
+              $txs = str_replace('.',',', get_id("TXS"));
               $nfs_num = get_id("NFS");
-              $NFS_val = str_replace('.',',', get_id("TOT"));
-              $imp =  number_format((floatval(get_id("TOT")) * (floatval($txs) * 0.01)), 2, ',', '');
-
+              $NFS_val =  str_replace('.',',', number_format(get_id("TOT") , 2, ',', '0'));
+              $imp =  number_format((floatval(get_id("TOT")) * (floatval(get_id("TXS")) * 0.01)), 2, ',', '');
             }
             $numNF = '000000000';
+
+
+//            number_format($ , 2, ',', '');
+
 
             if (IsSet($_POST ["edtNumNFServ"])){
               $numNF =  str_pad($_POST ["edtNumNFServ"],9,'0', STR_PAD_LEFT) ;
@@ -955,11 +937,13 @@
 
             global $file, $file_itens;
 
-            $texto = "10|".get_id("C08")."|". date("d/m/Y")."|".date("d/m/Y")."|1|2.00|\r\n";
-            $texto = $texto . "20|P|{$numNF}|NFE|". date("d/m/Y")."|". date("d/m/Y G:i:s")."|||||2|00519547000106|Flexibus Sanfonados LTDA ME|Rua Doutor Rosalvo de Almeida Telles|2070||Parque Residencial Nova Caçapava|CAÇAPAVA|SP|12283020|dantas@flexibus.com.br|4|01/07/2007| 3,47|1|||2|";
-            $texto = $texto . get_id("E07")."|". get_id("E01")."|". get_id("E08")."|". get_id("E10")."|". get_id("E11")."|". get_id("E12")."|". get_id("E14")."|". get_id("E15")."||||||". get_id("E12")."|". get_id("E14")."||14.01|";
-            $texto = $texto . $txt_disc."|{$NFS_val}|0,00|".$txt_info."|{$NFS_val}|{$txs}|{$imp}|0,00|\r\n";
-            $texto = $texto . "90|00001|{$NFS_val}|{$txs}|0,00|0,00|0|0,00|";
+            $texto = "10|".get_id("C08")."|". date("d/m/Y")."|".date("d/m/Y")."|4||{$txs}|2.00|\r\n";
+
+            $texto = $texto . "20|RPS|{$numNF}|001|". date("d/m/Y")."|NAO|14.01|{$txt_disc}|{$NFS_val}|0,00|{$txt_info}|{$NFS_val}|{$txs}|{$imp}";
+            $texto = $texto . "|0,00|".get_id("E07")."|".get_id("E01")."|RUA|".get_id("E08")."|".get_id("E09")."|".get_id("E10")."|".get_id("E11")."|".get_id("E12")."|".get_id("E14")."|".get_id("E15")."|".get_id("E18")."|";
+            $texto = $texto . "|||||||||dantas@flexibus.com.br|".get_id("E06")."||\r\n";
+                        
+            $texto = $texto . "90|1|{$NFS_val}|{$imp}|0,00|0,00|0|0,00|";
 
             $original =      array("Ã", "ã", "Á", "á", "Â", "â", "É", "é", "Ê", "ẽ", "Í", "í", "Ó", "ó", "Õ", "õ", "Ú", "ú", "Ç", "ç","a‡");
             $substituido   = array("A", "a", "A", "a", "A", "a", "E", "e", "E", "e", "I", "i", "O", "o", "O", "o", "U", "u", "C", "c","ç");
