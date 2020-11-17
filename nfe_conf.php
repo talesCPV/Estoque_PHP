@@ -670,17 +670,46 @@
                 <input type='hidden' id='pedido' value='{$pedido}'>
               ";
               echo" 
-                  <label class=\"logo\"> Dias entre as parcelas</label>
-                  <input type=\"text\" name=\"dias_parc\" maxlength=\"15\" value=\"30/45/60\" onkeyup=\"return dias_pgto(this)\" />
                   <label> Valor total da NF: {$val_nf}</label><br><br>
+                  <label > Dias entre as parcelas</label>
+                  <input type=\"text\" name=\"dias_parc\" maxlength=\"15\" value=\"28\" onkeyup=\"return dias_pgto(this)\" />
+                  <label> Local de Execução do Serviço</label>
+                  <select name='cmbExec' id='selExec'>
+                    <option value='TOM'> No Cliente </option>
+                    <option value='PRE'> Na Flexibus </option>
+                  </select>
                   <label> Número da NFS</label>
                   <input type='text' name='edtNumNFServ' value='{$nfs}' onkeyup='return number(this)'>
                   <label> Aliquota %</label>
                   <input type='text' name='edtAliNFServ' value='{$aliquota}' onkeyup='return money(this)'>
                   <label> Discriminação do Serviço</label>
-                  <textarea class='edtTextArea' name=\"txt_disc\" cols=\"112\" rows=\"5\" id='txt_disc'> </textarea>
+                  <textarea class='edtTextArea' name=\"txt_disc\" cols=\"112\" rows=\"5\" id='txt_disc'>";
+                  
+
+
+
+                  if (file_exists($file_itens)){
+                    $fp = fopen($file_itens, "r");
+                    $count = 1;
+                    while (!feof ($fp)) {
+                        $linha = fgets($fp,4096);
+                        if(substr($linha, 0, 1) == "I"){
+                            $resp = make_array($linha);
+                            echo $count." - ".$resp[3] ." - ".  money_format('%=*(#0.2n',$resp[10]) ." cód -". $resp[1] ;
+                            $count++;
+                        }
+                    }
+      
+                    fclose($fp);
+      
+                  }
+
+                  
+                  
+             echo"     
+                 </textarea>
               <label> Dedução / Outras Informações</label>
-              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > </textarea>
+              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > Detalhes do Serviço enviados e aprovados por email </textarea>
 
 
 
@@ -902,29 +931,37 @@
             break;
 
           case 'save_nfs': 
-            $qtd_parc = 0;
+            $qtd_parc = 1;
             $dias_parc = 0;
-//            get_id("ENP");
-//          gera_chave(get_id("C08"),get_id("NFS"))
             
-
             if (IsSet($_POST ["dias_parc"])){
               post_id("TXS",$_POST ["edtAliNFServ"]);
               post_id("NFS",$_POST ["edtNumNFServ"]);
-
-//              str_replace('.',',', $aliquota)
 
               $dias_parc = explode("/", $_POST["dias_parc"]); 
               $qtd_parc = count($dias_parc);
               $txt_disc = trim($_POST ["txt_disc"]); 
               $txt_info = trim($_POST ["txt_info"]); 
+
               $txs = str_replace('.',',', get_id("TXS"));
               $nfs_num = get_id("NFS");
               $NFS_val =  str_replace('.',',', number_format(get_id("TOT") , 2, ',', '0'));
               $imp =  number_format((floatval(get_id("TOT")) * (floatval(get_id("TXS")) * 0.01)), 2, ',', '');
             }
             $numNF = '000000000';
+            $val_parc = get_id("TOT") / $qtd_parc;
+            $fatura = "\r\n";
+            for($i=0; $i< $qtd_parc; $i++){
+              $dia_parc = Date('d/m/Y', strtotime('+'.$dias_parc[$i]." days"));
+              $fatura = $fatura . "Parcela ". ($i+1) ." - ".$dia_parc." ".money_format('%=*(#0.2n',$val_parc)." | ";
+//              echo($dias_parc[$i]. " - ".$dia_parc." - ".  $val_parc  ."<br>");              
+            }
 
+            echo $fatura;
+
+
+            $txt_info = $txt_info . $fatura;
+            $txt_info = $txt_info . "\r\n**Tributado pelo Anexo III SIMPLES NACIONAL Conforme LC 123/2006";
 
 //            number_format($ , 2, ',', '');
 
@@ -933,15 +970,21 @@
               $numNF =  str_pad($_POST ["edtNumNFServ"],9,'0', STR_PAD_LEFT) ;
 
             }
-            $val_parc = get_id("TOT") / $qtd_parc;
+
 
             global $file, $file_itens;
 
             $texto = "10|".get_id("C08")."|". date("d/m/Y")."|".date("d/m/Y")."|4||{$txs}|2.00|\r\n";
 
             $texto = $texto . "20|RPS|{$numNF}|001|". date("d/m/Y")."|NAO|14.01|{$txt_disc}|{$NFS_val}|0,00|{$txt_info}|{$NFS_val}|{$txs}|{$imp}";
-            $texto = $texto . "|0,00|".get_id("E07")."|".get_id("E01")."|RUA|".get_id("E08")."|".get_id("E09")."|".get_id("E10")."|".get_id("E11")."|".get_id("E12")."|".get_id("E14")."|".get_id("E15")."|".get_id("E18")."|";
-            $texto = $texto . "|||||||||dantas@flexibus.com.br|".get_id("E06")."||\r\n";
+            $texto = $texto . "|0,00|".get_id("E07")."|".get_id("E01")."||".get_id("E08")."|".get_id("E09")."|".get_id("E10")."|".get_id("E11")."|".get_id("E12")."|".get_id("E14")."|".get_id("E15")."|".get_id("E18")."|".get_id("E05")."|";
+            if( $_POST ["cmbExec"] == "TOM"){
+              $texto = $texto . "|||||||||";
+
+            }else{
+              $texto = $texto . "||".get_id("C09")."|".get_id("C10")."|".get_id("C11")."|".get_id("C12")."|".get_id("C14")."|".get_id("C15")."|".get_id("C16")."|";
+            }
+            $texto = $texto . get_id("E06")."|||\r\n";
                         
             $texto = $texto . "90|1|{$NFS_val}|{$imp}|0,00|0,00|0|0,00|";
 
