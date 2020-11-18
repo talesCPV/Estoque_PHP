@@ -687,29 +687,29 @@
                   
 
 
-
-                  if (file_exists($file_itens)){
+// *********************************************************************************** */
+                 
                     $fp = fopen($file_itens, "r");
                     $count = 1;
                     while (!feof ($fp)) {
                         $linha = fgets($fp,4096);
                         if(substr($linha, 0, 1) == "I"){
                             $resp = make_array($linha);
-                            echo $count." - ".$resp[3] ." - ".  money_format('%=*(#0.2n',$resp[10]) ." cód -". $resp[1] ;
+                            echo str_pad(number_format($resp[8], 0, '.', ''),2,'0', STR_PAD_LEFT) ."-".$resp[3] ." - cod.". $resp[1] ." (". $resp[7] .") =". money_format('%=*(#0.2n',$resp[9])." -  Total:".money_format('%=*(#0.2n',$resp[10])."\r\n" ;
                             $count++;
                         }
                     }
       
                     fclose($fp);
       
-                  }
-
+                 
+// str_pad($_POST ["edtNumNFServ"],9,'0', STR_PAD_LEFT)
                   
                   
              echo"     
                  </textarea>
               <label> Dedução / Outras Informações</label>
-              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > Detalhes do Serviço enviados e aprovados por email </textarea>
+              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > Pedido {$pedido} - Detalhes do serviço enviados e aprovados por email </textarea>
 
 
 
@@ -943,6 +943,10 @@
               $txt_disc = trim($_POST ["txt_disc"]); 
               $txt_info = trim($_POST ["txt_info"]); 
 
+              $txt_disc = str_replace("\r\n", "\\\ ", $txt_disc);
+              $txt_info = str_replace("\r\n", "\\\ ", $txt_info);
+
+
               $txs = str_replace('.',',', get_id("TXS"));
               $nfs_num = get_id("NFS");
               $NFS_val =  str_replace('.',',', number_format(get_id("TOT") , 2, ',', '0'));
@@ -950,10 +954,10 @@
             }
             $numNF = '000000000';
             $val_parc = get_id("TOT") / $qtd_parc;
-            $fatura = "\r\n";
+            $fatura = "\\\ ";
             for($i=0; $i< $qtd_parc; $i++){
               $dia_parc = Date('d/m/Y', strtotime('+'.$dias_parc[$i]." days"));
-              $fatura = $fatura . "Parcela ". ($i+1) ." - ".$dia_parc." ".money_format('%=*(#0.2n',$val_parc)." | ";
+              $fatura = $fatura . "Parcela ". ($i+1) ." - ".$dia_parc." ".money_format('%=*(#0.2n',$val_parc)." \ ";
 //              echo($dias_parc[$i]. " - ".$dia_parc." - ".  $val_parc  ."<br>");              
             }
 
@@ -961,7 +965,7 @@
 
 
             $txt_info = $txt_info . $fatura;
-            $txt_info = $txt_info . "\r\n**Tributado pelo Anexo III SIMPLES NACIONAL Conforme LC 123/2006";
+            $txt_info = $txt_info . "\\\**Tributado pelo Anexo III SIMPLES NACIONAL Conforme LC 123/2006";
 
 //            number_format($ , 2, ',', '');
 

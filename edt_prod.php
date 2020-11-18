@@ -111,7 +111,7 @@
       <label> Estoque Minimo </label>
       <input type="text" name="est_min" maxlength="4" value="<?php echo "$etq_min" ?>"/>
       <label> Codigo *</label>
-      <input type="text" name="cod" maxlength="15" value="<?php echo "$cod" ?>" READONLY/>
+      <input type="text" name="cod" maxlength="15" value="<?php echo "$cod" ?>" />
       <label> Codigo do Produto </label>
       <input type="text" name="cod_bar" maxlength="15" value="<?php echo "$cod_bar" ?>"/>
       <label> Codigo de Barras </label>
