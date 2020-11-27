@@ -10,8 +10,9 @@
 
 	/* inicia a sessão */
 	session_start();
-
-	if (!IsSet($_SESSION["usuario"])){
+	if (!IsSet($_COOKIE["usuario"])){
+//	if (!IsSet($_SESSION["usuario"])){
+//	    $user= $_POST ["usuario"];
 		header('Location: login.php');
 	}else{
 

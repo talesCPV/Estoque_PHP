@@ -709,9 +709,7 @@
              echo"     
                  </textarea>
               <label> Dedução / Outras Informações</label>
-              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > Pedido {$pedido} - Detalhes do serviço enviados e aprovados por email </textarea>
-
-
+              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > Detalhes do serviço enviados e aprovados por email - Cotação {$pedido} </textarea>
 
             <br><br> <table>
 
@@ -949,7 +947,7 @@
 
               $txs = str_replace('.',',', get_id("TXS"));
               $nfs_num = get_id("NFS");
-              $NFS_val =  str_replace('.',',', number_format(get_id("TOT") , 2, ',', '0'));
+              $NFS_val =  str_replace('.',',', get_id("TOT") );
               $imp =  number_format((floatval(get_id("TOT")) * (floatval(get_id("TXS")) * 0.01)), 2, ',', '');
             }
             $numNF = '000000000';
@@ -1020,8 +1018,13 @@
                 die ("Erro de conex�o com localhost, o seguinte erro ocorreu -> ".mysql_error());
               
               for($i=1; $i< $qtd_parc+1; $i++){
-                $venc = date('Y-m-d', strtotime("+".$dias_parc[$i-1]."days",strtotime(date('Y-m-d'))));
-                $ref = "NF-" .get_id("B06") ." " . $i . "/" . $qtd_parc ;
+                $venc = date('Y-m-d', strtotime("+".$dias_parc[$i-1]."days",strtotime(date('Y-m-d'))));   
+
+                if (IsSet($_POST ["edtNumNFServ"])){ // NFS
+                  $ref = "NF-" .$_POST ["edtNumNFServ"] ." " . $i . "/" . $qtd_parc ;                
+                }else{ // NF VENDA
+                  $ref = "NF-" .get_id("B06") ." " . $i . "/" . $qtd_parc ;
+                }
   
                 $query = "INSERT INTO tb_financeiro ( tipo, ref, emp, preco, data_pg, data_ini, resp, origem, pgto) VALUES ('ENTRADA', '$ref', '$dest', '$val_parc','$venc', '$lanc' ,'SISTEMA','$orig', 'BOL');";   
   

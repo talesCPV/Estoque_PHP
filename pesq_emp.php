@@ -71,15 +71,15 @@
 			  	$campo = $_POST ["campo"];
 			  	$valor = $_POST ["valor"];
 			  	if ($campo == "nome"){
-			  		$query = "SELECT * FROM tb_empresa WHERE nome LIKE '%".$valor."%'; ";
+			  		$query = "SELECT * FROM tb_empresa WHERE nome LIKE '%".$valor."%' order by nome; ";
 			  	}
 			  	else
 			  	if ($campo == "cli"){
-			  		$query = "SELECT * FROM tb_empresa WHERE tipo = \"cli\"; ";
+			  		$query = "SELECT * FROM tb_empresa WHERE tipo = \"cli\" order by nome; ";
 			  	}
 			  	else
 			  	if ($campo == "forn"){
-			  		$query = "SELECT * FROM tb_empresa WHERE tipo = \"for\"; ";
+			  		$query = "SELECT * FROM tb_empresa WHERE tipo = \"for\" order by nome; ";
 			  	}
 			  	else
 			  	if ($campo == "cnpj"){

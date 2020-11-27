@@ -51,7 +51,7 @@
 		$pdf->Ln(5);
 
 		$pdf->SetFont('Arial','B',12);
-		$pdf->Cell(200,5,"Cliente: ".utf8_decode(substr(strtoupper($fetch[1]), 0, 30)).".",0,0,"L");
+		$pdf->Cell(300,5,"Cliente: ".utf8_decode(substr(strtoupper($fetch[1]), 0, 50)).".",0,0,"L");
 		$pdf->SetFont('Arial','',10);
 		$pdf->Ln(5);
 
@@ -78,7 +78,7 @@
     	$pdf->Ln(5);
 
 
-	  	$pdf->Cell(200,5,"Obs.: ".strtoupper($fetch[16]),0,0,"L");
+	  	$pdf->Cell(300,5,"Obs.: ".utf8_decode(strtoupper($fetch[16])),0,0,"L");
   		$pdf->Ln(5);
 
 		$pdf->Line(10, 75, 200, 75);
@@ -184,8 +184,8 @@
 		}
 		$pdf->SetFont('Arial','B',12);
 		$pdf->Ln(4);
-	  	$pdf->Cell(148,5,' ',0,0,"L");
-	  	$pdf->Cell(20,5,'TOTAL ',0,0,"L");
+	  	$pdf->Cell(140,5,' ',0,0,"L");
+	  	$pdf->Cell(15,5,'TOTAL ',0,0,"L");
 	  	$pdf->Cell(33,5,money_format('%=*(#0.2n', $total),0,0,"L");
   	}
 
