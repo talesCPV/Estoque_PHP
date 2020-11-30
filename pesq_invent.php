@@ -59,6 +59,7 @@
 				$data_fin = $_POST ["data_fin"];
 				$on = 0;
 				$pgto = '';
+//				echo $data_fin ." 23:59:59";
 
 				if (IsSet($_POST ["ckbDatas"])){
 					$on = 1;
@@ -67,31 +68,31 @@
 			  	if ($campo == "todos"){
 					$query =  "SELECT * from tb_inventario ";
 					if($on){
-						$query = $query . "where dia >= '$data_ini' and dia <= '$data_fin'". $pgto;
+						$query = $query . "where dia >= '$data_ini' and dia <= '$data_fin 23:59:59'" . $pgto;
 					}
 			  	}
 			  	if ($campo == "cod"){
 					$query =  "SELECT * from tb_inventario where cod_prod = '{$valor}' ";
 					if($on){
-						$query = $query . "and dia >= '$data_ini' and dia <= '$data_fin'". $pgto;
+						$query = $query . "and dia >= '$data_ini' and dia <= '$data_fin 23:59:59'". $pgto;
 					}
 			  	}
 			  	else
 			  	if ($campo == "usr"){
 					$query =  "SELECT * from tb_inventario where user LIKE '%{$valor}%' ";
 					if($on){
-						$query = $query . "and dia >= '$data_ini' and dia <= '$data_fin'". $pgto;
+						$query = $query . "and dia >= '$data_ini' and dia <= '$data_fin 23:59:59'". $pgto;
 					}
 			  	}
 			  	else
 			  	if ($campo == "ret"){
 					$query =  "SELECT * from tb_inventario where cod_prod LIKE '%{$valor}%' AND oper = '1' ";
 					if($on){
-						$query = $query . "and dia >= '$data_ini' and dia <= '$data_fin'". $pgto;
+						$query = $query . "and dia >= '$data_ini' and dia <= '$data_fin 23:59:59'". $pgto;
 					}
 			  	}
 
-                $query = $query . ' ORDER BY dia';
+                $query = $query . ' ORDER BY dia DESC';
                 
 			  	$result = mysqli_query($conexao, $query);
 

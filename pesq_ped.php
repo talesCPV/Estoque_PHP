@@ -290,7 +290,9 @@
 								         "<td>" . date('d/m/Y', strtotime($fetch[4])) . "</td>";
 								         if ($fetch[6] == 'ABERTO'){
 								     	 	echo "<td> COT</td>";
-								     	 }else if ($fetch[6] == 'FECHADO'){
+										  }else{
+											$total = $total + $fetch[7];
+											if ($fetch[6] == 'FECHADO'){
 												echo "<td> PED</td>";
 											}else if($fetch[6] == 'INTERNO'){
 												echo "<td> <b>INT</b> </td>";
@@ -299,7 +301,8 @@
 											}else{
 												echo "<td> <b>FAT</b> </td>";
 											}
-										  
+										  }
+										  										  
 										  echo "<td>" . money_format('%=*(#0.2n',$fetch[7]) . "</td>";
 										  
 										  if($fetch[8] == null){ // Se não existe NF em PDF
@@ -309,13 +312,12 @@
 										 }										  
 
 										  echo "<td style='display: none;'>" .$fetch[8] . "</td></tr>";
-										  $total = $total + $fetch[7];
 										  
 					        }
 
 
 
-						    echo"<tr><td></td><td></td><td></td><td></td><th>Total</th><th>".money_format('%=*(#0.2n',$total)."</th></tr>
+						    echo"<tr><td></td><td></td><th>(soma dos pedidos fechados no período)</th><td></td><th>Total</th><th>".money_format('%=*(#0.2n',$total)."</th></tr>
 						</table> 
 
 				  </div>

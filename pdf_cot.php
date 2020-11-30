@@ -55,7 +55,7 @@
 		$pdf->SetFont('Arial','',10);
 		$pdf->Ln(5);
 
-		$pdf->Cell(150,5,"End.: ".utf8_decode(substr(strtoupper($fetch[6]), 0, 70)),0,0,"L");
+		$pdf->Cell(140,5,"End.: ".utf8_decode(substr(strtoupper($fetch[6]), 0, 70)),0,0,"L");
 		$pdf->Cell(50,5,"Cidade: ". utf8_decode(strtoupper($fetch[9])) .'-'.strtoupper($fetch[10]),0,0,"L");
 		$pdf->Ln(5); // $str = iconv('UTF-8', 'windows-1252', $str);
 
