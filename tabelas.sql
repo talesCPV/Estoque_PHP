@@ -248,12 +248,45 @@ CREATE TABLE tb_inventario (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+CREATE TABLE tb_sanfonas (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    fabricante varchar(25) NOT NULL,
+    modelo varchar(40) NOT NULL,
+    ano varchar(15) NOT NULL,
+    barras int(11) NOT NULL,
+    dob_teto int(11) DEFAULT 0,
+    dob_chao int(11) DEFAULT 0,
+    tipo_sanf varchar(15) DEFAULT "SANF.INTERNA",
+    chao_larg int(11) DEFAULT 0,
+    chao_comp int(11) DEFAULT 0,
+    bainhas int(11) DEFAULT 0,
+    alt_sanf int(11) DEFAULT 0,
+    alt_prot_teto int(11) DEFAULT 0, 
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_ref_sanf (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    entrada datetime DEFAULT CURRENT_TIMESTAMP,
+    id_cliente int(11) NOT NULL,
+    id_modelo int(11) NOT NULL,
+    numero varchar(15) DEFAULT "0000/00/00",
+    tipo varchar(11) DEFAULT "REFORMA",
+    status varchar(15) DEFAULT "RECEBIMENTO",
+    saida datetime DEFAULT CURRENT_TIMESTAMP,
+    obs varchar(300),
+ 
+    PRIMARY KEY (id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
 d rop table tb_pcp;
 //d rop table tb_serv_exec;
 //D ROP TABLE IF EXISTS `tb_hora_extra`;
 //d rop table tb_item_serv;
 //d rop table tb_funcionario;
 //d rop table tb_servico;
+//d rop table tb_sanfonas;
 
 ALTER TABLE tb_financeiro
 ADD column resp varchar(15) DEFAULT NULL; 
@@ -332,7 +365,6 @@ show tables;
 
 select * from tb_entrada;
 
-delete from tb_entrada where id=42;
 
 update tb_entrada set status='ABERTO' where id = 43;
 

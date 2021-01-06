@@ -947,7 +947,9 @@
 
               $txs = str_replace('.',',', get_id("TXS"));
               $nfs_num = get_id("NFS");
-              $NFS_val =  str_replace('.',',', get_id("TOT") );
+
+              $NFS_val =  number_format(get_id("TOT"), 2, ',', '');
+//              $NFS_val =  str_replace('.',',', get_id("TOT") );
               $imp =  number_format((floatval(get_id("TOT")) * (floatval(get_id("TXS")) * 0.01)), 2, ',', '');
             }
             $numNF = '000000000';
@@ -984,7 +986,7 @@
               $texto = $texto . "|||||||||";
 
             }else{
-              $texto = $texto . "||".get_id("C09")."|".get_id("C10")."|".get_id("C11")."|".get_id("C12")."|".get_id("C14")."|".get_id("C15")."|".get_id("C16")."|";
+              $texto = $texto . "|".get_id("C09")."|".get_id("C10")."|".get_id("C11")."|".get_id("C12")."|".get_id("C14")."|".get_id("C15")."|".get_id("C16")."|";
             }
             $texto = $texto . get_id("E06")."|||\r\n";
                         

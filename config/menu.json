@@ -35,6 +35,13 @@
 						"perm": [10,4,3]
 					},
 					{
+						"nome": "Sanfonas Modelos",
+						"link": "mod_sanf.php",
+						"id": "menuCadSanf",
+						"icone": "fa fa-bus",
+						"perm": [10,4,3]
+					},
+					{
 						"nome": "Serv. Executados",
 						"link": "cad_serv.php",
 						"id": "menuCadServ",
@@ -85,6 +92,13 @@
 						"icone": "fa fa-bus",
 						"perm": [10,4,3]
 					},
+					{
+						"nome": "Manut. Sanfonas",
+						"link": "manut_sanf.php",
+						"id": "menuManutSanf",
+						"icone": "fa fa-bus",
+						"perm": [10,4,3]
+					},					
 					{
 						"nome": "Ordem de Fabr.",
 						"link": "pesq_of.php",

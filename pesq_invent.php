@@ -59,7 +59,6 @@
 				$data_fin = $_POST ["data_fin"];
 				$on = 0;
 				$pgto = '';
-//				echo $data_fin ." 23:59:59";
 
 				if (IsSet($_POST ["ckbDatas"])){
 					$on = 1;
