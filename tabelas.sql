@@ -275,9 +275,16 @@ CREATE TABLE tb_ref_sanf (
     status varchar(15) DEFAULT "RECEBIMENTO",
     saida datetime DEFAULT CURRENT_TIMESTAMP,
     obs varchar(300),
- 
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+	FOREIGN KEY(id_cliente) REFERENCES tb_empresa(id),
+	FOREIGN KEY(id_modelo) REFERENCES tb_sanfonas(id)    
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
+select * from tb_ref_sanf;
+
+
+INSERT INTO tb_ref_sanf ( entrada, id_cliente, id_modelo, numero, tipo, status, saida, obs) VALUES ('2021-01-07', '175', '1', '1234567890', 'REFORMA', 'RECEBIMENTO', 2021-01-19, 'teste 123' ) ;
 
 
 d rop table tb_pcp;

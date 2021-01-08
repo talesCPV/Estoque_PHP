@@ -93,6 +93,7 @@
                         <th>Bainhas</th>
                         <th>Alt. Sanfoninha</th>
                         <th>Alt. Prot. Teto</th>
+                        <th>Chão</th>
                     </tr>";
                     while($fetch = mysqli_fetch_row($result)){
                         echo "<tr class='tbl_row'>".
@@ -108,7 +109,8 @@
                                     "<td>" .$fetch[9] . "</td>".
                                     "<td>" .$fetch[10] . "</td>".
                                     "<td>" .$fetch[11] . "</td>".
-                                    "<td>" .$fetch[12]. "</td></tr>";                                    
+                                    "<td>" .$fetch[12] . "</td>".
+                                    "<td> <a href='des_chao.html'>desenho</a> </td></tr>";                                    
                     }
         echo"    </table> 
                 </div>";
