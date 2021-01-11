@@ -5,13 +5,23 @@ let y = 350;
 let d = 600; // diameter
 let r = d/2;  // radius
 let margin = 20;
+let t = 2750; // raio grande do velcro
 
+let params;
 
+// usuario
 let w = 600; // width
-let h = (y+Math.cos(deg_rad(135)) * r)-(y+Math.cos(deg_rad(45)) * r); // height
-let c = 350; // center
+let h = 500; // height
+let c = 350 ; // center
+let bainhas = 0;
 
-//let ang = [45,135,225,315 ];
+let escala = 3;
+
+
+// calculo
+let ang = Math.asin((h/2)/t)/(Math.PI / 180);
+//alert(Math.asin(ang)/(Math.PI / 180));
+
 
 function preload() {
     font = loadFont('config/isocpeur.ttf');
@@ -19,6 +29,11 @@ function preload() {
 
 
 function setup() {
+    params = parseURLParams(window.location.href);
+    bainhas = params[0];
+    h = params[2]/escala;
+    w = params[1]/escala;
+    c = (params[2] * 0.8)/escala;
     createCanvas(screen[0], screen[1]);
     frameRate(30)
     textSize(15);
@@ -35,36 +50,48 @@ function draw() {
 
     draw_sheet();
 
-//    line(x,0,x,900);
+    let p1 = [x - w/2, y - h/2 ];
+    let p2 = [x - w/2, y + h/2 ];
+    let p3 = [x + w/2, y + h/2 ];
+    let p4 = [x + w/2, y - h/2 ];
 
-
-    let p1 = [x - r*seno(135)-w/2 + seno(135) * r, y + cosseno(135) * r];
-    let p2 = [x - r*seno(45)-w/2 + seno(45)  * r, y + cosseno(45)  * r];
-    let p3 = [x - r*seno(315)+w/2 + seno(315) * r, y + cosseno(315) * r];
-    let p4 = [x - r*seno(225)+w/2 + seno(225) * r, y + cosseno(225) * r];
-
-
-//    arc(x+r*seno(135)-w/2, y, d, d, deg_rad(135), deg_rad(225)); 
-//    line(p1[0],p1[1],p2[0],p2[1]);
-
-    arc(x-r*seno(45)+w/2, y,  d, d, deg_rad(315), deg_rad(45));
-    line(p3[0],p3[1],p4[0],p4[1]);
-
+    cota(p1,p4,"up",params[1],40);
+    cota(p4,p3,"right",params[2],40);
+    cota([x,y-c/2],[x,y+c/2],"right",(params[2]*0.8),40);
     
     line(x,y-c/2,p1[0],p1[1]);    
     line(x,y+c/2,p2[0],p2[1]);
     line(x,y+c/2,p3[0],p3[1]);
     line(x,y-c/2,p4[0],p4[1]);
 
-    line(x,y-c/2,x,y+c/2);
+    line(x,y-c/2,x,y+c/2); // linha de centro
 
-    stroke(255,0,0);
+    let w1 = (t/2) - Math.sqrt(Math.pow((t/2),2) - Math.pow((h/2),2));
 
-    let t = 3000;
+    stroke(255,255,0);
 
-    arc(t/2+x+r*seno(180)-w/2, y, t, t, deg_rad(135), deg_rad(225)); 
+    // bainhas
+    let xb = x-w/2-w1+(w/6);
+    let ang_b = Math.asin( (0.1*h)/(w/2))/(Math.PI / 180)
+    let off_20 = seno(ang_b) * (w/3);
+    let lin_20 = h + (off_20 * 2);
+//    alert(ang_b)
+
+    for(let i=0; i< bainhas+1;i++){
+//        line(xb-10,);
+
+    }
+
+    line(xb, y - h/2 + off_20 ,xb, y + h/2 - off_20);
+    cota(p2,[x-w/2-w1+(w/6), y + h/2],"down",(w/6).toFixed(2),40);
+    
+
+    // arcos
 
 
+    arc(t/2+x-w/2-w1, y, t, t, deg_rad(180-ang_b), deg_rad(180 + ang_b)); 
+
+    arc(-t/2+x+w/2+w1, y, t, t, deg_rad(-ang_b), deg_rad(ang_b)); 
 
 
 }
@@ -98,13 +125,11 @@ function draw_sheet(){
 
     line(x1-w_leg+lin*3,y1-h_leg+lin*3,x1-w_leg+lin*3,y1);
 
-
-
     fill(255);
     textSize(15);
     text("FLEXIBUS SANFONADOS LTDA. ", x1-w_leg+120, y1-h_leg +20, 300, 150);
     textSize(30);
-    text("DES. N. 000-01", x1-w_leg+120, y1-h_leg +70, 300, 150);
+    text("CHAO "+params[4]+" "+params[3], x1-w_leg+20, y1-h_leg +70, 300, 150);
     textSize(15);
     text("Escala:", x1-w_leg+15, y1-h_leg+lin*3 +15, 300, 150);
     textSize(25);
@@ -124,4 +149,73 @@ function seno(ang){
 
 function cosseno(ang){
     return Math.cos(deg_rad(ang));
+}
+
+function cota(pi,pf,side,texto,os){
+    textSize(25);
+    fill(255);
+
+    if(side == "up"){
+        line(pi[0],pi[1]-(os*0.2),pi[0],pi[1]-os);
+        line(pf[0],pf[1]-(os*0.2),pf[0],pf[1]-os);
+        line(pi[0],pi[1]-(os*0.8),pf[0],pf[1]-(os*0.8));
+  
+        text(texto, (pf[0]-pi[0]) / 2 + pi[0] - textWidth(texto)/2 , pf[1]-(os*1.2), 300, 150);    
+
+    }else if(side == "down"){
+        line(pi[0],pi[1]+(os*0.2),pi[0],pi[1]+os);
+        line(pf[0],pf[1]+(os*0.2),pf[0],pf[1]+os);
+        line(pi[0],pi[1]+(os*0.8),pf[0],pf[1]+(os*0.8));
+        
+        text(texto, (pf[0]-pi[0]) / 2 + pi[0] - textWidth(texto)/2 , pf[1]+(os*0.6), 300, 150);    
+
+    }else if(side == "left"){
+        line(pi[0]-(os*0.2),pi[1],pi[0]-os,pi[1]);
+        line(pf[0]-(os*0.2),pf[1],pf[0]-os,pf[1]);
+        line(pi[0]-(os*0.8),pi[1],pf[0]-(os*0.8),pf[1]);
+
+        push();
+        translate(pi[0] - os, (pf[1]-pi[1]) / 2 + pi[1] - textWidth(texto)/2  );
+        rotate( radians(270) );
+        text(texto, 0, 0, 300, 150);    
+        pop();
+
+
+    }else if(side == "right"){
+        line(pi[0]+(os*0.2),pi[1],pi[0]+os,pi[1]);
+        line(pf[0]+(os*0.2),pf[1],pf[0]+os,pf[1]);
+        line(pi[0]+(os*0.8),pi[1],pf[0]+(os*0.8),pf[1]);
+        
+        push();
+        translate(pi[0] + os, (pf[1]-pi[1]) / 2 + pi[1] - textWidth(texto)/2 );
+        rotate( radians(90) );
+        text(texto, 0, 0, 300, 150);    
+        pop();
+    }
+
+    noFill();
+
+}
+
+function parseURLParams(url) {
+
+    var res = url.split("?");
+    res = res[1].split("&");
+
+    let b = res[0].split("=");
+    b = b[1];
+
+    let l = res[1].split("=");
+    l = l[1];
+
+    let c = res[2].split("=");
+    c = c[1];
+
+    let m = res[3].split("=");
+    m = m[1];
+
+    let f = res[4].split("=");
+    f = f[1];
+
+    return [b,l,c,m,f]; 
 }

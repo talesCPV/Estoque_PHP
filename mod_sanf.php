@@ -110,7 +110,7 @@
                                     "<td>" .$fetch[10] . "</td>".
                                     "<td>" .$fetch[11] . "</td>".
                                     "<td>" .$fetch[12] . "</td>".
-                                    "<td> <a href='des_chao.html'>desenho</a> </td></tr>";                                    
+                                    "<td> <a href='des_chao.html?b={$fetch[10]}&l={$fetch[8]}&c={$fetch[9]}&m={$fetch[2]}&f={$fetch[1]}'>desenho</a> </td></tr>";                                    
                     }
         echo"    </table> 
                 </div>";
