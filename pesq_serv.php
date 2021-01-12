@@ -76,7 +76,7 @@
             
                   $query_opt = $query_opt . " order by data_exec";
 
-                  $query =  "SELECT s.id, e.nome, s.num_carro, s.data_exec,  s.func, s.obs, s.nf, s.pedido
+                  $query =  "SELECT s.id, e.nome, s.num_carro, s.data_exec,  s.func, s.obs, s.nf, s.pedido, e.id
                              FROM tb_serv_exec as s
                              INNER JOIN tb_empresa as e
                              ON s.id_emp = e.id " . $query_opt;                                  
@@ -104,7 +104,7 @@
 
                                 echo "<tr class='tbl_row'>".
                                          "<td>" .$fetch[0] . "</td>".
-								     	 "<td>" .$fetch[1] . "</td>".
+								     	 "<td>" .$fetch[8]." - ". $fetch[1] . "</td>".
 								     	 "<td>" .$fetch[2] . "</td>".
 								     	 "<td>" .date('d/m/Y', strtotime($fetch[3]))  . "</td>".
 								         "<td style='display: none;'>" . $fetch[4] . "</td>".

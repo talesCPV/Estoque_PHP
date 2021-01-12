@@ -72,16 +72,16 @@
           die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
 
-        $query = "SELECT * from tb_empresa where tipo = \"CLI\";";
+        $query = "SELECT * from tb_empresa where tipo = \"CLI\" order by nome;";
         $result = mysqli_query($conexao, $query);
 
 
         while($fetch = mysqli_fetch_row($result)){
             echo $fetch[1] . "<br>";
             if ($fetch[0] == $id_emp){
-              echo "<option selected value=\"". $fetch[0] ."\">". $fetch[1] ."</option>";
+              echo "<option selected value=\"". $fetch[0] ."\">".  str_pad($fetch[0],3,'0', STR_PAD_LEFT)." - ". strtoupper($fetch[1])  ."</option>";
             }else{
-              echo "<option value=\"". $fetch[0] ."\">". $fetch[1] ."</option>";
+              echo "<option value=\"". $fetch[0] ."\">".  str_pad($fetch[0],3,'0', STR_PAD_LEFT)." - ". strtoupper($fetch[1])  ."</option>";
             }
         }
 

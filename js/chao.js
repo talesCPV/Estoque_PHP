@@ -7,6 +7,10 @@ let r = d/2;  // radius
 let margin = 20;
 let t = 2750; // raio grande do velcro
 
+let line_color = [255,255,255];
+let cota_color = [255,255,0]
+let bg_color = [0,0,0];
+
 let params;
 
 // usuario
@@ -30,7 +34,7 @@ function preload() {
 
 function setup() {
     params = parseURLParams(window.location.href);
-    bainhas = params[0];
+    bainhas = parseInt(params[0]);
     h = params[2]/escala;
     w = params[1]/escala;
     c = (params[2] * 0.8)/escala;
@@ -39,24 +43,35 @@ function setup() {
     textSize(15);
     textAlign(10, 10);
     textFont(font);    
-    stroke(255);
+    stroke(line_color);
     fill(0);
 
 }
 
 function draw() {
-    background(0, 0, 0);
+    background(bg_color);
     stroke(255);
+    let ang_b = Math.asin( (0.1*h)/(w/2))/(Math.PI / 180)
 
     draw_sheet();
 
-    let p1 = [x - w/2, y - h/2 ];
-    let p2 = [x - w/2, y + h/2 ];
-    let p3 = [x + w/2, y + h/2 ];
-    let p4 = [x + w/2, y - h/2 ];
+//    let p1 = [x - w/2, y - h/2 ];
+//    let p2 = [x - w/2, y + h/2 ];
+//    let p3 = [x + w/2, y + h/2 ];
+//    let p4 = [x + w/2, y - h/2 ];
+
+
+    let p1 = [x - w/2 , y - seno(ang_b) * t/2] ; // ponto sup esq
+    let p2 = [x - w/2, y + seno(ang_b) * t/2]; // ponto inf esq
+    let p3 = [x + w/2, y + seno(ang_b) * t/2 ]; // ponto inf dir
+    let p4 = [x + w/2, y - seno(ang_b) * t/2 ]; // ponto sup dir
+
+    let pc1 = [x,y-c/2]; // ponto central alto
+    let pc2 = [x,y+c/2]; // ponto central baixo
+
 
     cota(p1,p4,"up",params[1],40);
-    cota(p4,p3,"right",params[2],40);
+    cota(p4,p3,"right",params[2],60);
     cota([x,y-c/2],[x,y+c/2],"right",(params[2]*0.8),40);
     
     line(x,y-c/2,p1[0],p1[1]);    
@@ -64,35 +79,50 @@ function draw() {
     line(x,y+c/2,p3[0],p3[1]);
     line(x,y-c/2,p4[0],p4[1]);
 
-    line(x,y-c/2,x,y+c/2); // linha de centro
 
-    let w1 = (t/2) - Math.sqrt(Math.pow((t/2),2) - Math.pow((h/2),2));
+    // linha de centro
+    line(pc1[0],pc1[1],pc2[0],pc2[1]); 
 
-    stroke(255,255,0);
-
-    // bainhas
-    let xb = x-w/2-w1+(w/6);
-    let ang_b = Math.asin( (0.1*h)/(w/2))/(Math.PI / 180)
-    let off_20 = seno(ang_b) * (w/3);
-    let lin_20 = h + (off_20 * 2);
-//    alert(ang_b)
+    let pt_ini = pc1[1];
+    let dist_bai = (pc2[1] - pc1[1]) / (bainhas+1) ;
 
     for(let i=0; i< bainhas+1;i++){
-//        line(xb-10,);
+        let p0 = pt_ini;
+        pt_ini += dist_bai;
+        line(pc1[0]-10,pt_ini, pc1[0]+10,pt_ini);
+        cota([pc1[0]-10,p0],[pc1[0]-10,pt_ini],"left",(dist_bai*escala).toFixed(0),20);
 
     }
 
-    line(xb, y - h/2 + off_20 ,xb, y + h/2 - off_20);
-    cota(p2,[x-w/2-w1+(w/6), y + h/2],"down",(w/6).toFixed(2),40);
-    
-
     // arcos
-
+    let w1 = (t/2) - Math.sqrt(Math.pow((t/2),2) - Math.pow((h/2),2)); // altura do arco
 
     arc(t/2+x-w/2-w1, y, t, t, deg_rad(180-ang_b), deg_rad(180 + ang_b)); 
 
     arc(-t/2+x+w/2+w1, y, t, t, deg_rad(-ang_b), deg_rad(ang_b)); 
 
+
+    stroke(255,255,0);
+
+    // bainhas
+    let off_20 = seno(ang_b) * (w/3);
+    let pi_b = [x-w/2-w1+(w/6), y - h/2 + off_20];
+    let pf_b = [x-w/2-w1+(w/6),y + h/2 - off_20];
+    dist_bai = ((h/2 - off_20)*2) /(bainhas+1)  ;
+    pt_ini = y - h/2 + off_20;
+
+//alert(  (off_20*2)+(pc2[1]-pc1[1])   )
+
+    for(let i=0; i< bainhas+1;i++){
+        let p0 = pt_ini;
+        pt_ini += dist_bai;
+        line(pi_b[0]-10,pt_ini, pi_b[0]+10,pt_ini);
+        cota([pi_b[0]-10,p0],[pi_b[0]-10,pt_ini],"left",(dist_bai*escala).toFixed(0),20);
+
+    }
+
+    line(pi_b[0],pi_b[1],pf_b[0],pf_b[1]);
+    cota(p2,[x-w/2-w1+(w/6), y + seno(ang_b) * t/2],"down",(w/6 * escala).toFixed(0),40);
 
 }
 
@@ -108,6 +138,7 @@ function draw_sheet(){
     let h_leg = 150;
     let lin = 30;
 
+    stroke(line_color);
 
     //margem
     line(x0,y0,x1,y0);
@@ -125,16 +156,19 @@ function draw_sheet(){
 
     line(x1-w_leg+lin*3,y1-h_leg+lin*3,x1-w_leg+lin*3,y1);
 
-    fill(255);
+    fill(line_color);
     textSize(15);
     text("FLEXIBUS SANFONADOS LTDA. ", x1-w_leg+120, y1-h_leg +20, 300, 150);
     textSize(30);
-    text("CHAO "+params[4]+" "+params[3], x1-w_leg+20, y1-h_leg +70, 300, 150);
+//    text("CHAO "+params[4]+" "+params[3], x1-w_leg+20, y1-h_leg +70, 300, 150);
+    text("CHAO "+params[4]+" "+params[3], x1-w_leg - (textWidth("CHAO "+params[4]+" "+params[3])/2) + 200, y1-h_leg +70, 300, 150);
     textSize(15);
     text("Escala:", x1-w_leg+15, y1-h_leg+lin*3 +15, 300, 150);
     textSize(25);
     text("TALES C. DANTAS", x1-w_leg+150, y1-h_leg+lin*3 +35, 300, 150);
     noFill();
+
+//    text(texto, (pf[0]-pi[0]) / 2 + pi[0] - textWidth(texto)/2 , pf[1]-(os*1.2), 300, 150);
 
 
 }
@@ -151,9 +185,14 @@ function cosseno(ang){
     return Math.cos(deg_rad(ang));
 }
 
+function tangente(ang){
+    return Math.tan(deg_rad(ang));
+}
+
 function cota(pi,pf,side,texto,os){
     textSize(25);
-    fill(255);
+    fill(cota_color);
+    stroke(cota_color);
 
     if(side == "up"){
         line(pi[0],pi[1]-(os*0.2),pi[0],pi[1]-os);
@@ -175,7 +214,7 @@ function cota(pi,pf,side,texto,os){
         line(pi[0]-(os*0.8),pi[1],pf[0]-(os*0.8),pf[1]);
 
         push();
-        translate(pi[0] - os, (pf[1]-pi[1]) / 2 + pi[1] - textWidth(texto)/2  );
+        translate(pi[0] - os, (pf[1]-pi[1]) / 2 + pi[1] + textWidth(texto)/2  );
         rotate( radians(270) );
         text(texto, 0, 0, 300, 150);    
         pop();
@@ -194,6 +233,8 @@ function cota(pi,pf,side,texto,os){
     }
 
     noFill();
+
+    stroke(line_color);
 
 }
 
