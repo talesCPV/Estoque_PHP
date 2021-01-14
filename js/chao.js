@@ -49,6 +49,7 @@ function setup() {
 }
 
 function draw() {
+    colors();
     background(bg_color);
     stroke(255);
     let ang_b = Math.asin( (0.1*h)/(w/2))/(Math.PI / 180)
@@ -129,6 +130,8 @@ function draw() {
 
 function draw_sheet(){
 
+    let texto;
+
     let x0 = margin;
     let x1 = width-margin;
     let y0 = margin;
@@ -158,14 +161,17 @@ function draw_sheet(){
 
     fill(line_color);
     textSize(15);
-    text("FLEXIBUS SANFONADOS LTDA. ", x1-w_leg+120, y1-h_leg +20, 300, 150);
+    texto = "FLEXIBUS SANFONADOS LTDA.";
+    text(texto, x1-w_leg - (textWidth(texto)/2) + 200, y1-h_leg +20, 300, 150);
     textSize(30);
-//    text("CHAO "+params[4]+" "+params[3], x1-w_leg+20, y1-h_leg +70, 300, 150);
-    text("CHAO "+params[4]+" "+params[3], x1-w_leg - (textWidth("CHAO "+params[4]+" "+params[3])/2) + 200, y1-h_leg +70, 300, 150);
+    texto = params[4]+" "+params[3]+" "+bainhas+" BAINHAS";
+    text(texto, x1-w_leg - (textWidth(texto)/2) + 200, y1-h_leg +70, 400, 150);
     textSize(15);
-    text("Escala:", x1-w_leg+15, y1-h_leg+lin*3 +15, 300, 150);
+    texto = "Escala:";
+    text(texto, x1-w_leg- (textWidth(texto)/2) + 45, y1-h_leg+lin*3 +15, 300, 150);
     textSize(25);
-    text("TALES C. DANTAS", x1-w_leg+150, y1-h_leg+lin*3 +35, 300, 150);
+    texto = "TALES C. DANTAS";
+    text(texto, x1-w_leg- (textWidth(texto)/2)+245, y1-h_leg+lin*3 +35, 300, 150);
     noFill();
 
 //    text(texto, (pf[0]-pi[0]) / 2 + pi[0] - textWidth(texto)/2 , pf[1]-(os*1.2), 300, 150);
@@ -259,4 +265,31 @@ function parseURLParams(url) {
     f = f[1];
 
     return [b,l,c,m,f]; 
+}
+
+function colors(){
+
+    var radios = document.getElementsByName('colors');
+
+    for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+          // do whatever you want with the checked radio
+            if(radios[i].value == 1){
+                line_color = [255,255,255];
+                cota_color = [255,255,0]
+                bg_color = [0,0,0];
+            }else{
+                line_color = [0,0,0];
+                cota_color = [0,0,0]
+                bg_color = [255,255,255];
+            }
+          // only one radio can be logically checked, don't check the rest
+          break;
+        }
+      }
+
+}
+
+function imprimir(){
+    window.print();
 }

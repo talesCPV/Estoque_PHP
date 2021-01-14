@@ -71,15 +71,15 @@
 			  	$campo = $_POST ["campo"];
 			  	$valor = $_POST ["valor"];
 			  	if ($campo == "nome"){
-			  		$query = "SELECT * FROM tb_empresa WHERE nome LIKE '%".$valor."%' order by nome; ";
+			  		$query = "SELECT * FROM tb_empresa WHERE nome LIKE '%".$valor."%' OR fantasia LIKE '%".$valor."%' order by fantasia; ";
 			  	}
 			  	else
 			  	if ($campo == "cli"){
-			  		$query = "SELECT * FROM tb_empresa WHERE tipo = \"cli\" order by nome; ";
+			  		$query = "SELECT * FROM tb_empresa WHERE tipo = \"cli\" order by fantasia; ";
 			  	}
 			  	else
 			  	if ($campo == "forn"){
-			  		$query = "SELECT * FROM tb_empresa WHERE tipo = \"for\" order by nome; ";
+			  		$query = "SELECT * FROM tb_empresa WHERE tipo = \"for\" order by fantasia; ";
 			  	}
 			  	else
 			  	if ($campo == "cnpj"){
@@ -102,7 +102,7 @@
 						<table class=\"search-table\" id=\"tabItens\">
 						  	<tr>
 						    	<th>Cod.</th>
-						    	<th>Nome</th>
+						    	<th>Nome Fantasia</th>
 						    	<th>CNPJ</th>
 						    	<th>Insc. Est.</th>
 						    	<th>Telefone</th>
@@ -114,7 +114,7 @@
 
 								echo "<tr class='tbl_row'>".
 										 "<td>" .$fetch[0] . "</td>".
-								         "<td>" .$fetch[1] . "</td>".
+								         "<td>" .$fetch[12] . "</td>".
 								         "<td>" . CNPJ($fetch[2]) . "</td>".
 								         "<td>" . IE($fetch[3]) . "</td>".
 								     	 "<td style='display: none;'>" .$fetch[4] . "</td>".

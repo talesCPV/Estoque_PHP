@@ -1387,10 +1387,12 @@ $(document).ready(function(){
                         if (arr[arr.length-1] == 'cargos.php#' || arr[arr.length-1] == 'cargos.php'){         
                         var id_cargo = $.trim($(this).children('td').slice(0, 1).text().toUpperCase());
                         var cargo = $.trim($(this).children('td').slice(1, 2).text().toUpperCase());
-                        var tipo = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
-                        var sal = ClearMoney($.trim($(this).children('td').slice(3, 4).text()));
+                        var cbo = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
+                        var tipo = $.trim($(this).children('td').slice(3, 4).text().toUpperCase());
+                        var sal = ClearMoney($.trim($(this).children('td').slice(4, 5).text()));
 
                         var table = "<table><tr><td>Cargo *</td><td> <input type='text' name='cargo' maxlength='40' id='edtCargo' value='"+cargo+"'/></td></tr>";
+                        table +=   "<tr><td>CBO</td><td><input type='text' name='edtCBO' id='edtCBO' value='"+cbo+"'/></td></tr>";
                         table +=   "<tr><td>Salário * R$</td><td><input type='text' name='edtSal' id='edtSal' onkeyup='return money(this)' value='"+sal+"'/></td></tr>";
                         if(tipo == "HORISTA"){
                             table +=   "<tr><td>Tipo</td><td><select name='tipo' id= 'selTipo'> <option selected='selected' value='HORA'>HORISTA</option><option value='MENSAL'>MENSALISTA</option></select></td></tr>";
@@ -1403,9 +1405,10 @@ $(document).ready(function(){
                         $(document).off('click', '#btn_Save').on('click', '#btn_Save', function() {
                             var cargo = $('#edtCargo').val().trim().toUpperCase();
                             if(cargo != "" && $('#edtSal').val().trim() != ""){
-                                var sal = parseFloat($('#edtSal').val());
-                                var tipo = $('#selTipo').val();
-                                var query = "query=UPDATE tb_cargos SET cargo = '"+ cargo +"', salario = "+ sal +", tipo = '"+ tipo+"' WHERE id = '"+ id_cargo +"';";
+                                sal = parseFloat($('#edtSal').val());
+                                cbo = $('#edtCBO').val();                             
+                                tipo = $('#selTipo').val();
+                                var query = "query=UPDATE tb_cargos SET cargo = '"+ cargo +"', cbo = '"+ cbo +"', salario = "+ sal +", tipo = '"+ tipo+"' WHERE id = '"+ id_cargo +"';";
                                 queryDB(query);  
                                 $('#frmRefresh').submit();                               
                             }else{

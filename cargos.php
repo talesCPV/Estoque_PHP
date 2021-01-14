@@ -39,13 +39,15 @@
                     <tr>
                         <th>Cod.</th>
                         <th>Cargo</th>
+                        <th>CBO</th>
                         <th>Tipo</th>
                         <th>Salario</th>
                     </tr>";
                     while($fetch = mysqli_fetch_row($result)){
                         echo "<tr class='tbl_row'>".
                                     "<td>" .$fetch[0] . "</td>".
-                                    "<td>" .$fetch[1] . "</td>";
+                                    "<td>" .$fetch[1] . "</td>".
+                                    "<td>" .$fetch[4] . "</td>";
                         if($fetch[3] == 'HORA'){
                             echo   "<td>HORISTA</td>";
                         }else{

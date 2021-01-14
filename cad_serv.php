@@ -52,7 +52,7 @@
       <?php  
 
 
-        $query = "SELECT * from tb_empresa where tipo = \"CLI\" order by nome";
+        $query = "SELECT * from tb_empresa where tipo = \"CLI\" order by fantasia";
         $result = mysqli_query($conexao, $query);
 
           echo "<td><select name=\"cli\" id=\"cli\">";
@@ -60,7 +60,7 @@
 
         while($fetch = mysqli_fetch_row($result)){
             echo $fetch[1] . "<br>";
-            echo "<option value=\"". $fetch[0] ."\">". str_pad($fetch[0],3,'0', STR_PAD_LEFT)." - ". strtoupper($fetch[1]) ."</option>";
+            echo "<option value=\"". $fetch[0] ."\">". str_pad($fetch[0],3,'0', STR_PAD_LEFT)." - ". strtoupper($fetch[12]) ."</option>";
         }
 
             echo "</select> </td>";

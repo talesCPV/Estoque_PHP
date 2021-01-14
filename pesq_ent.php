@@ -58,35 +58,35 @@
 				  $valor = $_POST ["valor"];
 				  
 			  	if ($campo == "todos"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
+	              $query =  "SELECT en.id, en.nf, e.fantasia, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id AND data_ent >= '". $dat_ini ."' AND data_ent <= '". $dat_fin ."' order by en.data_ent desc;";
 			  	}
 			  	else
 			  	if ($campo == "cod"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
+	              $query =  "SELECT en.id, en.nf, e.fantasia, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
 	                         AND en.id = '".$valor."' ;";
 			  	}
 			  	else
 			  	if ($campo == "forn"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
+	              $query =  "SELECT en.id, en.nf, e.fantasia, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
-	                         AND e.nome LIKE '%".$valor."%' AND data_ent >= '". $dat_ini ."' AND data_ent <= '". $dat_fin ."';";
+	                         AND e.fantasia LIKE '%".$valor."%' AND data_ent >= '". $dat_ini ."' AND data_ent <= '". $dat_fin ."';";
 
 			  	}
 			  	else
 			  	if ($campo == "nf"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
+	              $query =  "SELECT en.id, en.nf, e.fantasia, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
 	                         AND en.nf = '".$valor."' ;";
 			  	}
 			  	else
 			  	if ($campo == "nome_prod"){
-					$query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
+					$query =  "SELECT en.id, en.nf, e.fantasia, en.data_ent, en.status, en.resp, en.path, e.id
 							  FROM tb_entrada AS en 
 							  INNER JOIN tb_empresa AS e 
 							  INNER JOIN tb_item_compra AS i
@@ -98,7 +98,7 @@
 					}
 					else
 			  	if ($campo == "cod_int_prod"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
+	              $query =  "SELECT en.id, en.nf, e.fantasia, en.data_ent, en.status, en.resp, en.path, e.id
 							FROM tb_entrada AS en 
 							INNER JOIN tb_empresa AS e 
 							INNER JOIN tb_item_compra AS i
@@ -110,7 +110,7 @@
 			  	}
 			  	else
 			  	if ($campo == "cod_prod"){
-					$query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
+					$query =  "SELECT en.id, en.nf, e.fantasia, en.data_ent, en.status, en.resp, en.path, e.id
 							  FROM tb_entrada AS en 
 							  INNER JOIN tb_empresa AS e 
 							  INNER JOIN tb_item_compra AS i
@@ -122,7 +122,7 @@
 				}
 			  	else
 			  	if ($campo == "aberta"){
-	              $query =  "SELECT en.id, en.nf, e.nome, en.data_ent, en.status, en.resp, en.path, e.id
+	              $query =  "SELECT en.id, en.nf, e.fantasia, en.data_ent, en.status, en.resp, en.path, e.id
 	                         FROM tb_entrada AS en INNER JOIN tb_empresa AS e 
 	                         ON en.id_emp = e.id
 	                         AND en.status = 'ABERTO' ;";

@@ -40,6 +40,7 @@
                     $telefone = $fetch[8];
                     $bairro = $fetch[10];
                     $num = $fetch[11];
+                    $fantasia = $fetch[12];
 
         }
 
@@ -57,6 +58,8 @@
     <form class="login-form" name="cadastro" method="POST" action="save_emp.php" onsubmit="return validaCampo(new Array(cadastro.nome)); return false;">
       <label> Nome *</label>
       <input type="text" name="nome" maxlength="50" value="<?php echo "$nome" ?>" />
+      <label> Nome Fantasia</label>
+      <input type="text" name="fantasia" maxlength="50" value="<?php echo "$fantasia" ?>" />
       <label> Endereço </label>
       <input type="text" name="endereco" maxlength="60" value="<?php echo "$endereco" ?>" />
       <label> Cidade </label>

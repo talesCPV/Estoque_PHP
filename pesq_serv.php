@@ -74,9 +74,9 @@
                     $query_opt = $query_opt . " AND s.data_exec >= '". $data_exec ."' AND s.data_exec <= '". $data_fin ."'";
                 }
             
-                  $query_opt = $query_opt . " order by data_exec";
+                  $query_opt = $query_opt . " order by data_exec desc";
 
-                  $query =  "SELECT s.id, e.nome, s.num_carro, s.data_exec,  s.func, s.obs, s.nf, s.pedido, e.id
+                  $query =  "SELECT s.id, e.fantasia, s.num_carro, s.data_exec,  s.func, s.obs, s.nf, s.pedido, e.id
                              FROM tb_serv_exec as s
                              INNER JOIN tb_empresa as e
                              ON s.id_emp = e.id " . $query_opt;                                  

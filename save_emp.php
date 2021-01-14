@@ -23,6 +23,11 @@ $tipo  	= $_POST ["tipo"];
 $fone  	= $_POST ["fone"];
 $bairro = strtoupper($_POST ["bairro"]);
 $num  	= $_POST ["num"];
+if (IsSet($_POST ["fantasia"])){
+	$fantasia = $_POST ["fantasia"];
+}else{
+	$fantasia = $_POST ["nome"];
+}
 
 
 //Gravando no banco de dados !
@@ -34,11 +39,11 @@ if (IsSet($_POST ["cod_emp"])){
 	$cod_emp  = $_POST ["cod_emp"];
 
 	$query = "UPDATE tb_empresa SET  nome = \"". $nome ." \", endereco = \"". $endereco ." \", cidade = \"". $cidade ." \", estado = \"". $estado ." \", cep = \"". $cep ." \",
-			cnpj = \"". $cnpj ." \", ie = \"". $ie ." \", tipo = \"". $tipo ." \", tel = \"". $fone ." \", bairro = \"". $bairro ." \", num = \"". $num ." \" WHERE id = \"". $cod_emp ."\" ;";
+			cnpj = \"". $cnpj ." \", ie = \"". $ie ." \", tipo = \"". $tipo ." \", tel = \"". $fone ." \", bairro = \"". $bairro ." \", num = \"". $num ." \", fantasia = \"{$fantasia}\" WHERE id = \"". $cod_emp ."\" ;";
 }else{
 
-	$query = "INSERT INTO tb_empresa ( nome, endereco, cidade, estado, cep, cnpj, ie, tipo, tel, bairro, num) 
-	VALUES ('$nome', '$endereco', '$cidade','$estado', '$cep', '$cnpj', '$ie','$tipo','$fone','$bairro','$num')";
+	$query = "INSERT INTO tb_empresa ( nome, endereco, cidade, estado, cep, cnpj, ie, tipo, tel, bairro, num, fantasia) 
+	VALUES ('$nome', '$endereco', '$cidade','$estado', '$cep', '$cnpj', '$ie','$tipo','$fone','$bairro','$num','$fantasia')";
 
 }
 

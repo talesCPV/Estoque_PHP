@@ -24,6 +24,7 @@ CREATE TABLE tb_empresa(
     tel varchar(14) DEFAULT NULL,
     cep varchar(10) DEFAULT NULL,
     class int(11) DEFAULT NULL,
+    fantasia varchar(40) default null,
     PRIMARY KEY (id)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
@@ -162,8 +163,9 @@ CREATE TABLE tb_item_serv (
 CREATE TABLE tb_cargos (
     id int(11) NOT NULL AUTO_INCREMENT,
     cargo varchar(30) DEFAULT NULL,
-    salario double NOT NULL DEFAULT 0,
+    salario double NOT NULL DEFAULT 0,    
     tipo varchar(6) DEFAULT NULL,
+    cbo varchar(8) DEFAULT NULL,
     PRIMARY KEY (id)  
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
@@ -283,8 +285,19 @@ CREATE TABLE tb_ref_sanf (
 
 select * from tb_ref_sanf;
 
+SELECT r.id, r.entrada, e.nome, s.fabricante, s.modelo, s.ano, r.numero, r.tipo, r.status, r.saida, r.obs
+	                         FROM tb_ref_sanf AS r INNER JOIN tb_empresa AS e INNER JOIN tb_sanfonas as s 
+	                         ON r.id_cliente = e.id
+                             AND r.id_modelo = s.id;
+
 
 INSERT INTO tb_ref_sanf ( entrada, id_cliente, id_modelo, numero, tipo, status, saida, obs) VALUES ('2021-01-07', '175', '1', '1234567890', 'REFORMA', 'RECEBIMENTO', 2021-01-19, 'teste 123' ) ;
+
+
+ALTER table tb_cargos ADD cbo varchar(8);
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE tb_empresa SET fantasia = nome ;
 
 
 d rop table tb_pcp;
