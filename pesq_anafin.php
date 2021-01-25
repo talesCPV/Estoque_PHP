@@ -29,6 +29,7 @@
 				<option value="entrada">Entradas</option>
 				<option value="saida">Saídas</option>
 				<option value="cli">Cliente / Fornecedor</option>
+				<option value="nf">Nota Fiscal</option>
 				<optgroup label="Funilaria e Pintura">
 				<option value="fun_todos">Todos</option>
 				<option value="fun_entrada">Entradas</option>
@@ -151,6 +152,13 @@
 			  	else
 			  	if ($campo == "cli"){
 					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where emp LIKE '%".$valor."%'";
+					if($on){
+						$query = $query . "and data_pg >= '$data_ini' and data_pg <= '$data_fin'". $pgto;
+					}
+			  	}
+			  	else
+			  	if ($campo == "nf"){
+					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where ref LIKE '%".$valor."%'";
 					if($on){
 						$query = $query . "and data_pg >= '$data_ini' and data_pg <= '$data_fin'". $pgto;
 					}
