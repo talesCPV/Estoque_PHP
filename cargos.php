@@ -9,7 +9,8 @@
     <title>Cargos e Funções</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <!-- <script src="js/funcoes.js"></script> -->
+    <script src="js/edt_mask.js"></script>
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -70,6 +71,9 @@
     <div class="content"></div>
   </div>
 </div>
+
+<script src="js/cargos.js"></script>
+
 
 </body>
 </html>

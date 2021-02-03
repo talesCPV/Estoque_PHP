@@ -230,6 +230,35 @@ function verif_senha(param){ // verifica se as senhas coincidem (recebe um array
 	return true;
 }
 
+
+function money(campo){
+    var ok_chr = new Array('1','2','3','4','5','6','7','8','9','0');
+    var text = campo.value;
+    var after_dot = 0;
+    var out_text = '';
+    for(var i = 0; i<text.length; i++){
+
+        if(after_dot > 0){ // conta quantas casas depois da virgula
+            after_dot = after_dot + 1;
+        }
+
+        if (after_dot < 4 ){ // se não passou de 2 casas depois da virgula ( conta o ponto + 2 digitos)
+
+            if(ok_chr.includes(text.charAt(i))){
+                out_text = out_text + text.charAt(i)
+
+            }
+            if((text.charAt(i) == ',' || text.charAt(i) == '.') && after_dot == 0){
+                out_text = out_text + '.';
+                after_dot = after_dot + 1;
+            }
+        }
+
+
+    }
+    campo.value = out_text;
+}
+
 //************** MANIPULAÇÃO DE DADOS **************//
 
 
