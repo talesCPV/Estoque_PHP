@@ -13,16 +13,16 @@
 
     function screen(cod=0,cargo="",sal="",tipo="HORISTA", cbo=""){
 
-        let table = "<table><tr><td>Cargo *</td><td> <input type='text' name='cargo' maxlength='40' id='edtCargo' value='"+cargo+"'/></td></tr>";
-        table +=   "<tr><td>Salário * R$</td><td> <input type='text' name='edtSal' id='edtSal' onkeyup='return money(this)' value='"+sal+"' /></td></tr>";
-        table +=   "<tr><td>CBO</td><td> <input type='text' name='edtCBO' id='edtCBO' value='"+cbo+"' /></td></tr>";
+        let form = "<table><tr><td>Cargo *</td><td> <input type='text' name='cargo' maxlength='40' id='edtCargo' value='"+cargo+"'/></td></tr>";
+        form +=   "<tr><td>Salário * R$</td><td> <input type='text' name='edtSal' id='edtSal' onkeyup='return money(this)' value='"+sal+"' /></td></tr>";
+        form +=   "<tr><td>CBO</td><td> <input type='text' name='edtCBO' id='edtCBO' value='"+cbo+"' /></td></tr>";
         if(tipo == 'HORISTA'){
-            table +=   "<tr><td>Tipo</td><td><select name='tipo' id= 'selTipo'> <option value='HORA' selected>HORISTA</option><option value='MENSAL'>MENSALISTA</option></select></td></tr>";
+            form +=   "<tr><td>Tipo</td><td><select name='tipo' id= 'selTipo'> <option value='HORA' selected>HORISTA</option><option value='MENSAL'>MENSALISTA</option></select></td></tr>";
         }else{
-            table +=   "<tr><td>Tipo</td><td><select name='tipo' id= 'selTipo'> <option value='HORA'>HORISTA</option><option value='MENSAL' selected>MENSALISTA</option></select></td></tr>";
+            form +=   "<tr><td>Tipo</td><td><select name='tipo' id= 'selTipo'> <option value='HORA'>HORISTA</option><option value='MENSAL' selected>MENSALISTA</option></select></td></tr>";
         }
 //        table +=   "<tr><td></td><td><button id='btn_Save'>Salvar</button></td></tr></table>";
-        table +=   "<form id='frmRefresh' method='POST' action='#'></form>";
+        form +=   "<form id='frmRefresh' method='POST' action='#'></form>";
 
 
         let btnSave = document.createElement('button');
@@ -49,12 +49,14 @@
         let btnDel = document.createElement('button');
         btnDel.innerHTML = "Deletar";
         btnDel.addEventListener("click",(event)=>{
-            query = "DELETE FROM tb_cargos WHERE id="+cod+" ;"; 
-            sendFetch(query);
+            if(confirm("Deseja realmente deletar o registro?")){
+                query = "DELETE FROM tb_cargos WHERE id="+cod+" ;"; 
+                sendFetch(query);
+            }
         });
 
 
-        document.querySelector(".content").innerHTML = table;
+        document.querySelector(".content").innerHTML = form;
         document.querySelector(".content").appendChild(btnSave);
         if (cod != 0){
             document.querySelector(".content").appendChild(btnDel);
