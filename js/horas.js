@@ -98,7 +98,6 @@ $(document).ready(function(){
     var tbl = document.getElementById("tabHoras");
     $('#tabHoras').on( 'click', 'td', function () {
 
-
         var row = $(this).closest("tr").index();
         var col = $(this).closest("td").index();
         var func = tbl.rows[0].cells[Math.ceil((col-1)/2)].innerHTML;
@@ -106,6 +105,9 @@ $(document).ready(function(){
         var dia  = data.substr(-14,2);
         var mes  = data.substr(-11,2);
         var ano  = data.substr(-8,4);
+        let id = tbl.rows[0].cells[Math.ceil((col-1)/2)].id;
+
+//        alert(id)
 
         if(col%2 == 0){
             var ent = tbl.rows[row].cells[col].innerHTML;
@@ -128,7 +130,8 @@ $(document).ready(function(){
         table +=   "<form id='frmRefresh' method='POST' action='#'></form>";
 
         $(document).off('click', '#btn_Limpar').on('click', '#btn_Limpar', function() {
-            var query = "query=DELETE FROM tb_hora_extra  WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ) AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
+//            var query = "query=DELETE FROM tb_hora_extra  WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ) AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
+            let query = "query=DELETE FROM tb_hora_extra  WHERE id_func = "+ id +" AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
             queryDB(query);
             $('#frmRefresh').submit();
             
@@ -160,19 +163,19 @@ $(document).ready(function(){
                     var sai = a+'-'+m+'-'+d +' '+ $('#edtSaida').val() +':00' ;   
                 }
                 
-                var query = "query=SELECT * FROM tb_hora_extra WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ) AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%';";
+                var query = "query=SELECT * FROM tb_hora_extra WHERE id_func = "+id+" AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%';";
 
                 resp = queryDB(query);
                 if(resp.length == 0){
-                    var query = "query=INSERT INTO tb_hora_extra VALUES (DEFAULT, (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ),'"+ent+"','"+sai+"');";
+                    var query = "query=INSERT INTO tb_hora_extra VALUES (DEFAULT, "+id+",'"+ent+"','"+sai+"');";
                 }else{
-                    var query = "query=UPDATE tb_hora_extra  SET entrada = '"+ent+"', saida = '"+sai+"'  WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ) AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
+                    var query = "query=UPDATE tb_hora_extra  SET entrada = '"+ent+"', saida = '"+sai+"'  WHERE id_func = "+id+" AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
                 }
+//                alert(query);
                 
                 queryDB(query);  
                 $('#frmRefresh').submit();
 
-//alert(query);
 
             }else{
                 alert('Horarios incompletos')
