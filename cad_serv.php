@@ -14,14 +14,13 @@
   <header>
     <?php
       include "menu.inc";
-
       include "conecta_mysql.inc";
       if (!$conexao)
         die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-
       if (IsSet($_POST["num"]) && IsSet($_POST["txt_obs"]) && IsSet($_POST["equipe"])){
         if(trim($_POST["num"]) != "" && trim($_POST["txt_obs"]) != "" && trim($_POST["equipe"]) != "" ){
+
             $cliente = $_POST['cli'];
             $data_exec = $_POST['data_exec'];
             $num_car = $_POST['num'];
@@ -29,9 +28,10 @@
             $nf = $_POST['nf'];
             $pedido = $_POST['pedido'];
             $servico = $_POST['txt_obs'];
+            $valor = $_POST['valor'];
 
-            $query = "INSERT INTO tb_serv_exec ( id_emp, data_exec, num_carro, func, obs, nf, pedido) 
-            VALUES ('{$cliente}', '{$data_exec}', '{$num_car}','{$funcionarios}', '{$servico}', '{$nf}', '{$pedido}')";
+            $query = "INSERT INTO tb_serv_exec ( id_emp, data_exec, num_carro, func, obs, nf, pedido, valor) 
+            VALUES ('{$cliente}', '{$data_exec}', '{$num_car}','{$funcionarios}', '{$servico}', '{$nf}', '{$pedido}', {$valor})";
             	mysqli_query($conexao, $query);
     
 
@@ -47,16 +47,14 @@
 <div class="page_container">  
   <div class="page_form">
     <p class="logo"> Cadastro de Serviços Executados</p> <br>
-    <form class="login-form" name="cadastro" method="POST" action="#" id="frmSaveEmp">
+    <form class="login-form" name="cadastro" method="POST" action="#" id="frmSaveServ">
     <label> Cliente </label>
       <?php  
-
 
         $query = "SELECT * from tb_empresa where tipo = \"CLI\" order by fantasia";
         $result = mysqli_query($conexao, $query);
 
           echo "<td><select name=\"cli\" id=\"cli\">";
-
 
         while($fetch = mysqli_fetch_row($result)){
             echo $fetch[1] . "<br>";
@@ -68,7 +66,6 @@
       ?>
       <label id="lblDataExec"> Data</label>
       <input type="date" name="data_exec" id="edtDataVenc" value="<?php echo date('Y-m-d'); ?>">
-
       <label> Número do Carro *</label>
       <input type="text" name="num" maxlength="15" id="edtNum"/>
       <label> Equipe (funcionários) * </label>
@@ -78,12 +75,24 @@
       <label> Pedido </label>
       <input type="text" name="pedido" maxlength="60" id="edtPedido"/>
       <label> Serviços Executados: *</label>
-      <textarea class='edtTextArea' name="txt_obs" cols="112" rows="2" id="txt_obs" ></textarea>
-      
+      <textarea class='edtTextArea' name="txt_obs" id="txt_obs" cols="212" rows="6" id="txt_obs" >MANUTENÇÂO EM SANFONA DE ÔNIBUS</textarea>
+      <button  id="btnAdd">Adicionar</button>
+      <label> Valor R$ </label>
+      <input type="text" name="valor" onkeyup="return float_number(this)" maxlength="60" id="edtValor"/>
       <button type="submit" onclick="return obrigatorio(['edtNum', 'edtEquipe', 'txt_obs'])">Cadastrar</button>
     </form>
   </div>
 </div>
+
+<div class="overlay"> 
+  <div class="popup">
+    <h2 id="popTitle"></h2>
+    <div class="close" >&times</div>
+    <div class="content"></div>
+  </div>
+</div>
+
+    <script src="js/cad_serv.js"></script>
 
 </body>
 </html>

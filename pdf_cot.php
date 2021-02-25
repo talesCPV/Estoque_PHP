@@ -47,7 +47,13 @@
 	  	}else{
 	  		$pdf->Cell(150,5,$p_id." - Pedido: ".strtoupper($fetch[0]),0,0,"L");
 		  }
-		$pdf->Cell(35,5,"Data: ".date('d/m/Y', strtotime($fetch[3])),0,0,"L");
+		if (!IsSet($_POST["planilha"])){
+			$pdf->Cell(35,5,"Data: ".date('d/m/Y', strtotime($fetch[3])),0,0,"L");
+		}else{
+			$pdf->Cell(35,5,"Data: ".date('d/m/Y'),0,0,"L");
+			$pdf->Ln(5);
+
+		}
 		$pdf->Ln(5);
 
 		$pdf->SetFont('Arial','B',12);
@@ -65,18 +71,18 @@
 	  	$pdf->Cell(40,5,"Tel.: ".strtoupper($fetch[12]),0,0,"L");
 		$pdf->Ln(5);
 
-	  	$pdf->Cell(100,5,"Comprador: ".utf8_decode(strtoupper($fetch[2])),0,0,"L");
-	  	$pdf->Cell(100,5,"Vendedor:".utf8_decode(strtoupper($fetch[5])),0,0,"L");
-  		$pdf->Ln(5);
-
-	  	if ($fetch[4] != '0000-00-00'){
-			$pdf->Cell(100,5,"Previsao de Entrega: ".date('d/m/Y', strtotime($fetch[4])),0,0,"L");
-		}else{
-			$pdf->Cell(100,5,"Previsao de Entrega: A Combinar",0,0,"L");
+		if (!IsSet($_POST["planilha"])){
+			$pdf->Cell(100,5,"Comprador: ".utf8_decode(strtoupper($fetch[2])),0,0,"L");
+			$pdf->Cell(100,5,"Vendedor:".utf8_decode(strtoupper($fetch[5])),0,0,"L");
+			$pdf->Ln(5);
+			if ($fetch[4] != '0000-00-00'){
+				$pdf->Cell(100,5,"Previsao de Entrega: ".date('d/m/Y', strtotime($fetch[4])),0,0,"L");
+			}else{
+				$pdf->Cell(100,5,"Previsao de Entrega: A Combinar",0,0,"L");
+			}
+			$pdf->Cell(60,5,"Cond. Pgto.:".strtoupper($fetch[15]),0,0,"L");
+			$pdf->Ln(5);
 		}
-	  	$pdf->Cell(60,5,"Cond. Pgto.:".strtoupper($fetch[15]),0,0,"L");
-    	$pdf->Ln(5);
-
 
 	  	$pdf->Cell(300,5,"Obs.: ".utf8_decode(strtoupper($fetch[16])),0,0,"L");
   		$pdf->Ln(5);
@@ -94,7 +100,11 @@
 		break;
 		default:
 			$pdf->SetFont('Arial','',15);
-	   		$pdf->Cell(190,5,utf8_decode("Cotação: ".$num_cot),0,0,"C");
+			if (IsSet($_POST["planilha"])){
+				$pdf->Cell(190,5,utf8_decode("Planilha de Preços"),0,0,"C");
+			}else{
+				$pdf->Cell(190,5,utf8_decode("Cotação: ".$num_cot),0,0,"C");
+			}
 		  	$pdf->Ln(10);
   
 	}

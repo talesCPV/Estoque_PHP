@@ -59,6 +59,11 @@ echo"
         <option value="SAN" > Sanfonados </option>
         <option value="OUT" > Outros </option>
       </select>
+      <label> Tipo </label>
+      <select name="selTipo">
+        <option value="VEN" > Venda </option>
+        <option value="SER" > Serviço </option>
+      </select>
       <label> Data </label>
       <input type="date" name="data_ped" value="<?php echo date('Y-m-d'); ?>">
       <label> Data de Entrega </label>
@@ -69,7 +74,6 @@ echo"
       <input type="text" name="responsavel" value="<?php if (IsSet($_COOKIE["usuario"])){ echo $_COOKIE["usuario"]; } ?>" readonly/>
       <button type="submit">Salvar</button>
       <input type="hidden" name="novo" value="1">
-
     </form>
   </div>
 </div>

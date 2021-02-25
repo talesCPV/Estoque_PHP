@@ -243,10 +243,12 @@
 						INNER JOIN tb_empresa AS e 
 						ON p.id_emp = e.id
 						AND p.id = '". $valor ."'";
+/*						
 					if($on){
 						$query = $query . " AND p.data_ped >= '". $dat_ini ."'
 						AND p.data_ped <= '". $dat_fin ."'";
 					}				  
+*/					
 					$query = $query . " ORDER BY p.data_ped DESC;";
 							 
 				  }

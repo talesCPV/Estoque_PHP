@@ -52,11 +52,14 @@ $(document).ready(function(){
         var obs = $.trim($(this).children('td').slice(5, 6).text().toUpperCase());
         var nf = $.trim($(this).children('td').slice(6, 7).text().toUpperCase());
         var pedido = $.trim($(this).children('td').slice(7, 8).text().toUpperCase());
+        var valor = $.trim($(this).children('td').slice(8, 9).text().toUpperCase());
+//        var valor = $.trim($(this).children('td').slice(9, 10).text().toUpperCase());
 
         var table = "<table><tr><td>Cod.:</td><td>"+id+"</td></tr><tr><td>Cliente:</td><td>"+ cliente +"</td></tr><tr><td>Data:</td><td>"+data+"</td></tr>";
         table += " <tr><td>Técnicos:</td><td><input type='text' name='func' maxlength='10' id='edtFunc' value='"+func.toUpperCase()+"'/></td></tr><tr><td>Carro:</td><td><input type='text' name='dep' maxlength='15' id='edtCarro' value='"+carro.toUpperCase()+"'/></td></tr>";
         table += " <tr><td>NF:</td><td><input type='text' name='dep' maxlength='10' id='edtNF' value='"+nf.toUpperCase()+"'/></td></tr><tr><td>Pedido:</td><td><input type='text' name='dep' maxlength='15' id='edtPedido' value='"+pedido.toUpperCase()+"'/></td></tr>";
-        table += " <tr><td>Obs:</td><td><textarea class='edtTextArea' name='txt_obs' cols='112' rows='2' id='txt_obs' >"+ obs +"</textarea></td></tr></table>";
+        table += " <tr><td>Valor R$:</td><td><input type='text' name='valor' maxlength='10' id='edtValor' value='"+valor+"' onkeyup='return float_number(this)'/></td></tr>  </table>";
+        table += " <tr><td>Obs:</td><td><textarea class='edtTextArea' name='txt_obs' cols='112' rows='2' id='txt_obs' >"+ obs +"</textarea></td></tr>";
         var form = "<form id='frmDetalhar' method='POST' action='cad_item_of.php'><input type='hidden' name='cod_serv' value='"+id+"'></form>";
         form +=    "<form id='frmImprimir' method='POST' action='pdf_of.php'><input type='hidden' name='cod_serv' value='"+id+"'></form>";
         form +=    "<form id='frmRefresh' method='POST' action='#'></form>";
@@ -72,7 +75,7 @@ $(document).ready(function(){
         }); 
 
         $(document).off('click', '#btnSal').on('click', '#btnSal', function() {
-                var query = "query=UPDATE tb_serv_exec SET num_carro='"+$('#edtCarro').val()+"', nf='"+$('#edtNF').val()+"', pedido='"+$('#edtPedido').val()+"', obs='"+$('#txt_obs').val()+"', func='"+$('#edtFunc').val()+"'  WHERE id = "+ id +";";
+                var query = "query=UPDATE tb_serv_exec SET num_carro='"+$('#edtCarro').val()+"', nf='"+$('#edtNF').val()+"', pedido='"+$('#edtPedido').val()+"', obs='"+$('#txt_obs').val()+"', func='"+$('#edtFunc').val()+"', valor="+$('#edtValor').val()+"  WHERE id = "+ id +";";
                 queryDB(query);
                 $('#frmRefresh').submit();    
         }); 

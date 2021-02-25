@@ -30,9 +30,10 @@
 	        <option value="nf">NF</option>
 	        <option value="ped">Pedido</option>
 	        <option value="num">Numero do Carro</option>
-	    </select></td><td>
-      <input type="text" name="valor" maxlength="12"/></td><td>
-	  <button id="botao_inline" type="submit">OK</button></td></tr>  </table>
+	    </select></td>
+	    <td><input type="text" name="valor" maxlength="12"/></td>
+      <td><button id="botao_inline" type="submit">OK</button></td>
+	</tr>  </table>
 				
 		<table class="search-table"  border="0">
           <tr>
@@ -76,7 +77,7 @@
             
                   $query_opt = $query_opt . " order by data_exec desc";
 
-                  $query =  "SELECT s.id, e.fantasia, s.num_carro, s.data_exec,  s.func, s.obs, s.nf, s.pedido, e.id
+                  $query =  "SELECT s.id, e.fantasia, s.num_carro, s.data_exec,  s.func, s.obs, s.nf, s.pedido, e.id, s.valor
                              FROM tb_serv_exec as s
                              INNER JOIN tb_empresa as e
                              ON s.id_emp = e.id " . $query_opt;                                  
@@ -101,6 +102,7 @@
 					        while($fetch = mysqli_fetch_row($result)){
 
 					        	$cliente = $fetch[1];
+					        	$cod_cli = $fetch[8];
 
                                 echo "<tr class='tbl_row'>".
                                          "<td>" .$fetch[0] . "</td>".
@@ -110,8 +112,9 @@
 								         "<td style='display: none;'>" . $fetch[4] . "</td>".
 								         "<td style='display: none;'>" . $fetch[5] . "</td>".
 								         "<td>" . $fetch[6] . "</td>".
-                                         "<td style='display: none;'>" . $fetch[7] . "</td>";
-										  
+                                         "<td style='display: none;'>" . $fetch[7] . "</td>".
+                                         "<td style='display: none;'>" . $fetch[9] . "</td>".
+                                         "<td style='display: none;'>" . $fetch[8] . "</td>";										  
 					        }
 
                             echo"
@@ -129,12 +132,20 @@
 			  	  		<table class=\"search-table\"  border=\"0\">
 			  	  			<tr>
 			  	  				<td><form class=\"login-form\" method=\"POST\" action=\"pdf_serv.php\">
-			  	  					<input type=\"hidden\" name=\"query\" value=\"". $query ."\">
-			  	  					<input type=\"hidden\" name=\"cliente\" value=\"". $cliente ."\">
-			  	  					<input type=\"hidden\" name=\"ini\" value=\"". $data_exec ."\">
-			  	  					<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">
-			  	  					<button id=\"botao_inline\" type=\"submit\">Relatório</button>
-			  	  				</form></td>
+				  	  					<input type=\"hidden\" name=\"query\" value=\"". $query ."\">
+				  	  					<input type=\"hidden\" name=\"cliente\" value=\"". $cliente ."\">
+				  	  					<input type=\"hidden\" name=\"ini\" value=\"". $data_exec ."\">
+				  	  					<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">
+				  	  					<button id=\"botao_inline\" type=\"submit\">Relatório</button>
+				  	  				</form>
+									<form class=\"login-form\" method=\"POST\" action=\"pdf_orc_serv.php\">
+				  	  					<input type=\"hidden\" name=\"query\" value=\"". $query ."\">
+				  	  					<input type=\"hidden\" name=\"cod_cli\" value=\"". $cod_cli ."\">
+				  	  					<input type=\"hidden\" name=\"ini\" value=\"". $data_exec ."\">
+				  	  					<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">				  	  				
+      									<button id=\"botao_inline\" type=\"submit\" style=\" margin: 0 10px;\">Orçamento</button>
+      								</form>
+								</td>
 			  	  			</tr>
 			  	  		</table>
 			    	</form>

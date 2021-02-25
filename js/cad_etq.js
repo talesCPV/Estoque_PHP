@@ -1,4 +1,21 @@
 
+let cmbEtq = document.getElementById("cmbEtq");
+
+if(cmbEtq != null){
+    cmbEtq.addEventListener('change',()=>{
+
+        if(cmbEtq.value == 'LV'){
+            document.getElementById("txt_livre").style.display = "block";
+            document.getElementById("tinta_etq").style.display = "none";
+        }else{
+            document.getElementById("txt_livre").style.display = "none";
+            document.getElementById("tinta_etq").style.display = "block";
+        }
+    
+    });    
+}
+
+
 $(document).ready(function(){
 
     $('#tabItens').on('dblclick','.tbl_row', function(){

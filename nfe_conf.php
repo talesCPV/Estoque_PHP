@@ -395,7 +395,8 @@
                         <option value=\"varios\">Vários Códigos</option>
                       </select></td><td>
                       <input type=\"text\" id=\"edtBusca\" name=\"valor_busca\" /></td><td>
-                      <button name=\"pedido\" id=\"botao_inline\" type=\"submit\">OK</button></td></tr>
+                      <button name=\"pedido\" id=\"botao_inline\" type=\"submit\">OK</button></td>
+                      </tr>
                     </table>
                     </form>";
 
@@ -663,14 +664,15 @@
               $nfs =  intval(get_id("NFS")) + 1; 
                            
               $pedido = get_id("ENP");
-              $val_nf = money_format('%=*(#0.2n',get_id("TOT"));
+//              $val_nf = money_format('%=*(#0.2n',get_id("TOT"));
               echo"
-                <input type='hidden' id='valor' value='{$nfs}'>
-                <input type='hidden' id='aliquota' value='{$aliquota}'>
-                <input type='hidden' id='pedido' value='{$pedido}'>
-              ";
-              echo" 
-                  <label> Valor total da NF: {$val_nf}</label><br><br>
+                  <input type='hidden' id='valor' value='{$nfs}'>
+                  <input type='hidden' id='aliquota' value='{$aliquota}'>
+                  <input type='hidden' id='pedido' value='{$pedido}'>
+
+                  <input type='hidden' name='id_emp' id='id_emp' value='0'>
+           
+                  <label> Valor total da NF:</label><input type='text' name='nfs_val' id='nfs_val' value='0' onkeyup='return money(this)'>  <br><br>
                   <label > Dias entre as parcelas</label>
                   <input type=\"text\" name=\"dias_parc\" maxlength=\"15\" value=\"28\" onkeyup=\"return dias_pgto(this)\" />
                   <label> Local de Execução do Serviço</label>
@@ -683,11 +685,13 @@
                   <label> Aliquota %</label>
                   <input type='text' name='edtAliNFServ' value='{$aliquota}' onkeyup='return money(this)'>
                   <label> Discriminação do Serviço</label>
-                  <textarea class='edtTextArea' name=\"txt_disc\" cols=\"112\" rows=\"5\" id='txt_disc'>";
+                  <textarea class='edtTextArea' name=\"txt_disc\" id='edtDescServ' cols=\"112\" rows=\"5\" id='txt_disc'>";
                   
 
 
 // *********************************************************************************** */
+
+/*
                  
                     $fp = fopen($file_itens, "r");
                     $count = 1;
@@ -702,14 +706,18 @@
       
                     fclose($fp);
       
-                 
+*/                 
+
 // str_pad($_POST ["edtNumNFServ"],9,'0', STR_PAD_LEFT)
-                  
+
+// *********************************************************************************** */                  
                   
              echo"     
                  </textarea>
+                 <button class='btnServ' id=\"botao_inline\" >Serviços</button>
+
               <label> Dedução / Outras Informações</label>
-              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > Detalhes do serviço enviados e aprovados por email - Cotação {$pedido} </textarea>
+              <textarea class='edtTextArea' name=\"txt_info\" cols=\"112\" rows=\"3\" id='txt_info' > </textarea>
 
             <br><br> <table>
 
@@ -939,7 +947,7 @@
               $dias_parc = explode("/", $_POST["dias_parc"]); 
               $qtd_parc = count($dias_parc);
               $txt_disc = trim($_POST ["txt_disc"]); 
-              $txt_info = trim($_POST ["txt_info"]); 
+              $txt_info = trim($_POST ["txt_info"]);
 
               $txt_disc = str_replace("\r\n", "\\\ ", $txt_disc);
               $txt_info = str_replace("\r\n", "\\\ ", $txt_info);
@@ -948,12 +956,17 @@
               $txs = str_replace('.',',', get_id("TXS"));
               $nfs_num = get_id("NFS");
 
-              $NFS_val =  number_format(get_id("TOT"), 2, ',', '');
+//              $NFS_val =  number_format(get_id("TOT"), 2, ',', '');
+              $NFS_val =  number_format($_POST ["nfs_val"], 2, ',', '');
+//              echo $NFS_val.'<br>';
 //              $NFS_val =  str_replace('.',',', get_id("TOT") );
-              $imp =  number_format((floatval(get_id("TOT")) * (floatval(get_id("TXS")) * 0.01)), 2, ',', '');
+              $imp =  number_format((floatval( $NFS_val ) * (floatval(get_id("TXS")) * 0.01)), 2, ',', '');
+//              $imp =  number_format((floatval(get_id("TOT")) * (floatval(get_id("TXS")) * 0.01)), 2, ',', '');
             }
             $numNF = '000000000';
-            $val_parc = get_id("TOT") / $qtd_parc;
+            $val_parc = $_POST ["nfs_val"] / $qtd_parc;
+//            $val_parc = $NFS_val / $qtd_parc;
+//            $val_parc = get_id("TOT") / $qtd_parc;
             $fatura = "\\\ ";
             for($i=0; $i< $qtd_parc; $i++){
               $dia_parc = Date('d/m/Y', strtotime('+'.$dias_parc[$i]." days"));
@@ -961,8 +974,7 @@
 //              echo($dias_parc[$i]. " - ".$dia_parc." - ".  $val_parc  ."<br>");              
             }
 
-            echo $fatura;
-
+            echo $fatura;            
 
             $txt_info = $txt_info . $fatura;
             $txt_info = $txt_info . "\\\**Tributado pelo Anexo III SIMPLES NACIONAL Conforme LC 123/2006";
@@ -975,13 +987,33 @@
 
             }
 
+            $id_emp = $_POST ["id_emp"];
+
+            include "conecta_mysql.inc";        
+            if (!$conexao)
+            die ("Erro de conex�o com localhost, o seguinte erro ocorreu -> ".mysql_error());
+
+            $query = "SELECT * FROM tb_empresa WHERE id = {$id_emp};";
+            $result = mysqli_query($conexao, $query);
+            $emp_data = [];
+//            echo $query;
+
+// limpar dados de tel, cnpj, etc, deixar apenas numeros!!!
+
+            while($fetch = mysqli_fetch_row($result)){
+              $emp_data = [onlyNum($fetch[2]),trim($fetch[1]),trim($fetch[4]),onlyNum($fetch[11]),trim($fetch[10]),trim($fetch[5]),trim($fetch[6]),onlyNum($fetch[9]),onlyNum($fetch[8])];            
+            }
+
+            $conexao->close(); 
 
             global $file, $file_itens;
 
             $texto = "10|".get_id("C08")."|". date("d/m/Y")."|".date("d/m/Y")."|4||{$txs}|2.00|\r\n";
 
             $texto = $texto . "20|RPS|{$numNF}|001|". date("d/m/Y")."|NAO|14.01|{$txt_disc}|{$NFS_val}|0,00|{$txt_info}|{$NFS_val}|{$txs}|{$imp}";
-            $texto = $texto . "|0,00|".get_id("E07")."|".get_id("E01")."||".get_id("E08")."|".get_id("E09")."|".get_id("E10")."|".get_id("E11")."|".get_id("E12")."|".get_id("E14")."|".get_id("E15")."|".get_id("E18")."|".get_id("E05")."|";
+            $texto = $texto . "|0,00|".$emp_data[0]."|".$emp_data[1]."||".$emp_data[2]."|".$emp_data[3]."||".$emp_data[4]."|".$emp_data[5]."|".$emp_data[6]."|".$emp_data[7]."|".$emp_data[8]."||";
+//            $texto = $texto . "|0,00|              |".get_id("E01)."||".get_id("E8")."|".get_id"E09")."||".get_id("E1")."|".gt_id("E12")."|".getid("E14")."|".get_id"E15")."|".get_id(E18")."|".get_id("E05")."|";
+//            $texto = $texto . "|0,00|".get_id("E07")."|".get_id("E01")."||".get_id("E08")."|".get_id("E09")."|".get_id("E10")."|".get_id("E11")."|".get_id("E12")."|".get_id("E14")."|".get_id("E15")."|".get_id("E18")."|".get_id("E05")."|";
             if( $_POST ["cmbExec"] == "TOM"){
               $texto = $texto . "|||||||||";
 
@@ -1042,18 +1074,31 @@
               //no action sent
         }
 
+        function onlyNum($txt){
+          $response = '';
+          for($i=0; $i< strlen($txt);$i++){
+            if(in_array($txt[$i],["0","1","2","3","4","5","6","7","8","9"])){
+              $response = $response . $txt[$i];
+            }
+          }
+          return trim($response);
+        }
+
+
     ?>
   </div>
 
 </div>
 
-<div class="overlay"> 
-  <div class="popup">
-    <h2 id="popTitle"></h2>
-    <div class="close" >&times</div>
-    <div class="content"></div>
-  </div>
-</div>
+    <div class="overlay"> 
+      <div class="popup">
+        <h2 id="popTitle"></h2>
+        <div class="close" >&times</div>
+        <div class="content"></div>
+      </div>
+    </div>
+    
+    <script src="js/nfe_conf.js"></script>
 
 </body>
 </html>

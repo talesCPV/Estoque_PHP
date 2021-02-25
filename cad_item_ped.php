@@ -101,15 +101,12 @@
                             <th>Sub Total</th>
                           </tr>";
 
-
               $query =  "SELECT p.cod, p.descricao, i.und, i.qtd, i.preco
-                        FROM tb_item_ped as i 
-                        INNER JOIN tb_produto AS p
-                        ON i.id_ped = '". $cod_ped ."' AND i.id_prod = p.id;";
-
+                         FROM tb_item_ped as i 
+                         INNER JOIN tb_produto AS p
+                         ON i.id_ped = '". $cod_ped ."' AND i.id_prod = p.id;";
 
               $result = mysqli_query($conexao, $query);
-
 
               $qtd_itens = $result->num_rows;
 
@@ -129,7 +126,6 @@
               }
 
               echo "<tr><td></td><td></td><td></td><td></td><td> TOTAL </td><td>". money_format('%=*(#0.2n', $total) ."  </td>";
-
 
               echo"            
                     </table>
@@ -162,7 +158,8 @@
                        <td>
                       <form class=\"login-form\" method=\"POST\" action=\"pdf_cot.php\">
                         <td><button name=\"imprimir\" id=\"botao_inline\" type=\"submit\" >Cotação</button></td>
-                        <td><button name=\"recibo\" id=\"botao_inline\" type=\"submit\" >Recibo Mat.</button></td>
+                        <td>  <input type=\"checkbox\" name=\"planilha\" value=\"1\" /> </td>
+                        <td> <button name=\"recibo\" id=\"botao_inline\" type=\"submit\" >Recibo Mat.</button></td>
                         <td>  <input type=\"checkbox\" checked name=\"ver_preco\" value=\"1\" /> </td>
                         <input type=\"hidden\" name=\"cod_ped\" value=\"". $cod_ped ."\">
                       </form>
@@ -263,16 +260,16 @@
                     $tipo = $fetch[10];
                     $und = $fetch[3];
 
-                      echo "<tr class='tbl_row' id='".$fetch[0]."'><td>" .$fetch[1] . "</td>".
-                       "<td>" .$fetch[2] . "</td>".
+                    echo "<tr class='tbl_row' id='".$fetch[0]."'><td>" .$fetch[1] . "</td>".
+                         "<td>" .$fetch[2] . "</td>".
                          "<td>" .$fetch[3] . "</td>".
                          "<td>" .$fetch[4] . "</td>".
-                       "<td>" .money_format('%=*(#0.2n', $preco * (1+ $margem/100)). "</td>".
-                       "<td>" .$fetch[6] . "</td>".
-                       "<td style='visibility: collapse' >" .$cod_ped . "</td>".
-                       "<td style='visibility: collapse' >" .$tipo . "</td>".
-                       "<td style='visibility: collapse' >" .$fetch[0] . "</td>".
-                       "</tr>";
+                         "<td>" .money_format('%=*(#0.2n', $preco * (1+ $margem/100)). "</td>".
+                         "<td>" .$fetch[6] . "</td>".
+                         "<td style='visibility: collapse' >" .$cod_ped . "</td>".
+                         "<td style='visibility: collapse' >" .$tipo . "</td>".
+                         "<td style='visibility: collapse' >" .$fetch[0] . "</td>".
+                         "</tr>";
                   }
                 echo"
             </table> 
@@ -325,22 +322,22 @@
 
           </div>";
       }       
-            if($qtd_itens > 0 and $status=='Cotacao' && $classe >= 4){
+      if($qtd_itens > 0 and $status=='Cotacao' && $classe >= 4){
 
-              echo"<div class=\"page_form\" id=\"no_margin\">
-                    <form class=\"login-form\" method=\"POST\" action=\"add_item.php\">
-                    <table class=\"search-table\"  border=\"0\">
-                      <tr>
-                        <td><label> Num. do Pedido de Compra: </label> </td>
-                        <td><input type=\"text\" name=\"pedido\" maxlength=\"14\" value=\"". $num_ped ."\"></td>
-                        <td><button name=\"encerrar\" id=\"botao_inline\" type=\"submit\" onclick=\"return encerra(); return false;\">Encerrar</button></td>
-                      </tr>
-                    </table>
-                    <input type=\"hidden\" name=\"cod_ped\" value=\"". $cod_ped ."\">
+        echo"<div class=\"page_form\" id=\"no_margin\">
+              <form class=\"login-form\" method=\"POST\" action=\"add_item.php\">
+              <table class=\"search-table\"  border=\"0\">
+                <tr>
+                  <td><label> Num. do Pedido de Compra: </label> </td>
+                  <td><input type=\"text\" name=\"pedido\" maxlength=\"14\" value=\"". $num_ped ."\"></td>
+                  <td><button name=\"encerrar\" id=\"botao_inline\" type=\"submit\" onclick=\"return encerra(); return false;\">Encerrar</button></td>
+                </tr>
+              </table>
+              <input type=\"hidden\" name=\"cod_ped\" value=\"". $cod_ped ."\">
 
-                    </form>
-                  </div> ";   
-            }
+              </form>
+            </div> ";   
+      }
 
     ?>      
   </div>

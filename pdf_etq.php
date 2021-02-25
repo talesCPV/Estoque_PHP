@@ -86,18 +86,30 @@
 					$pdf->Ln(6);
 					$pdf->Cell(30,6,utf8_decode('DILUIÇÃO DE 5%    THINNER 8000'),0,0,"L");
 				}
-
-				$pdf->Ln(6);
-				$pdf->Cell(30,5,utf8_decode('Fabricação'),0,0,"L");
-				$pdf->Cell(25,5,utf8_decode($field[4]),0,0,"L");
-				$pdf->Cell(30,5,'Validade',0,0,"L");
-				$pdf->Cell(25,5,utf8_decode($field[5]),0,0,"L");
-				$pdf->Ln(5);
-				$pdf->SetFont('Arial','B',13);				
-				$pdf->Cell(30,6,'Volume',0,0,"L");
-				$pdf->Cell(25,6,utf8_decode($field[6]),0,0,"L");
-//				$pdf->Cell(15,6,'Cliente',0,0,"L");
-				$pdf->Cell(50,6,utf8_decode($field[1]),0,0,"L");
+				if($field[3] == "LV"){
+					$linhas = explode('!#!',$field[8]);
+					while(count($linhas)<4){
+						array_push($linhas," ");
+					}
+					for($i=0; $i<3;$i++){
+//						$pdf->Cell(30,6,utf8_decode($field[8]),0,0,"L");
+						$pdf->Cell(30,6,utf8_decode($linhas[$i]),0,0,"L");
+						$pdf->Ln(6);
+					}
+				}else{
+					$pdf->Ln(6);
+					$pdf->Cell(30,5,utf8_decode('Fabricação'),0,0,"L");
+					$pdf->Cell(25,5,utf8_decode($field[4]),0,0,"L");
+					$pdf->Cell(30,5,'Validade',0,0,"L");
+					$pdf->Cell(25,5,utf8_decode($field[5]),0,0,"L");
+					$pdf->Ln(5);
+					$pdf->SetFont('Arial','B',13);				
+					$pdf->Cell(30,6,'Volume',0,0,"L");
+					$pdf->Cell(25,6,utf8_decode($field[6]),0,0,"L");
+	//				$pdf->Cell(15,6,'Cliente',0,0,"L");
+					$pdf->Cell(50,6,utf8_decode($field[1]),0,0,"L");
+	
+				}
 				$pdf->Ln(21);
 
 				$x = $x + 50;

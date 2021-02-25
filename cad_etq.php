@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/edt_mask.js"></script> 
-    <script src="js/cad_etq.js"></script> 
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -71,7 +70,7 @@
               $valor = $_POST ["valor"];
 
               if ($campo == "desc"){
-                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE descricao LIKE '%".$valor."%' AND cod >=7000 ORDER BY cod desc;";
+                $query =  "SELECT id, cod, descricao, cod_bar, tipo FROM tb_produto WHERE descricao LIKE '%".$valor."%' ORDER BY cod desc;";
               }
               else
               if ($campo == "cod"){
@@ -136,8 +135,9 @@
                     echo "<input type=\"text\" name=\"desc\" id='edtDesc' maxlength=\"60\" value='' />";
                   }
 
-              echo "<label> Tipo de Tinta </label>
-                  <select name=\"tipo\">
+              echo "<label> Tipo de Etiqueta </label>
+                  <select name=\"tipo\" id='cmbEtq'>
+                    <option value=\"LV\">Livre</option>
                     <option value=\"ES\">Esmalte Sintético</option>
                     <option selected=\"selected\" value=\"AC\">PU Acrílico</option>
                     <option value=\"AL\">PU Alquídico</option>
@@ -146,20 +146,23 @@
                     <option value=\"EP\">Epóxi</option>
                     <option value=\"SB\">PU Acrílico Semi-Brilho</option>
                   </select>
-                  <label> Fabricação </label>
-                  <input type=\"text\" name=\"fab\" maxlength=\"25\" value=\"".date('d/m/Y')."\" />
-                  <label> Validade (3 anos)</label>
-                  <input type=\"text\" name=\"val\" maxlength=\"25\" value=\"". date('d/m/Y', strtotime("+ 3 years",strtotime(date('Y-m-d')))) ."\"/>    
-                  <label> Volume </label>
-                  <select name=\"vol\">
-                    <option value=\"450ml\">450ml</option>
-                    <option selected=\"selected\" value=\"900ml\">900ml</option>
-                    <option value=\"1.8L\">1.8 litro</option>
-                    <option value=\"2.7L\">2.7 litros</option>
-                    <option value=\"3.6L\">3.6 litros</option>
-                    <option value=\"5L\">5 litros</option>
-                    <option value=\"18L\">18 litros</option>
-                  </select>
+                  <textarea class='edtTextArea' name=\"txt_livre\" cols=\"112\" rows=\"3\" id='txt_livre' style='display:none;'></textarea>
+                  <div id='tinta_etq'>
+                    <label> Fabricação </label>
+                    <input type=\"text\" name=\"fab\" maxlength=\"25\" value=\"".date('d/m/Y')."\" />
+                    <label> Validade (3 anos)</label>
+                    <input type=\"text\" name=\"val\" maxlength=\"25\" value=\"". date('d/m/Y', strtotime("+ 3 years",strtotime(date('Y-m-d')))) ."\"/>    
+                    <label> Volume </label>
+                    <select name=\"vol\">
+                      <option value=\"450ml\">450ml</option>
+                      <option selected=\"selected\" value=\"900ml\">900ml</option>
+                      <option value=\"1.8L\">1.8 litro</option>
+                      <option value=\"2.7L\">2.7 litros</option>
+                      <option value=\"3.6L\">3.6 litros</option>
+                      <option value=\"5L\">5 litros</option>
+                      <option value=\"18L\">18 litros</option>
+                    </select>
+                  </div>
                   <table><tr>
                     <td><label> Qtd. Etiquetas </label></td>
                     <td><input type='number' name='qtd' maxlength='2' value='1' onkeyup='return float_number(this)'/></td>
@@ -175,7 +178,7 @@
           if (IsSet($_POST ["forn"])){
               $text = "";
               for($i=0; $i < $_POST ["qtd"]; $i++){
-                $text = $text . $_POST ["forn"]."|".$_POST ["cli"]."|".$_POST ["desc"]."|".$_POST ["tipo"]."|".$_POST ["fab"]."|".$_POST ["val"]."|".$_POST ["vol"]."|".$_POST ["cod_prod"]."\r\n";
+                $text = $text . $_POST ["forn"]."|".$_POST ["cli"]."|".$_POST ["desc"]."|".$_POST ["tipo"]."|".$_POST ["fab"]."|".$_POST ["val"]."|".$_POST ["vol"]."|".$_POST ["cod_prod"]."|".str_replace(["\n"], ["!#!"], $_POST ["txt_livre"])."\r\n";
               }
               $fp = fopen("config/etq_data.cfg", "a");
               fwrite($fp, $text);
@@ -210,7 +213,11 @@
                     $linha = fgets($fp,4096);
                     $field = explode("|", $linha);
                     if(count($field) > 7){
-                      echo"<option value=\"".$count."\" >".$field[6]." - ".$field[2]."</option>";
+                      if($field[3] == 'LV'){
+                        echo"<option value=\"".$count."\" >".$field[2]."</option>";
+                      }else{
+                        echo"<option value=\"".$count."\" >".$field[6]." - ".$field[2]."</option>";
+                      }
                       $count++;
                     }
                   }
@@ -271,6 +278,6 @@
   
 </div>
 
-
+<script src="js/cad_etq.js"></script> 
 </body>
 </html>
