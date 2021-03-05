@@ -75,7 +75,7 @@
       <label> Pedido </label>
       <input type="text" name="pedido" maxlength="60" id="edtPedido"/>
       <label> Serviços Executados: *</label>
-      <textarea class='edtTextArea' name="txt_obs" id="txt_obs" cols="212" rows="6" id="txt_obs" >MANUTENÇÂO EM SANFONA DE ÔNIBUS</textarea>
+      <textarea class='edtTextArea' name="txt_obs" id="txt_obs" cols="212" rows="6" id="txt_obs" > </textarea>
       <button  id="btnAdd">Adicionar</button>
       <label> Valor R$ </label>
       <input type="text" name="valor" onkeyup="return float_number(this)" maxlength="60" id="edtValor"/>

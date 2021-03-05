@@ -38,9 +38,6 @@ btnAdd.addEventListener('click',(event)=>{
 
 		let query = "SELECT descricao, (CONCAT('R$',FORMAT(preco_comp *(1 + (margem/100)),2))) as preco, unidade, cod  FROM tb_produto WHERE "+field+" LIKE '%"+value+"%' ;";
 
-
-//		alert(query);
-
 	    const data = new URLSearchParams();
 	    data.append('query',query);
 
@@ -60,7 +57,6 @@ btnAdd.addEventListener('click',(event)=>{
 					let resp = JSON.parse(text);
 
 					resp.forEach((item)=>{
-//                		console.log(item);
 
 	                	const tr = document.createElement('tr');
 	                	tr.class = 'tbl_row';

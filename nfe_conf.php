@@ -213,6 +213,7 @@
 
     <?php
       global $file, $topo, $A, $B, $C, $C02, $C05;
+
       switch (get_post_action('emitente', 'fiscal', 'save_emit', 'save_fiscal', 'pedido', 'save_ped', 'itens', 'fatura', 'save_itens', 'save_fatura','add_bol','nfs','save_nfs')) {
           case 'emitente':
 
@@ -657,7 +658,7 @@
 
           case 'nfs': 
             echo" <p class=\"logo\"> Dados de Fatura - NF Serviço</p> <br>";
-            echo" <form class=\"login-form\" name=\"cadastro\" method=\"POST\" action=\"#\" />";
+            echo" <form class=\"login-form\" name=\"frmCadNFS\" id=\"frmCadNFS\" method=\"POST\" action=\"#\" />";
 
             if (file_exists($file_itens)){
               $aliquota = get_id("TXS");
@@ -669,12 +670,13 @@
                   <input type='hidden' id='valor' value='{$nfs}'>
                   <input type='hidden' id='aliquota' value='{$aliquota}'>
                   <input type='hidden' id='pedido' value='{$pedido}'>
+                  <input type='hidden' name='data_exec' id='data_exec' value='2021-01-01'>
 
                   <input type='hidden' name='id_emp' id='id_emp' value='0'>
            
                   <label> Valor total da NF:</label><input type='text' name='nfs_val' id='nfs_val' value='0' onkeyup='return money(this)'>  <br><br>
                   <label > Dias entre as parcelas</label>
-                  <input type=\"text\" name=\"dias_parc\" maxlength=\"15\" value=\"28\" onkeyup=\"return dias_pgto(this)\" />
+                  <input type=\"text\" name=\"dias_parc\" id=\"dias_parc\" maxlength=\"15\" value=\"28\" onkeyup=\"return dias_pgto(this)\" />
                   <label> Local de Execução do Serviço</label>
                   <select name='cmbExec' id='selExec'>
                     <option value='TOM'> No Cliente </option>
@@ -730,7 +732,7 @@
               </select></td></tr>
             <tr>            
             <tr>
-              <td><button name=\"save_nfs\" type=\"submit\">Gerar NFS</button></td>
+              <td><button name=\"save_nfs\"  id=\"save_nfs\" type=\"submit\">Gerar NFS</button></td>
             </tr>
 
             <tr></tr></table>";
@@ -940,6 +942,8 @@
             $qtd_parc = 1;
             $dias_parc = 0;
             
+            echo"teste<br>";
+
             if (IsSet($_POST ["dias_parc"])){
               post_id("TXS",$_POST ["edtAliNFServ"]);
               post_id("NFS",$_POST ["edtNumNFServ"]);
@@ -1003,7 +1007,7 @@
             while($fetch = mysqli_fetch_row($result)){
               $emp_data = [onlyNum($fetch[2]),trim($fetch[1]),trim($fetch[4]),onlyNum($fetch[11]),trim($fetch[10]),trim($fetch[5]),trim($fetch[6]),onlyNum($fetch[9]),onlyNum($fetch[8])];            
             }
-
+                          //  2:CNPJ | 1:nome | 4:end. | 11:num | 10:bairro | 5:cidade | 6:estado | 9:cep | 8:tel 
             $conexao->close(); 
 
             global $file, $file_itens;
@@ -1011,16 +1015,16 @@
             $texto = "10|".get_id("C08")."|". date("d/m/Y")."|".date("d/m/Y")."|4||{$txs}|2.00|\r\n";
 
             $texto = $texto . "20|RPS|{$numNF}|001|". date("d/m/Y")."|NAO|14.01|{$txt_disc}|{$NFS_val}|0,00|{$txt_info}|{$NFS_val}|{$txs}|{$imp}";
-            $texto = $texto . "|0,00|".$emp_data[0]."|".$emp_data[1]."||".$emp_data[2]."|".$emp_data[3]."||".$emp_data[4]."|".$emp_data[5]."|".$emp_data[6]."|".$emp_data[7]."|".$emp_data[8]."||";
+            $texto = $texto . "|0,00|".$emp_data[0]."|".$emp_data[1]."||".$emp_data[2]."|".$emp_data[3]."||".$emp_data[4]."|".$emp_data[5]."|".$emp_data[6]."|".$emp_data[7]."|".$emp_data[8]; // data 8 = telefone
 //            $texto = $texto . "|0,00|              |".get_id("E01)."||".get_id("E8")."|".get_id"E09")."||".get_id("E1")."|".gt_id("E12")."|".getid("E14")."|".get_id"E15")."|".get_id(E18")."|".get_id("E05")."|";
 //            $texto = $texto . "|0,00|".get_id("E07")."|".get_id("E01")."||".get_id("E08")."|".get_id("E09")."|".get_id("E10")."|".get_id("E11")."|".get_id("E12")."|".get_id("E14")."|".get_id("E15")."|".get_id("E18")."|".get_id("E05")."|";
             if( $_POST ["cmbExec"] == "TOM"){
-              $texto = $texto . "|||||||||";
+              $texto = $texto . "|||{$emp_data[2]}|{$emp_data[3]}||{$emp_data[4]}|{$emp_data[5]}|{$emp_data[6]}|{$emp_data[7]}||||\r\n";
 
             }else{
-              $texto = $texto . "|".get_id("C09")."|".get_id("C10")."|".get_id("C11")."|".get_id("C12")."|".get_id("C14")."|".get_id("C15")."|".get_id("C16")."|";
+              $texto = $texto . "|".get_id("C09")."|".get_id("C10")."|".get_id("C11")."|".get_id("C12")."|".get_id("C14")."|".get_id("C15")."|".get_id("C16")."|||||\r\n";
             }
-            $texto = $texto . get_id("E06")."|||\r\n";
+//            $texto = $texto . get_id("E06")."|||\r\n";
                         
             $texto = $texto . "90|1|{$NFS_val}|{$imp}|0,00|0,00|0|0,00|";
 
