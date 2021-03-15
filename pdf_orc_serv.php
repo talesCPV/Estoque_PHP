@@ -66,7 +66,7 @@
 		}
 
 		if($check){
-			$query = $query . "AND data_exec BETWEEN '{$inicio}' AND '{$final}'";
+			$query = $query . " AND data_exec BETWEEN '{$inicio}' AND '{$final}'";
 		}
 /*
 		$pdf->SetFont('Arial','B',7);
