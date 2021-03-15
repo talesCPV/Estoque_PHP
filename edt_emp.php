@@ -102,7 +102,7 @@
       <label> CNPJ </label>
       <input type="text" name="cnpj" maxlength="14" value="<?php echo "$cnpj" ?>" />
       <label> Inscrição Estadual </label>
-      <input type="text" name="ie" maxlength="14" value="<?php echo "$ie" ?>" />
+      <input type="text" name="ie" maxlength="17" value="<?php echo "$ie" ?>" />
       <label> Tipo </label>
       <select name="tipo">
         

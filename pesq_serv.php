@@ -57,6 +57,7 @@
 				$valor = $_POST ["valor"];
 				$data_exec = $_POST ["data_exec"];
 				$data_fin = $_POST ["data_fin"];
+				$check = false;
 
                 $query_opt = "";
 
@@ -72,7 +73,8 @@
                 }
 
                 if (IsSet($_POST ["ckbDatas"])){
-                    $query_opt = $query_opt . " AND s.data_exec >= '". $data_exec ."' AND s.data_exec <= '". $data_fin ."'";
+					$query_opt = $query_opt . " AND s.data_exec >= '". $data_exec ."' AND s.data_exec <= '". $data_fin ."'";
+					$check = true;
                 }
             
                   $query_opt = $query_opt . " order by data_exec desc";
@@ -102,7 +104,9 @@
 					        while($fetch = mysqli_fetch_row($result)){
 
 					        	$cliente = $fetch[1];
-					        	$cod_cli = $fetch[8];
+								$cod_cli = $fetch[8];
+								$num_carro = $fetch[2];
+								$pedido = $fetch[7];
 
                                 echo "<tr class='tbl_row'>".
                                          "<td>" .$fetch[0] . "</td>".
@@ -139,10 +143,14 @@
 				  	  					<button id=\"botao_inline\" type=\"submit\">Relatório</button>
 				  	  				</form>
 									<form class=\"login-form\" method=\"POST\" action=\"pdf_orc_serv.php\">
-				  	  					<input type=\"hidden\" name=\"query\" value=\"". $query ."\">
+				  	  					<input type=\"hidden\" name=\"query\" value=\"". $campo ."\">
+				  	  					<input type=\"hidden\" name=\"num_carro\" value=\"". $num_carro ."\">
+										<input type=\"hidden\" name=\"pedido\" value=\"". $pedido ."\">
+										<input type=\"hidden\" name=\"check\" value=\"". $check ."\">																					
 				  	  					<input type=\"hidden\" name=\"cod_cli\" value=\"". $cod_cli ."\">
 				  	  					<input type=\"hidden\" name=\"ini\" value=\"". $data_exec ."\">
-				  	  					<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">				  	  				
+										<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">
+										
       									<button id=\"botao_inline\" type=\"submit\" style=\" margin: 0 10px;\">Orçamento</button>
       								</form>
 								</td>

@@ -1,39 +1,56 @@
 
 
+function queryDB(query) {        
+    var resp = '';
+    $.ajax({
+        url: 'ajax/ajax.php',
+        type: 'POST',
+        dataType: 'html',
+        data: query,
+        async: false,
+        success: function(data){
+            resp = jQuery.parseJSON( data );
+        }
+    });   
+    return resp;     
+}   
+
 
 $(document).ready(function(){
     
     $("#btnImpTxt").click(function(event){
         event.preventDefault();
         let id = $('#selTxt').val();
-        let query = "query=SELECT * FROM tb_texto_nf WHERE id = "+id+";";
+        let query = "SELECT * FROM tb_texto_nf WHERE id = "+id+";";
         let resp = queryDB(query);
-        let texto = resp[0]['texto'];
-        let replace_text = "";
-        for (i=0; i<texto.length; i++){            
-            if(texto[i] == '{'){
-                if(texto.substring(i+1,i+4).toUpperCase() == 'ICM'){
-                    replace_text += $('#icms').val().trim();
-                    i += 4;
+        resp.then((response)=>{
+            response.text().then(function (text) {
+                let texto = JSON.parse(text)[0].texto;
+//                console.log(texto)
+
+                let replace_text = "";
+                for (i=0; i<texto.length; i++){            
+                    if(texto[i] == '{'){
+                        if(texto.substring(i+1,i+4).toUpperCase() == 'ICM'){
+                            replace_text += $('#icms').val().trim();
+                            i += 4;
+                        }
+                        if(texto.substring(i+1,i+4).toUpperCase() == 'PED'){
+                            replace_text += $('#pedido').val().trim();
+                            i += 4;
+                        }
+                        if(texto.substring(i+1,i+4).toUpperCase() == 'ALI'){
+                            replace_text += $('#aliquota').val().trim();
+                            i += 4;
+                        }
+                    }else{
+                        replace_text += texto[i];
+                    }
                 }
-                if(texto.substring(i+1,i+4).toUpperCase() == 'PED'){
-                    replace_text += $('#pedido').val().trim();
-                    i += 4;
-                }
-                if(texto.substring(i+1,i+4).toUpperCase() == 'ALI'){
-                    replace_text += $('#aliquota').val().trim();
-                    i += 4;
-                }
-            }else{
-                replace_text += texto[i];
-            }
-        }
 
-
-
-        $('#txt_comp').val(replace_text);
-
-//        alert (resp[0]['texto']);
+                document.getElementById("txt_comp").value = replace_text;
+            });
+        })
 
     });
     $("#btnAddTxt").click(function(event){

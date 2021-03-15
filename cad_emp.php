@@ -65,7 +65,7 @@
       <label> CNPJ </label>
       <input type="text" name="cnpj" maxlength="18" onkeyup="return format_cnpj(this)" />
       <label> Inscrição Estadual </label>
-      <input type="text" name="ie" maxlength="15" onkeyup="return format_ie(this)"/>
+      <input type="text" name="ie" maxlength="17" onkeyup="return format_ie(this)"/>
       <label> Tipo </label>
       <select name="tipo">
         <option value="FOR">Fornecedor</option>

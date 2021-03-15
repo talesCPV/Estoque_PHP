@@ -7,9 +7,10 @@
         	die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
 		$result = mysqli_query($conexao, $query);
+//		print $query;
 
 		$qtd_lin = $result->num_rows;
-
+//		$qtd_lin = 0;
 		if($qtd_lin > 0){
 
 			$rows = array();
