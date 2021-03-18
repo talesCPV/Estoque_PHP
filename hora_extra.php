@@ -8,7 +8,7 @@
     <title>Hora Extra</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/horas.js"></script>
+    <!--<script src="js/horas.js"></script> -->
     <!--<script src="js/funcoes.js"></script> -->
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
@@ -39,16 +39,16 @@
 						<option value="HMT"> Todos  </option>
 					</select>
 				</td>
-                <td><input type="text" name="valor" maxlength="30"/></td>
-                <td><button class="botao_inline" type="submit">OK</button></td>
+                <td><input type="text" name="valor" id="edtValor" maxlength="30"/></td>
+                <td><button class="botao_inline" type="submit" id="btnSearch">OK</button></td>
 
             </tr></table>
 
 			<label for="ckbDatas">Início / Final</label>			
 			<table class="search-table"  border="0"><tr>
 				<?php $m = date('m'); $y = date('Y');?>
-				<td> <input type="date" name="data_ini" class="selData" value="<?php echo date('Y-m-d',mktime(0, 0, 0, $m -1 , 26 , $y)); ?>"> </td>
-				<td> <input type="date" name="data_fin" class="selData" value="<?php echo date('Y-m-d',mktime(23, 59, 59, $m, 25, $y)); ?>"> </td></tr>
+				<td> <input type="date" name="data_ini" class="selData" id="data_ini" value="<?php echo date('Y-m-d',mktime(0, 0, 0, $m -1 , 26 , $y)); ?>"> </td>
+				<td> <input type="date" name="data_fin" class="selData" id="data_fin" value="<?php echo date('Y-m-d',mktime(23, 59, 59, $m, 25, $y)); ?>"> </td></tr>
 			</table>
     	</form>
 
@@ -306,13 +306,25 @@
   	  
   </div>
 
-<div class="overlay">	
-  <div class="popup">
-    <h2 id="popTitle"></h2>
-    <div class="close" >&times</div>
-    <div class="content"></div>
-  </div>
-</div>
+
+	<div class="page_container" style="display: none;">
+	    <div class="page_form" >
+	        <p class="logo"> Lançamento de Horas </p> <br>
+	        <table class="search-tabl" id="tabHoras" > </table>
+	    </div>
+	</div>
+
+
+	<div class="overlay">	
+	  <div class="popup">
+	    <h2 id="popTitle"></h2>
+	    <div class="close" >&times</div>
+	    <div class="content"></div>
+	  </div>
+	</div>
+
+	<script src="js/horas.js"></script>
+
 
 </body>
 </html>

@@ -88,7 +88,7 @@
                             $montagem = $fetch[5];                                
                                             
 
-                            echo "<tr class='tbl_row'  style='white-space: pre-line;'><td style='display: none;'> {$id}</td><td style='display: none;'> {$look_day}</td><th>{$days_week[$i]}</th><td>{$frente}</td><td>{$suporte}</td><td>{$costura}</td><td>{$montagem}</td></tr>";
+                            echo "<tr class='tbl_row'  style='white-space: pre-line;'><td style='display: none;'> {$id}</td><td style='display: none;'> {$look_day}</td><th>{$days_week[$i]}</th><td>{$frente}</td><td>{$suporte}</td><td>{$costura}</td><td>{$montagem}</td><td style='display: none;'> {$i}</td></tr>";
                           }            
 
 						    echo"
@@ -109,33 +109,7 @@
                   </div>";
 
         }
-        if (IsSet($_POST ["hdn_save"])){
-          $save_opt = $_POST ["hdn_save"];
-          
-          if($save_opt == 1){
-            $frente = $_POST ["txtFrente"];
-            $suporte = $_POST ["txtSuporte"];
-            $costura = $_POST ["txtCostura"];
-            $montagem = $_POST ["txtMontagem"];
-            $data = $_POST ["hdn_data"];
 
-            include "conecta_mysql.inc";
-            if (!$conexao)
-            die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
-
-
-            $query =  "INSERT INTO tb_pcp VALUES (DEFAULT, '{$data}','{$frente}','{$suporte}','{$costura}','{$montagem}') ON DUPLICATE KEY UPDATE
-            frente = '{$frente}', suporte = '{$suporte}', costura = '{$costura}', montagem = '{$montagem}' ";
-
-            $result = mysqli_query($conexao, $query);
-
-            $conexao->close();
-
-
-          }
-
-
-        }
 
 	  ?>
   	  

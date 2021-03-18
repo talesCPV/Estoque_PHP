@@ -32,13 +32,22 @@ if(btnSave != null){
 		const btnSim = document.getElementById('btnSim');	
 		btnSim.addEventListener('click',()=>{			
 
+			let today = new Date();
+			let dd = String(today.getDate()).padStart(2, '0');
+			let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+			let yyyy = today.getFullYear();
+
+			today = yyyy + '-' + mm + '-' + dd;
+
 			const ped = document.getElementById('edtPed').value;
 			const valor = document.getElementById('nfs_val').value;
 			const id_emp = document.getElementById("id_emp").value;
-			const data_exec = document.getElementById("data_exec").value;
+//			const data_exec = document.getElementById("data_exec").value;
 			const cond_pagto = document.getElementById("dias_parc").value +" d.d.d.";
 
-			let query = "INSERT INTO tb_pedido ( id_emp, data_ped, data_ent, resp, num_ped, origem, cond_pgto, status) VALUES ('"+id_emp+"', '"+data_exec+"', '"+data_exec+"','SISTEMA', '"+ped+"', 'SAN','"+cond_pagto+"', 'FECHADO')";  
+			let query = "INSERT INTO tb_pedido ( id_emp, data_ped, data_ent, resp, num_ped, origem, cond_pgto, status) VALUES ('"+id_emp+"', '"+today+"', '"+today+"','SISTEMA', '"+ped+"', 'SAN','"+cond_pagto+"', 'FECHADO')";  
+
+			alert(query)
 				
 			resp = queryDB(query);
 

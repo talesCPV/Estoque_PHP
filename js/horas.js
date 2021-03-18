@@ -1,41 +1,39 @@
+function hora(campo){
+    var ok_chr = new Array('1','2','3','4','5','6','7','8','9','0');
+    var text = campo.value;
+    var count = 0;
+    var out_text = '';
+    var last_num = 0;
+    for(var i = 0; i<text.length; i++){
+        if(ok_chr.includes(text.charAt(i))){
 
-
-    function hora(campo){
-        var ok_chr = new Array('1','2','3','4','5','6','7','8','9','0');
-        var text = campo.value;
-        var count = 0;
-        var out_text = '';
-        var last_num = 0;
-        for(var i = 0; i<text.length; i++){
-            if(ok_chr.includes(text.charAt(i))){
-
-                if(count == 0 && text.charAt(i) < 3 ){ out_text += text.charAt(i); }
-                if(count == 1 && ((last_num == 2 && text.charAt(i) < 4)|| last_num < 2 )){out_text += text.charAt(i);}
-                if(count == 2 && text.charAt(i) < 6 ){ out_text += ':'+text.charAt(i);}
-                if(count == 3 ){ out_text += text.charAt(i);}
-                               
-                count += 1;
-                last_num = text.charAt(i);
-            }
-
+            if(count == 0 && text.charAt(i) < 3 ){ out_text += text.charAt(i); }
+            if(count == 1 && ((last_num == 2 && text.charAt(i) < 4)|| last_num < 2 )){out_text += text.charAt(i);}
+            if(count == 2 && text.charAt(i) < 6 ){ out_text += ':'+text.charAt(i);}
+            if(count == 3 ){ out_text += text.charAt(i);}
+                           
+            count += 1;
+            last_num = text.charAt(i);
         }
-        campo.value = out_text;
-    }
 
-    function queryDB(query) {        
-        var resp = '';
-        $.ajax({
-            url: 'ajax/ajax.php',
-            type: 'POST',
-            dataType: 'html',
-            data: query,
-            async: false,
-            success: function(data){
-                resp = jQuery.parseJSON( data );
-            }
-        });   
-        return resp;     
-    }       
+    }
+    campo.value = out_text;
+}
+
+function queryDB(query) {        
+    var resp = '';
+    $.ajax({
+        url: 'ajax/ajax.php',
+        type: 'POST',
+        dataType: 'html',
+        data: query,
+        async: false,
+        success: function(data){
+            resp = jQuery.parseJSON( data );
+        }
+    });   
+    return resp;     
+}       
 
 $(document).ready(function(){
     
@@ -56,7 +54,7 @@ $(document).ready(function(){
     
             }
     
-        });	
+        }); 
         
         var par = $.parseJSON(fileJson);
         $.each(par['access'], function(index, value) {
@@ -133,7 +131,12 @@ $(document).ready(function(){
 //            var query = "query=DELETE FROM tb_hora_extra  WHERE id_func = (SELECT id from tb_funcionario WHERE nome LIKE '"+ func +"%' ) AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
             let query = "query=DELETE FROM tb_hora_extra  WHERE id_func = "+ id +" AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
             queryDB(query);
-            $('#frmRefresh').submit();
+
+            atualiza(tbl,row,col,"0000-00-00 07:00:00","0000-00-00 17:00:00");
+
+            $(".overlay").css("visibility", "hidden").css("opacity", "0");
+
+//            $('#frmRefresh').submit();
             
         });
 
@@ -173,8 +176,12 @@ $(document).ready(function(){
                 }
 //                alert(query);
                 
-                queryDB(query);  
-                $('#frmRefresh').submit();
+                queryDB(query);
+
+                atualiza(tbl,row,col,ent,sai)
+
+                $(".overlay").css("visibility", "hidden").css("opacity", "0");
+//                $('#frmRefresh').submit();
 
 
             }else{
@@ -194,4 +201,31 @@ $(document).ready(function(){
 
     }); 
 
+
+    function atualiza(tbl,row,col,ent,sai){
+
+        const data_ini = document.getElementById(ent);
+        const data_fin = document.getElementById(sai);
+
+        if(col%2 == 0){
+            tbl.rows[row].cells[col].innerHTML = ent.substr(11,5);
+            tbl.rows[row].cells[col+1].innerHTML = sai.substr(11,5);
+
+            tbl.rows[row].cells[col].style.background = "#F2F13B";
+            tbl.rows[row].cells[col+1].style.background = "#F2F13B";
+        }else{
+            tbl.rows[row].cells[col-1].innerHTML = ent.substr(11,5);
+            tbl.rows[row].cells[col].innerHTML = sai.substr(11,5);
+
+            tbl.rows[row].cells[col-1].style.background = "#F2F13B";
+            tbl.rows[row].cells[col].style.background = "#F2F13B";
+        }
+
+        
+//        alert([row,col,data_ini,data_fin]);
+
+    }
+
 });
+
+
