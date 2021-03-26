@@ -223,7 +223,15 @@
 							"id": "menuHoraExtra",
 							"icone": "fa fa-clock-o",
 							"perm": [10,4,1]
-						 }					   
+						 },
+						 {
+							"nome": "Vales",
+							"link": "vale.php",
+							"id": "menuVales",
+							"icone": "fa fa-pencil-square-o",
+							"perm": [10,4,1]
+						}						
+
 					   ]
 		   },		
 	 	{"modulo": "Cotações e Pedidos",

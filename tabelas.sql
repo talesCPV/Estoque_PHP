@@ -160,6 +160,8 @@ CREATE TABLE tb_item_serv (
 	FOREIGN KEY (id_item) REFERENCES tb_produto(id)    
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+#DROP TABLE tb_cargos;
+
 CREATE TABLE tb_cargos (
     id int(11) NOT NULL AUTO_INCREMENT,
     cargo varchar(30) DEFAULT NULL,
@@ -185,6 +187,8 @@ CREATE TABLE tb_funcionario (
     tel varchar(15) DEFAULT NULL,
     cel varchar(15) DEFAULT NULL,
     status varchar(5) DEFAULT NULL,
+    vale double NOT NULL DEFAULT 0,
+	obs varchar(200) DEFAULT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_cargo) REFERENCES tb_cargos(id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -211,6 +215,7 @@ CREATE TABLE tb_serv_exec (
     PRIMARY KEY (id),
     FOREIGN KEY(id_emp) REFERENCES tb_empresa(id)    
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE tb_pcp (
     id int(11) NOT NULL AUTO_INCREMENT,
@@ -294,10 +299,18 @@ SELECT r.id, r.entrada, e.nome, s.fabricante, s.modelo, s.ano, r.numero, r.tipo,
 INSERT INTO tb_ref_sanf ( entrada, id_cliente, id_modelo, numero, tipo, status, saida, obs) VALUES ('2021-01-07', '175', '1', '1234567890', 'REFORMA', 'RECEBIMENTO', 2021-01-19, 'teste 123' ) ;
 
 
-ALTER table tb_cargos ADD cbo varchar(8);
+ALTER table tb_cargos ADD cbo varchar(8) DEFAULT NULL;
+
+ALTER TABLE tb_serv_exec ADD valor double NOT NULL DEFAULT 0;
+
+ALTER table tb_funcionario ADD vale double NOT NULL DEFAULT 0;
+ALTER table tb_funcionario ADD obs varchar(200) DEFAULT NULL;
+
 
 SET SQL_SAFE_UPDATES = 0;
 UPDATE tb_empresa SET fantasia = nome ;
+
+SELECT * FROM tb_serv_exec;
 
 
 d rop table tb_pcp;
@@ -314,6 +327,10 @@ ALTER TABLE tb_financeiro
 ADD column emp varchar(50) DEFAULT NULL; 
 ALTER TABLE tb_financeiro
 ADD column origem varchar(3) DEFAULT 'FUN'; 
+
+ALTER TABLE tb_item_ped
+ADD column serv varchar(500) DEFAULT ''; 
+
 
 ALTER TABLE tb_pedido
 ADD column desconto double NOT NULL DEFAULT 0; 
@@ -335,6 +352,9 @@ ALTER TABLE tb_produto
 ADD column tipo varchar(7) DEFAULT 'VENDA'; 
 
 drop table tb_etiqueta;
+
+
+SELECT * FROM tb_empresa WHERE id=166;
 
 select * from tb_agenda;
 
@@ -421,3 +441,15 @@ SELECT p.id, p.num_ped, p.comp, p.data_ped, p.data_ent, p.status, i.preco
 
 
 SELECT p.id, p.num_ped, e.nome, p.comp, p.data_ped, p.data_ent, p.status, i.venda FROM tb_pedido AS p INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i ON p.id = i.id_ped INNER JOIN tb_empresa AS e ON p.id_emp = e.id AND p.data_ped >= '2020-03-01' AND p.data_ped <= '' ;                            
+
+
+LOCK TABLES `tb_cargos` WRITE;
+/*!40000 ALTER TABLE `tb_cargos` DISABLE KEYS */;
+INSERT INTO `tb_cargos` VALUES (1,'COSTUREIRO 2',8.59,'HORA',''),(5,'COSTUREIRO 1',7.2,'HORA',''),(3,'MECANICO MANUT ONIBUS 2',7.8,'HORA',''),(7,'MECANICO MANUT ONIBUS 1',7.45,'HORA',''),(8,'MECANICO MANUT ONIBUS 3',8.26,'HORA',''),(9,'MECANICO MANUT ONIBUS 4',8.59,'HORA',''),(10,'MECANICO MANUT ONIBUS SENIOR',12.68,'HORA',''),(11,'SUPERVISOR',3726,'MENSAL',''),(12,'ENG. DE PROJETOS',7984,'MENSAL',''),(15,'LIDER DE PRODUÃ‡ÃƒO',1900,'MENSAL',''),(16,'COSTUREIRO (AUTÃ”NOMO)',9.2,'HORA',''),(17,'MONTADOR AUTONOMO',2000,'MENSAL',''),(18,'MENOR APRENDIZ',3.41,'HORA',''),(19,'AJUDANTE (AUTONOMO)',5.68,'HORA','');
+/*!40000 ALTER TABLE `tb_cargos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+INSERT INTO tb_hora_extra VALUES (DEFAULT, (SELECT id from tb_funcionario WHERE nome LIKE 'BRUNO%' ),'2021-01-30 10:00:00','2021-01-31 00:00:00');
+
+SELECT id from tb_funcionario WHERE id = 19;
