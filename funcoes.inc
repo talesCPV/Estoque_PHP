@@ -387,4 +387,30 @@ function tirarAcentos($string){
 
   }
 
+  function CPF($str)
+  {
+    $resp = "";
+    for($i = 0; $i < strlen($str); $i++){
+      if($i == 3){ $resp = $resp . "."; }
+      if($i == 6){ $resp = $resp . "."; }
+      if($i == 9){ $resp = $resp . "-"; }
+      $resp = $resp . substr($str, $i, 1);
+    }
+    return ($resp);
+
+  }
+
+  function RG($str)
+  {
+    $resp = "";
+    for($i = 0; $i < strlen($str); $i++){
+      if($i == 2){ $resp = $resp . "."; }
+      if($i == 5){ $resp = $resp . "."; }
+      if($i == 8){ $resp = $resp . "-"; }
+      $resp = $resp . substr($str, $i, 1);
+    }
+    return ($resp);
+
+  }
+
 ?>

@@ -225,7 +225,7 @@
 							"perm": [10,4,1]
 						 },
 						 {
-							"nome": "Vales",
+							"nome": "Recibos e Vales",
 							"link": "vale.php",
 							"id": "menuVales",
 							"icone": "fa fa-pencil-square-o",

@@ -56,6 +56,13 @@
 				$conexao->close();
 	  ?>
   	  
+
+  	  <div class="page_form" id="no_margin">
+        <button id="btnRecibo">Recibos</button>
+  	  </div>
+
+
+	  </div>
   </div>
 
 

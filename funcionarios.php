@@ -37,7 +37,7 @@
 			if (!$conexao)
 				die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-			$query =  "SELECT f.*, c.cargo, c.salario, c.tipo FROM tb_funcionario AS f INNER JOIN tb_cargos AS c ON f.nome LIKE '%".$valor."%' AND f.id_cargo = c.id ORDER BY f.status";
+			$query =  "SELECT f.*, c.cargo, c.salario, c.tipo FROM tb_funcionario AS f INNER JOIN tb_cargos AS c ON f.nome LIKE '%".$valor."%' AND f.id_cargo = c.id ORDER BY f.nome";
 
 			$result = mysqli_query($conexao, $query);
 

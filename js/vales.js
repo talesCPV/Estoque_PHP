@@ -46,8 +46,72 @@ async function queryDB(query){
     const content = document.querySelector('.content');
     const title = document.querySelector('#popTitle');
     const overlay = document.querySelector('.overlay');
+    const btnRecibo = document.getElementById('btnRecibo');
 
-    console.log(tbl);
+    btnRecibo.addEventListener("click",()=>{
+
+        const query = "SELECT * FROM tb_funcionario ORDER BY nome;";
+        let option = '';
+        const resp = queryDB(query);
+        
+        resp.then(function (response){
+            if (response.status === 200) { 
+                response.text().then((text)=>{
+                    var obj = JSON.parse(text); 
+                    for(let i=0; i<obj.length; i++){
+                        option += `<option value="${obj[i].id}">${obj[i].nome} </option>`;
+                    }
+                    cmbFunc.innerHTML = option;
+                });
+            }
+        });
+
+        for(i=0;i<resp.length;i++){
+            option += "<option value='"+resp[i].id+"'>"+resp[i].cargo+"</option>";
+        }
+
+        const html = `
+            <table>
+                <tr>
+                    <td> <label> Funcionário </label> </td>
+                    <td> <select id="cmbFunc"></select> </td>
+                </tr><tr>                    
+                    <td> <label> Valor</label> </td>
+                    <td> <input type="text" id="edtValor"  onkeyup="return float_number(this)" value="0" style="width:100%; padding:5px"/>
+                </tr><tr>                    
+                    <td> <label> Referência</label> </td>                     
+                    <td> <input type="text"  id="edtRef" value="serviços prestados como autônomo" style="width:100%; padding:5px"/> </td>
+                </tr><tr>                    
+                    <td> <label> Obs: </label> </td>                     
+                    <td> <input type="text"  id="edtPeriodo" value="no período   de   /  /    a    /  /  " style="width:100%; padding:5px"/> </td>
+                    </td>
+                </tr><tr>
+                <td></td><td><button id='btn_Rec'>Imprimir</button></td>
+                </tr>
+            </table>
+            <form id='frmRefresh' method='POST' action='#'></form>
+        `;
+
+        content.innerHTML = html;
+        title.innerHTML = `Recibos de Pagamento `;
+
+        const id = document.getElementById('cmbFunc');
+        const edtValor = document.getElementById('edtValor');
+        const edtRef = document.getElementById('edtRef');
+        const edtPeriodo = document.getElementById('edtPeriodo');
+        const btn_Rec = document.getElementById('btn_Rec');
+
+        btn_Rec.addEventListener('click',()=>{  
+
+
+            window.open (`pdf_vale.php?vale=nao&func=${id.value}&valor=${edtValor.value}&ref=${edtRef.value}&obs=${edtPeriodo.value}`, '_blank');
+
+        });
+
+
+        overlay.style.visibility = "visible";
+        overlay.style.opacity = 1;
+    });
 
 
     tbl.addEventListener("dblclick",(event)=>{
@@ -76,7 +140,7 @@ async function queryDB(query){
                     <td> <label> Observação</label> </td>
                     <td> <textarea id="edtObs" rows="6" cols="45" style="resize: none; text-transform: uppercase;">${obs}</textarea>  </td>
                 </tr><tr>
-                <td></td><td><button id='btn_Save'>Salvar</button></td>
+                <td></td><td><button id='btn_Save'>Salvar</button> <button id='btn_Vale'>Imprimir</button></td>
                 </tr>
             </table>
             <form id='frmRefresh' method='POST' action='#'></form>
@@ -84,17 +148,22 @@ async function queryDB(query){
         content.innerHTML = html;
 
         const btnSave = document.getElementById('btn_Save');
+        const btn_Vale = document.getElementById('btn_Vale');
         const edtBaixa = document.getElementById('edtBaixa');
         const edtValor = document.getElementById('edtValor');
-        const edtObs = document.getElementById('edtObs');
+        const edtObs = document.getElementById('edtObs');        
+
+        btn_Vale.addEventListener('click',()=>{
+            window.open (`pdf_vale.php?vale=sim&func=${id}&valor=${edtValor.value}&baixa=${edtBaixa.value}&obs=${edtObs.value}`, '_blank');
+        });
 
 
-        btnSave.addEventListener('click',()=>{
+        btnSave.addEventListener('click',()=>{  
 
             let query = `UPDATE tb_funcionario SET vale = ${parseFloat( edtValor.value)},  obs = '${edtObs.value}' WHERE id=${id};`;
 
             if(parseFloat( edtBaixa.value) > 0){
-                if(confirm(`Confirma a baixa de R$${edtBaixa.value} para ${nome}`)){
+                if(confirm(`Confirma a baixa de R$${edtBaixa.value} para ${nome}`)){                    
                     query = `UPDATE tb_funcionario SET vale = ${parseFloat( edtValor.value) - parseFloat( edtBaixa.value)},  obs = '${edtObs.value}' WHERE id=${id};`;
                 }
             }
@@ -105,7 +174,9 @@ async function queryDB(query){
                 if (response.status === 200) { 
                     response.text().then((text)=>{
                         const frm = document.getElementById('frmRefresh');
-                        frm.submit();                       
+                        frm.submit();
+//                        window.location = `vale.php`;
+
                     });
                 }
             });
