@@ -942,7 +942,7 @@
             $qtd_parc = 1;
             $dias_parc = 0;
             
-            echo"teste<br>";
+            echo"FATURA:<br>";
 
             if (IsSet($_POST ["dias_parc"])){
               post_id("TXS",$_POST ["edtAliNFServ"]);
@@ -1022,7 +1022,7 @@
               $texto = $texto . "|||{$emp_data[2]}|{$emp_data[3]}||{$emp_data[4]}|{$emp_data[5]}|{$emp_data[6]}|{$emp_data[7]}||||\r\n";
 
             }else{
-              $texto = $texto . "|".get_id("C09")."|".get_id("C10")."|".get_id("C11")."|".get_id("C12")."|".get_id("C14")."|".get_id("C15")."|".get_id("C16")."|||||\r\n";
+              $texto = $texto . "|||".get_id("C09")."|".get_id("C10")."|".get_id("C11")."|".get_id("C12")."|".get_id("C14")."|".get_id("C15")."|".get_id("C16")."|||||\r\n";
             }
 //            $texto = $texto . get_id("E06")."|||\r\n";
                         

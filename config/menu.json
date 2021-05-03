@@ -194,6 +194,13 @@
 						"id": "menuCotBusca",
 						"icone": "fa fa-bar-chart",
 						"perm": [10,4,1]
+					},
+					{
+						"nome": "Extrato Consol.",
+						"link": "extrato.php",
+						"id": "menuExtrato",
+						"icone": "fa fa-line-chart",
+						"perm": [10,1]
 					}
 		 		  ]
 		},
@@ -362,6 +369,10 @@
 		},
 		{"url": "cad_user.php",
 		"open": [10],
+		"edit": [10]
+		},
+		{"url": "extrato.php",
+		"open": [10,1],
 		"edit": [10]
 		},
 		{"url": "hora_extra.php",
