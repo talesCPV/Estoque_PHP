@@ -343,6 +343,7 @@ $(document).ready(function(){
     });
 
     $("#btn_NovoFunc").click(function(event){
+
         event.preventDefault(); // cancela o submit do form;
         var today = new Date();
         var d = String(today.getDate()).padStart(2, '0');
@@ -387,7 +388,7 @@ $(document).ready(function(){
                 var id_cargo = parseInt($('#selCargo').val());
                 var adm = $('#cmbAdm').val();
 
-                var query = "query=INSERT INTO tb_funcionario VALUES (DEFAULT, '"+ nome +"', '"+ rg +"', '"+ cpf+"', '"+ pis+"', '"+ end+"', '"+ cid+"', '"+ est+"', '"+ cep+"', '"+ adm+"', 'DEFAULT', '"+ id_cargo+"', '"+ tel+"', '"+ cel+"', 'ATIVO');";
+                var query = "query=INSERT INTO tb_funcionario VALUES (DEFAULT, '"+ nome +"', '"+ rg +"', '"+ cpf+"', '"+ pis+"', '"+ end+"', '"+ cid+"', '"+ est+"', '"+ cep+"', '"+ adm+"', 'DEFAULT', '"+ id_cargo+"', '"+ tel+"', '"+ cel+"', 'ATIVO', DEFAULT, DEFAULT);";
 //                alert(query);
                 queryDB(query);   
                 $('#frmRefresh').submit();                               

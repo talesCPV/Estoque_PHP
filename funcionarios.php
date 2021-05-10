@@ -44,18 +44,16 @@
 				echo"  <div class=\"page_form\" id=\"no_margin\">
 						<table class=\"search-table\" id=\"tabItens\">
 						  	<tr>
-						    	<th>Cod.</th>
 						    	<th>Nome</th>
-						    	<th>Admissão</th>
 						    	<th>Cargo</th>
 						    	<th>Status</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
 								echo "<tr class='tbl_row'>".
-										 "<td>" .$fetch[0] . "</td>".
+										 "<td style='display: none;'>" .$fetch[0] . "</td>".
 										 "<td>" .$fetch[1] . "</td>".
-										 "<td>" . date('d/m/Y', strtotime($fetch[9])) . "</td>".
-								     	 "<td>" .$fetch[15] . "</td>".
+										 "<td style='display: none;'>" . date('d/m/Y', strtotime($fetch[9])) . "</td>".
+								     	 "<td>" .$fetch[17] . "</td>".
 								     	 "<td>" .$fetch[14] . "</td>".
 								     	 "<td style='display: none;'>" .$fetch[2] . "</td>".
 								     	 "<td style='display: none;'>" .$fetch[3] . "</td>".

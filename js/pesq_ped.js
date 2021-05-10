@@ -119,7 +119,13 @@ $(document).ready(function(){
                 table += "<button type='submit' id='btnUpload'>Upload</button></td></tr>";                                      
             }
 
-            Btn += "<button id='btnAnalisar'>Analisar</button></td><td><button id='btnVisualizar'>Visualizar</button><button id='btnDeletar'>Deletar</button>";           
+            Btn += "<button id='btnAnalisar'>Analisar</button></td><td><button id='btnVisualizar'>Visualizar</button><button id='btnDeletar'>Deletar</button>"; 
+            
+
+            if(status == 'PED' || status == 'FAT'){
+                Btn += "<button id='btnAbrir'>Reabrir</button>";
+
+            }
 
             $(document).off('click', '#btnAnalisar').on('click', '#btnAnalisar', function() {
                 $('#frmPesqPed').attr('action', 'pdf_analise.php');
@@ -135,6 +141,13 @@ $(document).ready(function(){
                 if (confirm('Deseja remover o ítem definitivamente do sistema?')) {
                     $('#frmPesqPed').attr('action', 'del_ped.php');
                     $('#frmPesqPed').submit();
+                }
+            });
+
+            $(document).off('click', '#btnAbrir').on('click', '#btnAbrir', function() {
+                if (confirm('Deseja reabrir este pedido? PS: Cuidado com as baixas de estoque!!')) {
+                    dados = `query=update tb_pedido set status = "ABERTO" where ID = ${cod} ;`;
+                    queryDB(dados);
                 }
             });
 
