@@ -10,6 +10,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!--<script src="js/horas.js"></script> -->
     <!--<script src="js/funcoes.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
+
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -129,7 +131,7 @@
 
                 while($fetch = mysqli_fetch_row($result)){
 					$nome = explode(" ", $fetch[1])[0];
-                    $th_func = $th_func . "<th class='center_text' colspan='2' id={$fetch[0]}>{$nome}</th>";
+                    $th_func = $th_func . "<th style='display:none;'>{$fetch[1]}</th><th class='center_text' colspan='2' id={$fetch[0]}>{$nome}</th>";
 					$th_entsai = $th_entsai . "<th class='center_text'>Ent.</th><th class='center_text'>Sai.</th>";
 					$func[] = $fetch[0];
 					$nome_func[] = $nome;
@@ -285,9 +287,14 @@
 						";					
 					}
 
-						echo"</table>";
+						echo"</table><br>";
+
+						if($qtd_func == 1){
+							echo "<button id='btnImprimir' class='botao_inline' type='submit' style='margin-left: 20px;'>Imprimir</button>	";
+						}
 						
-						echo "<br>
+
+						echo "
 								<button class='botao_inline' type='submit'>Relatório</button>	
 								<input type='hidden' name='inicio' value='{$inicio}'>
 								<input type='hidden' name='final' value='{$final}'>																								  

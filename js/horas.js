@@ -82,7 +82,7 @@ $(document).ready(function(){
                 return val[1];
             }
         }
-    
+
     }
 
     var classe = getCookies('classe');
@@ -90,6 +90,55 @@ $(document).ready(function(){
     if (!$(this).perm(classe,'open')){
         $(window.document.location).attr('href',$(this).urlPath(window.location.href) + 'main.php');
     }
+
+    document.getElementById('btnImprimir').addEventListener('click',(event)=>{
+        event.preventDefault();
+        const tabela = document.getElementById('tabHoras');
+        const rows = tabela.rows;        
+//        var imgData = 'data:image/png;base64,'+ btoa('img/logo.png');
+
+        const nome = rows[0].cells[1].innerText;
+
+//        console.log(imgData)
+        var doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'A4'
+          })
+
+        doc.setFontSize(10);
+        let alt = 0;
+        doc.text(10, 45, 'DATA');
+        doc.text(30, 45, '');
+        doc.text(40, 45, 'Ent');
+        doc.text(52, 45, 'Sai');
+
+        doc.text(10, 10, nome);
+        for(let i=3; i<rows.length; i++){
+            const linha = 50+(i-3)*5;
+            alt = linha+1;
+            doc.rect(9,linha - 4,53,5);
+            const col = rows[i].cells;
+            doc.text(10, linha, col[0].innerText);
+            doc.text(30, linha, col[1].innerText);
+            doc.text(40, linha, col[2].innerText);
+            doc.text(52, linha, col[3].innerText);
+        }
+
+        doc.line(29,46,29,alt);
+        doc.line(39,46,39,alt);
+        doc.line(50,46,50,alt);
+//        doc.line(62,46,62,alt);
+        
+//        doc.rect(10,10,100,100);
+//      doc.addImage(imgData, 'PNG', 15, 40, 180, 180);
+//        doc.addImage(img, 'JPEG', 10, 78, 12, 15)
+
+        doc.save('a4.pdf')
+
+
+
+    });
 
 
     // CLIQUE NA TABELA tabHoras    
