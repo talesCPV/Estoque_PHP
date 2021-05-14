@@ -98,6 +98,9 @@ $(document).ready(function(){
 //        var imgData = 'data:image/png;base64,'+ btoa('img/logo.png');
 
         const nome = rows[0].cells[1].innerText;
+        const ini = rows[3].cells[0].innerText;
+        let fin = '';
+        const alt_tab = 60; 
 
 //        console.log(imgData)
         var doc = new jsPDF({
@@ -108,31 +111,42 @@ $(document).ready(function(){
 
         doc.setFontSize(10);
         let alt = 0;
-        doc.text(10, 45, 'DATA');
-        doc.text(30, 45, '');
-        doc.text(40, 45, 'Ent');
-        doc.text(52, 45, 'Sai');
+        doc.text(12, alt_tab - 5, 'DATA');
+        doc.text(30, alt_tab - 5, '');
+        doc.text(40, alt_tab - 5, 'Ent');
+        doc.text(52, alt_tab - 5, 'Sai');
 
-        doc.text(10, 10, nome);
         for(let i=3; i<rows.length; i++){
-            const linha = 50+(i-3)*5;
+            const linha = alt_tab+(i-3)*5;
             alt = linha+1;
             doc.rect(9,linha - 4,53,5);
             const col = rows[i].cells;
+            fin = col[0].innerText;
             doc.text(10, linha, col[0].innerText);
             doc.text(30, linha, col[1].innerText);
             doc.text(40, linha, col[2].innerText);
             doc.text(52, linha, col[3].innerText);
         }
 
-        doc.line(29,46,29,alt);
-        doc.line(39,46,39,alt);
-        doc.line(50,46,50,alt);
-//        doc.line(62,46,62,alt);
-        
-//        doc.rect(10,10,100,100);
-//      doc.addImage(imgData, 'PNG', 15, 40, 180, 180);
-//        doc.addImage(img, 'JPEG', 10, 78, 12, 15)
+        doc.line(29,alt_tab - 4, 29, alt);
+        doc.line(39,alt_tab - 4, 39, alt);
+        doc.line(50,alt_tab - 4, 50, alt);
+
+        doc.setFontSize(20);
+        doc.text(70, 10, "RELÓGIO DE PONTO");
+        doc.line(10,15,200,15);
+        doc.setFontSize(10);
+        doc.text(90, 20, "Flexibus Sanfonados LTDA.");
+        doc.text(80, 25, "Av. Dr. Rosalvo de Almeida Teles, 2070");
+        doc.text(70, 30, "CEP: 12.683-010 Caçapava-SP TEL: (12)3653-2230");
+//        doc.addImage('img/'+Base64.encode('LOGO.jpg'), 'JPEG', 10, 30, 150, 76);
+
+        doc.line(10,35,200,35);
+        doc.text(10, 40, "Nome: "+nome);
+        doc.text(10, 45, "Relatório de: "+ini+" a "+fin);
+        doc.line(10,50,200,50);
+
+        doc.line(10,285,200,285);
 
         doc.save('a4.pdf')
 
