@@ -161,14 +161,15 @@ $(document).ready(function(){
 
         var row = $(this).closest("tr").index();
         var col = $(this).closest("td").index();
-        var func = tbl.rows[0].cells[Math.ceil((col-1)/2)].innerHTML;
+        var func = tbl.rows[0].cells[Math.ceil(col- (col%2))].innerHTML;
         var data = tbl.rows[row].cells[0].innerHTML;
         var dia  = data.substr(-14,2);
         var mes  = data.substr(-11,2);
         var ano  = data.substr(-8,4);
-        let id = tbl.rows[0].cells[Math.ceil((col-1)/2)].id;
 
+        let id = tbl.rows[0].cells[Math.ceil(col - (col%2))].id;
 //        alert(id)
+//        console.log(tbl.rows[0].cells)
 
         if(col%2 == 0){
             var ent = tbl.rows[row].cells[col].innerHTML;
@@ -180,6 +181,9 @@ $(document).ready(function(){
 
         ent = ent.trim();
         sai = sai.trim();
+
+        console.log(tbl.rows[row].cells[col])
+
 
         var table = "<table><tr><td>ENTRADA</td><td> <input type='text' maxlength='5' id='edtEntrada' value='"+ent+"' onkeyup='return hora(this)'/></td></tr>";
         table +=   "<tr><td>SAIDA</td><td> <input type='text' id='edtSaida' maxlength='5'  value='"+sai+"' onkeyup='return hora(this)' /></td></tr>";

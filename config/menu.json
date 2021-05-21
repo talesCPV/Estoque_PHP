@@ -171,7 +171,15 @@
 							"id": "menuFeriados",
 							"icone": "fa fa-bed",
 							"perm": [10,4,1]
+						},
+						{
+							"nome": "Recibos",
+							"link": "recibos.php",
+							"id": "menuRecibos",
+							"icone": "fa fa-pencil-square-o",
+							"perm": [10,4,1]
 						}
+
 											
 					  ]
 		},		

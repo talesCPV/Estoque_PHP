@@ -291,6 +291,8 @@
 
 						if($qtd_func == 1){
 							echo "<button id='btnImprimir' class='botao_inline' type='submit' style='margin-left: 20px;'>Imprimir</button>	";
+						}else{
+							echo "<button id='btnImprimir' class='botao_inline' type='submit' style='margin-left: 20px; display:none;'>Imprimir</button>	";
 						}
 						
 
