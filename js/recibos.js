@@ -59,14 +59,14 @@ function centertext(obj,txt,y) {
     x = Math.floor(( pageWidth - txtWidth ) / 2);
 
     if (txtWidth > pageWidth){
-        const arr_txt = txt.split(" ");
+        const arr_txt = txt.split(/\n| /);
         let new_txt = '';
         let new_y = y;
 
         for(let i=0; i<arr_txt.length; i++){
-
             lineWidth = obj.getStringUnitWidth(new_txt +arr_txt[i] )*fontSize/obj.internal.scaleFactor;
-            if(lineWidth > pageWidth){
+            if(lineWidth > pageWidth - 20 ){
+//                alert(new_txt)
                 obj.text(10,new_y,new_txt);
                 new_txt = '';
                 new_y += 5;
@@ -90,6 +90,10 @@ document.getElementById('btnGerar').addEventListener('click',(event)=>{
 
     const query = queryDB(`SELECT * from tb_empresa where id=${emp.value};`);
 
+    const data = write_money(valor.value);
+
+//    alert(data)
+
     query.then(function(response){
         response.text().then((text)=>{
             const obj = JSON.parse(text)[0];
@@ -100,7 +104,7 @@ document.getElementById('btnGerar').addEventListener('click',(event)=>{
             console.log(obj);
 
             title.innerHTML = ` <input type="text" id="edtRecibo" value="RECIBO"/> - ${obj.nome}`;
-            content.innerHTML = `<textarea rows="10" cols="60" id="edtTexto"> Eu ${obj.nome}, inscrito no CPF/CNPJ ${obj.cnpj}, recebi de Flexibus Sanfonados LTDA inscrito no CNPJ 00.519.547/0001-06 a importância de R$${valor.value}, referenta a serviços prestados na data __/__/__
+            content.innerHTML = `<textarea rows="10" cols="60" id="edtTexto"> Eu ${obj.nome.toUpperCase()}, inscrito no CPF/CNPJ ${obj.cnpj}, recebi de Flexibus Sanfonados LTDA inscrito no CNPJ 00.519.547/0001-06 a importância de ${data[0]} (${data[1].toUpperCase().trim()}), referente a serviços prestados na data __/__/__
             </textarea><br>
             <input type="text" id="edtData" style="width:100%;" value="Caçapava, ${today.getDate()} de ${meses[today.getMonth()]} de ${today.getFullYear()} "><br>
             <button id="btnImprimir">Imprimir</button>
@@ -142,14 +146,134 @@ document.getElementById('btnGerar').addEventListener('click',(event)=>{
 
     });
 
-
-    console.log(query);
-
-
-
-
+//    console.log(query);
 
 })
+
+function write_money(money){
+
+    let mont = '';
+    let cents = '';
+    let mont_ext = '';
+    let cents_ext = '';
+    let set = 0;
+    let ext = '';
+
+    for(let i=0; i<money.length; i++){
+
+        if(money[i] == "."){
+            set = 1;
+        }else{
+            if(set == 0){
+                mont += money[i];
+            }else{
+                cents += money[i];
+            }
+        }
+
+    }
+
+    while(cents.length < 2){
+        cents += "0";
+    }
+
+    mont_ext = extenso(mont);
+    cents_ext = extenso(cents);
+
+    ext += mont_ext + " reais";
+
+    if (cents_ext.length > 0){
+        ext += " e "+cents_ext + " centavos"
+
+    }
+
+
+    console.log(ext.toUpperCase());
+    
+//    alert(ext)
+
+
+    return ([`R$${mont},${cents}`, ext])
+
+
+}
+
+
+function extenso(number){
+
+    const und = ["um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
+    const dezena = ["dez","vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
+    const dez = ["onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
+    const centena = ["cento","duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
+
+    let split_num = [];
+    let cont = 0;
+    let aux = "";
+    let ext = "";
+
+    for(let i=number.length-1; i>=0; i--){
+        aux = number[i] + aux;
+        cont ++;
+        if (cont == 3){
+            split_num.push(aux);
+            aux = "";
+            cont = 0;
+        }
+    }
+    if(aux.length > 0){
+        split_num.push(aux);
+    }
+
+
+    for(let i=split_num.length-1; i>=0; i--){
+        let numero = "";
+        let num_cent = split_num[i];
+        while(num_cent.length < 3){
+            num_cent = "0" + num_cent;
+        }
+
+
+        for(let j=num_cent.length;j>=0;j--){
+            let num = parseInt(num_cent[j]);
+            let compl = " ";
+            if(numero.length > 0){
+                compl = " e "
+            }
+            if(num > 0){
+                switch (j) {
+                    case 2:
+                        numero = und[num-1] + compl + numero;
+                        console.log([und[num-1],num_cent[j]])
+                        break;
+                    case 1:
+
+                        numero = dezena[num-1] + compl + numero;
+                        break;
+                    case 0:      
+                        numero = centena[num-1] + compl + numero;
+                        break;
+                  }
+            }
+
+        }
+
+        ext += numero
+
+        if(i == 1){
+            ext += "mil ";
+
+        }
+
+//        alert(numero);
+
+    }
+
+    if(ext == "cento "){
+        ext = "cem "
+    }
+
+    return ext.trim();
+}
 
 
     const btnClose = document.querySelector(".close");
