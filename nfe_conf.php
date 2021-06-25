@@ -662,6 +662,7 @@
 
             if (file_exists($file_itens)){
               $aliquota = get_id("TXS");
+              $defasagem = intval(get_id("DEF"));
               $nfs =  intval(get_id("NFS")) + 1; 
                            
               $pedido = get_id("ENP");
@@ -684,6 +685,8 @@
                   </select>
                   <label> Número da NFS</label>
                   <input type='text' name='edtNumNFServ' value='{$nfs}' onkeyup='return number(this)'>
+                  <label> Defasagem RPS/NFS</label>
+                  <input type='text' name='edtDef' value='{$defasagem}' onkeyup='return number(this)'>
                   <label> Aliquota %</label>
                   <input type='text' name='edtAliNFServ' value='{$aliquota}' onkeyup='return money(this)'>
                   <label> Discriminação do Serviço</label>
@@ -946,6 +949,7 @@
 
             if (IsSet($_POST ["dias_parc"])){
               post_id("TXS",$_POST ["edtAliNFServ"]);
+              post_id("DEF",$_POST ["edtDef"]);
               post_id("NFS",$_POST ["edtNumNFServ"]);
 
               $dias_parc = explode("/", $_POST["dias_parc"]); 
@@ -956,9 +960,8 @@
               $txt_disc = str_replace("\r\n", "\\\ ", $txt_disc);
               $txt_info = str_replace("\r\n", "\\\ ", $txt_info);
 
-
               $txs = str_replace('.',',', get_id("TXS"));
-              $nfs_num = get_id("NFS");
+              $nfs_num = intval(get_id("NFS")) - intval(get_id("DEF"));
 
 //              $NFS_val =  number_format(get_id("TOT"), 2, ',', '');
               $NFS_val =  number_format($_POST ["nfs_val"], 2, ',', '');
@@ -987,7 +990,7 @@
 
 
             if (IsSet($_POST ["edtNumNFServ"])){
-              $numNF =  str_pad($_POST ["edtNumNFServ"],9,'0', STR_PAD_LEFT) ;
+              $numNF =  str_pad( intval($_POST ["edtNumNFServ"]) - intval($_POST ["edtDef"]) ,9,'0', STR_PAD_LEFT) ;
 
             }
 

@@ -36,7 +36,9 @@ btnAdd.addEventListener('click',(event)=>{
 		const field = document.getElementById('cmbField').value;
 		const value = document.getElementById('edtValue').value;
 
-		let query = "SELECT descricao, (CONCAT('R$',FORMAT(preco_comp *(1 + (margem/100)),2))) as preco, unidade, cod  FROM tb_produto WHERE "+field+" LIKE '%"+value+"%' ;";
+		let query = "SELECT descricao, (CONCAT('R$',FORMAT(preco_comp *(1 + (margem/100)),2))) as preco, unidade, cod  FROM tb_produto WHERE "+field+" LIKE '%"+value+"%' AND tipo = 'SERVICO' ;";
+
+//		console.log(query)
 
 	    const data = new URLSearchParams();
 	    data.append('query',query);

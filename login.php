@@ -11,12 +11,13 @@
   <div class="form">
     <p class="logo"> <a href="https://www.flexibus.com.br"><img src="img/logo.png"></a></p> <br>
     <form class="login-form" method="POST" action="connect.php">
-      <input type="text" placeholder="username" name="user" />
-      <input type="password" placeholder="password" name="pass" />
-      <button id="btn_centro">login</button>
+      <input type="text" placeholder="username" name="user" id="edtUser" />
+      <input type="password" placeholder="password" name="pass" id="edtPass"/>
+      <button class="btn-login" id="btn_centro">login</button>
     </form>
   </div>
 </div>
+<script src="js/login.js"></script>
 
 </body>
 </html>

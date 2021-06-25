@@ -25,10 +25,11 @@
   	  	?>
 	  </div>
 
+    <!--<script> alert(localStorage.getItem("user"));</script>      -->
+
 
   <?php 
                 
-
   if (file_exists("lousa/".$user.".txt")) {
     echo"  <div class=\"page_form\" id=\"no_margin\">";
 
