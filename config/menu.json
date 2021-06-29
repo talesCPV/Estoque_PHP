@@ -49,6 +49,13 @@
 						"perm": [10,4,3]
 					},
 					{
+						"nome": "Analise de Frota",
+						"link": "cad_ana_frota.php",
+						"id": "menuCadServ",
+						"icone": "fa fa-bus",
+						"perm": [10,4,3]
+					},
+					{
 						"nome": "Ordem de Fabr.",
 						"link": "cad_of.php",
 						"id": "menuCadOF",
@@ -88,6 +95,13 @@
 		 			{
 						"nome": "Serv. Executados",
 						"link": "pesq_serv.php",
+						"id": "menuPesqServ",
+						"icone": "fa fa-bus",
+						"perm": [10,4,3]
+					},
+					{
+						"nome": "Análise de Frota",
+						"link": "pesq_analise_frota.php",
 						"id": "menuPesqServ",
 						"icone": "fa fa-bus",
 						"perm": [10,4,3]

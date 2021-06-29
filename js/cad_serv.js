@@ -26,7 +26,6 @@ btnAdd.addEventListener('click',(event)=>{
 	<table id="tabItens" class="search-table"></table>	
 	`;
 
-
     
 	document.querySelector(".content").innerHTML = content;
 

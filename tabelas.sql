@@ -216,6 +216,19 @@ CREATE TABLE tb_serv_exec (
     FOREIGN KEY(id_emp) REFERENCES tb_empresa(id)    
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+CREATE TABLE tb_analise_frota (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    id_emp INT NOT NULL,
+    data_analise date DEFAULT NULL,
+    num_carro varchar(15) DEFAULT NULL,
+    exec boolean DEFAULT FALSE,
+    func varchar(150) DEFAULT NULL,
+    local varchar(11) DEFAULT NULL,
+    valor double NOT NULL DEFAULT 0,
+    obs varchar(500),
+    PRIMARY KEY (id),
+    FOREIGN KEY(id_emp) REFERENCES tb_empresa(id)    
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE tb_pcp (
     id int(11) NOT NULL AUTO_INCREMENT,
@@ -288,12 +301,28 @@ CREATE TABLE tb_ref_sanf (
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
+INSERT INTO tb_analise_frota (id_emp, data_analise, num_carro, func, local, valor, obs) VALUES (166, '2021-06-28', 'sss', 'Bruno Mathias', 'No Cliente', 0, 'teste de cadastro' );
+
+SELECT * FROM tb_analise_frota;
+
+INSERT INTO tb_analise_frota  (id_emp, data_analise, num_carro, func, local, valor, obs)
+                       VALUES (166, '2021-06-28', '12345', 'Bruno Mathias', 'No Cliente', 145.32, 'teste de cadastro novo');
+
+SELECT * from tb_empresa where tipo = "CLI" order by fantasia;
+
+SELECT a.id, e.fantasia, a.num_carro, a.data_analise, a.func, a.exec, a.obs, e.id, a.valor FROM tb_analise_frota as a INNER JOIN tb_empresa as e ON a.id_emp = e.id order by data_analise desc;
+
 select * from tb_ref_sanf;
 
 SELECT r.id, r.entrada, e.nome, s.fabricante, s.modelo, s.ano, r.numero, r.tipo, r.status, r.saida, r.obs
 	                         FROM tb_ref_sanf AS r INNER JOIN tb_empresa AS e INNER JOIN tb_sanfonas as s 
 	                         ON r.id_cliente = e.id
                              AND r.id_modelo = s.id;
+
+SELECT a.id, e.fantasia, a.num_carro, a.data_analise, a.func, a.exec, a.obs, e.id, a.valor 
+FROM tb_analise_frota as a 
+INNER JOIN tb_empresa as e 
+ON a.id_emp = e.id order by a.data_analise desc;
 
 
 INSERT INTO tb_ref_sanf ( entrada, id_cliente, id_modelo, numero, tipo, status, saida, obs) VALUES ('2021-01-07', '175', '1', '1234567890', 'REFORMA', 'RECEBIMENTO', 2021-01-19, 'teste 123' ) ;
@@ -312,6 +341,7 @@ UPDATE tb_empresa SET fantasia = nome ;
 
 SELECT * FROM tb_serv_exec;
 
+SELECT class FROM tb_usuario WHERE email='tales@flexibus.com.br' AND pass='spider' ;
 
 d rop table tb_pcp;
 //d rop table tb_serv_exec;
@@ -320,6 +350,7 @@ d rop table tb_pcp;
 //d rop table tb_funcionario;
 //d rop table tb_servico;
 //d rop table tb_sanfonas;
+d rop table tb_analise_frota;
 
 ALTER TABLE tb_financeiro
 ADD column resp varchar(15) DEFAULT NULL; 
@@ -350,9 +381,6 @@ ADD column path varchar(70) DEFAULT NULL;
 
 ALTER TABLE tb_produto
 ADD column tipo varchar(7) DEFAULT 'VENDA'; 
-
-drop table tb_etiqueta;
-
 
 SELECT * FROM tb_empresa WHERE id=166;
 
