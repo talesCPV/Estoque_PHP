@@ -93,8 +93,8 @@
 			                  <th>Cliente</th>
 							  <th>Carro</th>
 							  <th>Visita</th>
-			                  <th>Serviços</th>
-			                  <th>Executado</th>
+			                  <th>Exec.</th>
+			                  <th>Valor</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
 
@@ -113,9 +113,9 @@
 								     	 "<td>" .$cod_cli." - ". $cliente . "</td>".
 								     	 "<td>" .$fetch[2] . "</td>".
 								     	 "<td>" .date('d/m/Y', strtotime($fetch[3]))  . "</td>".
-     									 "<td>" . $fetch[6] . "</td>".
-								     	 "<td>" .$status . "</td>".
-								         "<td style='display: none;'>" . $valor . "</td>".
+     									 "<td style='display: none;'>" . $fetch[6] . "</td>".
+								     	 "<td>" . $status . "</td>".
+								         "<td>" . money_format('%=*(#0.2n',$valor) . "</td>".
 								         "<td style='display: none;'>" . $cod_cli . "</td>".
                                          "<td style='display: none;'>" . $func . "</td>";										  
 					        }

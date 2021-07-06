@@ -16,13 +16,13 @@
 	include "conecta_mysql.inc";
 	if (!$conexao)
 		die ("Erro de conex�o com localhost, o seguinte erro ocorreu -> ".mysql_error());
-
+/*
 		$query = "SELECT cod FROM tb_produto WHERE tipo NOT LIKE '%TINTA%' order by cod desc limit 1;";
 		$result = mysqli_query($conexao, $query);
 		while($fetch = mysqli_fetch_row($result)){
 			$new_cod = $fetch[0] + 1 ;
 		}
-
+*/
 //		echo($new_cod."<br>");
 
 	if (IsSet($_COOKIE["classe"])){
@@ -56,7 +56,7 @@
 	}else{
 
 		$query = "INSERT INTO tb_produto ( descricao, estoque, etq_min, unidade, cod, cod_bar, id_emp, ncm, preco_comp, margem, tipo, cod_cli) 
-		VALUES ('$nome', '$estoque', '$est_min','$unidade', '$new_cod', '$cod_bar', '$forn', '$ncm', '$compra', '$margem', '$tipo', '$cod_cli')";
+		VALUES ('$nome', '$estoque', '$est_min','$unidade', (SELECT MAX(p.cod)+1 FROM tb_produto as p WHERE p.cod < 7000), '$cod_bar', '$forn', '$ncm', '$compra', '$margem', '$tipo', '$cod_cli')";
 	}
 
 //	echo $query;
@@ -64,7 +64,7 @@
 	mysqli_query($conexao, $query);
 	$conexao->close();
 
-	setcookie("message", "Novo produto cadastrado com sucesso!", time()+3600);
+//	setcookie("message", "Novo produto cadastrado com sucesso!", time()+3600);
 	//setcookie("message", $query, time()+3600);
 
 	header('Location: pesq_prod.php');

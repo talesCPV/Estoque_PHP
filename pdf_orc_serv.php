@@ -56,8 +56,8 @@
 			}
 		}else{
 			$func = strtoupper($_POST["func"]);
-			$pdf->Cell(15,5,utf8_decode("Análise de frota efetuada pelo(s) técnico(s) {$func} na data " . date('d/m/Y', strtotime($inicio))),0,0,"L");
-			$pdf->Ln(10);
+			$pdf->Cell(124,5,utf8_decode("Técnico resp. pela avaliação: {$func} "),0,0,"L");
+			$pdf->Cell(15,5,utf8_decode(" DATA: " . date('d/m/Y', strtotime($inicio))),0,0,"L");
 
 		}
   		$pdf->Ln(10);

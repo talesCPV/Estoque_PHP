@@ -71,7 +71,7 @@
         <option value="No Cliente">No Cliente</option>
         <option value="Na Flexibus">Na Flexibus</option>
       </select>
-      <label> Serviços Executados: *</label>
+      <label> Detalhamento: *</label>
       <textarea class='edtTextArea' name="txt_obs" id="txt_obs" cols="212" rows="6" id="txt_obs" > </textarea>
       <label> Técnico Responsável * </label>
       <input type="text" name="equipe" maxlength="60" id="edtEquipe" value="Bruno Mathias"/>

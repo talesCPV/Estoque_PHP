@@ -86,6 +86,9 @@ $(document).ready(function(){
         $('#popTitle').html(cliente + ' - ' + data);
         $(".overlay").css("visibility", "visible").css("opacity", "1");  
 
+
+        document.getElementById('edtValor').onkeyup();
+
     });
 
 
