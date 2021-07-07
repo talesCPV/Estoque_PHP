@@ -32,6 +32,36 @@
         return resp;     
     }    
 
+    function dataQuery(URL,params){
+
+        const data = new URLSearchParams();        
+
+        for(var prop in params){
+            data.append(prop, params[prop]);
+        }
+
+        const myRequest = new Request(URL,{
+            method: 'POST',
+            body: data
+        });
+
+        const myPromisse = new Promise((resolve,reject) =>{    
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200) { 
+                    resolve(response.text());
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));
+                } 
+            });
+    
+        });
+    
+        return myPromisse;
+
+    }
+
+
     function validaCampo(obj)
     {
         for(var i = 0; i<obj.length; i++){
@@ -203,6 +233,12 @@ $(document).ready(function(){
 
 	var classe = $(this).getCookies('classe');
     var usuario = $(this).getCookies('usuario');
+    var user_id = $(this).getCookies('cod_user');
+    localStorage.setItem("classe",classe);
+    localStorage.setItem("usuario",usuario);
+    localStorage.setItem("user_id",user_id);
+
+//    alert([classe, usuario, user_id])
 
 //  VERIFICA SE O USUARIO TEM PERMISSÃO PARA ACESSAR A PÁGINA DE ACORDO COM O ARQUIVO /config/menu.json na sessão "seguranca"
     if (!$(this).perm(classe,'open')){
