@@ -24,7 +24,7 @@
       background : #606060;
       color : #FFFFFF;
       text-align: center;
-   
+      font-size : 20px;
     }
 
     .dayText{
@@ -42,6 +42,7 @@
       /*background : #F6F6F6;*/
       cursor : pointer;
       text-align: right;
+      padding : 5px;
     }    
 
   </style>

@@ -53,49 +53,49 @@
 			  	$campo = $_POST ["campo"];
 			  	$valor = $_POST ["valor"];
 			  	if ($campo == "desc"){
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.descricao LIKE '%".$valor."%' AND p.id_emp = e.id ORDER BY cast(p.cod as unsigned integer);";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.descricao LIKE '%".$valor."%' AND p.id_emp = e.id ORDER BY cast(p.cod as unsigned integer);";
 			  	}
 			  	else
 			  	if ($campo == "cod"){
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod = '".$valor."' AND p.id_emp = e.id ;";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod = '".$valor."' AND p.id_emp = e.id ;";
 			  	}
 			  	else
 			  	if ($campo == "cod_bar"){
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod_bar LIKE '%".$valor."%' AND p.id_emp = e.id ;";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod_bar LIKE '%".$valor."%' AND p.id_emp = e.id ;";
 			  	}
 			  	else
 			  	if ($campo == "etq_min"){
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.estoque <= p.etq_min AND p.id_emp = e.id AND (p.tipo ='VENDA' or p.tipo ='PIGMTO') ORDER BY cast(p.cod as unsigned integer);";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.estoque <= p.etq_min AND p.id_emp = e.id AND (p.tipo ='VENDA' or p.tipo ='PIGMTO') ORDER BY cast(p.cod as unsigned integer);";
 			  	}
 			  	else
 			  	if ($campo == "forn"){
 
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON e.nome LIKE '%".$valor."%' AND p.id_emp = e.id AND p.tipo ='VENDA' ORDER BY e.nome;";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON e.nome LIKE '%".$valor."%' AND p.id_emp = e.id AND p.tipo ='VENDA' ORDER BY e.nome;";
 
 			  	}
 			  	if ($campo == "servico"){
 
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON  p.tipo ='SERVICO' AND p.id_emp = e.id ORDER BY e.nome;";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON  p.tipo ='SERVICO' AND p.id_emp = e.id ORDER BY e.nome;";
 
 			  	}
 			  	if ($campo == "conj"){
 
-					$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON  p.tipo ='CONJ' AND p.id_emp = e.id ORDER BY e.nome;";
+					$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON  p.tipo ='CONJ' AND p.id_emp = e.id ORDER BY e.nome;";
 
 				}
 				if ($campo == "tinta"){
 
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON  (p.tipo ='TINTA' OR p.tipo ='TINTA_E')  AND p.id_emp = e.id ORDER BY p.cod desc;";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON  (p.tipo ='TINTA' OR p.tipo ='TINTA_E')  AND p.id_emp = e.id ORDER BY p.cod desc;";
 
 			  	}
 			  	if ($campo == "pigmto"){
 
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON  p.tipo ='PIGMTO' AND p.id_emp = e.id ORDER BY e.nome;";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON  p.tipo ='PIGMTO' AND p.id_emp = e.id ORDER BY e.nome;";
 
 			  	}
 			  	if ($campo == "cod_cli"){
 
-					$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod_cli LIKE '%".$valor."%' AND p.id_emp = e.id ;";
+					$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod_cli LIKE '%".$valor."%' AND p.id_emp = e.id ;";
 
 				}
 
@@ -104,7 +104,7 @@
 				$qtd_lin = $result->num_rows;
 				
 				if($qtd_lin == 0){
-					$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod = '".$valor."' AND p.id_emp = e.id ;";
+					$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod = '".$valor."' AND p.id_emp = e.id ;";
 					$result = mysqli_query($conexao, $query);
 					$qtd_lin = $result->num_rows;
 				}
@@ -121,11 +121,16 @@
 						    	<th class=\"center_text\">Cod. Prod.</th>
 						    	<th class=\"center_text\">Fornecedor</th>
 						    	<th class=\"center_text\">Preço</th>
+						    	<th class=\"center_text\">Img.</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
 
 					        	$cod_prod = $fetch[0];
-					        	$preco = $fetch[7] * (1 + $fetch[8]/100);
+								$preco = $fetch[7] * (1 + $fetch[8]/100);
+								$hasImg = 'x';
+								if($fetch[11] != ''){
+									$hasImg = '@';
+								}
 
 								echo "<tr class='tbl_row'>".
 										 "<td class=\"center_text\" >" .$fetch[1] . "</td>".
@@ -139,6 +144,8 @@
 										  <td style='display: none;'>".$fetch[8]."</td>
 										  <td style='display: none;'>".$fetch[10]."</td>
 										  <td style='display: none;'>".$fetch[0]."</td>
+										  <td style='display: none;'>".$fetch[11]."</td>
+										  <td>".$hasImg."</td>
 									  </tr>";
 								     	 
 					        }
