@@ -119,7 +119,6 @@
 				}
 
 
-
 				$result = mysqli_query($conexao, $query);
 				$qtd_func = $result->num_rows;
 
@@ -199,9 +198,22 @@
 									$falta_dia = $dw[5] - $ht;
 									$extra = 0;
 
-//echo $nome_func[$i]." Falta:".$falta_dia."->". $dw[5] ." - ". $ht  ."<br>";
 
 								}
+
+								if(date("Y-m-d H:i:s", $ent*3600) < date("Y-m-d 07:00:00", $ent*3600)){
+									
+									$novo = strtotime(date("Y-m-d 07:00:00", $ent*3600)) - $ent*3600;
+									echo "adicional cedo {$novo}";
+
+								}
+
+								echo date("Y-m-d H:i:s", $ent*3600) ."<br>";
+
+								echo date("Y-m-d 07:00:00", $ent*3600) ."<br>";
+
+
+								echo("<br>".$ent." ".$sai);
 
 								if(($ent + $ht + $almoço ) > $_22hrs){
 									$noturno = $sai - $_22hrs;
@@ -221,6 +233,25 @@
 
 								}
 
+/*		Backup
+								if(($ent + $ht + $almoço ) > $_22hrs){
+									$noturno = $sai - $_22hrs;
+
+									if($extra > 0){
+										if($extra <= $noturno){
+											$extra_noturno = $extra;
+											$noturno = $noturno - $extra;
+											$extra = 0;
+										}else{
+											$extra_noturno = $noturno;
+											$extra = $extra - $noturno;
+											$noturno = 0;
+										}
+											
+									}						
+
+								}
+*/
 								$h[$i] = $h[$i] + $ht - $extra - $extra_noturno;	
 								$he_100[$i] = $he_100[$i] + $extra;
 								$an[$i] = $an[$i] + $noturno;

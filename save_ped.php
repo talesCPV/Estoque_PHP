@@ -9,6 +9,8 @@
     $novo    = $_POST ["novo"];
 	$origem    = $_POST ["selOrigem"];
 	$tipo    = $_POST ["selTipo"];
+	$cond_pgto    = $_POST ["pgto"];
+	$obs    = $_POST ["obs"];
 
 	include "conecta_mysql.inc";
 
@@ -19,8 +21,8 @@
 
 		if ($novo == 0){
 		    $desconto    = $_POST ["desconto"];
-		    $cond_pgto    = $_POST ["pgto"];
-		    $obs    = $_POST ["obs"];
+//		    $cond_pgto    = $_POST ["pgto"];
+//		    $obs    = $_POST ["obs"];
 		    $id    = $_POST ["id_ped"];
 
 			$query = "UPDATE tb_pedido SET  id_emp = \"". $cliente ." \", data_ped = \"". $data_ped ." \", data_ent = \"". $data_ent ." \", resp = \"". $resp ." \", comp = \"". $comp ." \",
@@ -31,8 +33,8 @@
 	        $cod_ped = $id;
 		}else{
 
-			$query = "INSERT INTO tb_pedido ( id_emp, data_ped, data_ent, resp, comp, num_ped, origem)
-				 VALUES ('$cliente', '$data_ped', '$data_ent','$resp', '$comp', '$num_ped', '$origem')";   
+			$query = "INSERT INTO tb_pedido ( id_emp, data_ped, data_ent, resp, comp, num_ped, origem, cond_pgto, obs)
+				 VALUES ('$cliente', '$data_ped', '$data_ent','$resp', '$comp', '$num_ped', '$origem','$cond_pgto', '$obs')";   
 		
 			mysqli_query($conexao, $query);
 			$query = "SELECT MAX(Id) FROM tb_pedido;";

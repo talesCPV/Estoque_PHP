@@ -80,14 +80,17 @@
 			}else{
 				$pdf->Cell(100,5,"Previsao de Entrega: A Combinar",0,0,"L");
 			}
-			$pdf->Cell(60,5,"Cond. Pgto.:".strtoupper($fetch[15]),0,0,"L");
+			$pdf->Ln(5);
+			$pdf->Cell(60,5,"Cond. Pgto.: ".strtoupper($fetch[15]),0,0,"L");  
 			$pdf->Ln(5);
 		}
 
 	  	$pdf->Cell(300,5,"Obs.: ".utf8_decode(strtoupper($fetch[16])),0,0,"L");
-  		$pdf->Ln(5);
+				 
+		$pdf->Ln(5);
+		  
 
-		$pdf->Line(10, 75, 200, 75);
+		$pdf->Line(10, 80, 200, 80);
 
 		$pdf->Ln(10);
 	}

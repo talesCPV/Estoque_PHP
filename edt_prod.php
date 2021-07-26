@@ -37,10 +37,10 @@
           $ncm = $fetch[6];
           $cod = $fetch[7];
           $cod_bar = $fetch[8];
-          $cod_cli = $fetch[13];
-          $compra = $fetch[10];
-          $margem = $fetch[11];
-          $tipo = $fetch[12];
+          $cod_cli = $fetch[12];
+          $compra = $fetch[9];
+          $margem = $fetch[10];
+          $tipo = $fetch[11];
         }
         
       }

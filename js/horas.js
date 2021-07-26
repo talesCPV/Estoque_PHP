@@ -288,8 +288,6 @@ $(document).ready(function(){
             tbl.rows[row].cells[col].style.background = "#F2F13B";
         }
 
-        
-//        alert([row,col,data_ini,data_fin]);
 
     }
 

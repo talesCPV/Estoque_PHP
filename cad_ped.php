@@ -70,6 +70,10 @@ echo"
       <input type="date" name="data_ent" >
       <label> Comprador</label>
       <input type="text" name="comprador" maxlength="30" />
+      <label> Condição de Pagamento</label>
+      <input type="text" name="pgto" maxlength="130" value="até R$2.000,00 - 30 dias , DE r$2.000,00 A R$4.000,00 - 30/45 , acima de R$4.000,00 - 30/45/60"/>
+      <label> Obs:</label>
+      <input type="text" name="obs" maxlength="130" value="*** DESCONTO DE 5% A VISTA"/>
       <label> Emitido por</label>
       <input type="text" name="responsavel" value="<?php if (IsSet($_COOKIE["usuario"])){ echo $_COOKIE["usuario"]; } ?>" readonly/>
       <button type="submit">Salvar</button>

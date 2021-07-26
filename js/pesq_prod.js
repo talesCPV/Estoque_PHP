@@ -57,9 +57,6 @@ $(document).ready(function(){
         var img = $.trim($(this).children('td').slice(11, 12).text());
         var hasImg = $.trim($(this).children('td').slice(12, 13).text());
 
-
-//        console.log(hasImg)
-
         let upload = "<tr><td colspan='2'><form id='frmUpload' action='upload.php' method='post' enctype='multipart/form-data'>";
         upload += "<input type='file' name='up_file' accept='.jpg'>";
         upload += "<input type='hidden' name='cod' value='"+cod_int+"'>";
@@ -68,7 +65,6 @@ $(document).ready(function(){
         upload += "<input type='hidden' name='folder' value='../prod_img/'>";
         upload += "<input type='hidden' name='destino' value='img'>";
         upload += "<button type='submit' id='btnUpload'>Upload</button></td></form></tr>";
-
 
         if(cod_int < 7000 || tipo == 'TINTA_E'){
             var table = "<table><tr><td>Unidade</td><td>"+und+"</td></tr><tr><td>Estoque</td><td>"+etq+"</td></tr><tr><td>Cód. Fab</td><td>"+codprod+"</td></tr><tr><td>Custo</td><td>"+custo+"</td></tr><tr><td>Margem</td><td>"+margem+"%</td></tr><tr><td>Preço</td><td>"+preco+"</td></tr></table>";

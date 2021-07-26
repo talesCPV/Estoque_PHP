@@ -127,7 +127,7 @@
 		  	$pdf->Cell(20,5,"Carro: ",0,0,"L");
 			$pdf->SetTextColor(200,0,0);
 			$pdf->Cell(15,5,utf8_decode(strtoupper($carro)),0,0,"L");
-			if(!$check && !IsSet($_POST ["origem"])){
+			if(!IsSet($_POST ["origem"])){
 				$pdf->Cell(25,5," - ".date('d/m/Y', strtotime($fetch[3])),0,0,"L");
 			}else{
 				$pdf->Cell(30,5,utf8_decode("-   SERVIÇO A SER EXECUTADO ". $local) ,0,0,"L");
