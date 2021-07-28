@@ -105,9 +105,11 @@
       <label> Desconto (R$)</label>
       <input type="text" name="desconto" maxlength="30" value="<?php echo $desconto; ?>" onkeyup="return money(this)" />
       <label> Condicao de pgto</label>
-      <input type="text" name="pgto" maxlength="30" value="<?php echo $cond_pgto; ?>"/>
+      <textarea name="pgto" rows="5"  >
+        <?php echo $cond_pgto; ?>
+      </textarea>
       <label> Obs:</label>
-      <input type="text" name="obs" maxlength="30" value="<?php echo $obs; ?>"/>
+      <textarea  name="obs" rows="6" > <?php echo $obs; ?></textarea>      
       <label> Emitido por</label>
       <input type="text" name="responsavel" value="<?php echo $resp; ?>" readonly/>
       <input type="hidden" name="novo" value="0">

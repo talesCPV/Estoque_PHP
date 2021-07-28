@@ -198,25 +198,20 @@
 									$falta_dia = $dw[5] - $ht;
 									$extra = 0;
 
+								}
+
+
+								$contMinADN = 0;
+								for($j = $ent*3600; $j<$sai*3600; $j+=60){
+									if((date("Y-m-d H:i:s", $j) < date("Y-m-d 05:00:00", $j)) || (date("Y-m-d H:i:s", $j) > date("Y-m-d 22:00:00", $j)) ){
+										$contMinADN++;
+									}
 
 								}
 
-								if(date("Y-m-d H:i:s", $ent*3600) < date("Y-m-d 07:00:00", $ent*3600)){
-									
-									$novo = strtotime(date("Y-m-d 07:00:00", $ent*3600)) - $ent*3600;
-									echo "adicional cedo {$novo}";
+								$noturno =  round(($contMinADN / 60),2);
 
-								}
-
-								echo date("Y-m-d H:i:s", $ent*3600) ."<br>";
-
-								echo date("Y-m-d 07:00:00", $ent*3600) ."<br>";
-
-
-								echo("<br>".$ent." ".$sai);
-
-								if(($ent + $ht + $almoço ) > $_22hrs){
-									$noturno = $sai - $_22hrs;
+//								echo( "<br> {$contMinADN}");
 
 									if($extra > 0){
 										if($extra <= $noturno){
@@ -229,11 +224,10 @@
 											$noturno = 0;
 										}
 											
-									}						
+									}
+								
 
-								}
-
-/*		Backup
+/*		Backup modo antigo
 								if(($ent + $ht + $almoço ) > $_22hrs){
 									$noturno = $sai - $_22hrs;
 

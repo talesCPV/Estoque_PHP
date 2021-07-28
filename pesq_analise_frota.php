@@ -136,7 +136,7 @@
 								<tr>
 									OBS:
 									<form class=\"login-form\" method=\"POST\" action=\"pdf_orc_serv.php\">
-										<input type=\"text\" id=\"edtObs\" name=\"edtObs\" >
+										<textarea id=\"edtObs\" name=\"edtObs\"> </textarea>
 										<input type=\"hidden\" name=\"origem\" value=\"ANALISE\">
 										<input type=\"hidden\" name=\"query\" value=\"". $campo ."\">
 										<input type=\"hidden\" name=\"func\" value=\"". $func ."\">

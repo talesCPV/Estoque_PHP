@@ -137,7 +137,7 @@
 								<tr>
 									OBS:
 									<form class=\"login-form\" method=\"POST\" action=\"pdf_orc_serv.php\">
-										<input type=\"text\" id=\"edtObs\" name=\"edtObs\" >
+										<textarea id=\"edtObs\" name=\"edtObs\"> </textarea>
 				  	  					<input type=\"hidden\" name=\"query\" value=\"". $campo ."\">
 				  	  					<input type=\"hidden\" name=\"num_carro\" value=\"". $num_carro ."\">
 										<input type=\"hidden\" name=\"pedido\" value=\"". $pedido ."\">

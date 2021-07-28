@@ -156,7 +156,13 @@
 		  	$pdf->Cell(20,5,"Total: ",0,0,"L");
 			$pdf->Cell(15,5,utf8_decode(money_format('%=*(#0.2n', $total)),0,0,"L");
 			$pdf->Ln(10);
-			$pdf->Cell(15,5,utf8_decode(strtoupper($obs)),0,0,"L");
+			$nObs =  explode("\n", $obs);
+			for($i = 0; $i< count($nObs);$i++){
+				$pdf->Cell(15,5,utf8_decode(strtoupper($nObs[$i])),0,0,"L");
+				$pdf->Ln(5);
+			}
+
+//			$pdf->Cell(15,5,utf8_decode(strtoupper($obs)),0,0,"L");
 			$pdf->SetTextColor(200,0,0);
 			$pdf->Ln(10);
 			if(!IsSet($_POST ["origem"])){			

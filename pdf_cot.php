@@ -81,17 +81,27 @@
 				$pdf->Cell(100,5,"Previsao de Entrega: A Combinar",0,0,"L");
 			}
 			$pdf->Ln(5);
-			$pdf->Cell(60,5,"Cond. Pgto.: ".strtoupper($fetch[15]),0,0,"L");  
-			$pdf->Ln(5);
+
+			$aux =  explode("\n", $fetch[15]);
+			$pdf->Cell(60,5,"Cond. Pgto.: ",0,1,"L");  
+			for($i = 0; $i< count($aux);$i++){
+				$pdf->Cell(60,5,utf8_decode(strtoupper($aux[$i])),0,1,"L");  
+			}
+
+
 		}
 
-	  	$pdf->Cell(300,5,"Obs.: ".utf8_decode(strtoupper($fetch[16])),0,0,"L");
-				 
-		$pdf->Ln(5);
-		  
+		$aux =  explode("\n", $fetch[16]);
+		$pdf->Cell(60,5,"Obs.: ",0,1,"L");  
 
-		$pdf->Line(10, 80, 200, 80);
+		$pdf->SetFont('Arial','B',10);
+		for($i = 0; $i< count($aux);$i++){
+			$pdf->Cell(60,5,utf8_decode(strtoupper($aux[$i])),0,1,"L");  
+		}
+		$pdf->SetFont('Arial','',10);		  
 
+		$Y = $pdf->GetY();
+		$pdf->Line(10, $Y, 200, $Y);
 		$pdf->Ln(10);
 	}
 
