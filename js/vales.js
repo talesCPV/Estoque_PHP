@@ -70,22 +70,31 @@ async function queryDB(query){
             option += "<option value='"+resp[i].id+"'>"+resp[i].cargo+"</option>";
         }
 
+        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const dia =  new Date();
         const html = `
             <table>
                 <tr>
                     <td> <label> Funcionário </label> </td>
                     <td> <select id="cmbFunc"></select> </td>
-                </tr><tr>                    
+                </tr>
+                <tr>                    
                     <td> <label> Valor</label> </td>
                     <td> <input type="text" id="edtValor"  onkeyup="return float_number(this)" value="0" style="width:100%; padding:5px"/>
-                </tr><tr>                    
+                </tr>
+                <tr>                    
                     <td> <label> Referência</label> </td>                     
                     <td> <input type="text"  id="edtRef" value="serviços prestados como autônomo" style="width:100%; padding:5px"/> </td>
-                </tr><tr>                    
+                </tr>
+                <tr>                    
                     <td> <label> Obs: </label> </td>                     
                     <td> <input type="text"  id="edtPeriodo" value="no período   de   /  /    a    /  /  " style="width:100%; padding:5px"/> </td>
-                    </td>
-                </tr><tr>
+                </tr>
+                <tr>                    
+                    <td> <label> Data: </label> </td>                     
+                    <td> <input type="text"  id="edtData" value="Caçapava ${dia.getDate()} de ${meses[dia.getMonth()]} de ${dia.getFullYear()}" style="width:100%; padding:5px"/> </td>
+                </tr>                
+                <tr>
                 <td></td><td><button id='btn_Rec'>Imprimir</button></td>
                 </tr>
             </table>
@@ -97,6 +106,7 @@ async function queryDB(query){
 
         const id = document.getElementById('cmbFunc');
         const edtValor = document.getElementById('edtValor');
+        const edtData = document.getElementById('edtData');
         const edtRef = document.getElementById('edtRef');
         const edtPeriodo = document.getElementById('edtPeriodo');
         const btn_Rec = document.getElementById('btn_Rec');
@@ -104,7 +114,7 @@ async function queryDB(query){
         btn_Rec.addEventListener('click',()=>{  
 
 
-            window.open (`pdf_vale.php?vale=nao&func=${id.value}&valor=${edtValor.value}&ref=${edtRef.value}&obs=${edtPeriodo.value}`, '_blank');
+            window.open (`pdf_vale.php?vale=nao&func=${id.value}&valor=${edtValor.value}&ref=${edtRef.value}&obs=${edtPeriodo.value}&edtData=${edtData.value}`, '_blank');
 
         });
 

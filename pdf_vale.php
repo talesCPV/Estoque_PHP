@@ -24,6 +24,7 @@
 		$mes = date('m');
 		$ano = date('Y');
 
+
 		if (!$conexao)
 		die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
@@ -91,6 +92,7 @@
 			$valor = money_format('%=*(#0.2n', $_GET ["valor"]);
 			$ref = utf8_decode($_GET ["ref"]);
 			$obs = utf8_decode($_GET ["obs"]);
+			$data = utf8_decode($_GET ["edtData"]);
 
 
 
@@ -113,7 +115,7 @@
 				$pdf->Ln(5);
 				$pdf->Cell(190,5,"inscrito no CPF {$cpf}",0,0,"C");
 				$pdf->Ln(5);
-				$pdf->Cell(190,5,"recebi {$valor} referente a {$ref}",0,0,"C");
+				$pdf->Cell(190,5,"recebi o valor de {$valor} referente a {$ref}",0,0,"C");
 				$pdf->Ln(5);
 				$pdf->Cell(190,5,$obs,0,0,"C");
 				$pdf->Ln(5);
@@ -122,12 +124,13 @@
 				$pdf->SetFont('Arial','B',10);
 				$pdf->Ln(25);
 
-				$pdf->SetX(30); 
-				$pdf->Cell(100,5,utf8_decode("Caçapava, {$dia} de {$nomemes[intval($mes-1)]} de {$ano} "),0,0,"L");
+				$pdf->SetY(157);
+				$pdf->SetX(119); 
+				$pdf->Cell(100,5,$data,0,0,"L");
 
 
 				$pdf->SetY(150);
-				$pdf->SetX(120); 
+				$pdf->SetX(125); 
 				$pdf->Line(110, 150, 180, 150);
 				$pdf->Cell(100,5,utf8_decode($fetch[1]),0,0,"L");
 				$pdf->Ln(7);

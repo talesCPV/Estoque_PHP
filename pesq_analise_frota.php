@@ -84,7 +84,7 @@
 			  	$result = mysqli_query($conexao, $query);
 
 				$qtd_lin = $result->num_rows;
-				  
+				$cont = 0;
 
 				echo"  <div class=\"page_form\" id=\"no_margin\">
 						<table class=\"search-table\" id=\"tabItens\" >   
@@ -97,7 +97,7 @@
 			                  <th>Valor</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
-
+								$cont++;
 					        	$cliente = $fetch[1];
 								$cod_cli = $fetch[7];
 								$num_carro = $fetch[2];
@@ -120,7 +120,9 @@
                                          "<td style='display: none;'>" . $func . "</td>";										  
 					        }
 
-                            echo"
+							echo"
+							<tr><td colspan='6'>*************************************</td></tr>
+							<tr><th <td colspan='6'></td>${cont} REGISTROS ENCONTRADOS</th></tr>
                         </table> 
 
 				  </div>

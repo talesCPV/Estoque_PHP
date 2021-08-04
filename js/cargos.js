@@ -14,7 +14,7 @@
     function screen(cod=0,cargo="",sal="",tipo="HORISTA", cbo=""){
 
         let form = "<table><tr><td>Cargo *</td><td> <input type='text' name='cargo' maxlength='40' id='edtCargo' value='"+cargo+"'/></td></tr>";
-        form +=   "<tr><td>Salário * R$</td><td> <input type='text' name='edtSal' id='edtSal' onkeyup='return money(this)' value='"+sal+"' /></td></tr>";
+        form +=   "<tr><td>Salário * R$</td><td> <input type='text' name='edtSal' id='edtSal' onkeyup='return float_number(this)' value='"+sal+"' /></td></tr>";
         form +=   "<tr><td>CBO</td><td> <input type='text' name='edtCBO' id='edtCBO' value='"+cbo+"' /></td></tr>";
         if(tipo == 'HORISTA'){
             form +=   "<tr><td>Tipo</td><td><select name='tipo' id= 'selTipo'> <option value='HORA' selected>HORISTA</option><option value='MENSAL'>MENSALISTA</option></select></td></tr>";

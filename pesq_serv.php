@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/edt_mask.js"></script>
-    <script src="js/pesq_serv.js"></script>
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -90,7 +89,7 @@
 			  	$result = mysqli_query($conexao, $query);
 
 				$qtd_lin = $result->num_rows;
-				  
+				$cont = 0;
 
 				echo"  <div class=\"page_form\" id=\"no_margin\">
 						<table class=\"search-table\" id=\"tabItens\" >   
@@ -102,7 +101,7 @@
 			                  <th>NF</th>
 						  	</tr>";
 					        while($fetch = mysqli_fetch_row($result)){
-
+								$cont++;
 					        	$cliente = $fetch[1];
 								$cod_cli = $fetch[8];
 								$num_carro = $fetch[2];
@@ -121,7 +120,9 @@
                                          "<td style='display: none;'>" . $fetch[8] . "</td>";										  
 					        }
 
-                            echo"
+							echo"
+							<tr><td colspan='5'>*************************************</td></tr>
+							<tr><th <td colspan='5'></td>${cont} REGISTROS ENCONTRADOS</th></tr>
                         </table> 
 
 				  </div>
@@ -146,13 +147,14 @@
 				  	  					<input type=\"hidden\" name=\"ini\" value=\"". $data_exec ."\">
 										<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">										
       									<button id=\"botao_inline\" type=\"submit\" style=\" margin: 0 10px;\">Orçamento</button>
-									  </form>
-									  <form class=\"login-form\" method=\"POST\" action=\"pdf_serv.php\">
+									  </form>									  
+									  <form id='frm02' class=\"login-form\" method=\"POST\" action=\"pdf_serv.php\">
+									  <input type='hidden' name='edtObs' id='hdnObs'>
 									  <input type=\"hidden\" name=\"query\" value=\"". $query ."\">
 									  <input type=\"hidden\" name=\"cliente\" value=\"". $cliente ."\">
 									  <input type=\"hidden\" name=\"ini\" value=\"". $data_exec ."\">
 									  <input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">
-									  <button id=\"botao_inline\" type=\"submit\">Relatório</button>
+									  <button id=\"botao_inline\" class=\"btnRelat\" type=\"submit\">Relatório</button>
 								  </form>									  
 								</td>
 			  	  			</tr>
@@ -176,4 +178,6 @@
 </div>
 
 </body>
+<script src="js/pesq_serv.js"></script>
+
 </html>

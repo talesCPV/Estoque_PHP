@@ -1,4 +1,13 @@
 
+const btnRelat = document.getElementById('frm02');
+console.log(btnRelat);
+
+btnRelat.addEventListener('submit',()=>{
+
+    document.getElementById('hdnObs').value = document.getElementById('edtObs').value;
+
+});
+
 $(document).ready(function(){
 
     $.fn.perm = function(classe, area){ 
@@ -54,6 +63,7 @@ $(document).ready(function(){
         var pedido = $.trim($(this).children('td').slice(7, 8).text().toUpperCase());
         var valor = $.trim($(this).children('td').slice(8, 9).text().toUpperCase());
 //        var valor = $.trim($(this).children('td').slice(9, 10).text().toUpperCase());
+        let myRow = this;
 
         var table = "<table><tr><td>Cod.:</td><td>"+id+"</td></tr><tr><td>Cliente:</td><td>"+ cliente +"</td></tr><tr><td>Data:</td><td>"+data+"</td></tr>";
         table += " <tr><td>Técnicos:</td><td><input type='text' name='func' maxlength='10' id='edtFunc' value='"+func.toUpperCase()+"'/></td></tr><tr><td>Carro:</td><td><input type='text' name='dep' maxlength='15' id='edtCarro' value='"+carro.toUpperCase()+"'/></td></tr>";
@@ -77,7 +87,9 @@ $(document).ready(function(){
         $(document).off('click', '#btnSal').on('click', '#btnSal', function() {
                 var query = "query=UPDATE tb_serv_exec SET num_carro='"+$('#edtCarro').val()+"', nf='"+$('#edtNF').val()+"', pedido='"+$('#edtPedido').val()+"', obs='"+$('#txt_obs').val()+"', func='"+$('#edtFunc').val()+"', valor="+$('#edtValor').val()+"  WHERE id = "+ id +";";
                 queryDB(query);
-                $('#frmRefresh').submit();    
+                myRow.style.background = "#FFFF00";
+                $(".overlay").css("visibility", "hidden").css("opacity", "0"); 
+//                $('#frmRefresh').submit();    
         }); 
         
         $(".content").html(table+form+Btn);

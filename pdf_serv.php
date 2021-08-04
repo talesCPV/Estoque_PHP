@@ -14,7 +14,8 @@
         $query = $_POST ["query"];
         $cliente = $_POST ["cliente"];
         $inicio = $_POST ["ini"];
-        $final = $_POST ["fin"];
+		$final = $_POST ["fin"];
+		$obs =  $_POST ["edtObs"];
 
 		if (!$conexao)
 		  die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
@@ -39,11 +40,12 @@
 	  	$pdf->Cell(15,5,"Carro.",0,0,"L");
 	  	$pdf->Cell(25,5,utf8_decode("Execução"),0,0,"L");
 	  	$pdf->Cell(20,5,"NF.",0,0,"L");
-	  	$pdf->Cell(85,5,utf8_decode("Serviço"),0,0,"L");
+	  	$pdf->Cell(85,5,utf8_decode("Valor"),0,0,"L");
   		$pdf->Ln(5);
 
 		$pdf->SetFont('Arial','',10);
-
+		$total = 0;
+		$cont = 0;
 
 		while($fetch = mysqli_fetch_row($result)){
 			$venda = $fetch[7] ;
@@ -61,13 +63,28 @@
 
 			}
 
+			$total += $fetch[9];
+			$cont++;
   		  	$pdf->Cell(15,5,utf8_decode(strtoupper($fetch[2])),0,0,"L");
             $pdf->Cell(25,5,utf8_decode(date('d/m/Y', strtotime($fetch[3]))),0,0,"L");
             $pdf->Cell(20,5,utf8_decode(strtoupper($fetch[6])),0,0,"L");
-            $pdf->Cell(85,5,utf8_decode(substr(strtoupper($fetch[5]), 0, 38)),0,0,"L");
+            $pdf->Cell(45,5,utf8_decode(money_format('%=*(#0.2n',$fetch[9])) ,0,0,"L");
 	  		$pdf->Ln(5);
 
 		 }
+		 $pdf->Ln(5);
+		 $pdf->SetFont('Arial','B',10);
+		 $pdf->Cell(40,5,utf8_decode("Total de {$cont} carros,") ,0,0,"L");
+		 $pdf->Cell(20,5,utf8_decode("Valor:") ,0,0,"L");
+
+		 $pdf->Cell(45,5,utf8_decode(money_format('%=*(#0.2n',$total)) ,0,0,"L");
+		 $pdf->Ln(10);
+
+		 $nObs =  explode("\n", $obs);
+		 for($i = 0; $i< count($nObs);$i++){
+			 $pdf->Cell(15,5,utf8_decode(strtoupper($nObs[$i])),0,0,"L");
+			 $pdf->Ln(5);
+		 }		 
 
     }
 

@@ -106,7 +106,9 @@
 			$pdf->Ln(15);
 		}
 
+		$cont = 0;
 		while($fetch = mysqli_fetch_row($result)){
+			$cont++;
 			$carro = $fetch[0];
 			$itens = explode("\n", $fetch[1]);
 			$valor = money_format('%=*(#0.2n', $fetch[2]);
@@ -153,7 +155,7 @@
 
 		 }
 
-		  	$pdf->Cell(20,5,"Total: ",0,0,"L");
+		  	$pdf->Cell(30,5,"Total: {$cont} carros, ",0,0,"L");
 			$pdf->Cell(15,5,utf8_decode(money_format('%=*(#0.2n', $total)),0,0,"L");
 			$pdf->Ln(10);
 			$nObs =  explode("\n", $obs);

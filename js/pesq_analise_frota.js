@@ -54,6 +54,7 @@ $(document).ready(function(){
         var cod_cli = $.trim($(this).children('td').slice(7, 8).text().toUpperCase());
         var tec = $.trim($(this).children('td').slice(8, 9).text().toUpperCase());
 //        var valor = $.trim($(this).children('td').slice(9, 10).text().toUpperCase());
+        let myRow = this;
 
 //console.log(exec == "NÃO" ? "SELECTED":"")
 
@@ -79,7 +80,10 @@ $(document).ready(function(){
         $(document).off('click', '#btnSal').on('click', '#btnSal', function() {
                 var query = "query=UPDATE tb_analise_frota SET num_carro='"+$('#edtCarro').val()+"', exec='"+$('#edtExec').val()+"', obs='"+$('#txt_obs').val()+"', func='"+$('#edtFunc').val()+"', valor="+$('#edtValor').val()+"  WHERE id = "+ id +";";
                 queryDB(query);
-                $('#frmRefresh').submit();    
+//                $('#frmRefresh').submit();   
+//                console.log(myRow);
+                myRow.style.background = "#FFFF00";
+                $(".overlay").css("visibility", "hidden").css("opacity", "0"); 
         }); 
         
         $(".content").html(table+form+Btn);
