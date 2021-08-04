@@ -5,7 +5,65 @@
     <meta http-equiv="pragma" content="no-cache" />
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="js/jqFunc.js"></script>                                                      
+    <style>
+      #btnCalc{
+        cursor:pointer;
+      }
+    .calculator{
+      display : grid;
+      grid-template-areas: 
+      "visor  visor visor visor"
+      "ce     ce    ce    div"
+      "sete   oito  nove  mult"
+      "quatro cinco seis  sub"
+      "um     dois  tres  soma"
+      "zero   zero  ponto igual"
+      ;
+      gap: 10px;
+    }
+
+    .btn-calc{
+      padding : 5px;
+      border-radius:5px;
+      font-size: 18px;
+
+    }
+
+    .visor{
+      grid-area: visor;
+      margin-top : 10px;
+      text-align : right;
+      padding : 10px;
+      font-size: 18px;
+    }
+    .ce{
+      grid-area: ce;
+      background:#3473DB;
+    }
+    .div   {grid-area: div;}
+    .mult   {grid-area: mult;}
+    .soma   {grid-area: soma;}
+    .sub   {grid-area: sub;}
+    .igual   {
+      grid-area: igual;
+      background:#28D161;  
+    }
+    .um     { grid-area: um;    }
+    .dois   { grid-area: dois;  }
+    .tres   { grid-area: tres;  }
+    .quatro { grid-area: quatro;}
+    .cinco  { grid-area: cinco; }
+    .seis   { grid-area: seis;  }
+    .sete   { grid-area: sete;  }
+    .oito   { grid-area: oito;  }
+    .nove   { grid-area: nove;  }
+    .zero   { grid-area: zero;  }
+    .ponto  { grid-area: ponto; }
+
+
+    </style>                                                
+
+    <script src="js/jqFunc.js"></script>
 
 <?php
 
@@ -76,7 +134,9 @@
 		    </nav>
 		    </div>
         
-		    <div style='background: {$cor_barra}; color:{$cor_fonte_menu};' class='top_bar_rigth'> <form method='POST' action='pesq_prod.php'> <input type='text' name='valor' placeholder='Pesq. Produto' size='10' /><input type='hidden' name='campo' value='desc'> <i class='fa fa-user-circle-o' aria-hidden='true'> - </i>".strtoupper($user);
+		    <div style='background: {$cor_barra}; color:{$cor_fonte_menu};' class='top_bar_rigth'> <form method='POST' action='pesq_prod.php'>
+        <a id='btnCalc'><i class='fa fa-calculator' aria-hidden='true'> </i> </a>
+        <input type='text' name='valor' placeholder='Pesq. Produto' size='10' /><input type='hidden' name='campo' value='desc'> <i class='fa fa-user-circle-o' aria-hidden='true'> - </i>".strtoupper($user);
         
 
 //        if (IsSet($_COOKIE["mail_pass"])){
@@ -89,3 +149,5 @@
 
 
 ?>
+
+    <script src="js/calculadora.js"></script>
