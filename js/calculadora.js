@@ -30,4 +30,46 @@ document.getElementById('btnCalc').addEventListener('click',()=>{
 	document.querySelector(".overlay").style.visibility = "visible";
 	document.querySelector(".overlay").style.opacity = 1;
 
+
+	const texto = `
+		const visor = document.querySelector('.visor');
+
+		document.querySelector('.um').addEventListener('click',()=>{			
+			visor.value += '1';		
+		});
+		document.querySelector('.dois').addEventListener('click',()=>{			
+			visor.value += '2';		
+		});
+		document.querySelector('.tres').addEventListener('click',()=>{			
+			visor.value += '3';		
+		});
+		document.querySelector('.quatro').addEventListener('click',()=>{			
+			visor.value += '4';		
+		});
+		document.querySelector('.cinco').addEventListener('click',()=>{			
+			visor.value += '5';		
+		});
+		document.querySelector('.seis').addEventListener('click',()=>{			
+			visor.value += '6';		
+		});
+		document.querySelector('.sete').addEventListener('click',()=>{			
+			visor.value += '7';		
+		});
+		document.querySelector('.oito').addEventListener('click',()=>{			
+			visor.value += '8';		
+		});
+		document.querySelector('.nove').addEventListener('click',()=>{			
+			visor.value += '9';		
+		});
+		document.querySelector('.zero').addEventListener('click',()=>{			
+			visor.value += '0';		
+		});															
+	`;
+
+
+	eval(texto);
+
+
+
 })
+
