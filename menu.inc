@@ -97,7 +97,7 @@
 
 ?>
 
-  <!--  <script src="js/calculadora.js"> -->
+
   <script>    
     document.getElementById('btnCalc').addEventListener('click',()=>{
       openHTML('calculadora.html','Calculadora');    

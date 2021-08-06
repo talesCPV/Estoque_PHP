@@ -87,43 +87,103 @@
 
 <script>
 
-    const visor = document.querySelector('.visor');
+    const visor = new Object;
+        visor.screen = document.querySelector('.visor');
+        visor.oper = '';
+        visor.next = true;
+        visor.value = 0;
 
-    document.querySelector('.um').addEventListener('click',()=>{			
-        visor.value += '1';		
+        visor.type = (N)=>{
+            if(visor.next){
+                visor.screen.value = N;
+            }else{
+                visor.screen.value += N;
+            }
+            visor.next = false;            
+            number(visor.screen);
+        }
+
+        visor.equal = ()=>{
+            switch (visor.oper) {
+            case '+':
+                console.log(visor.value,parseFloat(visor.screen.value))
+                visor.value += parseFloat(visor.screen.value);
+                console.log(visor.value)
+                break;
+            case '-':
+                break;
+            case '*':
+                break;
+            case '/':
+                break;
+            default:
+
+            visor.next = true;
+            }
+
+            visor.screen.value = visor.value;
+        }
+
+        visor.sum = ()=>{
+            visor.equal();
+            visor.oper = '+';
+            visor.value += parseFloat(visor.screen.value)
+        }
+
+    document.querySelector('.um').addEventListener('click',()=>{
+        visor.type(1);
     });
     document.querySelector('.dois').addEventListener('click',()=>{			
-        visor.value += '2';		
+        visor.type(2);    
     });
     document.querySelector('.tres').addEventListener('click',()=>{			
-        visor.value += '3';		
+        visor.type(3);    
     });
     document.querySelector('.quatro').addEventListener('click',()=>{			
-        visor.value += '4';		
+        visor.type(4);    
     });
     document.querySelector('.cinco').addEventListener('click',()=>{			
-        visor.value += '5';		
+        visor.type(5);    
     });
     document.querySelector('.seis').addEventListener('click',()=>{			
-        visor.value += '6';		
+        visor.type(6);    
     });
     document.querySelector('.sete').addEventListener('click',()=>{			
-        visor.value += '7';		
+        visor.type(7);    
     });
     document.querySelector('.oito').addEventListener('click',()=>{			
-        visor.value += '8';		
+        visor.type(8);    
     });
     document.querySelector('.nove').addEventListener('click',()=>{			
-        visor.value += '9';		
+        visor.type(9);    
     });
     document.querySelector('.zero').addEventListener('click',()=>{			
-        visor.value += '0';		
+        visor.type(0);    
     });	
-
-
-    function type(N){
-        visor.value += N;
-    }
+    document.querySelector('.ce').addEventListener('click',()=>{			
+        visor.oper = '';
+        visor.next = true;
+        visor.value = 0;
+        visor.equal();
+    });	
+    document.querySelector('.soma').addEventListener('click',()=>{			
+        visor.sum();
+    });	
+    document.querySelector('.sub').addEventListener('click',()=>{			
+        visor.oper = '-';
+    });	
+    document.querySelector('.mult').addEventListener('click',()=>{			
+        visor.oper = '*';
+    });	
+    document.querySelector('.div').addEventListener('click',()=>{			
+        visor.oper = '/';
+    });	
+    document.querySelector('.igual').addEventListener('click',()=>{			
+        visor.equal();    
+    });	
+    document.querySelector('.ponto').addEventListener('click',()=>{			
+        visor.type('.');    
+    });	
 
 
 </script>

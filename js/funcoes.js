@@ -188,8 +188,9 @@
             }
 
 
-        }
-        campo.value = out_text;
+        }     
+           
+        campo.value = parseFloat(out_text);
     }    
 
     function telefone(param){ // formata a string no padrão TELEFONE
