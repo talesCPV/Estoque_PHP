@@ -106,28 +106,38 @@
         visor.equal = ()=>{
             switch (visor.oper) {
             case '+':
-                console.log(visor.value,parseFloat(visor.screen.value))
                 visor.value += parseFloat(visor.screen.value);
-                console.log(visor.value)
                 break;
             case '-':
+                visor.value -= parseFloat(visor.screen.value);
                 break;
             case '*':
+                visor.value *= parseFloat(visor.screen.value);
                 break;
             case '/':
+                visor.value /= parseFloat(visor.screen.value);
                 break;
             default:
+                visor.value = parseFloat(visor.screen.value);
+                break;
 
-            visor.next = true;
             }
-
+            console.log(visor.screen.value)
             visor.screen.value = visor.value;
+            visor.next = true;
+
+        }
+
+        visor.ce = ()=>{
+            visor.oper = '';
+        visor.next = true;
+        visor.value = 0;
+        visor.screen.value = 0;
         }
 
         visor.sum = ()=>{
             visor.equal();
             visor.oper = '+';
-            visor.value += parseFloat(visor.screen.value)
         }
 
     document.querySelector('.um').addEventListener('click',()=>{
@@ -161,21 +171,22 @@
         visor.type(0);    
     });	
     document.querySelector('.ce').addEventListener('click',()=>{			
-        visor.oper = '';
-        visor.next = true;
-        visor.value = 0;
-        visor.equal();
+        visor.ce();
     });	
     document.querySelector('.soma').addEventListener('click',()=>{			
-        visor.sum();
+        visor.equal();
+        visor.oper = '+';
     });	
     document.querySelector('.sub').addEventListener('click',()=>{			
+        visor.equal();
         visor.oper = '-';
     });	
     document.querySelector('.mult').addEventListener('click',()=>{			
+        visor.equal();
         visor.oper = '*';
     });	
     document.querySelector('.div').addEventListener('click',()=>{			
+        visor.equal();
         visor.oper = '/';
     });	
     document.querySelector('.igual').addEventListener('click',()=>{			
