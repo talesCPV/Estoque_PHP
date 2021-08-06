@@ -1,4 +1,18 @@
 
+function openHTML(template,label){    
+  	fetch( "templates/"+template)
+	.then( stream => stream.text() )
+	.then( text => {			  
+		document.querySelector(".content").innerHTML = text;
+		document.querySelector("#popTitle").innerHTML = label;
+		document.querySelector(".overlay").style.visibility = "visible";
+		document.querySelector(".overlay").style.opacity = 1;
+
+		let script = document.querySelector(".content").getElementsByTagName('script');
+		eval(script[0].innerHTML);
+ 	}); 
+}
+
 $(document).ready(function(){
 
 //	MENU

@@ -1,0 +1,129 @@
+
+<style>
+
+  .calculator{
+    display : grid;
+    grid-template-areas: 
+    "visor  visor visor visor"
+    "ce     ce    ce    div"
+    "sete   oito  nove  mult"
+    "quatro cinco seis  sub"
+    "um     dois  tres  soma"
+    "zero   zero  ponto igual"
+    ;
+    gap: 10px;
+  }
+
+  .btn-calc{
+    padding : 5px;
+    border-radius:5px;
+    font-size: 18px;
+    height : 60px;
+
+  }
+
+  .visor{
+    grid-area: visor;
+    margin-top : 10px;
+    text-align : right;
+    padding : 10px;
+    font-size: 18px;
+  }
+  .ce{
+    grid-area: ce;
+    background:#3473DB;
+  }
+  .div   {grid-area: div;}
+  .mult   {grid-area: mult;}
+  .soma   {grid-area: soma;}
+  .sub   {grid-area: sub;}
+  .igual   {
+    grid-area: igual;
+    background:#28D161;  
+  }
+  .um     { grid-area: um;    }
+  .dois   { grid-area: dois;  }
+  .tres   { grid-area: tres;  }
+  .quatro { grid-area: quatro;}
+  .cinco  { grid-area: cinco; }
+  .seis   { grid-area: seis;  }
+  .sete   { grid-area: sete;  }
+  .oito   { grid-area: oito;  }
+  .nove   { grid-area: nove;  }
+  .zero   { grid-area: zero;  }
+  .ponto  { grid-area: ponto; }
+
+
+</style>   
+
+<html>
+<div class="display"> 
+
+	<div class="calculator">
+		<input type="text" class="visor" id="edtVisor" value='0'/>
+		<button class="um btn-calc">1</button>
+		<button class="dois btn-calc">2</button>
+		<button class="tres btn-calc">3</button>
+		<button class="quatro btn-calc">4</button>
+		<button class="cinco btn-calc">5</button>
+		<button class="seis btn-calc">6</button>
+		<button class="sete btn-calc">7</button>
+		<button class="oito btn-calc">8</button>
+		<button class="nove btn-calc">9</button>
+		<button class="zero btn-calc">0</button>
+		<button class="ce btn-calc">CE</button>
+		<button class="soma btn-calc">+</button>
+		<button class="sub btn-calc">-</button>
+		<button class="mult btn-calc">x</button>
+		<button class="div btn-calc">/</button>
+		<button class="igual btn-calc">=</button>	
+		<button class="ponto btn-calc">,</button>	
+	</div>
+
+
+</div>
+
+</html>
+
+<script>
+
+    const visor = document.querySelector('.visor');
+
+    document.querySelector('.um').addEventListener('click',()=>{			
+        visor.value += '1';		
+    });
+    document.querySelector('.dois').addEventListener('click',()=>{			
+        visor.value += '2';		
+    });
+    document.querySelector('.tres').addEventListener('click',()=>{			
+        visor.value += '3';		
+    });
+    document.querySelector('.quatro').addEventListener('click',()=>{			
+        visor.value += '4';		
+    });
+    document.querySelector('.cinco').addEventListener('click',()=>{			
+        visor.value += '5';		
+    });
+    document.querySelector('.seis').addEventListener('click',()=>{			
+        visor.value += '6';		
+    });
+    document.querySelector('.sete').addEventListener('click',()=>{			
+        visor.value += '7';		
+    });
+    document.querySelector('.oito').addEventListener('click',()=>{			
+        visor.value += '8';		
+    });
+    document.querySelector('.nove').addEventListener('click',()=>{			
+        visor.value += '9';		
+    });
+    document.querySelector('.zero').addEventListener('click',()=>{			
+        visor.value += '0';		
+    });	
+
+
+    function type(N){
+        visor.value += N;
+    }
+
+
+</script>
