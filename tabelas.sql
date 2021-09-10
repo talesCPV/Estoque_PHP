@@ -327,6 +327,8 @@ ON a.id_emp = e.id order by a.data_analise desc;
 
 INSERT INTO tb_ref_sanf ( entrada, id_cliente, id_modelo, numero, tipo, status, saida, obs) VALUES ('2021-01-07', '175', '1', '1234567890', 'REFORMA', 'RECEBIMENTO', 2021-01-19, 'teste 123' ) ;
 
+ALTER TABLE tb_produto DROP COLUMN reserva;
+ALTER TABLE tb_produto ADD img_path varchar(200) DEFAULT '';
 
 ALTER table tb_cargos ADD cbo varchar(8) DEFAULT NULL;
 
@@ -335,6 +337,15 @@ ALTER TABLE tb_serv_exec ADD valor double NOT NULL DEFAULT 0;
 ALTER table tb_funcionario ADD vale double NOT NULL DEFAULT 0;
 ALTER table tb_funcionario ADD obs varchar(200) DEFAULT NULL;
 
+
+
+
+Análise de Frota
+
+Busca por: 	
+	
+		
+SELECT a.id, e.fantasia, a.num_carro, a.data_analise, a.func, a.exec, a.obs, e.id, a.valor FROM tb_analise_frota as a INNER JOIN tb_empresa as e ON a.id_emp = e.id AND a.num_carro LIKE '%10292%' AND a.num_carro LIKE '%10276%' order by a.data_analise desc;
 
 SET SQL_SAFE_UPDATES = 0;
 UPDATE tb_empresa SET fantasia = nome ;

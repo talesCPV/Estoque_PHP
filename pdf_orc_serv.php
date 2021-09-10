@@ -77,9 +77,29 @@
 		if (IsSet($_POST ["origem"])){
 
 			if($campo == "num"){
-				$query = "SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota WHERE num_carro='{$num_carro}' ";
+//				$query = "SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota WHERE num_carro='{$num_carro}' ";
+/*
+				$arr = explode(',',$_POST ["valor"]);
+				$query_opt = '';
+				if(count($arr) > 0){
+					$query_opt = $query_opt . " num_carro LIKE '%{$arr[0]}%'";
+
+					for($i = 1; $i < count($arr); $i++){
+						$query_opt = $query_opt . " OR num_carro LIKE '%{$arr[$i]}%'";
+					}
+				}
+
+				$query =  "SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota  WHERE {$query_opt}";
+*/
+				session_start();
+				$query = $_SESSION["query"];
+
+
+				$pdf->SetFont('Arial','',8);				
+				$pdf->Cell(124,5,utf8_decode($query),0,1,"L");
+
 			}else{
-				$query = "SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota WHERE id_emp={$cliente}";
+				$query = 'SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota WHERE id_emp={$cliente}';
 			}
 
 			if($check){

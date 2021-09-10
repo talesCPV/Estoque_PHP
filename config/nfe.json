@@ -1,0 +1,161 @@
+{   "NF" :  [
+        {
+            "COD" : "NOTAFISCAL",
+            "num" : 1
+        },
+
+        {
+            "COD" : "A",
+            "versao" : 0,
+            "id" : 0,
+            "indSinc" : ""
+        },
+
+        {
+            "COD" : "B",        
+            "cUF" : 35,
+            "cNF" : "",
+            "natOp" : "VENDA",
+            "mod" : "55",
+            "serie" : "",
+            "nNF" : "",
+            "dhEmi" : "",
+            "dhSaiEnt" : "",
+            "tpNF" : "",
+            "idDest" : "",
+            "cMunFG" : "",
+            "tpImp" : "",
+            "tpEmis" : "",
+            "cDV" : "",
+            "tpAmb" : "",
+            "finNFe" : "",
+            "indFinal" :"",
+            "indPres" : "",
+            "procEmi" : "",
+            "verProc" : "",
+            "dhCont" : "",
+            "xJust" : ""
+        },
+
+        {
+            "COD" : "C",
+            "xNome" : "",
+            "xFant" : "",
+            "IE" :"",
+            "IEST" : "",
+            "IM" : "",
+            "CNAE" : "",
+            "CRT" : ""
+        },
+
+        {
+            "COD" :"C02",
+            "CNPJ" : "00519547000106"        
+        },
+
+        {
+            "COD" : "C05",
+            "xLgr" : "",
+            "nro" : "",
+            "xCpl" : "",
+            "xBairro" : "",
+            "cMun" : "",
+            "xMun" : "",
+            "UF" : "",
+            "CEP" : "",
+            "cPais" : "",
+            "xPais" : "",
+            "fone" : ""        
+        },
+
+        {
+            "COD" : "E",        
+            "xNome" : "",
+            "indIEDest" : "",
+            "IE" : "",
+            "ISUF" : "",
+            "IM" : "",
+            "email" : ""
+        },       
+                    
+        {
+            "COD" :"E02",
+            "CNPJ" : ""
+        },
+
+        {
+            "COD" : "E05",
+            "xLgr" : "",
+            "nro" : "",
+            "xCpl" : "",
+            "xBairro" : "",
+            "cMun" : "",
+            "xMun" : "",
+            "UF" : "",
+            "CEP" : "",
+            "cPais" : "",
+            "xPais" : "",
+            "fone" : ""
+        }
+
+    ],
+
+    "itens" : [
+        {
+            "COD" : "H",
+            "nItem" : 1,
+            "infAdProd" : ""
+        },
+
+
+        {
+            "COD" : "I",
+            "cProd" : "",
+            "cEAN" : "",
+            "xProd" : "",
+            "NCM" : "",
+            "cBenef" : "",
+            "EXTIPI" : "",
+            "CFOP" : "",
+            "uCom" : "",
+            "qCom" : "",
+            "vUnCom" : "",
+            "vProd" : "",
+            "cEANTrib" : "",
+            "uTrib" : "",
+            "qTrib" : "",
+            "vUnTrib" : "",
+            "vFrete" : "",
+            "vSeg" : "",
+            "vDesc" : "",
+            "vOutro" : "",
+            "indTot" : "",
+            "xPed" : "",
+            "nItemPed" : "",
+            "nFCI" : ""
+        },
+        
+        {
+            "COD" : "M",
+            "vTotTrib" : ""
+        },
+
+        {
+            "COD" : "N",
+            "1" : ""
+        },
+
+        {
+            "COD" :  "N10d",
+            "orig" : "0",
+            "CSOSN" : "102"
+        }
+
+
+
+
+
+    ]
+
+}
+

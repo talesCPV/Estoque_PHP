@@ -63,8 +63,18 @@
                 if ($campo == "cli"){
                     $query_opt = $query_opt . " AND e.nome LIKE '%".$valor."%'";
                 }else if($campo == "num"){
-                    $query_opt = $query_opt . " AND a.num_carro LIKE '%".$valor."%'";
-                }
+					$arr = explode(',',$valor);
+					if(count($arr) > 0){
+						$query_opt = $query_opt . " AND (a.num_carro LIKE '%{$arr[0]}%'";
+
+						for($i = 1; $i < count($arr); $i++){
+							$query_opt = $query_opt . " OR a.num_carro LIKE '%{$arr[$i]}%'";
+						}
+						$query_opt = $query_opt . ')';
+					}
+
+				}
+				
 
                 if (IsSet($_POST ["ckbDatas"])){
 					$query_opt = $query_opt . " AND a.data_analise >= '". $data_exec ."' AND a.data_analise <= '". $data_fin ."'";
@@ -79,7 +89,8 @@
                             ON a.id_emp = e.id " . $query_opt;                                 
 
                 			  	
-//			  	echo $query;
+				$_SESSION["query"] = $query;
+//				echo $query;
 
 			  	$result = mysqli_query($conexao, $query);
 
@@ -141,6 +152,7 @@
 										<textarea id=\"edtObs\" name=\"edtObs\"> </textarea>
 										<input type=\"hidden\" name=\"origem\" value=\"ANALISE\">
 										<input type=\"hidden\" name=\"query\" value=\"". $campo ."\">
+										<input type=\"hidden\" name=\"valor\" value=\"". $query ."\">
 										<input type=\"hidden\" name=\"func\" value=\"". $func ."\">
 				  	  					<input type=\"hidden\" name=\"num_carro\" value=\"". $num_carro ."\">
 										<input type=\"hidden\" name=\"pedido\" value=\"". $status ."\">

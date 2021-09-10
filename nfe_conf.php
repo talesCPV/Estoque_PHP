@@ -74,7 +74,7 @@
 
           $linha_txt = "I|"; 
           $linha_txt = $linha_txt . trim($fetch[0])."|"; //cProd
-          $linha_txt = $linha_txt ."|"; //cEAN
+          $linha_txt = $linha_txt ."||"; //cEAN
           if(trim($fetch[6]) == 'TINTA'){
             $linha_txt = $linha_txt . strtoupper(trim($fetch[1]))." - ".trim($fetch[7])."|"; //xProd
           }else{
@@ -100,7 +100,7 @@
           $linha_txt = $linha_txt . number_format($fetch[4],4, '.','')."|"; //qCom
           $linha_txt = $linha_txt . number_format($fetch[5],10, '.','')."|"; //vUnCom // <- Aqui............number_format($number, 2, '.', '') 
           $linha_txt = $linha_txt . number_format($fetch[4] * $fetch[5], 2, '.', '')."|"; //vProd
-          $linha_txt = $linha_txt ."|"; //cEANTrib
+          $linha_txt = $linha_txt ."||"; //cEANTrib
           $linha_txt = $linha_txt . trim($fetch[3])."|"; //uTrib
           $linha_txt = $linha_txt . number_format($fetch[4],4, '.','')."|"; //qTrib
           $linha_txt = $linha_txt . number_format($fetch[5],10, '.','')."|";

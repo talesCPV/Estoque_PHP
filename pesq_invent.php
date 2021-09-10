@@ -8,6 +8,7 @@
     <title>Historico de Inventário</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
     <script src="js/edt_mask.js"></script>
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
@@ -141,7 +142,7 @@
 
 						    echo"
 						</table> 
-
+							<button id='btnImprimir'>IMPRIMIR</button>
 				  </div>
 				  ";
 				$conexao->close();
@@ -161,4 +162,93 @@
 </div>
 
 </body>
+<script>
+
+	const btnImprimir = document.getElementById('btnImprimir');
+	const tabItens = document.getElementById('tabItens');
+
+	const image = document.createElement('img')
+	image.setAttribute('src', 'img/logo.jpg')
+//	console.log(image)
+
+	btnImprimir.addEventListener('click',()=>{
+		const lineY = 5;
+		const lineX = 20;
+		let pages = 1;
+
+		function cabecalho(doc){
+
+			doc.addImage(image,"JPEG", 10, 10, 50, 12, 0.5)
+			doc.setFontSize(9);
+			doc.text(70,11,'Av. Dr. Rosalvo de Almeida Telles, 2070 - Nova Caçapava');
+			doc.text(87,15,'Caçapava-SP - CEP 12.283-020');
+			doc.text(92,19,'CNPJ 00.519.547/0001-06');
+			doc.text(80,23,'comercial@flexibus.com.br | (12) 3653-2230');
+
+			doc.setFontSize(20);
+			doc.text(75,37,'Histórico de Inventário');
+//			doc.line(10,15,200,15);
+			doc.line(10,40,200,40);
+			doc.line(10,285,200,285);			
+			doc.setFontSize(10);
+			doc.text(190,290,pages.toString());
+
+			doc.setFontType("bold");
+//			doc.text(lineX + 10,45 ,'ID');
+			doc.text(lineX + 20,45 ,'Cod. Prod.');
+			doc.text(lineX + 40,45 ,'Tipo');
+			doc.text(lineX + 70,45 ,'Qtd');
+			doc.text(lineX + 80,45 ,'Etq. Ant.');
+			doc.text(lineX + 100,45 ,'Data');
+			doc.text(lineX + 130,45 ,'Usuário');
+			doc.setFontType("normal");
+		}
+
+
+		function utf8_to_b64( str ) {
+			return window.btoa(unescape(encodeURIComponent( str )));
+		}
+
+		var doc = new jsPDF({
+		orientation: 'portrait',
+		unit: 'mm',
+		format: 'A4'
+		});
+
+		cabecalho(doc);
+
+
+		let line = 0;
+		for (let i = 1 ; i < tabItens.rows.length; i++) {
+
+//			doc.text(lineX + 10,50 + lineY * line ,tabItens.rows[i].cells[0].innerHTML);
+			doc.text(lineX + 20,50 + lineY * line ,tabItens.rows[i].cells[1].innerHTML);
+			doc.text(lineX + 40,50 + lineY * line ,tabItens.rows[i].cells[2].innerHTML);
+			doc.text(lineX + 70,50 + lineY * line ,tabItens.rows[i].cells[3].innerHTML);
+			doc.text(lineX + 80,50 + lineY * line ,tabItens.rows[i].cells[4].innerHTML);
+			doc.text(lineX + 100,50 + lineY * line ,tabItens.rows[i].cells[5].innerHTML);
+			doc.text(lineX + 130,50 + lineY * line ,tabItens.rows[i].cells[6].innerHTML);
+
+			line++;
+
+
+			if(line == 47){
+				pages++;
+				line = 0;
+				doc.addPage();
+				cabecalho(doc);
+
+			}
+
+		}		
+
+		doc.setFontSize(10);
+		doc.save('a4.pdf')  	
+
+	})
+
+
+</script>
+
+
 </html>

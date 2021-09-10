@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<title>NFe Config</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
+
+<style>
+
+    *{
+        box-sizing: border-box;
+        text-decoration: none;
+    }
+
+    h2{
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        background-color: rgb(228, 228, 228);
+    }
+
+    table{
+        width: 100%;
+        table-layout: auto;
+    }
+
+    table tr:hover{
+        cursor: pointer;
+        background-color: crimson;
+        color: ghostwhite;
+    }
+
+    tr:nth-child(even) {background: #CCC}
+    tr:nth-child(odd) {background: #FFF}
+
+    .tab-bar{
+        display: flex;
+    }
+
+    .tab-screen{
+        overflow: scroll;
+        border: solid;
+        border-radius: 0 15px 15px 15px;
+        height: 80vh;
+        margin-top: 0px;
+    }
+
+    .tab-item{
+        margin: 20px 0 0 0;
+        padding: 15px 15px 0 15px;
+        border-left: rgb(10, 10, 10) solid;
+        border-top: rgb(5, 5, 5) solid;
+        border-right: rgb(10, 10, 10) solid;
+
+        border-radius: 15px 15px 0 0;
+    }
+
+    .tab-item:hover{
+        background-color: rgb(202, 202, 202);
+        cursor: pointer;
+    }
+
+    .tab-item:target{
+        background-color: black;
+        color: ghostwhite;
+        font-size: large;
+    }
+
+
+    .frmShow > input, .frmShow > select, .frmShow > label{
+        display: flex;
+        width: 98%;
+        margin-left: 10px;
+
+    }
+
+    .frmShow > button, input[type='checkbox']{
+        display: flex;
+        margin: 10px;
+        justify-content: flex-end;
+        padding: 5px 10px;
+    }
+
+    .frmCenter{
+        border: solid 5px;
+        border-radius: 10px;
+        width: 95%;
+        padding: 10px;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 10px auto;
+    }
+    .frmCenter > *{
+        margin: 10px;
+    }
+
+
+</style>
+
+
+<body>
+
+    <div style="margin: 50px;">
+
+        <div class="tab-bar">
+            <div class="tab-item" id="1" onclick="openTab('emitente')"> <a href="#1">Emitente</a> </div>
+            <div class="tab-item" id="2"  onclick="openTab('fiscal')"><a href="#2">Fiscal</a> </div>
+            <div class="tab-item" id="3" onclick="openTab('pedido')"><a href="#3">Pedido</a> </div>
+            <div class="tab-item" id="4"  onclick="openTab('itens')"><a href="#4">Itens</a> </div>
+            <div class="tab-item" id="5"  onclick="openTab('nfe')"><a href="#5">NFe</a> </div>
+            <div class="tab-item" id="6"  onclick="openTab('nfs')"><a href="#6">NFs</a> </div>
+        </div>
+    
+    
+        <div class="tab-screen">
+    
+            <div id="emitente" class="tab">
+                <h2>Emitente</h2>
+
+                <form class="frmShow" method="POST" action="#" >
+                    <label> Razão Social *</label>
+                    <input type="text" name="xNome" maxlength="60" value="" />
+                    <label> Nome Fantasia </label>
+                    <input type="text" name="xFant" maxlength="60" value=""/>
+                    <label> Insc. Estadual </label>
+                    <input type="text" name="IE" maxlength="14" value="" />
+                    <input type="hidden" name="IEST" value=""  >                
+                    <label> Insc. Municipal </label>
+                    <input type="text" name="IM" maxlength="15" value="" />
+                    <label> CNAE </label>
+                    <input type="text" name="CNAE" maxlength="7"  value=""/>
+                    <label> Regime Tributário </label>
+                    <select name="CRT" >
+                      <option value="1" selected>Simples Nacional</option>
+                      <option value="2" >Simples Nacional - excesso de sublimite de receita bruta</option>
+                      <option value="3" >Regime Normal.</option>
+                    </select>
+                    <label> CNPJ </label>
+                    <input type="text" name="CNPJ" maxlength="14" value=""/>
+                    <label> Endereço </label>
+                    <input type="text" name="xLgr" maxlength="60" value="" />
+                    <label> Número: </label>
+                    <input type="text" name="nro" maxlength="5" value="" />
+                    <label> Complemento </label>
+                    <input type="text" name="cpl" maxlength="60"  value=""/>
+                    <label> Bairro </label>
+                    <input type="text" name="bairro" maxlength="60" value="" />
+                    <label> Código do Municipio </label>
+                    <input type="text" name="cMun" maxlength="60" value=""/>
+                    <label>  Nome do Municipio</label>
+                    <input type="text" name="xMun" maxlength="60" value=""/>
+                    <label> Sigla da UF </label>
+                    <input type="text" name="UF" maxlength="60" value="" />
+                    <label> CEP </label>
+                    <input type="text" name="CEP" maxlength="8" value=""/>
+                    <label> Código do País  </label>
+                    <input type="text" name="cPais" maxlength="4" value=""/>
+                    <label> Nome do País </label>
+                    <input type="text" name="xPais" maxlength="60" value=""/>
+                    <label> Telefone </label>
+                    <input type="text" name="fone" maxlength="14" value="" />
+                    <td><button name="save_emit" type="submit">Salvar</button></td>
+                  </form>
+    
+                
+            </div>
+        
+            <div id="fiscal" class="tab" style="display:none">
+                <h2>Fiscal</h2>
+
+                <form class="frmShow" method="POST" action="#" >
+                    <input type="hidden" name="cUF" value="35" >      
+    
+                    <input type="hidden" name="cNF" value="">                 
+    
+                    <label> Natureza da Operação *</label>
+                    <input type="text" name="natOp" maxlength="60" value=""/>
+    
+                    <label> Código do Modelo do Documento Fiscal </label>
+                    <input type="text" name="mod" maxlength="2" value=""/>
+                
+                    <input type="hidden" name="serie" value="1" >                
+    
+                    <label> Numero da NF</label>
+                    <input type="text" name="nNF" maxlength="9" value=""/>
+    
+                    <label> Data de emissão do Documento Fiscal </label>
+                    <input type="date" name="dhEmi" value="" >
+    
+                    <label> Data e hora de Saída ou da Entrada da Mercadoria/Produto </label>
+                    <input type="date" name="dhSaiEnt" value="">
+    
+                    <label> Tipo de Operação</label>
+                    <select name="tpNF" >
+                      <option value="0" selected>Entrada</option>
+                      <option value="1">Saída</option>
+                    </select>
+    
+                    <label> Identificador de Local de destino da operação</label>
+                    <select name="idDest" >
+                      <option value="1">Operação Interna</option>
+                      <option value="2">Operação Interestadual</option>
+                      <option value="3">Operação com o Exterior</option>
+                    </select>
+    
+                    <input type="hidden" name="cMunFG" value="" >                
+    
+                    <label> Formato de Impressão do DANFE</label>
+                    <select name="tpImp" >
+                      <option value="1">Retrato</option>
+                      <option value="2">Paisagem</option>
+                    </select>
+    
+                    <label>Tipo de Emissão da NF-e</label>
+                    <select name="tpEmis" >
+                      <option value="1">Normal</option>
+                      <option value="2">Contingência FS - emissão em contingência com impressão do DANFE em Formulário de Segurança</option>
+                      <option value="4">Contingência EPEC - emissão em contingência com envio da Evento Prévio de Emissão em Contingência - EPEC</option>
+                      <option value="5">Contingência FS-DA - emissão em contingência com impressão do DANFE em Formulário de Segurança para Impressão de Documento Auxiliar de Documento Fiscal Eletrônico (FS-DA)</option>
+                      <option value="6">Contingência SVC-AN</option>
+                      <option value="7">Contingência SVC-RS</option>
+                      <option value="9">Contingência off-line NFC-e</option>
+                    </select>
+    
+                    <input type="hidden" name="cDV" value="" >                
+    
+                    <label> Identificação do Ambiente</label>
+                    <select name="tpAmb" >
+                      <option value="1">Produção</option>
+                      <option value="2">Homologação</option>
+                    </select>
+    
+                    <label> Finalidade de emissão da NF-e</label>
+                    <select name="finNFe" >
+                      <option value="1">NF-e normal</option>
+                      <option value="2">NF-e complementar</option>
+                      <option value="3">NF-e de ajuste</option>
+                    </select>
+    
+                    <label>Indica operação com o consumidor final</label>
+                    <select name="indFinal" >
+                      <option value="0">Normal</option>    
+                      <option value="1">Consumidor Final</option>
+                    </select>
+    
+                    <label>Indicador de presença do comprador no estabelecimento comercial no momento da operação</label>
+                    <select name="indPres" >
+                      <option value="0">Não se aplica (por exemplo Nota Fiscal Complementar ou de ajuste)</option>
+                      <option value="1">Operação presencial</option>
+                      <option value="2">Operação não presencial, pela Internet</option>
+                      <option value="3">Operação não presencial, pelo tele atendimento</option>
+                      <option value="4">NFC-e em operação com entrega em domicílio</option>
+                      <option value="5">Operação não presencial, fora do estabelecimento</option>
+                      <option value="9">Operação não presencial, outros</option>
+                    </select>
+    
+                    <label>Processo de emissão da NF-e</label>
+                    <select name="procEmi" >
+                      <option value="0">emissão de NF-e com aplicativo do contribuinte</option>
+                      <option value="1">emissão de NF-e avulsa pelo Fisco</option>
+                      <option value="2">emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site do Fisco</option>
+                      <option value="3">emissão NF-e pelo contribuinte com aplicativo fornecido pelo Fisco</option>
+                    </select>
+    
+    
+                    <input type="hidden" name="verProc" value="">                
+    
+                    <input type="hidden" name="dhCont" value="">                
+    
+                    <input type="hidden" name="xJust" value="" > 
+    
+                    <td>
+                      <input type='checkbox' name='ckbSimpRem' style=' margin: 5px; width: 0%; border: 3px solid green; padding: 10px; '/> Simples Remessa                  
+                    </td>
+    
+                    <td><button name="save_fiscal" type="submit">Salvar</button></td>
+    
+                  </form>                
+            </div>
+        
+            <div id="pedido" class="tab" style="display:none">
+                <h2>Pedido</h2>
+                
+                <div class="frmCenter">
+                    <label> Busca por: </label> 
+                    <select id="selBuscaPed" name="campo_busca">
+                       <option value="todos">Todos</option>
+                       <option value="cod">Codigo</option>
+                       <option value="num_ped">Numero</option>
+                       <option value="cliente">Cliente</option>
+                       <option value="varios">Vários Códigos</option>
+                   </select>
+                   <input type="text" id="edtBuscaPed" />
+                   <button id="btnBuscaPed" >OK</button>
+                </div>
+
+                <div class="frmCenter">
+                    <table id="tblBuscaPed"></table>
+                </div>
+
+
+            </div>
+        
+            <div id="itens" class="tab" style="display:none">
+                <h2>Itens</h2>
+               
+            </div>
+        
+            <div id="nfe" class="tab" style="display:none">
+                <h2>NFe</h2>
+                
+            </div>
+            
+            <div id="nfs" class="tab" style="display:none">
+                <h2>NFs</h2>
+               
+            </div>    
+    
+        </div>   
+
+    </div> 
+
+    <script>
+        function openTab(tab) {
+
+            let x = document.getElementsByClassName("tab");
+            for (let i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  
+            }
+            document.getElementById(tab).style.display = "block";  
+        }
+
+
+        document.getElementById('btnBuscaPed').addEventListener('click',()=>{
+            const sel = document.getElementById('selBuscaPed');
+            const edt = document.getElementById('edtBuscaPed');
+            let query = "";      
+
+            if (sel.value == "todos"){
+
+                query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                        FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                        ON p.id_emp = e.id AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
+            } else if (sel.value == "num_ped"){
+                query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                        FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                        ON p.id_emp = e.id AND p.num_ped = '${edt.value}' AND p.status = 'FECHADO';`;
+            } else if (sel.value == "cliente"){
+                $query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                        FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                        ON p.id_emp = e.id AND e.nome LIKE '%${edt.value}%' AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
+
+            } else if (sel.value == "cod"){
+                query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                        FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                        ON p.id_emp = e.id AND p.id = '${edt.value}' AND p.status = 'FECHADO';`;
+            } else if (sel.value == "varios"){
+                const aux =  edt.value.split('/');
+
+                $query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                        FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                        ON p.id_emp = e.id AND p.id = '${edt.value}' AND p.status = 'FECHADO';`;
+                }            
+
+            const data = new URLSearchParams();        
+                data.append("query", query);
+
+            const myRequest = new Request("ajax/ajax.php",{
+                method : "POST",
+                body : data
+            });                
+
+            const resp = new Promise((resolve,reject) =>{
+
+                fetch(myRequest)
+                .then(function (response){
+
+                    if (response.status === 200) { 
+                        resolve(response.text());
+                    } else { 
+                        reject(new Error("Houve algum erro na comunicação com o servidor"));
+                    } 
+                })                    
+            });
+
+            resp.then((json)=>{
+                const data = JSON.parse(json);
+                const tbl =  document.getElementById('tblBuscaPed');
+                tbl.innerHTML = "<tr> <th>Cod.</th> <th>Numero</th> <th>Cliente</th> <th>CNPJ</th> <th>Data</th></tr>";
+                console.log( Object.entries(data[0]) ) 
+
+
+                for(let i=0; i<data.length; i++){
+                    const row = document.createElement('tr');
+                    row.className = 'tab-row';
+                    const fields = ['id','num_ped','nome','cnpj','data_ped'];
+
+                    for(let j=0; j< Object.entries(data[i]).length; j++){
+                        const dados = Object.entries(data[i]);
+                        const col = document.createElement('td');
+                        if(!fields.includes(dados[j][0])){
+                            col.style = "display:none;"
+                        }
+                        col.innerHTML = dados[j][1];
+                        row.appendChild(col);                        
+                    }
+
+/*                    
+                    for(let j=0; j<fields.length; j++){
+                        const col = document.createElement('td');
+                        col.innerHTML = data[i][fields[j]];
+                        row.appendChild(col);
+                    }
+*/                    
+                    row.addEventListener('dblclick',(event)=>{
+
+                        let target = event.target;
+                        while (target.nodeName != 'TR') {
+                            target = target.parentElement;
+                        }
+                        let row = target.cells; 
+
+                        const pedido = [];
+                        for(let k=0; k<row.length; k++){
+                            pedido.push(row[k].innerHTML);
+                        }
+                        console.log(pedido)
+                    })                    
+                    tbl.appendChild(row);
+                }
+
+            })
+            
+        })
+
+
+
+    </script>
+
+
+</body>
+</html>

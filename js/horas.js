@@ -171,6 +171,23 @@ $(document).ready(function(){
 //        alert(id)
 //        console.log(tbl.rows[0].cells)
 
+        var query = "query=SELECT * FROM tb_hora_extra WHERE id_func = "+id+" AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%';";
+        let myPromise = new Promise(function(resolve, reject) {            
+            resolve(queryDB(query));
+        });
+
+        myPromise.then((resolve)=>{
+//            console.log(resolve)
+            if(resolve.length > 0){
+                let sai_dia = resolve[0].saida.substr(0,10);
+                document.getElementById('data_sai').value = sai_dia;
+//                console.log(sai_dia)    
+            }                       
+        })
+
+        resp = queryDB(query);
+
+
         if(col%2 == 0){
             var ent = tbl.rows[row].cells[col].innerHTML;
             var sai = tbl.rows[row].cells[col+1].innerHTML;
@@ -182,11 +199,15 @@ $(document).ready(function(){
         ent = ent.trim();
         sai = sai.trim();
 
-        console.log(tbl.rows[row].cells[col])
-
-
-        var table = "<table><tr><td>ENTRADA</td><td> <input type='text' maxlength='5' id='edtEntrada' value='"+ent+"' onkeyup='return hora(this)'/></td></tr>";
-        table +=   "<tr><td>SAIDA</td><td> <input type='text' id='edtSaida' maxlength='5'  value='"+sai+"' onkeyup='return hora(this)' /></td></tr>";
+        var table = `<table>
+            <tr>
+                <td>ENTRADA</td><td> <input type='text' maxlength='5' id='edtEntrada' value='${ent}' onkeyup='return hora(this)'/></td>
+                <td><input type="date" class="selData" id="data_ent" value="${ano}-${mes}-${dia}" readonly> </td>
+            </tr>
+            <tr>
+                <td>SAIDA</td><td> <input type='text' id='edtSaida' maxlength='5'  value='${sai}' onkeyup='return hora(this)' /></td>
+                <td><input type="date" class="selData" id="data_sai" value="${ano}-${mes}-${dia}"> </td>
+            </tr>`;
         if ($(this).perm(classe,'edit')){
             table +=   "<tr><td></td><td><button id='btn_Save'>Salvar</button><button id='btn_Limpar'>Limpar</button></td></tr></table>";
         }else{
@@ -210,8 +231,14 @@ $(document).ready(function(){
         $(document).off('click', '#btn_Save').on('click', '#btn_Save', function() {
             
             if($('#edtEntrada').val().length == 5 && $('#edtSaida').val().length == 5){
-                var ent = ano+'-'+mes+'-'+dia +' '+ $('#edtEntrada').val() +':00' ;
-                var sai = ano+'-'+mes+'-'+dia +' '+ $('#edtSaida').val() +':00' ;   
+                let dent = document.getElementById('data_ent').value;
+                let dsai = document.getElementById('data_sai').value;
+
+                var ent = document.getElementById('data_ent').value +' '+ $('#edtEntrada').val() +':00' ;
+                var sai = document.getElementById('data_sai').value +' '+ $('#edtSaida').val() +':00' ;   
+
+//                var ent = ano+'-'+mes+'-'+dia +' '+ $('#edtEntrada').val() +':00' ;
+//                var sai = ano+'-'+mes+'-'+dia +' '+ $('#edtSaida').val() +':00' ;   
 
                 if(new Date(sai) < new Date(ent) ){ // entrou em um dia e saiu em outro
 
@@ -233,6 +260,9 @@ $(document).ready(function(){
                     var sai = a+'-'+m+'-'+d +' '+ $('#edtSaida').val() +':00' ;   
                 }
                 
+
+//                console.log(sai)
+
                 var query = "query=SELECT * FROM tb_hora_extra WHERE id_func = "+id+" AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%';";
 
                 resp = queryDB(query);
@@ -241,7 +271,8 @@ $(document).ready(function(){
                 }else{
                     var query = "query=UPDATE tb_hora_extra  SET entrada = '"+ent+"', saida = '"+sai+"'  WHERE id_func = "+id+" AND entrada LIKE '"+ano+'-'+mes+'-'+dia+"%'";
                 }
-//                alert(query);
+                
+//                console.log(query);
                 
                 queryDB(query);
 
