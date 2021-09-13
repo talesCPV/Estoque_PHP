@@ -202,6 +202,7 @@
           <td><button style='width: 95%;' name="itens" type="submit">Ítens</button></td>
           <td><button style='width: 95%;' name="fatura" type="submit">Gera NFE</button></td>
           <td><button style='width: 95%;' name="nfs" type="submit">Gera NFS.</button></td>
+          <td><button style='width: 95%;' id="teste" >Nova NFe</button></td>
         </tr>
       </table>
       
@@ -1108,4 +1109,24 @@
     <script src="js/nfe_conf.js"></script>
 
 </body>
+<script>
+  document.getElementById('teste').addEventListener('click',(event)=>{
+    event.preventDefault();
+
+
+   
+      openHTML('geraNFe.html','Gerador de NFe');    
+       
+/*
+    document.querySelector(".content").innerHTML = 'HTML';
+    document.querySelector("#popTitle").innerHTML = 'Calculadora';
+    document.querySelector(".overlay").style.visibility = "visible";
+    document.querySelector(".overlay").style.opacity = 1;
+
+    alert(2)
+*/
+  })
+
+</script>
+
 </html>

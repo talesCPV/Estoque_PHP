@@ -1,0 +1,771 @@
+
+<style>
+
+    *{
+        box-sizing: border-box;
+        text-decoration: none;
+    }
+
+    h2{
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        background-color: rgb(0, 0, 0);
+        color: white;
+    }
+
+    table{
+        width: 100%;
+        table-layout: auto;
+    }
+
+    table tr:hover{
+        cursor: pointer;
+        background-color: crimson;
+        color: ghostwhite;
+    }
+
+    tr:nth-child(even) {background: #CCC}
+    tr:nth-child(odd) {background: #FFF}
+
+    .tab-bar{
+        display: flex;
+    }
+
+    .tab-screen{
+        overflow: scroll;
+        border: solid;
+        width: 60vw;
+        height: 80vh;
+        margin-top: 0px;
+    }
+
+    .tab-item{
+        margin: 20px 0 0 0;
+        padding: 15px 15px 5px 15px;
+        border: rgb(10, 10, 10) solid;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .tab-item:hover{
+        background-color: rgb(202, 202, 202);
+        cursor: pointer;
+    }
+
+    .tab-item:target{
+        background-color: black;
+        color: ghostwhite;
+        font-size: large;
+    }
+
+    .frmShow  > input, .frmShow > select, .frmShow  > label{
+        display: flex;
+        width: 98%;
+        margin-left: 10px;        
+    }
+
+    .frmShow  > label{
+        margin-top: 10px;
+    }    
+
+    button, input[type='checkbox']{
+        margin: 10px;
+        float: right;
+        padding: 5px 10px;
+    }
+
+    .frmCenter{
+        border: solid 5px;
+        border-radius: 10px;
+        width: 95%;
+        padding: 10px;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 10px auto;
+    }
+    .frmCenter > *{
+        margin: 10px;
+    }
+
+</style>
+
+<html>
+
+    <div style="margin: 50px;">
+
+        <div class="tab-bar">
+            <div class="tab-item tab-emitente" style="background: black; color:white;"> Emitente</div>
+            <div class="tab-item tab-fiscal" >Fiscal</div>
+            <div class="tab-item tab-pedido" >Pedido</div>
+            <div class="tab-item tab-cliente" >Cliente</div>            
+            <div class="tab-item tab-itens" >Itens</div>
+            <div class="tab-item tab-fatura" >Faturamento</div>
+        </div>
+        
+        <div class="tab-screen">
+    
+            <div id="emitente" class="tab emitente">
+                <h2>Emitente</h2>               
+                    <form class="frmShow" id="C" method="POST" action="#">
+                        <label> Razão Social *</label>
+                        <input type="text" id="xNome" maxlength="60" value="" />
+                        <label> Nome Fantasia </label>
+                        <input type="text" id="xFant" maxlength="60" value=""/>
+                        <label> Insc. Estadual </label>
+                        <input type="text" id="IE" maxlength="14" value="" />
+                        <input type="hidden" id="IEST" value=""  >                
+                        <label> Insc. Municipal </label>
+                        <input type="text" id="IM" maxlength="15" value="" />
+                        <label> CNAE </label>
+                        <input type="text" id="CNAE" maxlength="7"  value=""/>
+                        <label> Regime Tributário </label>
+                        <select id="CRT" >
+                          <option value="1" selected>Simples Nacional</option>
+                          <option value="2" >Simples Nacional - excesso de sublimite de receita bruta</option>
+                          <option value="3" >Regime Normal.</option>
+                        </select>
+                    </form>
+                    <form class="frmShow" id="C02" method="POST" action="#">
+                        <label> CNPJ </label>
+                        <input type="text" id="CNPJ" maxlength="14" value=""/>
+                    </form>
+                    <form class="frmShow" id="C05" method="POST" action="#">
+                        <label> Endereço </label>
+                        <input type="text" id="xLgr" maxlength="60" value="" />
+                        <label> Número: </label>
+                        <input type="text" id="nro" maxlength="5" value="" />
+                        <label> Complemento </label>
+                        <input type="text" id="cpl" maxlength="60"  value=""/>
+                        <label> Bairro </label>
+                        <input type="text" id="bairro" maxlength="60" value="" />
+                        <label> Código do Municipio </label>
+                        <input type="text" id="cMun" maxlength="60" value=""/>
+                        <label>  Nome do Municipio</label>
+                        <input type="text" id="xMun" maxlength="60" value=""/>
+                        <label> Sigla da UF </label>
+                        <input type="text" id="UF" maxlength="60" value="" />
+                        <label> CEP </label>
+                        <input type="text" id="CEP" maxlength="8" value=""/>
+                        <label> Código do País  </label>
+                        <input type="text" id="cPais" maxlength="4" value=""/>
+                        <label> Nome do País </label>
+                        <input type="text" id="xPais" maxlength="60" value=""/>
+                        <label> Telefone </label>
+                        <input type="text" id="fone" maxlength="14" value="" />
+                    </form>
+                    <button id="btnSaveEmit">Salvar</button>
+                  
+    
+                
+            </div>
+        
+            <div id="fiscal" class="tab fiscal" style="display:none">
+                <h2>Fiscal</h2>
+
+                <form class="frmShow" id="B" method="POST" action="#" >
+                    <input type="hidden" id="cUF" value="35" >      
+    
+                    <input type="hidden" id="cNF" value="">                 
+    
+                    <label> Natureza da Operação *</label>
+                    <input type="text" id="natOp" maxlength="60" value=""/>
+    
+                    <label> Código do Modelo do Documento Fiscal </label>
+                    <input type="text" id="mod" maxlength="2" value=""/>
+                
+                    <input type="hidden" id="serie" value="1" >                
+    
+                    <label> Numero da NF</label>
+                    <input type="text" id="nNF" maxlength="9" value=""/>
+    
+                    <label> Data de emissão do Documento Fiscal </label>
+                    <input type="date" id="dhEmi" value="" >
+    
+                    <label> Data e hora de Saída ou da Entrada da Mercadoria/Produto </label>
+                    <input type="date" id="dhSaiEnt" value="">
+    
+                    <label> Tipo de Operação</label>
+                    <select id="tpNF" >
+                      <option value="0" selected>Entrada</option>
+                      <option value="1">Saída</option>
+                    </select>
+    
+                    <label> Identificador de Local de destino da operação</label>
+                    <select id="idDest" >
+                      <option value="1">Operação Interna</option>
+                      <option value="2">Operação Interestadual</option>
+                      <option value="3">Operação com o Exterior</option>
+                    </select>
+    
+                    <input type="hidden" id="cMunFG" value="" >                
+    
+                    <label> Formato de Impressão do DANFE</label>
+                    <select id="tpImp" >
+                      <option value="1">Retrato</option>
+                      <option value="2">Paisagem</option>
+                    </select>
+    
+                    <label>Tipo de Emissão da NF-e</label>
+                    <select id="tpEmis" >
+                      <option value="1">Normal</option>
+                      <option value="2">Contingência FS - emissão em contingência com impressão do DANFE em Formulário de Segurança</option>
+                      <option value="4">Contingência EPEC - emissão em contingência com envio da Evento Prévio de Emissão em Contingência - EPEC</option>
+                      <option value="5">Contingência FS-DA - emissão em contingência com impressão do DANFE em Formulário de Segurança para Impressão de Documento Auxiliar de Documento Fiscal Eletrônico (FS-DA)</option>
+                      <option value="6">Contingência SVC-AN</option>
+                      <option value="7">Contingência SVC-RS</option>
+                      <option value="9">Contingência off-line NFC-e</option>
+                    </select>
+    
+                    <input type="hidden" id="cDV" value="" >                
+    
+                    <label> Identificação do Ambiente</label>
+                    <select id="tpAmb" >
+                      <option value="1">Produção</option>
+                      <option value="2">Homologação</option>
+                    </select>
+    
+                    <label> Finalidade de emissão da NF-e</label>
+                    <select id="finNFe" >
+                      <option value="1">NF-e normal</option>
+                      <option value="2">NF-e complementar</option>
+                      <option value="3">NF-e de ajuste</option>
+                    </select>
+    
+                    <label>Indica operação com o consumidor final</label>
+                    <select id="indFinal" >
+                      <option value="0">Normal</option>    
+                      <option value="1">Consumidor Final</option>
+                    </select>
+    
+                    <label>Indicador de presença do comprador no estabelecimento comercial no momento da operação</label>
+                    <select id="indPres" >
+                      <option value="0">Não se aplica (por exemplo Nota Fiscal Complementar ou de ajuste)</option>
+                      <option value="1">Operação presencial</option>
+                      <option value="2">Operação não presencial, pela Internet</option>
+                      <option value="3">Operação não presencial, pelo tele atendimento</option>
+                      <option value="4">NFC-e em operação com entrega em domicílio</option>
+                      <option value="5">Operação não presencial, fora do estabelecimento</option>
+                      <option value="9">Operação não presencial, outros</option>
+                    </select>
+    
+                    <label>Processo de emissão da NF-e</label>
+                    <select id="procEmi" >
+                      <option value="0">emissão de NF-e com aplicativo do contribuinte</option>
+                      <option value="1">emissão de NF-e avulsa pelo Fisco</option>
+                      <option value="2">emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site do Fisco</option>
+                      <option value="3">emissão NF-e pelo contribuinte com aplicativo fornecido pelo Fisco</option>
+                    </select>
+    
+                    <input type="hidden" id="verProc" value="">
+                    <input type="hidden" id="dhCont" value="">
+                    <input type="hidden" id="xJust" value="" >    
+                  </form>                
+                  <div style="display:flex;">
+                    <input type='checkbox' id='ckbSimpRem' /> 
+                    <label for="">Simples Remessa </label>                 
+                  </div>
+  
+                  <button id="btnSaveFiscal">Salvar</button>                
+            </div>
+        
+            <div id="pedido" class="tab pedido" style="display:none">
+                <h2>Pedido</h2>
+                
+                <div class="frmCenter">
+                    <label> Busca por: </label> 
+                    <select id="selBuscaPed" name="campo_busca">
+                       <option value="todos">Todos</option>
+                       <option value="cod">Codigo</option>
+                       <option value="num_ped">Numero</option>
+                       <option value="cliente">Cliente</option>
+                       <option value="varios">Vários Códigos</option>
+                   </select>
+                   <input type="text" id="edtBuscaPed" />
+                   <button id="btnBuscaPed" >OK</button>
+                </div>
+
+                <div class="frmCenter">
+                    <table id="tblBuscaPed"></table>
+                </div>
+
+
+            </div>
+            <div id="cliente" class="tab cliente" style="display:none">
+                <h2>Cliente</h2>
+                <form class="frmShow" id="E" method="POST" action="#">
+                    <label> Razão Social *</label>
+                    <input type="text" id="xNome" maxlength="60" value="" />
+                    <label> Contribuinte ICMS</label>
+                    <select id="indIEDest">
+                        <option value="1">Contribuinte ICMS (informar a IE do destinatário)</option>
+                        <option value="2">Contribuinte isento de Inscrição no cadastro de Contribuintes do ICMS (Não possui IE)</option>
+                        <option value="9">Não Contribuinte, que pode ou não possuir Inscrição Estadual no Cadastro de Contribuintes do ICMS</option>
+                    </select>
+                    <label> Insc. Estadual </label>
+                    <input type="text" id="IE" maxlength="14" value="" />
+                    <input type="hidden" id="ISUF" value=""  >                
+                    <label> Insc. Municipal </label>
+                    <input type="text" id="IM" maxlength="15" value="" />
+                    <label> Email </label>
+                    <input type="text" id="email" value=""/>
+                </form>                           
+                <form class="frmShow" id="E02" method="POST" action="#">
+                    <label> CNPJ </label>
+                    <input type="text" id="CNPJ" maxlength="14" value=""/>
+                </form>
+                <form class="frmShow" id="E05" method="POST" action="#">
+                    <label> Endereço </label>
+                    <input type="text" id="xLgr" maxlength="60" value="" />
+                    <label> Número: </label>
+                    <input type="text" id="nro" maxlength="5" value="" />
+                    <label> Complemento </label>
+                    <input type="text" id="XCpl" maxlength="60"  value=""/>
+                    <label> Bairro </label>
+                    <input type="text" id="xBairro" maxlength="60" value="" />
+                    <label> Código do Municipio </label>
+                    <input type="text" id="cMun" maxlength="60" value=""/>
+                    <label>  Nome do Municipio</label>
+                    <input type="text" id="xMun" maxlength="60" value=""/>
+                    <label> Sigla da UF </label>
+                    <input type="text" id="UF" maxlength="60" value="" />
+                    <label> CEP </label>
+                    <input type="text" id="CEP" maxlength="8" value=""/>
+                    <label> Código do País  </label>
+                    <input type="text" id="cPais" maxlength="4" value=""/>
+                    <label> Nome do País </label>
+                    <input type="text" id="xPais" maxlength="60" value=""/>
+                    <label> Telefone </label>
+                    <input type="text" id="fone" maxlength="14" value="" />
+                </form>
+                <button id="btnSaveCli">Salvar</button>
+            </div>        
+            <div id="itens" class="tab itens" style="display:none">
+                <h2>Itens</h2>
+               
+                <button id="btnTeste">Teste</button>
+
+
+            </div>
+        
+            <div id="fatura" class="tab fatura" style="display:none">
+                <h2>Faturamento</h2>
+                <form class="frmShow" id="B" method="POST" action="#" >
+
+                    <button id="btnGeraNFe">Gerar NFe</button>
+                </form>
+            </div>
+                
+        </div>   
+
+    </div> 
+
+</html>
+
+<script>
+
+/* DECLARAÇÃO GLOBAL */
+
+    let dadosNF;
+
+/* CHAMADA DE FUNÇÕES INICIAL */    
+
+    importData();
+
+/* CHAMADA DE FUNÇÕES DO DOM */    
+
+    document.querySelector('.tab-emitente').addEventListener('click',()=>{
+        openTab('emitente')
+    })
+    document.querySelector('.tab-fiscal').addEventListener('click',()=>{
+        openTab('fiscal')
+    })
+    document.querySelector('.tab-pedido').addEventListener('click',()=>{
+        openTab('pedido')
+    })
+    document.querySelector('.tab-cliente').addEventListener('click',()=>{
+        openTab('cliente')
+    })    
+    document.querySelector('.tab-itens').addEventListener('click',()=>{
+        openTab('itens')
+    })
+    document.querySelector('.tab-fatura').addEventListener('click',()=>{
+        openTab('fatura')
+    })
+    document.getElementById('btnSaveEmit').addEventListener('click',(event)=>{
+        salva("C",3);
+        salva("C02",4);
+        salva("C05",5);
+    })
+    document.getElementById('btnSaveFiscal').addEventListener('click',(event)=>{
+        document.getElementById('cNF').value = Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ; // novo cNF
+        salva("B",2);     
+        console.log(dadosNF);
+    })
+    document.getElementById('btnSaveCli').addEventListener('click',()=>{
+        salva("E",6);
+        salva("E02",7);
+        salva("E05",8);
+    })
+    document.getElementById('btnGeraNFe').addEventListener('click',(event)=>{
+        event.preventDefault();
+        geraNFE();
+    })
+    document.getElementById('btnBuscaPed').addEventListener('click',()=>{
+        const sel = document.getElementById('selBuscaPed');
+        const edt = document.getElementById('edtBuscaPed');
+        let query = "";      
+
+        if (sel.value == "todos"){
+
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                    FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                    ON p.id_emp = e.id AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
+        } else if (sel.value == "num_ped"){
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                    FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                    ON p.id_emp = e.id AND p.num_ped = '${edt.value}' AND p.status = 'FECHADO';`;
+        } else if (sel.value == "cliente"){
+            $query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                    FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                    ON p.id_emp = e.id AND e.nome LIKE '%${edt.value}%' AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
+
+        } else if (sel.value == "cod"){
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                    FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                    ON p.id_emp = e.id AND p.id = '${edt.value}' AND p.status = 'FECHADO';`;
+        } else if (sel.value == "varios"){
+            const aux =  edt.value.split('/');
+
+            $query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+                    FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                    ON p.id_emp = e.id AND p.id = '${edt.value}' AND p.status = 'FECHADO';`;
+            }            
+
+        const data = new URLSearchParams();        
+            data.append("query", query);
+
+        const resp = getData("ajax/ajax.php", data);
+
+        resp.then((json)=>{
+            const data = JSON.parse(json);
+            const tbl =  document.getElementById('tblBuscaPed');
+            tbl.innerHTML = "<tr> <th>Cod.</th> <th>Numero</th> <th>Cliente</th> <th>CNPJ</th> <th>Data</th></tr>";
+
+            for(let i=0; i<data.length; i++){
+                const row = document.createElement('tr');
+                row.className = 'tab-row';
+                const fields = ['id','num_ped','nome','cnpj','data_ped'];
+
+                for(let j=0; j< Object.entries(data[i]).length; j++){
+                    const dados = Object.entries(data[i]);
+                    const col = document.createElement('td');
+                    if(!fields.includes(dados[j][0])){
+                        col.style = "display:none;"
+                    }
+                    col.innerHTML = dados[j][1];
+                    row.appendChild(col);                        
+                }
+        
+                row.addEventListener('dblclick',(event)=>{
+
+                    function soNum(C){
+                        let resp = '';
+                        let perm = ['0','1','2','3','4','5','6','7','8','9'];
+                        for(let i=0; i< C.length; i++){
+                            if(perm.includes(C[i])){
+                                resp += C[i]
+                            }
+                        }
+                        return resp;
+                    }
+
+                    let target = event.target;
+                    while (target.nodeName != 'TR') {
+                        target = target.parentElement;
+                    }
+                    let row = target.cells; 
+
+                    const pedido = [];
+                    for(let k=0; k<row.length; k++){
+                        pedido.push(row[k].innerHTML);
+                    }
+                    dadosNF.NF[6].xNome = pedido[2];
+                    dadosNF.NF[6].IE = pedido[3];
+                    if(pedido[3].trim() != ''){
+                        dadosNF.NF[6].indIEDest = 1;
+                    }else{
+                        dadosNF.NF[6].indIEDest = 2;
+                    }
+                    console.log(pedido)
+                    // dados do cliente do pedido
+                    dadosNF.NF[7].CNPJ = soNum(pedido[4]);
+                    dadosNF.NF[8].xLgr = pedido[5].trim();
+                    dadosNF.NF[8].nro = pedido[7].trim();
+                    dadosNF.NF[8].XCpl = '';
+                    dadosNF.NF[8].xBairro = pedido[8].trim();
+                    dadosNF.NF[8].xMun = pedido[9].trim();
+                    dadosNF.NF[8].UF = pedido[10].trim();
+                    dadosNF.NF[8].CEP = soNum(pedido[11]);
+                    dadosNF.NF[8].cPais = '1058';
+                    dadosNF.NF[8].fone = soNum(pedido[12]);
+                    IBGE_cMun();
+                    atualiza()
+                    salva("E",6);
+                    salva("E02",7);
+                    salva("E05",8);                    
+                })                    
+                tbl.appendChild(row);
+            }
+
+        })
+        
+    })
+    document.getElementById('btnTeste').addEventListener('click',()=>{
+  
+  geraChave( '2109');
+
+//        console.log(IBGE_cMun());
+
+//        const cod =  Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ;
+
+//        console.log(cod)
+  
+/*            33040555
+  const data = new URLSearchParams();        
+      data.append("path", "../config/nfe.json");
+
+  const resp = getData("ajax/ajax_getJson.php", data);
+  resp.then((json)=>{            
+      
+      const data = JSON.parse(json);
+      console.log(data);
+
+
+
+  })
+*/
+
+})
+
+
+/* DECLARAÇÃO DE FUNÇÕES */
+
+    function openTab(tab) {
+        let x = document.getElementsByClassName("tab");
+        
+        for (let i = 0; i < x.length; i++) {
+            x[i].style.display = "none";  
+        }
+        x = document.getElementsByClassName(tab);
+        for (let i = 0; i < x.length; i++) {
+            x[i].style.display = "block";          
+        } 
+        x = document.getElementsByClassName("tab-item");
+        for (let i = 0; i < x.length; i++) {
+            x[i].style.background = "white";  
+            x[i].style.color = "black";         
+        }                     
+        x = document.getElementsByClassName("tab-"+tab);
+        for (let i = 0; i < x.length; i++) {
+            x[i].style.background = "black"; 
+            x[i].style.color = "white";         
+        }       
+                 
+    }
+
+    function importData(){
+        const data = new URLSearchParams();        
+            data.append("path", "../config/nfe.json");
+
+        const resp = getData("ajax/ajax_getJson.php", data);
+        resp.then((json)=>{            
+            
+            const data = JSON.parse(json);
+            dadosNF = data;
+            atualiza();
+
+        })            
+    }
+
+    function atualiza(){
+
+        function run(id,index){
+            const frm = document.getElementById(id);
+            for(let i=0; i<frm.length; i++){
+                frm[i].value = dadosNF.NF[index][frm[i].id].toString().trim() ;
+            }
+        }
+
+            console.log(dadosNF.NF)
+            run("C",3);
+            run("C02",4);
+            run("C05",5);
+            run("B",2);
+            run("E",6);
+            run("E02",7);
+            run("E05",8);                   
+
+    }
+
+    function salva(id,index){
+        const frm = document.getElementById(id);
+        for(let i=0; i<frm.length; i++){
+            dadosNF.NF[index][frm[i].id] = frm[i].value.trim();
+        }
+
+        const json = JSON.stringify(dadosNF);
+
+        const data = new URLSearchParams();        
+            data.append("path", "../config/nfe.json");
+            data.append("json", json);
+
+        const resp = getData("ajax/ajax_saveJson.php", data);
+
+        console.log(json)
+
+    }
+
+    function geraNFE(){
+
+        const today = new Date();
+        mes = today.getMonth().toString().padStart(2, '0');
+        ano = today.getFullYear().toString().substr(2,2);
+        hora = today.getHours().toString().padStart(2, '0');
+        min = today.getMinutes().toString().padStart(2, '0');
+        seg = today.getSeconds().toString().padStart(2, '0');
+        dadosNF.NF[1].id = geraChave(ano+mes)
+
+        let txt = '';
+    //            console.log(dadosNF.NF)
+        for(let i=0; i<dadosNF.NF.length; i++){
+            const row = Object.entries(dadosNF.NF[i])
+            for(let j=0; j<row.length; j++){
+                if(row[j][0] == 'dhEmi' || row[j][0] == 'dhSaiEnt'){ // coloca hora na data
+                    row[j][1]+='T'+hora+':'+min+':'+seg+'-03:00';
+                    hora++;
+                    if(hora == 24){
+                        hora = 0;
+                    }
+                    hora = hora.toString().padStart(2, '0');
+                }                
+                txt += row[j][1]+'|';                
+            }
+            txt += '\r\n';            
+        }
+        console.log(txt)
+    }                
+
+    function getData(url,data){
+        const myRequest = new Request(url,{
+            method : "POST",
+            body : data
+        });                
+
+        return new Promise((resolve,reject) =>{
+
+            fetch(myRequest)
+            .then(function (response){
+
+                if (response.status === 200) { 
+                    resolve(response.text());
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));
+                } 
+            })                    
+        });            
+    }
+
+    function IBGE_cMun(){
+        dadosNF.NF[8].cMun = '';
+        const UF_cod = new Promise((resolve,reject) =>{
+
+            fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")
+            .then(function (response){
+
+                if (response.status === 200) { 
+                    resolve(response.text());
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));
+                } 
+            })                    
+        });   
+        
+        UF_cod.then((resolve)=>{
+            const json = JSON.parse(resolve);
+
+            for(let i=0; i<json.length; i++){
+                if(json[i].sigla == dadosNF.NF[8].UF){
+
+                    const Mun_cod = new Promise((resolve,reject) =>{
+
+                        fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${json[i].id}/municipios`)
+                        .then(function (response){
+
+                            if (response.status === 200) { 
+                                resolve(response.text());
+                            } else { 
+                                reject(new Error("Houve algum erro na comunicação com o servidor"));
+                            } 
+                        })                    
+                    }); 
+
+                    Mun_cod.then((resolve)=>{
+                        const json = JSON.parse(resolve);
+                        for(let j=0; j<json.length; j++){
+                            if(json[j].nome.trim().toLowerCase() == dadosNF.NF[8].xMun.trim().toLowerCase()){
+                                dadosNF.NF[8].cMun = json[j].id;
+                                atualiza()
+//                                salva("E05",8);                                   
+                                break;
+                            }
+                        }
+
+                    })
+                
+                }
+            }
+            
+        })
+
+    }
+
+    function geraChave(aamm){
+//        geraChave(dadosNF.NF[4].CNPJ,dadosNF.NF[2].nNF,ano+mes)
+        const CNPJ = dadosNF.NF[4].CNPJ;
+        const nNF = dadosNF.NF[2].nNF.padStart(9, '0');
+        const uf = "35";            // cUF - Código da UF do emitente do Documento Fiscal;
+    //            const aamm = ano+mes;        // AAMM - Ano e Mês de emissão da NF-e;
+        const tpEmis = "1";         // tpEmis – forma de emissão da NF-e;
+        const cod = dadosNF.NF[2].cNF  // cNF - Código Numérico que compõe a Chave de Acesso; (random entre 10000000 e 99999999)
+        const mod = "55";           // mod - Modelo do Documento Fiscal;
+        const ser = "001";          // serie - Série do Documento Fiscal;
+//        Nnf = Nnf.padStart(9, '0') ;    // nNF - Número do Documento Fiscal;
+
+        const chave = uf + aamm + CNPJ + mod + ser +  nNF + tpEmis + cod ;
+
+        let dv = 0;
+        let mult = 2;
+            for(let i = 1; i < chave.length+1; i++){
+                dv = dv + (chave[chave.length - i] * mult);
+                mult++;
+
+                if (mult > 9){
+                mult = 2;
+                }
+            }
+
+            let resto = dv % 11;
+            dv = 11 - resto;
+
+            if(dv > 9){
+                dv = 0;
+            }
+
+            return 'NFe'+chave+dv;
+
+    }
+
+</script>
