@@ -326,7 +326,8 @@
                     <label> Bairro </label>
                     <input type="text" id="xBairro" maxlength="60" value="" />
                     <label> Código do Municipio </label>
-                    <input type="text" id="cMun" maxlength="60" value=""/>
+                    <input type="text" id="cMun" maxlength="60" value="" readonly/>
+                    <button id="btnBuscaIBGE"> Buscar no IBGE</button>
                     <label>  Nome do Municipio</label>
                     <input type="text" id="xMun" maxlength="60" value=""/>
                     <label> Sigla da UF </label>
@@ -345,6 +346,8 @@
             <div id="itens" class="tab itens" style="display:none">
                 <h2>Itens</h2>
                
+                <table id="tblItens"></table>
+
                 <button id="btnTeste">Teste</button>
 
 
@@ -428,7 +431,7 @@
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND p.num_ped = '${edt.value}' AND p.status = 'FECHADO';`;
         } else if (sel.value == "cliente"){
-            $query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND e.nome LIKE '%${edt.value}%' AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
 
@@ -439,7 +442,7 @@
         } else if (sel.value == "varios"){
             const aux =  edt.value.split('/');
 
-            $query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND p.id = '${edt.value}' AND p.status = 'FECHADO';`;
             }            
@@ -492,14 +495,185 @@
                     for(let k=0; k<row.length; k++){
                         pedido.push(row[k].innerHTML);
                     }
+                    console.log(pedido);
+
+                    const pedcod = pedido[0];
+                    const query = ` SELECT p.cod, p.descricao, p.ncm, p.unidade, i.qtd, i.preco, p.tipo, i.und
+                                    FROM tb_item_ped as i 
+                                    INNER JOIN tb_produto AS p
+                                    ON i.id_ped = ${pedcod}
+                                    AND i.id_prod = p.id;`;
+
+
+                    const data = new URLSearchParams();        
+                    data.append("query", query);
+
+                    const resp = getData("ajax/ajax.php", data);
+
+                    resp.then((json)=>{
+                        const data = JSON.parse(json);
+                        const tab = document.getElementById('tblItens');
+                        tab.innerHTML = '';
+                        let total = 0;
+                        dadosNF.itens = [];
+
+                        for(let i=0; i<data.length; i++){ // 1x a cada item do 
+                            dadosNF.itens.push([])
+
+                            // item H
+                            const H = new Object;
+                                H.COD = "H";
+                                H.nItem = i+1;
+                                H.infAdProd = "";
+                            dadosNF.itens[i].push(H);
+
+                            // item I
+                            const I = new Object;
+                                I.COD = "I";
+                                I.cProd = data[i].cod;
+                                I.cEAN = "";
+                                I.xProd = data[i].descricao;
+                                I.NCM = data[i].ncm;
+                                I.cBenef = "";
+                                I.EXTIPI = "";
+                                I.CFOP = "5101";
+                                I.uCom = data[i].und;
+                                I.qCom = parseFloat(data[i].qtd).toFixed(4) ;
+                                I.vUnCom = parseFloat(data[i].preco).toFixed(10);
+                                I.vProd = parseFloat(data[i].preco * data[i].qtd).toFixed(2);
+                                I.cEANTrib = "";
+                                I.uTrib = data[i].und;
+                                I.qTrib = parseFloat(data[i].qtd).toFixed(4);
+                                I.vUnTrib = parseFloat(data[i].preco).toFixed(10);
+                                I.vFrete = "";
+                                I.vSeg = "";
+                                I.vDesc = "";
+                                I.vOutro = "";
+                                I.indTot = "";
+                                I.xPed = "";
+                                I.nItemPed = "";
+                                I.nFCI = "";
+                            dadosNF.itens[i].push(I);
+
+                            const M = new Object;
+                                M.COD = "M";
+                                M.vTotTrib = '';
+                            dadosNF.itens[i].push(M);
+
+                            const N = new Object;
+                                N.COD = "N";
+                            dadosNF.itens[i].push(N);
+
+                            const N10d = new Object;
+                                N10d.COD = "N10d";
+                                N10d.orig = '0';
+                                N10d.CSOSN = '102';
+                            dadosNF.itens[i].push(N10d);                            
+
+                            const O = new Object;
+                                O.COD = "O";
+                                O.CNPJProd = "";
+                                O.cSelo = "";
+                                O.qSelo = "";
+                                O.cEnq = "999";
+                            dadosNF.itens[i].push(O);
+
+                            const O07 = new Object;
+                                O07.COD = "O07";
+                                O07.CST = "99";
+                                O07.vIPI = (0).toFixed(2);
+                            dadosNF.itens[i].push(O07);
+
+                            const O10 = new Object;
+                                O10.COD = "O10";
+                                O10.vBC = (0).toFixed(2);
+                                O10.pIPI = (0).toFixed(4);
+                            dadosNF.itens[i].push(O10);
+
+                            const Q = new Object;
+                                Q.COD = "Q";
+                            dadosNF.itens[i].push(Q);
+
+                            const Q05 = new Object;
+                                Q05.COD = "Q05";
+                                Q05.CST = "99";
+                                Q05.vPIS = (0).toFixed(2);
+                            dadosNF.itens[i].push(Q05);
+
+                            const Q07 = new Object;
+                                Q07.COD = "Q07";
+                                Q07.vBC = (0).toFixed(2);
+                                Q07.pPIS = (0).toFixed(4);
+                            dadosNF.itens[i].push(Q07);
+
+                            const S = new Object;
+                                S.COD = "S";
+                            dadosNF.itens[i].push(S);  
+
+                            const S05 = new Object;
+                                S05.COD = "S05";
+                                S05.CST = "99";
+                                S05.vCOFINS = (0).toFixed(2);
+                            dadosNF.itens[i].push(S05);
+
+                            const S07 = new Object;
+                                S07.COD = "S07";
+                                S07.vBC = (0).toFixed(2);
+                                S07.pCOFINS = (0).toFixed(4);
+                                dadosNF.itens[i].push(S07);
+                            console.log(data[i])
+
+                            const campos = Object.entries(data[i]);
+                            const perm = ['cod','descricao','ncn','und','qtd','preco'];
+                            if(i == 0){
+                                const row = document.createElement('tr');
+                                for(let j=0; j<campos.length; j++){ // passa campo a campo
+                                    if(perm.includes(campos[j][0])){
+                                        const label = document.createElement('th');
+                                        console.log(campos[j])
+                                        label.innerHTML = campos[j][0];
+                                        row.appendChild(label);
+                                    }                                    
+                                }
+                                tab.appendChild(row)
+                            }
+
+                            const row = document.createElement('tr');
+                            for(let j=0; j<campos.length; j++){
+                                const col = document.createElement('td');
+                                if(!perm.includes(campos[j][0])){
+                                    col.style.display = 'none';
+                                }
+                                col.innerHTML = campos[j][1];
+
+                                row.appendChild(col);
+                            }
+                            total += parseFloat(data[i].preco) * parseFloat(data[i].qtd) ;
+                            console.log(data[i].preco) 
+                            tab.appendChild(row)
+
+                        }
+                        const row = document.createElement('tr');
+                        const col = document.createElement('th');
+                        col.colSpan = 5
+                        col.style.textAlign = "right";
+                        col.innerHTML = 'Total R$'+total.toLocaleString('pt-br', {minimumFractionDigits: 2});
+                        row.appendChild(col)
+                        tab.appendChild(row)
+                        console.log(total.toLocaleString('pt-br', {minimumFractionDigits: 2}) )
+                        console.log(dadosNF)
+
+                    })
+
+                    console.log(query);
+
                     dadosNF.NF[6].xNome = pedido[2];
-                    dadosNF.NF[6].IE = pedido[3];
+                    dadosNF.NF[6].IE = soNum(pedido[3]);
                     if(pedido[3].trim() != ''){
                         dadosNF.NF[6].indIEDest = 1;
                     }else{
                         dadosNF.NF[6].indIEDest = 2;
                     }
-                    console.log(pedido)
                     // dados do cliente do pedido
                     dadosNF.NF[7].CNPJ = soNum(pedido[4]);
                     dadosNF.NF[8].xLgr = pedido[5].trim();
@@ -524,8 +698,9 @@
         
     })
     document.getElementById('btnTeste').addEventListener('click',()=>{
+
   
-  geraChave( '2109');
+  geraChave();
 
 //        console.log(IBGE_cMun());
 
@@ -549,6 +724,11 @@
 */
 
 })
+    document.getElementById('btnBuscaIBGE').addEventListener('click',(event)=>{
+        event.preventDefault();
+        salva("E05",8);
+        IBGE_cMun();
+    })
 
 
 /* DECLARAÇÃO DE FUNÇÕES */
@@ -581,8 +761,7 @@
             data.append("path", "../config/nfe.json");
 
         const resp = getData("ajax/ajax_getJson.php", data);
-        resp.then((json)=>{            
-            
+        resp.then((json)=>{                 
             const data = JSON.parse(json);
             dadosNF = data;
             atualiza();
@@ -595,18 +774,18 @@
         function run(id,index){
             const frm = document.getElementById(id);
             for(let i=0; i<frm.length; i++){
-                frm[i].value = dadosNF.NF[index][frm[i].id].toString().trim() ;
+                if(frm[i].id in dadosNF.NF[index]){
+                    frm[i].value = dadosNF.NF[index][frm[i].id].toString().trim() ;
+                }
             }
         }
-
-            console.log(dadosNF.NF)
-            run("C",3);
-            run("C02",4);
-            run("C05",5);
-            run("B",2);
-            run("E",6);
-            run("E02",7);
-            run("E05",8);                   
+        run("C",3);
+        run("C02",4);
+        run("C05",5);
+        run("B",2);
+        run("E",6);
+        run("E02",7);
+        run("E05",8);                   
 
     }
 
@@ -624,19 +803,19 @@
 
         const resp = getData("ajax/ajax_saveJson.php", data);
 
-        console.log(json)
+//        console.log(json)
 
     }
 
     function geraNFE(){
 
         const today = new Date();
-        mes = today.getMonth().toString().padStart(2, '0');
-        ano = today.getFullYear().toString().substr(2,2);
+//        mes = today.getMonth().toString().padStart(2, '0');
+//        ano = today.getFullYear().toString().substr(2,2);
         hora = today.getHours().toString().padStart(2, '0');
         min = today.getMinutes().toString().padStart(2, '0');
         seg = today.getSeconds().toString().padStart(2, '0');
-        dadosNF.NF[1].id = geraChave(ano+mes)
+        dadosNF.NF[1].id = geraChave()
 
         let txt = '';
     //            console.log(dadosNF.NF)
@@ -655,6 +834,16 @@
             }
             txt += '\r\n';            
         }
+        for(let i=0; i<dadosNF.itens.length; i++){
+            for(let g=0; g<dadosNF.itens[i].length; g++){
+                const row = Object.entries(dadosNF.itens[i][g])
+                for(let j=0; j<row.length; j++){              
+                    txt += row[j][1]+'|';                
+                }
+                txt += '\r\n';  
+            }                        
+        }
+
         console.log(txt)
     }                
 
@@ -732,7 +921,13 @@
 
     }
 
-    function geraChave(aamm){
+    function geraChave(){
+
+        const today = new Date();
+        mes = today.getMonth().toString().padStart(2, '0');
+        ano = today.getFullYear().toString().substr(2,2);
+        const aamm = ano+mes;
+
 //        geraChave(dadosNF.NF[4].CNPJ,dadosNF.NF[2].nNF,ano+mes)
         const CNPJ = dadosNF.NF[4].CNPJ;
         const nNF = dadosNF.NF[2].nNF.padStart(9, '0');
