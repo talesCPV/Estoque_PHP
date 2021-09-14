@@ -66,7 +66,7 @@
         font-size: large;
     }
 
-    .frmShow  > input, .frmShow > select, .frmShow  > label{
+    .frmShow  > input, .frmShow > select, .frmShow  > label, .frmShow  > textarea{
         display: flex;
         width: 98%;
         margin-left: 10px;        
@@ -111,10 +111,10 @@
                 <div class="tab-item tab-cliente" >Cliente</div>            
                 <div class="tab-item tab-itens" >Itens</div>
                 <div class="tab-item tab-fatura" >Faturamento</div>
+                <div class="tab-item tab-export" >Arquivos TXT</div>
             </div>
             
-            <div class="tab-screen">
-        
+            <div class="tab-screen">        
                 <div id="emitente" class="tab emitente">
                     <h2>Emitente</h2>               
                         <form class="frmShow" id="C" method="POST" action="#">
@@ -168,8 +168,7 @@
                       
         
                     
-                </div>
-            
+                </div>            
                 <div id="fiscal" class="tab fiscal" style="display:none">
                     <h2>Fiscal</h2>
     
@@ -277,8 +276,7 @@
                       </div>
       
                       <button id="btnSaveFiscal">Salvar</button>                
-                </div>
-            
+                </div>            
                 <div id="pedido" class="tab pedido" style="display:none">
                     <h2>Pedido</h2>
                     
@@ -356,19 +354,42 @@
                    
                     <table id="tblItens"></table>
     
-                    <button id="btnTeste">Teste</button>
+                    <button id="btnTeste">Teste*</button>
     
     
-                </div>
-            
+                </div>            
                 <div id="fatura" class="tab fatura" style="display:none">
                     <h2>Faturamento</h2>
                     <form class="frmShow" id="B" method="POST" action="#" >
     
+                        <form class="frmShow" id="W" method="POST" action="#">
+                            <label>Valor da NF</label>
+                            <input type="text" id="edtValorNF">
+                            <label>Dias entre as Parcelas</label>
+                            <input type="text" id="edtDiasParcelas" value="30/45/60">
+                            <label>Texto Complementar</label>
+                            <textarea  id="txaTextoCompl" rows="10"></textarea>
+                        
+                        </form>
+
+
+
                         <button id="btnGeraNFe">Gerar NFe</button>
                     </form>
                 </div>
-                    
+
+                <div id="export" class="tab export" style="display:none">
+                    <h2>Arquivos TXT</h2>
+    
+                        <form class="frmShow" id="TXT" method="POST" action="#">
+                            <select id="txtFiles" size="20"></select>
+                        
+                        </form>
+
+                        <button id="btnExportNFe">Exportar</button>
+
+
+                </div>                
             </div>   
     
         </div> 
@@ -378,7 +399,6 @@
             /* DECLARAÇÃO GLOBAL */
             
                 let dadosNF;
-            
             /* CHAMADA DE FUNÇÕES INICIAL */    
             
                 importData();
@@ -403,20 +423,41 @@
                 document.querySelector('.tab-fatura').addEventListener('click',()=>{
                     openTab('fatura')
                 })
+                document.querySelector('.tab-export').addEventListener('click',()=>{
+                    openTab('export');
+                    const data = new URLSearchParams();        
+                        data.append("path", `../NF_txt`);
+            
+                    const resp = getData("ajax/ajax_getFiles.php", data);                    
+                    resp.then((resolve)=>{
+                        const arr = JSON.parse(resolve);
+                        const sel = document.getElementById('txtFiles');
+                        sel.innerHTML = '';
+                        for(let i=2; i<arr.length; i++){
+                            const opt = document.createElement('option');
+                            if(i == 2){
+                                opt.selected = true;
+                            }
+                            opt.innerHTML = arr[i];
+                            sel.appendChild(opt);
+
+                        }
+                    })                    
+                })
                 document.getElementById('btnSaveEmit').addEventListener('click',(event)=>{
-                    salva("C",3);
-                    salva("C02",4);
-                    salva("C05",5);
+                    salvaNF("C",3);
+                    salvaNF("C02",4);
+                    salvaNF("C05",5);
                 })
                 document.getElementById('btnSaveFiscal').addEventListener('click',(event)=>{
                     document.getElementById('cNF').value = Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ; // novo cNF
-                    salva("B",2);     
+                    salvaNF("B",2);     
                     console.log(dadosNF);
                 })
                 document.getElementById('btnSaveCli').addEventListener('click',()=>{
-                    salva("E",6);
-                    salva("E02",7);
-                    salva("E05",8);
+                    salvaNF("E",6);
+                    salvaNF("E02",7);
+                    salvaNF("E05",8);
                 })
                 document.getElementById('btnGeraNFe').addEventListener('click',(event)=>{
                     event.preventDefault();
@@ -525,25 +566,24 @@
             
                                     for(let i=0; i<data.length; i++){ // 1x a cada item do 
                                         dadosNF.itens.push([])
-            
-                                        // item H
+// H|nItem|infAdProd|
                                         const H = new Object;
                                             H.COD = "H";
                                             H.nItem = i+1;
                                             H.infAdProd = "";
                                         dadosNF.itens[i].push(H);
-            
-                                        // item I
+// I|cProd|cEAN|xProd|NCM|cBenef|EXTIPI|CFOP|uCom|qCom|vUnCom|vProd|cEANTrib|uTrib|qTrib|vUnTrib|vFrete|vSeg|vDesc|vOutro|indTot|xPed|nItemPed|nFCI|
                                         const I = new Object;
                                             I.COD = "I";
-                                            I.cProd = data[i].cod;
+                                            I.cProd = data[i].cod.trim();
                                             I.cEAN = "";
-                                            I.xProd = data[i].descricao;
-                                            I.NCM = data[i].ncm;
+                                            I.novo01 = ""; // ???
+                                            I.xProd = data[i].descricao.trim();
+                                            I.NCM = data[i].ncm.trim();
                                             I.cBenef = "";
                                             I.EXTIPI = "";
                                             I.CFOP = "5101";
-                                            I.uCom = data[i].und;
+                                            I.uCom = data[i].und.trim();
                                             I.qCom = parseFloat(data[i].qtd).toFixed(4) ;
                                             I.vUnCom = parseFloat(data[i].preco).toFixed(10);
                                             I.vProd = parseFloat(data[i].preco * data[i].qtd).toFixed(2);
@@ -560,22 +600,22 @@
                                             I.nItemPed = "";
                                             I.nFCI = "";
                                         dadosNF.itens[i].push(I);
-            
+// M|vTotTrib|
                                         const M = new Object;
                                             M.COD = "M";
                                             M.vTotTrib = '';
                                         dadosNF.itens[i].push(M);
-            
+// N|
                                         const N = new Object;
                                             N.COD = "N";
                                         dadosNF.itens[i].push(N);
-            
+// N10d|orig|CSOSN|
                                         const N10d = new Object;
                                             N10d.COD = "N10d";
                                             N10d.orig = '0';
                                             N10d.CSOSN = '102';
                                         dadosNF.itens[i].push(N10d);                            
-            
+// O|CNPJProd|cSelo|qSelo|cEnq|
                                         const O = new Object;
                                             O.COD = "O";
                                             O.CNPJProd = "";
@@ -583,45 +623,45 @@
                                             O.qSelo = "";
                                             O.cEnq = "999";
                                         dadosNF.itens[i].push(O);
-            
+// O07|CST|vIPI|
                                         const O07 = new Object;
                                             O07.COD = "O07";
                                             O07.CST = "99";
                                             O07.vIPI = (0).toFixed(2);
                                         dadosNF.itens[i].push(O07);
-            
+// O10|vBC|pIPI|
                                         const O10 = new Object;
                                             O10.COD = "O10";
                                             O10.vBC = (0).toFixed(2);
                                             O10.pIPI = (0).toFixed(4);
                                         dadosNF.itens[i].push(O10);
-            
+// Q|
                                         const Q = new Object;
                                             Q.COD = "Q";
                                         dadosNF.itens[i].push(Q);
-            
+// Q05|CST|vPIS|
                                         const Q05 = new Object;
                                             Q05.COD = "Q05";
                                             Q05.CST = "99";
                                             Q05.vPIS = (0).toFixed(2);
                                         dadosNF.itens[i].push(Q05);
-            
+// Q07|vBC|pPIS|
                                         const Q07 = new Object;
                                             Q07.COD = "Q07";
                                             Q07.vBC = (0).toFixed(2);
                                             Q07.pPIS = (0).toFixed(4);
                                         dadosNF.itens[i].push(Q07);
-            
+// S|
                                         const S = new Object;
                                             S.COD = "S";
                                         dadosNF.itens[i].push(S);  
-            
+// S05|CST|vCOFINS|
                                         const S05 = new Object;
                                             S05.COD = "S05";
                                             S05.CST = "99";
                                             S05.vCOFINS = (0).toFixed(2);
                                         dadosNF.itens[i].push(S05);
-            
+// S07|vBC|pCOFINS|
                                         const S07 = new Object;
                                             S07.COD = "S07";
                                             S07.vBC = (0).toFixed(2);
@@ -667,8 +707,85 @@
                                     row.appendChild(col)
                                     tab.appendChild(row)
                                     console.log(total.toLocaleString('pt-br', {minimumFractionDigits: 2}) )
+
+
+// tela de fatura                                    
+                                    document.getElementById('edtValorNF').value = total.toFixed(2);;
+                                    document.getElementById('txaTextoCompl').innerHTML = `DOC. EMITIDO POR ME OU EPP OPTANTE S.NACIONAL, NÃO GERA DIREITO A CREDITO FISCAL DE ISSQN E IPI, PERMITE O APROVEITAMENTO DE CREDITO DO ICMS NO VALOR DE  R$ ${(total * 0.0282).toFixed(2)} CORRESPONDENTE A ALIQUOTA DE 2,82% NOS TERMOS DO ARTIGO 23 DA LC 123.`;
+
+
+                                    dadosNF.fatura = [];
+                                    dadosNF.fatura.push([]);
+// W|                                    
+                                    const W = new Object;
+                                            W.COD = "W";
+                                    dadosNF.fatura.push(W);                                    
+// W02|vBC|vICMS|vICMSDeson|vFCPUFDest|vICMSUFDest|vICMSUFRemet|vFCP|vBCST|vST|vFCPST|vFCPSTRet|vProd|vFrete|vSeg|vDesc|vII|vIPI|vIPIDevol|vPIS|vCOFINS|vOutro|vNF|vTotTrib|
+                                    const W02 = new Object;
+                                        W02.COD = "W02";
+                                        W02.vBC = (0).toFixed(2);
+                                        W02.vICMS = (0).toFixed(2);
+                                        W02.vICMSDeson = (0).toFixed(2);
+                                        W02.vFCPUFDest = (0).toFixed(2);
+                                        W02.vICMSUFDest = (0).toFixed(2);
+                                        W02.vICMSUFRemet = (0).toFixed(2);
+                                        W02.vFCP = (0).toFixed(2);
+                                        W02.vBCST = (0).toFixed(2);
+                                        W02.vST = total.toFixed(2); //
+                                        W02.vFCPST = (0).toFixed(2);
+                                        W02.vFCPSTRet = (0).toFixed(2);
+                                        W02.vProd = (0).toFixed(2);
+                                        W02.vFrete = (0).toFixed(2);
+                                        W02.vSeg = (0).toFixed(2);
+                                        W02.vDesc = (0).toFixed(2);
+                                        W02.vII = (0).toFixed(2);
+                                        W02.vIPI = (0).toFixed(2);
+                                        W02.vIPIDevol = (0).toFixed(2);
+                                        W02.vPIS = (0).toFixed(2);
+                                        W02.vCOFINS = (0).toFixed(2);
+                                        W02.vOutro = (0).toFixed(2);
+                                        W02.vNF = total.toFixed(2); //
+                                        W02.vTotTrib = (0).toFixed(2);
+                                    dadosNF.fatura.push(W02);   
+// X|modFrete|
+                                    const X = new Object;
+                                        X.COD = "X";
+                                        X.modFrete = "0";
+                                    dadosNF.fatura.push(X);
+// Y|
+                                    const Y = new Object;
+                                        Y.COD = "Y";
+                                    dadosNF.fatura.push(Y);
+// Y02|nFat|vOrig|vDesc|vLiq|
+                                    const Y02 = new Object;
+                                        Y02.COD = "Y02";
+                                        Y02.nFat = 1; // qtd parcelas
+                                        Y02.vOrig = total.toFixed(2); // valor original da NF
+                                        Y02.vDesc = (0).toFixed(2); // desconto
+                                        Y02.vLiq = total.toFixed(2);  // valor com desconto
+                                    dadosNF.fatura.push(Y02); 
+// Y07|nDup|dVenc|vDup|
+                                    const Y07 = new Object; // parcelas
+                                        Y07.COD = "Y07";
+                                        Y07.nDup = "";  // numero da parcela
+                                        Y07.dVenc = ""; // data do vencimento aaaa-mm-dd
+                                        Y07.vDup = (0).toFixed(2);  // valor da parcela toFixed(2)
+                                    dadosNF.fatura.push(Y07); 
+// YA|vTroco|
+                                    const YA = new Object;
+                                        YA.COD = "YA";
+                                        YA.vTroco = "";
+                                    dadosNF.fatura.push(YA); 
+// Z|infAdFisco|infCpl|
+                                    const Z = new Object;
+                                        Z.COD = "Z";
+                                        Z.infAdFisco = "";
+                                        Z.infCpl = "";
+                                    dadosNF.fatura.push(Z); 
+
                                     console.log(dadosNF)
-            
+
+
                                 })
             
                                 console.log(query);
@@ -693,9 +810,9 @@
                                 dadosNF.NF[8].fone = soNum(pedido[12]);
                                 IBGE_cMun();
                                 atualiza()
-                                salva("E",6);
-                                salva("E02",7);
-                                salva("E05",8);                    
+                                salvaNF("E",6);
+                                salvaNF("E02",7);
+                                salvaNF("E05",8);                    
                             })                    
                             tbl.appendChild(row);
                         }
@@ -704,9 +821,12 @@
                     
                 })
                 document.getElementById('btnTeste').addEventListener('click',()=>{
-            
-              
-              geraChave();
+                
+
+
+
+
+//              geraChave();
             
             //        console.log(IBGE_cMun());
             
@@ -732,10 +852,27 @@
             })
                 document.getElementById('btnBuscaIBGE').addEventListener('click',(event)=>{
                     event.preventDefault();
-                    salva("E05",8);
+                    salvaNF("E05",8);
                     IBGE_cMun();
                 })
-            
+                document.getElementById('btnExportNFe').addEventListener('click',()=>{
+
+                    const file = document.getElementById('txtFiles').value;
+                    const path = 'NF_txt/' + file;
+
+                    
+                    var link = document.createElement("a");
+                        link.download = file;
+                        link.href = path;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        delete link; 
+
+   
+
+
+                })            
             
             /* DECLARAÇÃO DE FUNÇÕES */
             
@@ -795,8 +932,9 @@
             
                 }
             
-                function salva(id,index){
+                function salvaNF(id,index){
                     const frm = document.getElementById(id);
+
                     for(let i=0; i<frm.length; i++){
                         dadosNF.NF[index][frm[i].id] = frm[i].value.trim();
                     }
@@ -849,8 +987,78 @@
                             txt += '\r\n';  
                         }                        
                     }
-            
+                    const parcelas = document.getElementById('edtDiasParcelas').value.split('/');
+                    const total = parseFloat(document.getElementById('edtValorNF').value).toFixed(2);
+                    let ultimaparc = total;
+                    let desconto = 0;
+                    console.log(parcelas);                    
+                    console.log(dadosNF.fatura);
+
+                    for(let i=0; i<dadosNF.fatura.length; i++){
+                        const row = Object.entries(dadosNF.fatura[i])
+                        if(i==5){
+                            txt += `Y02|${parcelas.length}|${total}|${desconto.toFixed(2)}|${(total - desconto).toFixed(2)}|\r\n`;
+                        }else if(i==6){
+                            let valorParc =  (total/parcelas.length).toFixed(2);
+                            for(let q=0; q<parcelas.length; q++){
+                                if(q == parcelas.length-1){
+                                    valorParc = ultimaparc.toFixed(2);
+                                }else{
+                                    ultimaparc -= valorParc;
+                                }
+                                console.log(dadosNF.NF[2].dhEmi)
+                                dia = new Date(dadosNF.NF[2].dhEmi);
+                                dia.setDate(dia.getDate() + parseInt(parcelas[q]) + 1);
+                                console.log(dia.getMonth())
+                                const datasVenc = dia.getFullYear()+'-'+(dia.getMonth()+1).toString().padStart(2, '0')+'-'+dia.getDate().toString().padStart(2, '0') ;
+                                txt += `Y07|${(q+1).toString().padStart(3, '0')}|${datasVenc}|${valorParc}|\r\n`;                            
+                            }
+                        }else if(i==7){                            
+                            txt += `W04c|${(0).toFixed(2)}|\r\n`;                            
+                            txt += `W04e|${(0).toFixed(2)}|\r\n`;                            
+                            txt += `W04g|${(0).toFixed(2)}|\r\n`;                            
+                            txt += `X|${0}|r\n`;                            
+                            txt += `X03|FLEXIBUS SANFONADOS LTDA|234033845113|AV. DR. ROSALVO DE ALMEIDA TELLES,2070- NOVA CACAPAVA|Cacapava|SP|\r\n`;                            
+                            txt += `X04|00519547000106|\r\n`;                            
+                            txt += `YA|r\n`;                            
+                            txt += `YA01|1|90|0.00|\r\n`;                            
+
+                        }else if(i==8){
+                            txt += `Z||${document.getElementById('txaTextoCompl').value}|\r\n`;                            
+
+                        }else{
+                            for(let j=0; j<row.length; j++){
+                                txt += row[j][1]+'|';                
+                            }
+                            txt += '\r\n';            
+                            
+                        }
+                    }            
                     console.log(txt)
+
+                    // Save File TXT
+                    const sFileName = `NFe${dadosNF.NF[2].nNF.padStart(6, '0')}.txt`;	   // The file to save the data.
+
+                    let data = new URLSearchParams();        
+                        data.append("path", `../NF_txt/${sFileName}`);
+                        data.append("json", txt);
+            
+                    const resp = getData("ajax/ajax_saveJson.php", data);
+                    alert(` NF ${dadosNF.NF[2].nNF} exportada com sucesso`)
+
+                    resp.then(()=>{
+                        document.querySelector('.tab-export').click;
+
+                    })
+
+
+
+
+                    // proxima NF (soma 1);
+                    dadosNF.NF[2].nNF = parseInt(dadosNF.NF[2].nNF)+1;
+                    atualiza();
+                    salvaNF("B",2)
+
                 }                
             
                 function getData(url,data){
@@ -913,7 +1121,7 @@
                                         if(json[j].nome.trim().toLowerCase() == dadosNF.NF[8].xMun.trim().toLowerCase()){
                                             dadosNF.NF[8].cMun = json[j].id;
                                             atualiza()
-            //                                salva("E05",8);                                   
+            //                                salvaNF("E05",8);                                   
                                             break;
                                         }
                                     }
