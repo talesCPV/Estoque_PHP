@@ -143,7 +143,7 @@
 						   "id": "menuPCP",
 						   "icone": "fa fa-bar-chart",
 						   "perm": [10,4,3]
-					   },
+					   },						   
 					   {
 							"nome": "Etiquetas",
 							"link": "cad_etq.php",
@@ -151,13 +151,6 @@
 							"icone": "fa fa-tag",
 							"perm": [10,4,3]
 						},					   
-					   {
-							"nome": "Agenda Telefônica",
-							"link": "pesq_agenda.php",
-							"id": "menuPesqAgenda",
-							"icone": "fa fa-address-book",
-							"perm": [10,4,3]
-						},
 						{
 							"nome": "E-mail",
 							"link": "email.php",
@@ -196,7 +189,29 @@
 
 											
 					  ]
-		},		
+		},
+		{"modulo": "Comercial",
+			"link": "#",
+			"icone": "fa fa-edit",
+			"id": "menuCadastro",
+			"perm": [10,4,3],
+			"itens": [	
+				{
+					"nome": "Agenda Telefônica",
+					"link": "pesq_agenda.php",
+					"id": "menuPesqAgenda",
+					"icone": "fa fa-address-book",
+					"perm": [10,4,3]
+				},				
+				{
+					"nome": "Relatório",
+					"link": "relat_com.php",
+					"id": "menuRelatCom",
+					"icone": "fa fa-pencil",
+					"perm": [10,4,3]
+				}
+			]		
+		},
 	 	{"modulo": "Financeiro",
 		 "link": "#",
 		 "icone": "fa fa-usd",

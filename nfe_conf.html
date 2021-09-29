@@ -354,7 +354,7 @@
                    
                     <table id="tblItens"></table>
     
-                    <button id="btnTeste">Teste*</button>
+<!--                    <button id="btnTeste">Teste*</button> -->
     
     
                 </div>            
@@ -377,7 +377,6 @@
                         <button id="btnGeraNFe">Gerar NFe</button>
                     </form>
                 </div>
-
                 <div id="export" class="tab export" style="display:none">
                     <h2>Arquivos TXT</h2>
     
@@ -397,8 +396,9 @@
         <script>
 
             /* DECLARAÇÃO GLOBAL */
-            
+                const today = new Date();        
                 let dadosNF;
+                let numPed = "";
             /* CHAMADA DE FUNÇÕES INICIAL */    
             
                 importData();
@@ -452,7 +452,7 @@
                 document.getElementById('btnSaveFiscal').addEventListener('click',(event)=>{
                     document.getElementById('cNF').value = Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ; // novo cNF
                     salvaNF("B",2);     
-                    console.log(dadosNF);
+//                    console.log(dadosNF);
                 })
                 document.getElementById('btnSaveCli').addEventListener('click',()=>{
                     salvaNF("E",6);
@@ -543,6 +543,7 @@
                                     pedido.push(row[k].innerHTML);
                                 }
                                 console.log(pedido);
+                                numPed = pedido[1];
             
                                 const pedcod = pedido[0];
                                 const query = ` SELECT p.cod, p.descricao, p.ncm, p.unidade, i.qtd, i.preco, p.tipo, i.und
@@ -581,14 +582,15 @@
                                             I.xProd = data[i].descricao.trim();
                                             I.NCM = data[i].ncm.trim();
                                             I.cBenef = "";
-                                            I.EXTIPI = "";
+//                                            I.EXTIPI = "";
                                             I.CFOP = "5101";
                                             I.uCom = data[i].und.trim();
                                             I.qCom = parseFloat(data[i].qtd).toFixed(4) ;
                                             I.vUnCom = parseFloat(data[i].preco).toFixed(10);
                                             I.vProd = parseFloat(data[i].preco * data[i].qtd).toFixed(2);
                                             I.cEANTrib = "";
-                                            I.uTrib = data[i].und;
+                                            I.novo02 = ""; // ???                                            
+                                            I.uTrib = data[i].und.trim();
                                             I.qTrib = parseFloat(data[i].qtd).toFixed(4);
                                             I.vUnTrib = parseFloat(data[i].preco).toFixed(10);
                                             I.vFrete = "";
@@ -667,7 +669,7 @@
                                             S07.vBC = (0).toFixed(2);
                                             S07.pCOFINS = (0).toFixed(4);
                                             dadosNF.itens[i].push(S07);
-                                        console.log(data[i])
+//                                        console.log(data[i])
             
                                         const campos = Object.entries(data[i]);
                                         const perm = ['cod','descricao','ncn','und','qtd','preco'];
@@ -676,7 +678,7 @@
                                             for(let j=0; j<campos.length; j++){ // passa campo a campo
                                                 if(perm.includes(campos[j][0])){
                                                     const label = document.createElement('th');
-                                                    console.log(campos[j])
+//                                                    console.log(campos[j])
                                                     label.innerHTML = campos[j][0];
                                                     row.appendChild(label);
                                                 }                                    
@@ -695,7 +697,7 @@
                                             row.appendChild(col);
                                         }
                                         total += parseFloat(data[i].preco) * parseFloat(data[i].qtd) ;
-                                        console.log(data[i].preco) 
+//                                        console.log(data[i].preco) 
                                         tab.appendChild(row)
             
                                     }
@@ -706,19 +708,25 @@
                                     col.innerHTML = 'Total R$'+total.toLocaleString('pt-br', {minimumFractionDigits: 2});
                                     row.appendChild(col)
                                     tab.appendChild(row)
-                                    console.log(total.toLocaleString('pt-br', {minimumFractionDigits: 2}) )
+//                                    console.log(total.toLocaleString('pt-br', {minimumFractionDigits: 2}) )
 
 
 // tela de fatura                                    
-                                    document.getElementById('edtValorNF').value = total.toFixed(2);;
-                                    document.getElementById('txaTextoCompl').innerHTML = `DOC. EMITIDO POR ME OU EPP OPTANTE S.NACIONAL, NÃO GERA DIREITO A CREDITO FISCAL DE ISSQN E IPI, PERMITE O APROVEITAMENTO DE CREDITO DO ICMS NO VALOR DE  R$ ${(total * 0.0282).toFixed(2)} CORRESPONDENTE A ALIQUOTA DE 2,82% NOS TERMOS DO ARTIGO 23 DA LC 123.`;
+                                    document.getElementById('edtValorNF').value = total.toFixed(2);
+                                    let txtComp = `DOC. EMITIDO POR ME OU EPP OPTANTE S.NACIONAL, NÃO GERA DIREITO A CREDITO FISCAL DE ISSQN E IPI, PERMITE O APROVEITAMENTO DE CREDITO DO ICMS NO VALOR DE  R$ ${(total * 0.0282).toFixed(2)} CORRESPONDENTE A ALIQUOTA DE 2,82% NOS TERMOS DO ARTIGO 23 DA LC 123.`;
+                                    if(numPed.trim != ""){
+                                        txtComp += ` Aprovado conforme pedido ${numPed}`;
+                                    }
+
+
+                                    document.getElementById('txaTextoCompl').innerHTML = txtComp;
 
 
                                     dadosNF.fatura = [];
-                                    dadosNF.fatura.push([]);
+//                                    dadosNF.fatura.push([]);
 // W|                                    
                                     const W = new Object;
-                                            W.COD = "W";
+                                        W.COD = "W";
                                     dadosNF.fatura.push(W);                                    
 // W02|vBC|vICMS|vICMSDeson|vFCPUFDest|vICMSUFDest|vICMSUFRemet|vFCP|vBCST|vST|vFCPST|vFCPSTRet|vProd|vFrete|vSeg|vDesc|vII|vIPI|vIPIDevol|vPIS|vCOFINS|vOutro|vNF|vTotTrib|
                                     const W02 = new Object;
@@ -783,12 +791,12 @@
                                         Z.infCpl = "";
                                     dadosNF.fatura.push(Z); 
 
-                                    console.log(dadosNF)
+//                                    console.log(dadosNF)
 
 
                                 })
             
-                                console.log(query);
+//                                console.log(query);
             
                                 dadosNF.NF[6].xNome = pedido[2];
                                 dadosNF.NF[6].IE = soNum(pedido[3]);
@@ -820,36 +828,6 @@
                     })
                     
                 })
-                document.getElementById('btnTeste').addEventListener('click',()=>{
-                
-
-
-
-
-//              geraChave();
-            
-            //        console.log(IBGE_cMun());
-            
-            //        const cod =  Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ;
-            
-            //        console.log(cod)
-              
-            /*            33040555
-              const data = new URLSearchParams();        
-                  data.append("path", "../config/nfe.json");
-            
-              const resp = getData("ajax/ajax_getJson.php", data);
-              resp.then((json)=>{            
-                  
-                  const data = JSON.parse(json);
-                  console.log(data);
-            
-            
-            
-              })
-            */
-            
-            })
                 document.getElementById('btnBuscaIBGE').addEventListener('click',(event)=>{
                     event.preventDefault();
                     salvaNF("E05",8);
@@ -873,7 +851,10 @@
 
 
                 })            
-            
+/*                
+                document.getElementById('btnTeste').addEventListener('click',()=>{                          
+            })
+*/            
             /* DECLARAÇÃO DE FUNÇÕES */
             
                 function openTab(tab) {
@@ -929,7 +910,13 @@
                     run("E",6);
                     run("E02",7);
                     run("E05",8);                   
-            
+                    
+                    //atualiza as datas para a data atual
+                    const date = today.getFullYear()+"-"+today.getMonth().toString().padStart(2, '0')+"-"+today.getDate();
+                    document.getElementById('dhEmi').value = date
+                    document.getElementById('dhSaiEnt').value = date
+
+
                 }
             
                 function salvaNF(id,index){
@@ -952,10 +939,6 @@
                 }
             
                 function geraNFE(){
-            
-                    const today = new Date();
-            //        mes = today.getMonth().toString().padStart(2, '0');
-            //        ano = today.getFullYear().toString().substr(2,2);
                     hora = today.getHours().toString().padStart(2, '0');
                     min = today.getMinutes().toString().padStart(2, '0');
                     seg = today.getSeconds().toString().padStart(2, '0');
@@ -989,42 +972,52 @@
                     }
                     const parcelas = document.getElementById('edtDiasParcelas').value.split('/');
                     const total = parseFloat(document.getElementById('edtValorNF').value).toFixed(2);
-                    let ultimaparc = total;
+                    let ultimaparc = parseFloat(total);
                     let desconto = 0;
-                    console.log(parcelas);                    
-                    console.log(dadosNF.fatura);
+//                    console.log(parcelas);                    
+//                    console.log(dadosNF.fatura);
+//                    console.log(ultimaparc)
 
                     for(let i=0; i<dadosNF.fatura.length; i++){
                         const row = Object.entries(dadosNF.fatura[i])
-                        if(i==5){
+                        if(i==4){
                             txt += `Y02|${parcelas.length}|${total}|${desconto.toFixed(2)}|${(total - desconto).toFixed(2)}|\r\n`;
-                        }else if(i==6){
+                        }else if(i==5){ // parcelas pgto
                             let valorParc =  (total/parcelas.length).toFixed(2);
                             for(let q=0; q<parcelas.length; q++){
                                 if(q == parcelas.length-1){
-                                    valorParc = ultimaparc.toFixed(2);
+                                    valorParc = (ultimaparc).toFixed(2);
                                 }else{
                                     ultimaparc -= valorParc;
                                 }
-                                console.log(dadosNF.NF[2].dhEmi)
+//                                console.log(dadosNF.NF[2].dhEmi)
                                 dia = new Date(dadosNF.NF[2].dhEmi);
                                 dia.setDate(dia.getDate() + parseInt(parcelas[q]) + 1);
-                                console.log(dia.getMonth())
+//                                console.log(dia.getMonth())
                                 const datasVenc = dia.getFullYear()+'-'+(dia.getMonth()+1).toString().padStart(2, '0')+'-'+dia.getDate().toString().padStart(2, '0') ;
                                 txt += `Y07|${(q+1).toString().padStart(3, '0')}|${datasVenc}|${valorParc}|\r\n`;                            
                             }
-                        }else if(i==7){                            
-                            txt += `W04c|${(0).toFixed(2)}|\r\n`;                            
-                            txt += `W04e|${(0).toFixed(2)}|\r\n`;                            
-                            txt += `W04g|${(0).toFixed(2)}|\r\n`;                            
-                            txt += `X|${0}|r\n`;                            
-                            txt += `X03|FLEXIBUS SANFONADOS LTDA|234033845113|AV. DR. ROSALVO DE ALMEIDA TELLES,2070- NOVA CACAPAVA|Cacapava|SP|\r\n`;                            
-                            txt += `X04|00519547000106|\r\n`;                            
-                            txt += `YA|r\n`;                            
-                            txt += `YA01|1|90|0.00|\r\n`;                            
+                        }else if(i==6){                            
+//                            txt += `W04c|${(0).toFixed(2)}|\r\n`;                            
+//                            txt += `W04e|${(0).toFixed(2)}|\r\n`;                            
+//                            txt += `W04g|${(0).toFixed(2)}|\r\n`;                            
+//                            txt += `X|${0}|\r\n`;                            
+//                            txt += `X03|FLEXIBUS SANFONADOS LTDA|234033845113|AV. DR. ROSALVO DE ALMEIDA TELLES,2070- NOVA CACAPAVA|Cacapava|SP|\r\n`;                            
+//                            txt += `X04|00519547000106|\r\n`;                            
+                            txt += `YA\r\n`;                            
+                            txt += `YA01|1|15|${total}|\r\n`;                            
 
-                        }else if(i==8){
-                            txt += `Z||${document.getElementById('txaTextoCompl').value}|\r\n`;                            
+                        }else if(i==7){
+
+                            // tira qualquer quebra de linha do texto complementar
+                            const compl = document.getElementById('txaTextoCompl').value.trim().split('\n');
+                            let outTxt = "";
+                            for(let j=0; j<compl.length; j++){
+                                outTxt += compl[j]+" ";
+                            }
+                            
+                            console.log(outTxt)
+                            txt += `Z||${outTxt}|\r\n`;                            
 
                         }else{
                             for(let j=0; j<row.length; j++){
@@ -1034,7 +1027,7 @@
                             
                         }
                     }            
-                    console.log(txt)
+//                    console.log(txt)
 
                     // Save File TXT
                     const sFileName = `NFe${dadosNF.NF[2].nNF.padStart(6, '0')}.txt`;	   // The file to save the data.
@@ -1047,7 +1040,7 @@
                     alert(` NF ${dadosNF.NF[2].nNF} exportada com sucesso`)
 
                     resp.then(()=>{
-                        document.querySelector('.tab-export').click;
+                        document.querySelector('.tab-export').click();
 
                     })
 
@@ -1137,7 +1130,6 @@
             
                 function geraChave(){
             
-                    const today = new Date();
                     mes = today.getMonth().toString().padStart(2, '0');
                     ano = today.getFullYear().toString().substr(2,2);
                     const aamm = ano+mes;

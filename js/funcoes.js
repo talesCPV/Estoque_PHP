@@ -69,6 +69,7 @@
             if(obj[i].value=="")
               {
                   alert("Os campos com * são obrigatórios!");
+                  obj[i].focus();
                   return false;
               }
         }

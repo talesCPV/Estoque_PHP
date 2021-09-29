@@ -1,0 +1,112 @@
+
+<style>
+
+    .comercial-grid{
+        display : grid;
+        grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
+        gap: 10px;
+    }
+
+
+
+</style>   
+
+<html>
+    <div class="comercial-grid"> 
+            <label> Busca por:</label>
+            <select id="cmbPesq">
+                <option value="1">Nome</option>
+                <option value="2">Empresa</option>
+            </select>
+            <input type="text" id="edtPesq" />
+            <button id="btnPesq">Busca</button>	
+            <button id="btnNovo">Novo</button>	
+    </div>
+    <div>
+        <table id="tblPesq"></table>
+    </div>
+
+</html>
+
+<script>
+
+
+    document.getElementById('btnNovo').addEventListener('click',()=>{
+
+        console.log(window.location)
+        console.log(window.location.href.substring(0, window.location.href.lastIndexOf('/')))
+
+        window.open(window.location.href.substring(0, window.location.href.lastIndexOf('/'))+"/pesq_agenda.php", "_self");
+    })
+
+    document.getElementById('btnPesq').addEventListener('click',()=>{
+
+        const combo = document.getElementById('cmbPesq').value;
+        const valor =  document.getElementById('edtPesq').value;
+        let query =  `SELECT a.*, e.nome as empresa FROM tb_agenda as a INNER JOIN tb_empresa as e ON a.nome LIKE '%${valor}%' AND a.id_emp = e.id;`;
+
+        if(combo === '2'){
+            query =  `SELECT a.*, e.nome as empresa FROM tb_agenda as a INNER JOIN tb_empresa as e ON e.nome LIKE '%${valor}%' AND a.id_emp = e.id;`;
+        }
+        
+
+	    const data = new URLSearchParams();
+	    data.append('query',query);
+
+	    const myRequest = new Request('ajax/ajax.php',{
+	        method: 'POST',
+	        body: data
+	    });
+
+        fetch(myRequest)
+        .then((response)=>{
+
+            if(response.status == 200){
+                response.text().then((json)=>{
+                    const data = JSON.parse(json);
+                    const table = document.getElementById('tblPesq');
+                    table.innerHTML = "<tr><th>Nome</th><th>Empresa</th><th>Departamento</th><th>Telefone</th><th>Email</th></tr>";
+                    for(let i=0; i<data.length; i++){
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${data[i].nome.toUpperCase()}</td><td>${data[i].empresa.toUpperCase()}</td><td>${data[i].depart.toUpperCase()}</td><td>${data[i].cel1}</td><td>${data[i].email.toLowerCase()}</td><td style="display:none;">${data[i].id}</td><td style="display:none;">${data[i].id_emp}</td><td style="display:none;">${data[i].cel2}</td>`;
+
+                        row.addEventListener('click',(event)=>{
+                            let target = event.target;
+                                while (target.nodeName != 'TR') {
+                                    target = target.parentElement;
+                                }
+                                const dataRow = target.cells; 
+
+                                document.getElementById('edtContato').value = dataRow[0].innerHTML +" - "+  dataRow[1].innerHTML;
+
+                                myData = [];
+                                for(let j=0; j<dataRow.length; j++){
+                                    myData.push(dataRow[j].innerHTML)
+                                }
+//                                $(".overlay").css("visibility", "hidden").css("opacity", "0");
+                                document.querySelector('.overlay').style.visibility = "hidden";
+                                document.querySelector('.overlay').style.opacity = "0";
+
+                                document.getElementById('txtObs').focus()
+
+                        })
+
+
+                        table.appendChild(row)
+
+                    }
+
+
+
+                })
+            }           
+
+        })
+
+    })
+
+
+
+
+</script>

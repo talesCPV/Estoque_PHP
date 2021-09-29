@@ -13,6 +13,8 @@ function openHTML(template,label){
  	}); 
 }
 
+
+
 $(document).ready(function(){
 
 //	MENU
