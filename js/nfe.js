@@ -36,7 +36,93 @@ class NFe{
         this.B = new Object,
         this.C = new Object,
         this.E = new Object,
+        this.Fat = new Object,
         this.I = []
+
+    }
+
+    exportTxt(){
+        function add(str){
+            let out='';
+            for(let i=0; i< str.length; i++){
+
+                let txt = ''
+                if(str[i] != undefined){
+                    txt = str[i].toString().trim()
+                }
+                out += `${txt}|`
+            }
+            out += '\r\n'
+            return out;
+
+        }
+        const lineA = add(['A',this.A.versao,this.A.id])
+        const lineB = add(['B',this.B.cUF,this.B.cNF,this.B.natOp,this.B.mod,this.B.serie,this.B.nNF,this.B.dhEmi,this.B.dhSaiEnt,this.B.tpNF,this.B.idDest,this.B.cMunFG,this.B.tpImp,this.B.tpEmis,this.B.cDV,this.B.tpAmb,this.B.finNFe,this.B.indFinal,this.B.indPres,this.B.procEmi,this.B.verProc,this.B.dhCont,this.B.xJust])
+        const lineC = add(['C',this.C.xNome,this.C.xFant,this.C.IE,this.C.IEST,this.C.IM,this.C.CNAE,this.C.CRT])
+        const lineC02 = add(['C02',this.C.CNPJ])
+        const lineC05 = add(['C05',this.C.xLgr,this.C.nro,this.C.cpl,this.C.bairro,this.B.cMunFG,this.C.xMun,this.C.UF,this.C.CEP,this.C.cPais,this.C.xPais,this.C.fone])
+        const lineE =  add(['E',this.E.xNome,this.E.xFant,this.E.IE,this.E.IEST,this.E.IM,this.E.CNAE,this.E.CRT])
+        const lineE02 = add(['E02',this.E.CNPJ])
+        const lineE05 = add(['E05',this.E.xLgr,this.E.nro,this.E.cpl,this.E.bairro,this.E.cMunFG,this.E.xMun,this.E.UF,this.E.CEP,this.E.cPais,this.E.xPais,this.E.fone])
+
+        let tot = 0;
+        let lineI=''
+        for(let i=0; i<this.I.length; i++){
+            const item = this.I[i]
+            tot += (parseFloat(item.vUnCom) * parseFloat(item.qCom)) ;
+            lineI += add(['H',i+1])
+            lineI += add(['I',item.cProd,item.cEAN,item.xProd,item.NCM,item.cBenef,item.EXTIPI,item.CFOP,item.uCom,item.qCom,item.vUnCom,item.vProd,item.cEANTrib,item.uTrib,item.qTrib,item.vUnTrib,item.vFrete,item.vSeg,item.vDesc,item.vOutro,item.indTot,item.xPed,item.nFCI])
+            lineI += add(['M',''])
+            lineI += add(['N'])
+            lineI += add(['N10d',0,102])
+            lineI += add(['O',"","","",999])
+            lineI += add(['O07',99,(0).toFixed(2)])
+            lineI += add(['O10',(0).toFixed(2),(0).toFixed(4)])
+            lineI += add(['Q'])
+            lineI += add(['Q05',99,(0).toFixed(2)])
+            lineI += add(['Q07',(0).toFixed(2),(0).toFixed(4)])
+            lineI += add(['S'])
+            lineI += add(['S05',99,(0).toFixed(2)])
+            lineI += add(['S07',(0).toFixed(2),(0).toFixed(4)])
+        }
+/*
+        W02|vBC|vICMS|vICMSDeson|vFCPUFDest|vICMSUFDest|vICMSUFRemet|vFCP|vBCST|vST|vFCPST|
+        vFCPSTRet|vProd|vFrete|vSeg|vDesc|vII|vIPI|vIPIDevol|vPIS|vCOFINS|
+        vOutro|vNF|vTotTrib|
+*/
+        let lineFat = add(['W'])
+        lineFat += add(['W02',(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),tot.toFixed(2),(0).toFixed(2),
+        (0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2)],
+        (0).toFixed(2),tot.toFixed(2),(0).toFixed(2))
+        lineFat += add(['W04c',(0).toFixed(2)])
+        lineFat += add(['W04e',(0).toFixed(2)])
+        lineFat += add(['W04g',(0).toFixed(2)])
+        lineFat += add(['X',0])
+
+        const parcelas = this.Fat.parc.split('/')        
+        const totFin = (tot - this.Fat.desc).toFixed(2)
+        lineFat += add(['Y02',parcelas.length,tot.toFixed(2),this.Fat.desc,totFin])
+        let valorParc =  (totFin/parcelas.length).toFixed(2);
+        let ultimaparc = totFin
+        for(let i=0; i< parcelas.length; i++){
+            if(i == parcelas.length-1){
+                valorParc = (ultimaparc).toFixed(2);
+            }else{
+                ultimaparc -= valorParc;
+            }
+            const dia = new Date(this.A.dhEmi);
+            dia.setDate(dia.getDate() + parseInt(parcelas[i]) + 1);
+            const datasVenc = dia.getFullYear()+'-'+(dia.getMonth()+1).toString().padStart(2, '0')+'-'+dia.getDate().toString().padStart(2, '0') ;
+            lineFat += add(['Y07',(i+1).toString().padStart(3, '0'),datasVenc,valorParc])
+        }
+
+        lineFat += add(['YA',(0).toFixed(2)])
+        lineFat += add(['YA01',1,15,"",totFin])
+        lineFat += add(['Z',"",this.Fat.txtCpl])
+
+        return 'NOTAFISCAL|1\r\n'+lineA+lineB+lineC+lineC02+lineC05+lineE+lineE02+lineE05+lineI+lineFat
+
+
     }
 
     setAB(CNPJ,nNF,xMun="Caçapava",UF="SP",natOp="VENDA",indSinc="",codUf="35",ser="001",cUF,cNF="",mod="55",serie="1",tpNF="1",idDest="1",cMunFG,tpImp="1",tpEmis="1",cDV="",tpAmb="1",finNFe="1",indFinal="0",indPres="0",procEmi="3",versao="4.01",verProc="4.01_sebrae_b034",dhCont="",xJust=""){
@@ -82,50 +168,13 @@ class NFe{
         this.getSaida()        
     }
 
-/*
-    setA(CNPJ,nNF,versao="4.01",indSinc="",uf="35",tpEmis="1",mod="55",ser="001"){
-        this.A.CNPJ = CNPJ,
-        this.A.nNF = nNF.padStart(9, '0'),        
-        this.A.versao = versao,        
-        this.A.indSinc = indSinc,
-        this.A.uf = uf,
-        this.A.tpEmis = tpEmis,
-        this.A.mod = mod,
-        this.A.ser = ser,
-        this.A.cod = Math.floor(Math.random() * (99999999 - 10000000) + 10000000),
-        this.A.dhEmi = this.getDataHora(),
-        this.A.id = this.geraChave(this.A.dhEmi)
+    setFat(valor,parc,txtCpl, desc){
+        this.Fat.valor = parseFloat(valor).toFixed(2),
+        this.Fat.parc = parc,
+        this.Fat.txtCpl = txtCpl,
+        this.Fat.desc = parseFloat(desc).toFixed(2)
     }
 
-    setB(nNF=this.A.nNF,dhEmi=this.A.dhEmi,xMun="Caçapava",UF="SP",cUF,cNF="",natOp="VENDA",mod="55",serie="1",tpNF="1",idDest="1",cMunFG,tpImp="1",tpEmis="1",cDV="",tpAmb="1",finNFe="1",indFinal="0",indPres="0",procEmi="3",verProc="4.01_sebrae_b034",dhCont="",xJust=""){
-        this.B.cUF = cUF,
-        this.B.cNF = cNF,
-        this.B.natOp = natOp,
-        this.B.mod = mod,
-        this.B.serie = serie,
-        this.B.nNF = parseInt(nNF).toString(),
-        this.B.dhEmi = dhEmi,
-        this.B.dhSaiEnt,
-        this.B.tpNF = tpNF,
-        this.B.idDest = idDest,
-        this.B.cMunFG = cMunFG,
-        this.B.tpImp = tpImp,
-        this.B.tpEmis = tpEmis,
-        this.B.cDV = cDV,
-        this.B.tpAmb = tpAmb,
-        this.B.finNFe = finNFe,
-        this.B.indFinal = indFinal,
-        this.B.indPres = indPres,
-        this.B.procEmi = procEmi,
-        this.B.verProc = verProc,
-        this.B.dhCont = dhCont,
-        this.B.xJust = xJust,
-        this.B.xMun = xMun,
-        this.B.UF = UF,
-        this.getCodUf(this.B),
-        this.getSaida()        
-    }
-*/
     setC(xNome="Flexibus Sanfonados LTDA",CNPJ="00519547000106",IE="234033845113",IM="111222",xLgr="Av. Dr. Rosalvo de Almeida Telles",nro="2070",cpl="",bairro="Nova Caçapava",xMun="Caçapava",UF="SP",CEP="122863020",cPais="",xPais="BRASIL",fone="1236532230",xFant="",IEST="",CNAE="",CRT=""){       
         this.C.xNome = xNome,
         this.C.xFant = xFant,
@@ -174,6 +223,9 @@ class NFe{
         this.codPais(this.E);
     }
 
+    clearItens(){
+        this.I = []
+    }
 
     addItem(nItem,cProd,xProd,NCM,uCom,qCom,vUnCom,CFOP="5102",infAdProd="",cEAN="",cBenef="",EXTIPI="",cEANTrib="",uTrib="",
     qTrib="",vUnTrib="",vFrete="",vSeg="",vDesc="",vOutro="",indTot="1",xPed="",nItemPed="",nFCI="",vTotTrib=""){
