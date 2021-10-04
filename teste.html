@@ -401,6 +401,7 @@
             /* CHAMADA DE FUNÇÕES INICIAL */    
             
                 importData();
+
             
             /* CHAMADA DE FUNÇÕES DO DOM */    
             
@@ -477,10 +478,62 @@
                     myNfe.setC(razsoc,CNPJ,IE,IM,end,num,comp,bairro,nomeMun,UF,CEP,codPais,nomePais,telefone,fantasia);
 
 
+
+                    dadosNF.NF[3].xNome = razsoc;
+                    dadosNF.NF[3].xFant = fantasia;
+                    dadosNF.NF[3].IE = IE;
+                    dadosNF.NF[3].IM = IM;
+                    dadosNF.NF[3].CNAE = CNAE;
+                    dadosNF.NF[3].CRT = regtrib;
+                    dadosNF.NF[4].CNPJ = CNPJ;
+                    dadosNF.NF[5].xLgr = end;
+                    dadosNF.NF[5].nro = num;
+                    dadosNF.NF[5].cpl = comp;
+                    dadosNF.NF[5].bairro = bairro;
+                    dadosNF.NF[5].cMun = codMun;
+                    dadosNF.NF[5].xMun = nomeMun;
+                    dadosNF.NF[5].UF = UF;
+                    dadosNF.NF[5].CEP = CEP;
+                    dadosNF.NF[5].cPais = codPais;
+                    dadosNF.NF[5].xPais = nomePais;
+                    dadosNF.NF[5].fone = telefone;
+
+                    console.log(dadosNF)
+
+                    salvaNF();
                 })
                 document.getElementById('btnSaveFiscal').addEventListener('click',(event)=>{
+                    const frmB = document.getElementById('B');
+
+                    const cUF = frmB.querySelector('#cUF').value;
+                    const cNF = frmB.querySelector('#cNF').value;
+                    const natOp = frmB.querySelector('#natOp').value;
+                    const mod = frmB.querySelector('#mod').value;
+                    const nNF = frmB.querySelector('#nNF').value;
+                    const dhEmi = frmB.querySelector('#dhEmi').value;
+                    const dhSaiEnt = frmB.querySelector('#dhSaiEnt').value;
+                    const tpNF = frmB.querySelector('#tpNF').value;
+                    const idDest = frmB.querySelector('#idDest').value;
+                    const cMunFG = frmB.querySelector('#cMunFG').value;
+                    const tpImp = frmB.querySelector('#tpImp').value;
+                    const tpEmis = frmB.querySelector('#tpEmis').value;
+                    const cDV = frmB.querySelector('#cDV').value;
+                    const tpAmb = frmB.querySelector('#tpAmb').value;
+                    const finNFe = frmB.querySelector('#finNFe').value;
+                    const indFinal = frmB.querySelector('#indFinal').value;
+                    const indPres = frmB.querySelector('#indPres').value;
+                    const procEmi = frmB.querySelector('#procEmi').value;
+                    const verProc = frmB.querySelector('#verProc').value;
+                    const dhCont = frmB.querySelector('#dhCont').value;
+                    const xJust = frmB.querySelector('#xJust').value;
+                    const ckbSimpRem = frmB.querySelector('#ckbSimpRem').value;
+
+
                     document.getElementById('cNF').value = Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ; // novo cNF
-                    salvaNF("B",2);     
+
+
+
+                    salvaNF();     
 //                    console.log(dadosNF);
                 })
                 document.getElementById('btnSaveCli').addEventListener('click',()=>{
@@ -928,7 +981,8 @@
                         const data = JSON.parse(json);
                         dadosNF = data;
                         atualiza();
-            
+                        console.log(dadosNF)
+
                     })            
                 }
             
@@ -958,15 +1012,17 @@
 
                 }
             
-                function salvaNF(id,index){
-                    const frm = document.getElementById(id);
-
+                function salvaNF(){
+//                    const frm = document.getElementById(id);
+/*
                     for(let i=0; i<frm.length; i++){
                         dadosNF.NF[index][frm[i].id] = frm[i].value.trim();
                     }
-            
+  */          
                     const json = JSON.stringify(dadosNF);
             
+                    console.log(json)
+
                     const data = new URLSearchParams();        
                         data.append("path", "../config/nfe.json");
                         data.append("json", json);
