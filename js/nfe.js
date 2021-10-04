@@ -104,9 +104,10 @@ class NFe{
         lineFat += add(['Y02',parcelas.length,tot.toFixed(2),this.Fat.desc,totFin])
         let valorParc =  (totFin/parcelas.length).toFixed(2);
         let ultimaparc = totFin
+        console.log(parcelas)
         for(let i=0; i< parcelas.length; i++){
             if(i == parcelas.length-1){
-                valorParc = (ultimaparc).toFixed(2);
+                valorParc = parseFloat(ultimaparc).toFixed(2);
             }else{
                 ultimaparc -= valorParc;
             }

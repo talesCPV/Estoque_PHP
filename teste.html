@@ -526,10 +526,31 @@
                     const verProc = frmB.querySelector('#verProc').value;
                     const dhCont = frmB.querySelector('#dhCont').value;
                     const xJust = frmB.querySelector('#xJust').value;
-                    const ckbSimpRem = frmB.querySelector('#ckbSimpRem').value;
+//                    const ckbSimpRem = frmB.querySelector('#ckbSimpRem').value;
 
 
                     document.getElementById('cNF').value = Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ; // novo cNF
+
+                    dadosNF.NF[2].cUF = cUF;
+                    dadosNF.NF[2].cNF = cNF;
+                    dadosNF.NF[2].natOp = natOp;
+                    dadosNF.NF[2].mod = mod;
+                    dadosNF.NF[2].nNF = nNF;
+                    dadosNF.NF[2].dhEmi = dhEmi;
+                    dadosNF.NF[2].dhSaiEnt = dhSaiEnt;
+                    dadosNF.NF[2].tpNF = tpNF;
+                    dadosNF.NF[2].idDest = idDest;
+                    dadosNF.NF[2].cMunFG = cMunFG;
+                    dadosNF.NF[2].tpImp = tpImp;
+                    dadosNF.NF[2].tpEmis = tpEmis;
+                    dadosNF.NF[2].cDV = cDV;
+                    dadosNF.NF[2].tpAmb = tpAmb;
+                    dadosNF.NF[2].finNFe = finNFe;
+                    dadosNF.NF[2].indFinal = indFinal;
+                    dadosNF.NF[2].indPres = indPres;
+                    dadosNF.NF[2].procEmi = procEmi;
+                    dadosNF.NF[2].dhCont = dhCont;
+                    dadosNF.NF[2].xJust = xJust;
 
 
 
@@ -592,7 +613,10 @@
             
                     const resp = getData("ajax/ajax_saveJson.php", data);
                     alert(` Arquivo ${sFileName} exportado com sucesso!`)
-
+                    
+                    dadosNF.NF[2].nNF = parseInt(dadosNF.NF[2].nNF) + 1
+                    salvaNF()
+                    atualiza()
                     resp.then(()=>{
                         document.querySelector('.tab-export').click();
 
@@ -1000,12 +1024,11 @@
                     run("C02",4);
                     run("C05",5);
                     run("B",2);
-//                    run("E",6);
-//                    run("E02",7);
-//                    run("E05",8);                   
+                
                     
                     //atualiza as datas para a data atual
-                    const date = today.getFullYear()+"-"+(today.getMonth()+1).toString().padStart(2, '0')+"-"+today.getDate();
+                    const date = today.getFullYear()+"-"+(today.getMonth()+1).toString().padStart(2, '0')+"-"+today.getDate().toString().padStart(2, '0');
+                    console.log(date)
                     document.getElementById('dhEmi').value = date
                     document.getElementById('dhSaiEnt').value = date
 
