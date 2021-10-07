@@ -30,11 +30,15 @@
 	  	$pdf->Cell(25,5,utf8_decode(date('d/m/Y', strtotime($inicio))),0,0,"L");
 	  	$pdf->Cell(15,5,utf8_decode(" até "),0,0,"L");
 	  	$pdf->Cell(25,5,utf8_decode(date('d/m/Y', strtotime($final))),0,0,"L");
-  		$pdf->Ln(10);
+  		$pdf->Ln(8);
 
+//		$pdf->Line(10, 50, 200, 50);    
+		$pdf->SetFont('Arial','B',15);
+		$pdf->Cell(15,5,utf8_decode("                         Boletim Informativo de Serviços em Execução"),0,0,"L");
+		$pdf->SetFont('Arial','',10);
+		$pdf->Line(10, 60, 200, 60);        
+		$pdf->Ln(15);
 
-
-		$pdf->Line(10, 50, 200, 50);        
 
 		$pdf->SetFont('Arial','B',10);
 	  	$pdf->Cell(15,5,"Carro.",0,0,"L");

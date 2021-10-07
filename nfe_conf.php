@@ -10,6 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/funcoes.js"></script>
     <script src="js/fatura.js"></script>
+    <script src="js/nfe.js"></script>
+
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -196,13 +198,8 @@
     <form class="login-form" name="cadastro" method="POST" action="#" >
       <table style='width: 100%;'>
         <tr>
-          <td><button style='width: 95%;' name="emitente" type="submit">Emitente</button></td>
-          <td><button style='width: 95%;' name="fiscal" type="submit">Fiscal</button></td>
-          <td><button style='width: 95%;' name="pedido" type="submit">Pedido</button></td>
-          <td><button style='width: 95%;' name="itens" type="submit">Ítens</button></td>
-          <td><button style='width: 95%;' name="fatura" type="submit">Gera NFE</button></td>
+          <td><button style='width: 95%;' name="fatura" id="btnNfe">Gera NFE</button></td>
           <td><button style='width: 95%;' name="nfs" type="submit">Gera NFS.</button></td>
-          <td><button style='width: 95%;' id="teste" >Nova NFe</button></td>
         </tr>
       </table>
       
@@ -1110,22 +1107,17 @@
 
 </body>
 <script>
-  document.getElementById('teste').addEventListener('click',(event)=>{
+
+  document.getElementById('btnNfe').addEventListener('click',(event)=>{
     event.preventDefault();
 
+ 
+      openHTML('geraNFe.html','Nota Fiscal Eletrônica');    
+  
 
-   
-      openHTML('geraNFe.html','Gerador de NFe');    
-       
-/*
-    document.querySelector(".content").innerHTML = 'HTML';
-    document.querySelector("#popTitle").innerHTML = 'Calculadora';
-    document.querySelector(".overlay").style.visibility = "visible";
-    document.querySelector(".overlay").style.opacity = 1;
 
-    alert(2)
-*/
   })
+
 
 </script>
 

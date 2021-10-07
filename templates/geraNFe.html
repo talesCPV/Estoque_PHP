@@ -58,7 +58,7 @@
         font-size: large;
     }
 
-    .frmShow  > input, .frmShow > select, .frmShow  > label{
+    .frmShow  > input, .frmShow > select, .frmShow  > label, .frmShow  > textarea{
         display: flex;
         width: 98%;
         margin-left: 10px;        
@@ -103,10 +103,10 @@
             <div class="tab-item tab-cliente" >Cliente</div>            
             <div class="tab-item tab-itens" >Itens</div>
             <div class="tab-item tab-fatura" >Faturamento</div>
+            <div class="tab-item tab-export" >Arquivos TXT</div>
         </div>
         
-        <div class="tab-screen">
-    
+        <div class="tab-screen">        
             <div id="emitente" class="tab emitente">
                 <h2>Emitente</h2>               
                     <form class="frmShow" id="C" method="POST" action="#">
@@ -123,9 +123,9 @@
                         <input type="text" id="CNAE" maxlength="7"  value=""/>
                         <label> Regime Tributário </label>
                         <select id="CRT" >
-                          <option value="1" selected>Simples Nacional</option>
-                          <option value="2" >Simples Nacional - excesso de sublimite de receita bruta</option>
-                          <option value="3" >Regime Normal.</option>
+                            <option value="1" selected>Simples Nacional</option>
+                            <option value="2" >Simples Nacional - excesso de sublimite de receita bruta</option>
+                            <option value="3" >Regime Normal.</option>
                         </select>
                     </form>
                     <form class="frmShow" id="C02" method="POST" action="#">
@@ -157,11 +157,10 @@
                         <input type="text" id="fone" maxlength="14" value="" />
                     </form>
                     <button id="btnSaveEmit">Salvar</button>
-                  
+                    
     
                 
-            </div>
-        
+            </div>            
             <div id="fiscal" class="tab fiscal" style="display:none">
                 <h2>Fiscal</h2>
 
@@ -189,102 +188,101 @@
     
                     <label> Tipo de Operação</label>
                     <select id="tpNF" >
-                      <option value="0" selected>Entrada</option>
-                      <option value="1">Saída</option>
+                        <option value="0" selected>Entrada</option>
+                        <option value="1">Saída</option>
                     </select>
     
                     <label> Identificador de Local de destino da operação</label>
                     <select id="idDest" >
-                      <option value="1">Operação Interna</option>
-                      <option value="2">Operação Interestadual</option>
-                      <option value="3">Operação com o Exterior</option>
+                        <option value="1">Operação Interna</option>
+                        <option value="2">Operação Interestadual</option>
+                        <option value="3">Operação com o Exterior</option>
                     </select>
     
                     <input type="hidden" id="cMunFG" value="" >                
     
                     <label> Formato de Impressão do DANFE</label>
                     <select id="tpImp" >
-                      <option value="1">Retrato</option>
-                      <option value="2">Paisagem</option>
+                        <option value="1">Retrato</option>
+                        <option value="2">Paisagem</option>
                     </select>
     
                     <label>Tipo de Emissão da NF-e</label>
                     <select id="tpEmis" >
-                      <option value="1">Normal</option>
-                      <option value="2">Contingência FS - emissão em contingência com impressão do DANFE em Formulário de Segurança</option>
-                      <option value="4">Contingência EPEC - emissão em contingência com envio da Evento Prévio de Emissão em Contingência - EPEC</option>
-                      <option value="5">Contingência FS-DA - emissão em contingência com impressão do DANFE em Formulário de Segurança para Impressão de Documento Auxiliar de Documento Fiscal Eletrônico (FS-DA)</option>
-                      <option value="6">Contingência SVC-AN</option>
-                      <option value="7">Contingência SVC-RS</option>
-                      <option value="9">Contingência off-line NFC-e</option>
+                        <option value="1">Normal</option>
+                        <option value="2">Contingência FS - emissão em contingência com impressão do DANFE em Formulário de Segurança</option>
+                        <option value="4">Contingência EPEC - emissão em contingência com envio da Evento Prévio de Emissão em Contingência - EPEC</option>
+                        <option value="5">Contingência FS-DA - emissão em contingência com impressão do DANFE em Formulário de Segurança para Impressão de Documento Auxiliar de Documento Fiscal Eletrônico (FS-DA)</option>
+                        <option value="6">Contingência SVC-AN</option>
+                        <option value="7">Contingência SVC-RS</option>
+                        <option value="9">Contingência off-line NFC-e</option>
                     </select>
     
                     <input type="hidden" id="cDV" value="" >                
     
                     <label> Identificação do Ambiente</label>
                     <select id="tpAmb" >
-                      <option value="1">Produção</option>
-                      <option value="2">Homologação</option>
+                        <option value="1">Produção</option>
+                        <option value="2">Homologação</option>
                     </select>
     
                     <label> Finalidade de emissão da NF-e</label>
                     <select id="finNFe" >
-                      <option value="1">NF-e normal</option>
-                      <option value="2">NF-e complementar</option>
-                      <option value="3">NF-e de ajuste</option>
+                        <option value="1">NF-e normal</option>
+                        <option value="2">NF-e complementar</option>
+                        <option value="3">NF-e de ajuste</option>
                     </select>
     
                     <label>Indica operação com o consumidor final</label>
                     <select id="indFinal" >
-                      <option value="0">Normal</option>    
-                      <option value="1">Consumidor Final</option>
+                        <option value="0">Normal</option>    
+                        <option value="1">Consumidor Final</option>
                     </select>
     
                     <label>Indicador de presença do comprador no estabelecimento comercial no momento da operação</label>
                     <select id="indPres" >
-                      <option value="0">Não se aplica (por exemplo Nota Fiscal Complementar ou de ajuste)</option>
-                      <option value="1">Operação presencial</option>
-                      <option value="2">Operação não presencial, pela Internet</option>
-                      <option value="3">Operação não presencial, pelo tele atendimento</option>
-                      <option value="4">NFC-e em operação com entrega em domicílio</option>
-                      <option value="5">Operação não presencial, fora do estabelecimento</option>
-                      <option value="9">Operação não presencial, outros</option>
+                        <option value="0">Não se aplica (por exemplo Nota Fiscal Complementar ou de ajuste)</option>
+                        <option value="1">Operação presencial</option>
+                        <option value="2">Operação não presencial, pela Internet</option>
+                        <option value="3">Operação não presencial, pelo tele atendimento</option>
+                        <option value="4">NFC-e em operação com entrega em domicílio</option>
+                        <option value="5">Operação não presencial, fora do estabelecimento</option>
+                        <option value="9">Operação não presencial, outros</option>
                     </select>
     
                     <label>Processo de emissão da NF-e</label>
                     <select id="procEmi" >
-                      <option value="0">emissão de NF-e com aplicativo do contribuinte</option>
-                      <option value="1">emissão de NF-e avulsa pelo Fisco</option>
-                      <option value="2">emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site do Fisco</option>
-                      <option value="3">emissão NF-e pelo contribuinte com aplicativo fornecido pelo Fisco</option>
+                        <option value="0">emissão de NF-e com aplicativo do contribuinte</option>
+                        <option value="1">emissão de NF-e avulsa pelo Fisco</option>
+                        <option value="2">emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site do Fisco</option>
+                        <option value="3">emissão NF-e pelo contribuinte com aplicativo fornecido pelo Fisco</option>
                     </select>
     
                     <input type="hidden" id="verProc" value="">
                     <input type="hidden" id="dhCont" value="">
                     <input type="hidden" id="xJust" value="" >    
-                  </form>                
-                  <div style="display:flex;">
+                    </form>                
+                    <div style="display:flex;">
                     <input type='checkbox' id='ckbSimpRem' /> 
                     <label for="">Simples Remessa </label>                 
-                  </div>
-  
-                  <button id="btnSaveFiscal">Salvar</button>                
-            </div>
-        
+                    </div>
+    
+                    <button id="btnSaveFiscal">Salvar</button>                
+            </div>            
             <div id="pedido" class="tab pedido" style="display:none">
                 <h2>Pedido</h2>
                 
                 <div class="frmCenter">
                     <label> Busca por: </label> 
                     <select id="selBuscaPed" name="campo_busca">
-                       <option value="todos">Todos</option>
-                       <option value="cod">Codigo</option>
-                       <option value="num_ped">Numero</option>
-                       <option value="cliente">Cliente</option>
-                       <option value="varios">Vários Códigos</option>
-                   </select>
-                   <input type="text" id="edtBuscaPed" />
-                   <button id="btnBuscaPed" >OK</button>
+                        <option value="todos">Todos</option>
+                        <option value="cod">Codigo</option>
+                        <option value="num_ped">Numero</option>
+                        <option value="cliente">Cliente</option>
+                        <option value="varios">Vários Códigos</option>
+                    </select>
+                    <input type="text" id="edtBuscaPed" />
+                    <button id="btnBuscaPed" >OK</button>
                 </div>
 
                 <div class="frmCenter">
@@ -293,9 +291,8 @@
 
 
             </div>
-            <div id="cliente" class="tab cliente" style="display:none">
+            <div id="cliente" class="tab cliente frmShow" style="display:none">
                 <h2>Cliente</h2>
-                <form class="frmShow" id="E" method="POST" action="#">
                     <label> Razão Social *</label>
                     <input type="text" id="xNome" maxlength="60" value="" />
                     <label> Contribuinte ICMS</label>
@@ -311,12 +308,8 @@
                     <input type="text" id="IM" maxlength="15" value="" />
                     <label> Email </label>
                     <input type="text" id="email" value=""/>
-                </form>                           
-                <form class="frmShow" id="E02" method="POST" action="#">
                     <label> CNPJ </label>
                     <input type="text" id="CNPJ" maxlength="14" value=""/>
-                </form>
-                <form class="frmShow" id="E05" method="POST" action="#">
                     <label> Endereço </label>
                     <input type="text" id="xLgr" maxlength="60" value="" />
                     <label> Número: </label>
@@ -340,42 +333,63 @@
                     <input type="text" id="xPais" maxlength="60" value=""/>
                     <label> Telefone </label>
                     <input type="text" id="fone" maxlength="14" value="" />
-                </form>
                 <button id="btnSaveCli">Salvar</button>
             </div>        
             <div id="itens" class="tab itens" style="display:none">
                 <h2>Itens</h2>
-               
+                
                 <table id="tblItens"></table>
 
-                <button id="btnTeste">Teste</button>
+<!--                    <button id="btnTeste">Teste*</button> -->
 
 
-            </div>
-        
-            <div id="fatura" class="tab fatura" style="display:none">
-                <h2>Faturamento</h2>
-                <form class="frmShow" id="B" method="POST" action="#" >
+    </div>            
+        <div id="fatura" class="tab fatura" style="display:none">
+            <h2>Faturamento</h2>
+            <form class="frmShow" id="B" method="POST" action="#" >
 
-                    <button id="btnGeraNFe">Gerar NFe</button>
-                </form>
-            </div>
+                <form class="frmShow" id="W" method="POST" action="#">
+                    <label>Valor total da NF R$</label>
+                    <input type="text" id="edtValorNF">
+                    <label>Desconto R$</label>
+                    <input type="text" id="edtValorDesc" value='0'>
+                    <label>Dias entre as Parcelas</label>
+                    <input type="text" id="edtDiasParcelas" value="30/45/60">
+                    <label>Texto Complementar</label>
+                    <textarea  id="txaTextoCompl" rows="10"></textarea>
                 
+                </form>
+
+                <button id="btnGeraNFe">Gerar NFe</button>
+            </form>
+        </div>
+        <div id="export" class="tab export" style="display:none">
+            <h2>Arquivos TXT</h2>
+
+            <form class="frmShow" id="TXT" method="POST" action="#">
+                <select id="txtFiles" size="20"></select>                    
+            </form>
+
+            <button id="btnExportNFe">Exportar</button>
+
+            </div>                
         </div>   
 
     </div> 
-
 </html>
-
 <script>
 
 /* DECLARAÇÃO GLOBAL */
 
-    let dadosNF;
+    const myNfe = new NFe();
 
+    const today = new Date();        
+    let dadosNF;
+    let numPed = "";
 /* CHAMADA DE FUNÇÕES INICIAL */    
 
     importData();
+
 
 /* CHAMADA DE FUNÇÕES DO DOM */    
 
@@ -397,24 +411,107 @@
     document.querySelector('.tab-fatura').addEventListener('click',()=>{
         openTab('fatura')
     })
+    document.querySelector('.tab-export').addEventListener('click',()=>{
+        openTab('export');
+        const data = new URLSearchParams();        
+            data.append("path", `../NF_txt`);
+
+        const resp = getData("ajax/ajax_getFiles.php", data);                    
+        resp.then((resolve)=>{
+            const arr = JSON.parse(resolve);
+            const sel = document.getElementById('txtFiles');
+            sel.innerHTML = '';
+            for(let i=2; i<arr.length; i++){
+                const opt = document.createElement('option');
+                if(i == 2){
+                    opt.selected = true;
+                }
+                opt.innerHTML = arr[i];
+                sel.appendChild(opt);
+
+            }
+        })                    
+    })
     document.getElementById('btnSaveEmit').addEventListener('click',(event)=>{
-        salva("C",3);
-        salva("C02",4);
-        salva("C05",5);
+        saveEmit();
+        alert('Dados do emitente salvos com sucesso.')
+        document.querySelector('.tab-fiscal').click();
+        salvaNF();
     })
     document.getElementById('btnSaveFiscal').addEventListener('click',(event)=>{
-        document.getElementById('cNF').value = Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ; // novo cNF
-        salva("B",2);     
-        console.log(dadosNF);
+
+        saveFiscal()
+
+        alert('Dados fiscais salvos com sucesso.')
+        document.querySelector('.tab-pedido').click();
+
+        salvaNF();     
+//                    console.log(dadosNF);
     })
     document.getElementById('btnSaveCli').addEventListener('click',()=>{
-        salva("E",6);
-        salva("E02",7);
-        salva("E05",8);
+
+
+
+            const frmCliente = document.getElementById("cliente")
+
+            const xNome = frmCliente.querySelector("#xNome").value
+            const indIEDest = frmCliente.querySelector("#indIEDest").value
+            const IE = frmCliente.querySelector("#IE").value
+            const ISUF = frmCliente.querySelector("#ISUF").value
+            const IM = frmCliente.querySelector("#IM").value
+            const email = frmCliente.querySelector("#email").value
+            const CNPJ = frmCliente.querySelector("#CNPJ").value
+            const xLgr = frmCliente.querySelector("#xLgr").value
+            const nro = frmCliente.querySelector("#nro").value
+            const XCpl = frmCliente.querySelector("#XCpl").value
+            const xBairro = frmCliente.querySelector("#xBairro").value
+            const cMun = frmCliente.querySelector("#cMun").value
+            const xMun = frmCliente.querySelector("#xMun").value
+            const UF = frmCliente.querySelector("#UF").value
+            const CEP = frmCliente.querySelector("#CEP").value
+            const cPais = frmCliente.querySelector("#cPais").value
+            const xPais = frmCliente.querySelector("#xPais").value
+            const fone = frmCliente.querySelector("#fone").value
+
+        myNfe.setE(xNome,CNPJ,IE,IM,xLgr,nro,XCpl,xBairro,xMun,UF,CEP,"1058","BRASIL",fone,indIEDest,"","",xNome)
+//                    myNfe.setE(pedido[2],pedido[4],pedido[3],pedido[14],pedido[5],pedido[7],"",pedido[8],pedido[9],pedido[10],pedido[11],"1058","BRASIL")
+
     })
     document.getElementById('btnGeraNFe').addEventListener('click',(event)=>{
         event.preventDefault();
-        geraNFE();
+        saveEmit()
+        saveFiscal()
+
+        const valor = document.getElementById('edtValorNF').value
+        const parc = document.getElementById('edtDiasParcelas').value
+        const txtCpl = document.getElementById('txaTextoCompl').value
+        const desc = document.getElementById('edtValorDesc').value
+
+        myNfe.setFat(valor,parc,txtCpl,desc);
+
+        const nfTxt = myNfe.exportTxt();
+
+        console.log(nfTxt)
+
+        // Save File TXT
+        const sFileName = `NFe${myNfe.A.nNF.toString().padStart(6, '0')}.txt`;	   // The file to save the data.
+
+        let data = new URLSearchParams();        
+            data.append("path", `../NF_txt/${sFileName}`);
+            data.append("json", nfTxt);
+
+        const resp = getData("ajax/ajax_saveJson.php", data);
+        alert(` Arquivo ${sFileName} exportado com sucesso!`)
+        
+        dadosNF.NF[2].nNF = parseInt(dadosNF.NF[2].nNF) + 1
+        salvaNF()
+        atualiza()
+        resp.then(()=>{
+            document.querySelector('.tab-export').click();
+
+        })                    
+
+
     })
     document.getElementById('btnBuscaPed').addEventListener('click',()=>{
         const sel = document.getElementById('selBuscaPed');
@@ -423,26 +520,26 @@
 
         if (sel.value == "todos"){
 
-            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped, e.im
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
         } else if (sel.value == "num_ped"){
-            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped, e.im
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND p.num_ped = '${edt.value}' AND p.status = 'FECHADO';`;
         } else if (sel.value == "cliente"){
-            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped, e.im
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND e.nome LIKE '%${edt.value}%' AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
 
         } else if (sel.value == "cod"){
-            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped, e.im
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND p.id = '${edt.value}' AND p.status = 'FECHADO';`;
         } else if (sel.value == "varios"){
             const aux =  edt.value.split('/');
 
-            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped
+            query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped, e.im
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND p.id = '${edt.value}' AND p.status = 'FECHADO';`;
             }            
@@ -473,7 +570,6 @@
                 }
         
                 row.addEventListener('dblclick',(event)=>{
-
                     function soNum(C){
                         let resp = '';
                         let perm = ['0','1','2','3','4','5','6','7','8','9'];
@@ -495,7 +591,20 @@
                     for(let k=0; k<row.length; k++){
                         pedido.push(row[k].innerHTML);
                     }
-                    console.log(pedido);
+
+//                    console.log(pedido);
+                    loadCliente(pedido);
+                    let indIEDest = "1"
+                    if (pedido[3].trim() === ""){
+                        indIEDest = "2"
+                    }
+                    myNfe.setE(pedido[2],pedido[4],pedido[3],pedido[14],pedido[5],pedido[7],"",pedido[8],pedido[9],pedido[10],pedido[11],"1058","BRASIL",indIEDest)
+                    numPed = pedido[1];
+
+//                                const frmCliente = document.getElementById("cliente")
+                    const cMun = document.getElementById("cliente").querySelector("#cMun");
+
+                    IBGE_cMun(pedido[10],pedido[9],cMun,"I");
 
                     const pedcod = pedido[0];
                     const query = ` SELECT p.cod, p.descricao, p.ncm, p.unidade, i.qtd, i.preco, p.tipo, i.und
@@ -516,112 +625,9 @@
                         tab.innerHTML = '';
                         let total = 0;
                         dadosNF.itens = [];
-
+                        myNfe.clearItens()
                         for(let i=0; i<data.length; i++){ // 1x a cada item do 
-                            dadosNF.itens.push([])
-
-                            // item H
-                            const H = new Object;
-                                H.COD = "H";
-                                H.nItem = i+1;
-                                H.infAdProd = "";
-                            dadosNF.itens[i].push(H);
-
-                            // item I
-                            const I = new Object;
-                                I.COD = "I";
-                                I.cProd = data[i].cod;
-                                I.cEAN = "";
-                                I.xProd = data[i].descricao;
-                                I.NCM = data[i].ncm;
-                                I.cBenef = "";
-                                I.EXTIPI = "";
-                                I.CFOP = "5101";
-                                I.uCom = data[i].und;
-                                I.qCom = parseFloat(data[i].qtd).toFixed(4) ;
-                                I.vUnCom = parseFloat(data[i].preco).toFixed(10);
-                                I.vProd = parseFloat(data[i].preco * data[i].qtd).toFixed(2);
-                                I.cEANTrib = "";
-                                I.uTrib = data[i].und;
-                                I.qTrib = parseFloat(data[i].qtd).toFixed(4);
-                                I.vUnTrib = parseFloat(data[i].preco).toFixed(10);
-                                I.vFrete = "";
-                                I.vSeg = "";
-                                I.vDesc = "";
-                                I.vOutro = "";
-                                I.indTot = "";
-                                I.xPed = "";
-                                I.nItemPed = "";
-                                I.nFCI = "";
-                            dadosNF.itens[i].push(I);
-
-                            const M = new Object;
-                                M.COD = "M";
-                                M.vTotTrib = '';
-                            dadosNF.itens[i].push(M);
-
-                            const N = new Object;
-                                N.COD = "N";
-                            dadosNF.itens[i].push(N);
-
-                            const N10d = new Object;
-                                N10d.COD = "N10d";
-                                N10d.orig = '0';
-                                N10d.CSOSN = '102';
-                            dadosNF.itens[i].push(N10d);                            
-
-                            const O = new Object;
-                                O.COD = "O";
-                                O.CNPJProd = "";
-                                O.cSelo = "";
-                                O.qSelo = "";
-                                O.cEnq = "999";
-                            dadosNF.itens[i].push(O);
-
-                            const O07 = new Object;
-                                O07.COD = "O07";
-                                O07.CST = "99";
-                                O07.vIPI = (0).toFixed(2);
-                            dadosNF.itens[i].push(O07);
-
-                            const O10 = new Object;
-                                O10.COD = "O10";
-                                O10.vBC = (0).toFixed(2);
-                                O10.pIPI = (0).toFixed(4);
-                            dadosNF.itens[i].push(O10);
-
-                            const Q = new Object;
-                                Q.COD = "Q";
-                            dadosNF.itens[i].push(Q);
-
-                            const Q05 = new Object;
-                                Q05.COD = "Q05";
-                                Q05.CST = "99";
-                                Q05.vPIS = (0).toFixed(2);
-                            dadosNF.itens[i].push(Q05);
-
-                            const Q07 = new Object;
-                                Q07.COD = "Q07";
-                                Q07.vBC = (0).toFixed(2);
-                                Q07.pPIS = (0).toFixed(4);
-                            dadosNF.itens[i].push(Q07);
-
-                            const S = new Object;
-                                S.COD = "S";
-                            dadosNF.itens[i].push(S);  
-
-                            const S05 = new Object;
-                                S05.COD = "S05";
-                                S05.CST = "99";
-                                S05.vCOFINS = (0).toFixed(2);
-                            dadosNF.itens[i].push(S05);
-
-                            const S07 = new Object;
-                                S07.COD = "S07";
-                                S07.vBC = (0).toFixed(2);
-                                S07.pCOFINS = (0).toFixed(4);
-                                dadosNF.itens[i].push(S07);
-                            console.log(data[i])
+                            myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].und.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco))
 
                             const campos = Object.entries(data[i]);
                             const perm = ['cod','descricao','ncn','und','qtd','preco'];
@@ -630,7 +636,7 @@
                                 for(let j=0; j<campos.length; j++){ // passa campo a campo
                                     if(perm.includes(campos[j][0])){
                                         const label = document.createElement('th');
-                                        console.log(campos[j])
+//                                                    console.log(campos[j])
                                         label.innerHTML = campos[j][0];
                                         row.appendChild(label);
                                     }                                    
@@ -649,7 +655,7 @@
                                 row.appendChild(col);
                             }
                             total += parseFloat(data[i].preco) * parseFloat(data[i].qtd) ;
-                            console.log(data[i].preco) 
+//                                        console.log(data[i].preco) 
                             tab.appendChild(row)
 
                         }
@@ -660,20 +666,30 @@
                         col.innerHTML = 'Total R$'+total.toLocaleString('pt-br', {minimumFractionDigits: 2});
                         row.appendChild(col)
                         tab.appendChild(row)
-                        console.log(total.toLocaleString('pt-br', {minimumFractionDigits: 2}) )
-                        console.log(dadosNF)
+//                                    console.log(total.toLocaleString('pt-br', {minimumFractionDigits: 2}) )
+
+
+// tela de fatura                                    
+                        document.getElementById('edtValorNF').value = total.toFixed(2);
+                        let txtComp = `DOC. EMITIDO POR ME OU EPP OPTANTE S.NACIONAL, NÃO GERA DIREITO A CREDITO FISCAL DE ISSQN E IPI, PERMITE O APROVEITAMENTO DE CREDITO DO ICMS NO VALOR DE  R$ ${(total * 0.0282).toFixed(2)} CORRESPONDENTE A ALIQUOTA DE 2,82% NOS TERMOS DO ARTIGO 23 DA LC 123.`;
+                        if(numPed.trim != ""){
+                            txtComp += ` Aprovado conforme pedido ${numPed}`;
+                        }
+
+
+                        document.getElementById('txaTextoCompl').innerHTML = txtComp;
+
+
+                        dadosNF.fatura = [];
+
 
                     })
 
-                    console.log(query);
+//                                console.log(query);
 
                     dadosNF.NF[6].xNome = pedido[2];
                     dadosNF.NF[6].IE = soNum(pedido[3]);
-                    if(pedido[3].trim() != ''){
-                        dadosNF.NF[6].indIEDest = 1;
-                    }else{
-                        dadosNF.NF[6].indIEDest = 2;
-                    }
+                    dadosNF.NF[6].indIEDest = indIEDest;
                     // dados do cliente do pedido
                     dadosNF.NF[7].CNPJ = soNum(pedido[4]);
                     dadosNF.NF[8].xLgr = pedido[5].trim();
@@ -685,11 +701,12 @@
                     dadosNF.NF[8].CEP = soNum(pedido[11]);
                     dadosNF.NF[8].cPais = '1058';
                     dadosNF.NF[8].fone = soNum(pedido[12]);
-                    IBGE_cMun();
+//                                IBGE_cMun();
+                    IBGE_cMun(UF,xMun,cMun);
                     atualiza()
-                    salva("E",6);
-                    salva("E02",7);
-                    salva("E05",8);                    
+
+                    document.querySelector('.tab-cliente').click();
+                 
                 })                    
                 tbl.appendChild(row);
             }
@@ -697,40 +714,189 @@
         })
         
     })
-    document.getElementById('btnTeste').addEventListener('click',()=>{
 
-  
-  geraChave();
+    function saveFiscal(){
+        const frmB = document.getElementById('B');
 
-//        console.log(IBGE_cMun());
+        const cUF = frmB.querySelector('#cUF').value;
+        const cNF = frmB.querySelector('#cNF').value;
+        const natOp = frmB.querySelector('#natOp').value;
+        const mod = frmB.querySelector('#mod').value;
+        const nNF = frmB.querySelector('#nNF').value;
+        const dhEmi = frmB.querySelector('#dhEmi').value;
+        const dhSaiEnt = frmB.querySelector('#dhSaiEnt').value;
+        const tpNF = frmB.querySelector('#tpNF').value;
+        const idDest = frmB.querySelector('#idDest').value;
+        const cMunFG = frmB.querySelector('#cMunFG').value;
+        const tpImp = frmB.querySelector('#tpImp').value;
+        const tpEmis = frmB.querySelector('#tpEmis').value;
+        const cDV = frmB.querySelector('#cDV').value;
+        const tpAmb = frmB.querySelector('#tpAmb').value;
+        const finNFe = frmB.querySelector('#finNFe').value;
+        const indFinal = frmB.querySelector('#indFinal').value;
+        const indPres = frmB.querySelector('#indPres').value;
+        const procEmi = frmB.querySelector('#procEmi').value;
+        const verProc = frmB.querySelector('#verProc').value;
+        const dhCont = frmB.querySelector('#dhCont').value;
+        const xJust = frmB.querySelector('#xJust').value;
+//                    const ckbSimpRem = frmB.querySelector('#ckbSimpRem').value;
 
-//        const cod =  Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ;
 
-//        console.log(cod)
-  
-/*            33040555
-  const data = new URLSearchParams();        
-      data.append("path", "../config/nfe.json");
+        document.getElementById('cNF').value = Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ; // novo cNF
 
-  const resp = getData("ajax/ajax_getJson.php", data);
-  resp.then((json)=>{            
-      
-      const data = JSON.parse(json);
-      console.log(data);
+        dadosNF.NF[2].cUF = cUF;
+        dadosNF.NF[2].cNF = cNF;
+        dadosNF.NF[2].natOp = natOp;
+        dadosNF.NF[2].mod = mod;
+        dadosNF.NF[2].nNF = nNF;
+        dadosNF.NF[2].dhEmi = dhEmi;
+        dadosNF.NF[2].dhSaiEnt = dhSaiEnt;
+        dadosNF.NF[2].tpNF = tpNF;
+        dadosNF.NF[2].idDest = idDest;
+        dadosNF.NF[2].cMunFG = cMunFG;
+        dadosNF.NF[2].tpImp = tpImp;
+        dadosNF.NF[2].tpEmis = tpEmis;
+        dadosNF.NF[2].cDV = cDV;
+        dadosNF.NF[2].tpAmb = tpAmb;
+        dadosNF.NF[2].finNFe = finNFe;
+        dadosNF.NF[2].indFinal = indFinal;
+        dadosNF.NF[2].indPres = indPres;
+        dadosNF.NF[2].procEmi = procEmi;
+        dadosNF.NF[2].dhCont = dhCont;
+        dadosNF.NF[2].xJust = xJust;        
+    }
+
+    function saveEmit(){
+        const razsoc = document.getElementById('xNome').value;
+        const fantasia = document.getElementById('xFant').value;
+        const IE = document.getElementById('IE').value;
+        const IM = document.getElementById('IM').value;
+        const CNAE = document.getElementById('CNAE').value;
+        const regtrib = document.getElementById('CRT').value;
+        const CNPJ = document.getElementById('CNPJ').value;
+        const end = document.getElementById('xLgr').value;
+        const num = document.getElementById('nro').value;
+        const comp = document.getElementById('cpl').value;
+        const bairro = document.getElementById('bairro').value;
+        const codMun = document.getElementById('cMun').value;
+        const nomeMun = document.getElementById('xMun').value;
+        const UF = document.getElementById('UF').value;
+        const CEP = document.getElementById('CEP').value;
+        const codPais = document.getElementById('cPais').value;
+        const nomePais = document.getElementById('xPais').value;
+        const telefone = document.getElementById('fone').value;
+        const natOp = document.getElementById('natOp').value;
+        const mod = document.getElementById('mod').value;
+        const serie = document.getElementById('serie').value;
+        const nNF = document.getElementById('nNF').value;
+        const dhEmi = document.getElementById('dhEmi').value;
+        const dhSai = document.getElementById('dhSaiEnt').value;
+        const tipOp = document.getElementById('tpNF').value;
+        const destOp = document.getElementById('fone').value;
 
 
 
-  })
-*/
+        myNfe.setAB(CNPJ,nNF,nomeMun,UF,natOp);
+        myNfe.setC(razsoc,CNPJ,IE,IM,end,num,comp,bairro,nomeMun,UF,CEP,codPais,nomePais,telefone,fantasia);
 
-})
+
+
+        dadosNF.NF[3].xNome = razsoc;
+        dadosNF.NF[3].xFant = fantasia;
+        dadosNF.NF[3].IE = IE;
+        dadosNF.NF[3].IM = IM;
+        dadosNF.NF[3].CNAE = CNAE;
+        dadosNF.NF[3].CRT = regtrib;
+        dadosNF.NF[4].CNPJ = CNPJ;
+        dadosNF.NF[5].xLgr = end;
+        dadosNF.NF[5].nro = num;
+        dadosNF.NF[5].cpl = comp;
+        dadosNF.NF[5].bairro = bairro;
+        dadosNF.NF[5].cMun = codMun;
+        dadosNF.NF[5].xMun = nomeMun;
+        dadosNF.NF[5].UF = UF;
+        dadosNF.NF[5].CEP = CEP;
+        dadosNF.NF[5].cPais = codPais;
+        dadosNF.NF[5].xPais = nomePais;
+        dadosNF.NF[5].fone = telefone;        
+    }
+
+    function loadCliente(obj){
+
+//        console.log(obj)
+
+        query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped, e.im
+                    FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
+                    ON p.id_emp = e.id AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
+
+
+
+        const frmCliente = document.getElementById("cliente")
+
+        frmCliente.querySelector("#xNome").value = obj[2]
+        frmCliente.querySelector("#IE").value = obj[3]
+        frmCliente.querySelector("#ISUF").value = ""
+        frmCliente.querySelector("#IM").value = obj[14]
+        frmCliente.querySelector("#email").value = ""
+        frmCliente.querySelector("#CNPJ").value = obj[4]
+        frmCliente.querySelector("#xLgr").value = obj[5]
+        frmCliente.querySelector("#nro").value = obj[7]
+        frmCliente.querySelector("#XCpl").value = ""
+        frmCliente.querySelector("#xBairro").value = obj[8]
+        frmCliente.querySelector("#cMun").value = ""
+        frmCliente.querySelector("#xMun").value = obj[9]
+        frmCliente.querySelector("#UF").value = obj[10]
+        frmCliente.querySelector("#CEP").value = obj[11]
+        frmCliente.querySelector("#cPais").value = ""
+        frmCliente.querySelector("#xPais").value = "BRASIL"
+        frmCliente.querySelector("#fone").value = obj[12]
+
+        console.log(frmCliente.querySelector("#IE").value.trim())
+
+        if(obj[3].trim() === ""){
+            frmCliente.querySelector("#indIEDest").value = "2"
+        }else{
+            frmCliente.querySelector("#indIEDest").value = "1"
+        }
+
+        
+    }
+
     document.getElementById('btnBuscaIBGE').addEventListener('click',(event)=>{
         event.preventDefault();
-        salva("E05",8);
-        IBGE_cMun();
+//                    salvaNF("E05",8);
+
+            const frmCliente = document.getElementById("cliente")
+            const xMun = frmCliente.querySelector("#xMun").value
+            const UF = frmCliente.querySelector("#UF").value
+            const cMun = frmCliente.querySelector("#cMun");
+
+            IBGE_cMun(UF,xMun,cMun);
+
+
     })
+    document.getElementById('btnExportNFe').addEventListener('click',()=>{
+
+        const file = document.getElementById('txtFiles').value;
+        const path = 'NF_txt/' + file;
+
+        
+        var link = document.createElement("a");
+            link.download = file;
+            link.href = path;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            delete link; 
 
 
+
+
+    })            
+/*                
+    document.getElementById('btnTeste').addEventListener('click',()=>{                          
+})
+*/            
 /* DECLARAÇÃO DE FUNÇÕES */
 
     function openTab(tab) {
@@ -753,7 +919,7 @@
             x[i].style.background = "black"; 
             x[i].style.color = "white";         
         }       
-                 
+                    
     }
 
     function importData(){
@@ -765,6 +931,7 @@
             const data = JSON.parse(json);
             dadosNF = data;
             atualiza();
+//            console.log(dadosNF)
 
         })            
     }
@@ -783,19 +950,26 @@
         run("C02",4);
         run("C05",5);
         run("B",2);
-        run("E",6);
-        run("E02",7);
-        run("E05",8);                   
+    
+        
+        //atualiza as datas para a data atual
+        const date = today.getFullYear()+"-"+(today.getMonth()+1).toString().padStart(2, '0')+"-"+today.getDate().toString().padStart(2, '0');
+        document.getElementById('dhEmi').value = date
+        document.getElementById('dhSaiEnt').value = date
+
 
     }
 
-    function salva(id,index){
-        const frm = document.getElementById(id);
+    function salvaNF(){
+//                    const frm = document.getElementById(id);
+/*
         for(let i=0; i<frm.length; i++){
             dadosNF.NF[index][frm[i].id] = frm[i].value.trim();
         }
-
+*/          
         const json = JSON.stringify(dadosNF);
+
+//        console.log(json)
 
         const data = new URLSearchParams();        
             data.append("path", "../config/nfe.json");
@@ -807,45 +981,7 @@
 
     }
 
-    function geraNFE(){
-
-        const today = new Date();
-//        mes = today.getMonth().toString().padStart(2, '0');
-//        ano = today.getFullYear().toString().substr(2,2);
-        hora = today.getHours().toString().padStart(2, '0');
-        min = today.getMinutes().toString().padStart(2, '0');
-        seg = today.getSeconds().toString().padStart(2, '0');
-        dadosNF.NF[1].id = geraChave()
-
-        let txt = '';
-    //            console.log(dadosNF.NF)
-        for(let i=0; i<dadosNF.NF.length; i++){
-            const row = Object.entries(dadosNF.NF[i])
-            for(let j=0; j<row.length; j++){
-                if(row[j][0] == 'dhEmi' || row[j][0] == 'dhSaiEnt'){ // coloca hora na data
-                    row[j][1]+='T'+hora+':'+min+':'+seg+'-03:00';
-                    hora++;
-                    if(hora == 24){
-                        hora = 0;
-                    }
-                    hora = hora.toString().padStart(2, '0');
-                }                
-                txt += row[j][1]+'|';                
-            }
-            txt += '\r\n';            
-        }
-        for(let i=0; i<dadosNF.itens.length; i++){
-            for(let g=0; g<dadosNF.itens[i].length; g++){
-                const row = Object.entries(dadosNF.itens[i][g])
-                for(let j=0; j<row.length; j++){              
-                    txt += row[j][1]+'|';                
-                }
-                txt += '\r\n';  
-            }                        
-        }
-
-        console.log(txt)
-    }                
+    
 
     function getData(url,data){
         const myRequest = new Request(url,{
@@ -867,7 +1003,8 @@
         });            
     }
 
-    function IBGE_cMun(){
+    function IBGE_cMun(UF,xMun,field){
+        let resp = null
         dadosNF.NF[8].cMun = '';
         const UF_cod = new Promise((resolve,reject) =>{
 
@@ -881,12 +1018,11 @@
                 } 
             })                    
         });   
-        
+
         UF_cod.then((resolve)=>{
             const json = JSON.parse(resolve);
-
             for(let i=0; i<json.length; i++){
-                if(json[i].sigla == dadosNF.NF[8].UF){
+                if(json[i].sigla == UF){
 
                     const Mun_cod = new Promise((resolve,reject) =>{
 
@@ -904,10 +1040,9 @@
                     Mun_cod.then((resolve)=>{
                         const json = JSON.parse(resolve);
                         for(let j=0; j<json.length; j++){
-                            if(json[j].nome.trim().toLowerCase() == dadosNF.NF[8].xMun.trim().toLowerCase()){
-                                dadosNF.NF[8].cMun = json[j].id;
-                                atualiza()
-//                                salva("E05",8);                                   
+
+                            if(json[j].nome.trim().toLowerCase() == xMun.trim().toLowerCase()){
+                                field.value = json[j].id                              
                                 break;
                             }
                         }
@@ -918,49 +1053,8 @@
             }
             
         })
-
     }
 
-    function geraChave(){
 
-        const today = new Date();
-        mes = today.getMonth().toString().padStart(2, '0');
-        ano = today.getFullYear().toString().substr(2,2);
-        const aamm = ano+mes;
-
-//        geraChave(dadosNF.NF[4].CNPJ,dadosNF.NF[2].nNF,ano+mes)
-        const CNPJ = dadosNF.NF[4].CNPJ;
-        const nNF = dadosNF.NF[2].nNF.padStart(9, '0');
-        const uf = "35";            // cUF - Código da UF do emitente do Documento Fiscal;
-    //            const aamm = ano+mes;        // AAMM - Ano e Mês de emissão da NF-e;
-        const tpEmis = "1";         // tpEmis – forma de emissão da NF-e;
-        const cod = dadosNF.NF[2].cNF  // cNF - Código Numérico que compõe a Chave de Acesso; (random entre 10000000 e 99999999)
-        const mod = "55";           // mod - Modelo do Documento Fiscal;
-        const ser = "001";          // serie - Série do Documento Fiscal;
-//        Nnf = Nnf.padStart(9, '0') ;    // nNF - Número do Documento Fiscal;
-
-        const chave = uf + aamm + CNPJ + mod + ser +  nNF + tpEmis + cod ;
-
-        let dv = 0;
-        let mult = 2;
-            for(let i = 1; i < chave.length+1; i++){
-                dv = dv + (chave[chave.length - i] * mult);
-                mult++;
-
-                if (mult > 9){
-                mult = 2;
-                }
-            }
-
-            let resto = dv % 11;
-            dv = 11 - resto;
-
-            if(dv > 9){
-                dv = 0;
-            }
-
-            return 'NFe'+chave+dv;
-
-    }
 
 </script>
