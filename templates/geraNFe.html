@@ -355,6 +355,26 @@
                     <input type="text" id="edtValorDesc" value='0'>
                     <label>Dias entre as Parcelas</label>
                     <input type="text" id="edtDiasParcelas" value="30/45/60">
+                    <label> Tipo de Pagamento</label>
+                    <select id="cmbPrazo">
+                        <option value="0">A Vista</option>
+                        <option value="1" selected>A Prazo</option>
+                    </select>
+                    <select id="cmbTpPgto">
+                        <option value="01">Dinheiro</option>
+                        <option value="02">Cheque</option>
+                        <option value="03">Cartão de Crédito</option>
+                        <option value="04">Cartão de Débito</option>
+                        <option value="05">Crediário</option>
+                        <option value="10">Vale Alimentação</option>
+                        <option value="11">Vale Refeição</option>
+                        <option value="12">Vale Presente</option>
+                        <option value="13">Vale Combustível</option>
+                        <option value="15" SELECTED>Boleto</option>
+                        <option value="17">Pix</option>
+                        <option value="90"> Sem pagamento (apenas para NFe)</option>
+                        <option value="99">Outros</option>
+                    </select>
                     <label>Texto Complementar</label>
                     <textarea  id="txaTextoCompl" rows="10"></textarea>
                 
@@ -478,7 +498,7 @@
 
     })
     document.getElementById('btnGeraNFe').addEventListener('click',(event)=>{
-        event.preventDefault();
+        event.preventDefault()
         saveEmit()
         saveFiscal()
 
@@ -486,8 +506,11 @@
         const parc = document.getElementById('edtDiasParcelas').value
         const txtCpl = document.getElementById('txaTextoCompl').value
         const desc = document.getElementById('edtValorDesc').value
-
-        myNfe.setFat(valor,parc,txtCpl,desc);
+        const prazo = document.getElementById('cmbPrazo').value
+        const TpPgto = document.getElementById('cmbTpPgto').value
+        
+        
+        myNfe.setFat(valor,parc,txtCpl,desc,prazo,TpPgto);
 
         const nfTxt = myNfe.exportTxt();
 

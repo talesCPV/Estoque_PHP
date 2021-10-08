@@ -18,7 +18,12 @@ class NFe{
 
                 let txt = ''
                 if(str[i] != undefined){
-                    txt = str[i].toString().trim().toUpperCase()
+                    txt = str[i].toString().trim()
+                    if(i > 0){
+                        txt = txt.toUpperCase()
+                    }
+
+//                    txt = str[i].toString().trim().toUpperCase()
                 }
                 out += `${txt}|`
             }
@@ -41,7 +46,7 @@ class NFe{
             const item = this.I[i]
             tot += (parseFloat(item.vUnCom) * parseFloat(item.qCom)) ;
             lineI += add(['H',i+1])
-            lineI += add(['I',item.cProd,item.cEAN,item.cBarra,item.xProd,item.NCM,item.cBenef,item.CFOP,item.uCom,item.qCom,item.vUnCom,item.vProd,item.cEANTrib,item.uTrib,item.qTrib,item.vUnTrib,item.vFrete,item.vSeg,item.vDesc,item.vOutro,item.indTot,item.xPed,item.nFCI])
+            lineI += add(['I',item.cProd,item.cEAN,item.cBarra,item.xProd,item.NCM,item.cBenef,item.CFOP,item.uCom,item.qCom,item.vUnCom,item.vProd,"",item.cEANTrib,item.uTrib,item.qTrib,item.vUnTrib,item.vFrete,item.vSeg,item.vDesc,item.vOutro,item.indTot,item.xPed,item.nFCI])
             lineI += add(['M',''])
             lineI += add(['N'])
             lineI += add(['N10d',0,102])
@@ -62,8 +67,7 @@ class NFe{
 */
         let lineFat = add(['W'])
         lineFat += add(['W02',(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),tot.toFixed(2),(0).toFixed(2),
-        (0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2)],
-        (0).toFixed(2),tot.toFixed(2),(0).toFixed(2))
+        (0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),(0).toFixed(2),tot.toFixed(2),(0).toFixed(2)])
         lineFat += add(['W04c',(0).toFixed(2)])
         lineFat += add(['W04e',(0).toFixed(2)])
         lineFat += add(['W04g',(0).toFixed(2)])
@@ -88,8 +92,8 @@ class NFe{
             lineFat += add(['Y07',(i+1).toString().padStart(3, '0'),datasVenc,valorParc])
         }
 
-        lineFat += add(['YA',(0).toFixed(2)])
-        lineFat += add(['YA01',1,15,"",totFin])
+        lineFat += add(['YA'])
+        lineFat += add(['YA01',this.Fat.prazo,this.Fat.TpPgto,"",totFin])
         lineFat += add(['Z',"",this.Fat.txtCpl])
 
         return 'NOTAFISCAL|1\r\n'+lineA+lineB+lineC+lineC02+lineC05+lineE+lineE02+lineE05+lineI+lineFat
@@ -140,10 +144,12 @@ class NFe{
         this.getSaida()        
     }
 
-    setFat(valor,parc,txtCpl, desc){
+    setFat(valor,parc,txtCpl,desc,prazo,TpPgto){
         this.Fat.valor = parseFloat(valor).toFixed(2),
         this.Fat.parc = parc,
         this.Fat.txtCpl = txtCpl,
+        this.Fat.prazo = prazo,
+        this.Fat.TpPgto = TpPgto,
         this.Fat.desc = parseFloat(desc).toFixed(2)
     }
 
