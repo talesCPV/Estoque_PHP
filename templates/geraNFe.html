@@ -119,6 +119,8 @@
                         <input type="hidden" id="IEST" value=""  >                
                         <label> Insc. Municipal </label>
                         <input type="text" id="IM" maxlength="15" value="" />
+                        <label> IE do Substituto Tributário </label>
+                        <input type="text" id="IEST" maxlength="15" value="" />
                         <label> CNAE </label>
                         <input type="text" id="CNAE" maxlength="7"  value=""/>
                         <label> Regime Tributário </label>
@@ -493,7 +495,7 @@
             const xPais = frmCliente.querySelector("#xPais").value
             const fone = frmCliente.querySelector("#fone").value
 
-        myNfe.setE(xNome,CNPJ,IE,IM,xLgr,nro,XCpl,xBairro,xMun,UF,CEP,"1058","BRASIL",fone,indIEDest,"","",xNome)
+        myNfe.setE(xNome,CNPJ,IE,IM,xLgr,nro,XCpl,xBairro,xMun,UF,CEP,"1058","BRASIL",indIEDest,fone,"","",xNome)
 //                    myNfe.setE(pedido[2],pedido[4],pedido[3],pedido[14],pedido[5],pedido[7],"",pedido[8],pedido[9],pedido[10],pedido[11],"1058","BRASIL")
 
     })
@@ -615,12 +617,10 @@
                         pedido.push(row[k].innerHTML);
                     }
 
-//                    console.log(pedido);
+                    console.log(pedido);
                     loadCliente(pedido);
-                    let indIEDest = "1"
-                    if (pedido[3].trim() === ""){
-                        indIEDest = "2"
-                    }
+                    const indIEDest = document.getElementById("cliente").querySelector("#indIEDest").value
+//                    console.log(indIEDest);
                     myNfe.setE(pedido[2],pedido[4],pedido[3],pedido[14],pedido[5],pedido[7],"",pedido[8],pedido[9],pedido[10],pedido[11],"1058","BRASIL",indIEDest)
                     numPed = pedido[1];
 
@@ -645,15 +645,25 @@
                     resp.then((json)=>{
                         const data = JSON.parse(json);
                         const tab = document.getElementById('tblItens');
-                        tab.innerHTML = '';
+                        tab.innerHTML = '<tr><th>CFOP</th><th>Cod</th><th>Descrição</th><th>Qtd.</th><th>Preço</th><th>Und.</th></tr>';
                         let total = 0;
                         dadosNF.itens = [];
+                        let prefCFOP = "51"
+                        if(pedido[10] != dadosNF.NF[5].UF){
+                            prefCFOP = "61"
+                        }
+//                        console.log(prefCFOP)
                         myNfe.clearItens()
                         for(let i=0; i<data.length; i++){ // 1x a cada item do 
-                            myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].und.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco))
-
+                            let posCFOP = "02"
+                            if(parseInt(data[i].cod) < 1000){
+                                posCFOP = "01"
+                            }
+//                            console.log(prefCFOP+posCFOP)
+                            myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].und.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco),prefCFOP+posCFOP)
                             const campos = Object.entries(data[i]);
                             const perm = ['cod','descricao','ncn','und','qtd','preco'];
+/*
                             if(i == 0){
                                 const row = document.createElement('tr');
                                 for(let j=0; j<campos.length; j++){ // passa campo a campo
@@ -666,8 +676,10 @@
                                 }
                                 tab.appendChild(row)
                             }
-
+*/                            
+//                    const ckbSimpRem = frmB.querySelector('#ckbSimpRem').value;
                             const row = document.createElement('tr');
+                            row.innerHTML = `<td>${prefCFOP+posCFOP}</td>`
                             for(let j=0; j<campos.length; j++){
                                 const col = document.createElement('td');
                                 if(!perm.includes(campos[j][0])){
@@ -684,7 +696,7 @@
                         }
                         const row = document.createElement('tr');
                         const col = document.createElement('th');
-                        col.colSpan = 5
+                        col.colSpan = 6
                         col.style.textAlign = "right";
                         col.innerHTML = 'Total R$'+total.toLocaleString('pt-br', {minimumFractionDigits: 2});
                         row.appendChild(col)
@@ -762,8 +774,6 @@
         const verProc = frmB.querySelector('#verProc').value;
         const dhCont = frmB.querySelector('#dhCont').value;
         const xJust = frmB.querySelector('#xJust').value;
-//                    const ckbSimpRem = frmB.querySelector('#ckbSimpRem').value;
-
 
         document.getElementById('cNF').value = Math.floor(Math.random() * (99999999 - 10000000) + 10000000) ; // novo cNF
 
@@ -794,6 +804,7 @@
         const fantasia = document.getElementById('xFant').value;
         const IE = document.getElementById('IE').value;
         const IM = document.getElementById('IM').value;
+        const IEST = document.getElementById('IEST').value;
         const CNAE = document.getElementById('CNAE').value;
         const regtrib = document.getElementById('CRT').value;
         const CNPJ = document.getElementById('CNPJ').value;
@@ -820,7 +831,7 @@
 
 
         myNfe.setAB(CNPJ,nNF,nomeMun,UF,natOp);
-        myNfe.setC(razsoc,CNPJ,IE,IM,end,num,comp,bairro,nomeMun,UF,CEP,codPais,nomePais,telefone,fantasia);
+        myNfe.setC(razsoc,CNPJ,IE,IM,end,num,comp,bairro,nomeMun,UF,CEP,codPais,nomePais,telefone,fantasia,CNAE,regtrib,IEST);
 
 
 
@@ -847,11 +858,11 @@
     function loadCliente(obj){
 
 //        console.log(obj)
-
+/*
         query =  `SELECT p.id, p.num_ped, e.nome, e.ie, e.cnpj, e.endereco, p.status, e.num, e.bairro, e.cidade, e.estado, e.cep, e.tel, p.data_ped, e.im
                     FROM tb_pedido AS p INNER JOIN tb_empresa AS e 
                     ON p.id_emp = e.id AND p.status = 'FECHADO' ORDER BY p.data_ped DESC ;`;
-
+*/
 
 
         const frmCliente = document.getElementById("cliente")
@@ -874,7 +885,7 @@
         frmCliente.querySelector("#xPais").value = "BRASIL"
         frmCliente.querySelector("#fone").value = obj[12]
 
-        console.log(frmCliente.querySelector("#IE").value.trim())
+//        console.log(frmCliente.querySelector("#IE").value.trim())
 
         if(obj[3].trim() === ""){
             frmCliente.querySelector("#indIEDest").value = "2"
@@ -1004,8 +1015,6 @@
 
     }
 
-    
-
     function getData(url,data){
         const myRequest = new Request(url,{
             method : "POST",
@@ -1077,7 +1086,5 @@
             
         })
     }
-
-
 
 </script>

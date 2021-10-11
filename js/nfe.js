@@ -12,14 +12,14 @@ class NFe{
     }
 
     exportTxt(){
-        function add(str){
+        function add(str,upper=true){
             let out='';
             for(let i=0; i< str.length; i++){
 
                 let txt = ''
                 if(str[i] != undefined){
                     txt = str[i].toString().trim()
-                    if(i > 0){
+                    if(i > 0 && upper){
                         txt = txt.toUpperCase()
                     }
 
@@ -31,12 +31,12 @@ class NFe{
             return out;
 
         }
-        const lineA = add(['A',this.A.versao,this.A.id])
+        const lineA = add(['A',this.A.versao,this.A.id],false)
         const lineB = add(['B',this.B.cUF,this.B.cNF,this.B.natOp,this.B.mod,this.B.serie,this.B.nNF,this.B.dhEmi,this.B.dhSaiEnt,this.B.tpNF,this.B.idDest,this.B.cMunFG,this.B.tpImp,this.B.tpEmis,this.B.cDV,this.B.tpAmb,this.B.finNFe,this.B.indFinal,this.B.indPres,this.B.procEmi,this.B.verProc,this.B.dhCont,this.B.xJust])
         const lineC = add(['C',this.C.xNome,this.C.xFant,this.C.IE,this.C.IEST,this.C.IM,this.C.CNAE,this.C.CRT])
         const lineC02 = add(['C02',this.C.CNPJ])
         const lineC05 = add(['C05',this.C.xLgr,this.C.nro,this.C.cpl,this.C.bairro,this.B.cMunFG,this.C.xMun,this.C.UF,this.C.CEP,this.C.cPais,this.C.xPais,this.C.fone])
-        const lineE =  add(['E',this.E.xNome,this.E.indIEDest,this.E.IE,this.E.IEST,this.E.IM,this.E.CNAE,this.E.CRT])
+        const lineE =  add(['E',this.E.xNome,this.E.indIEDest,this.E.IE,this.E.ISUF,this.E.IM,this.E.email])
         const lineE02 = add(['E02',this.E.CNPJ])
         const lineE05 = add(['E05',this.E.xLgr,this.E.nro,this.E.cpl,this.E.bairro,this.E.cMunFG,this.E.xMun,this.E.UF,this.E.CEP,this.E.cPais,this.E.xPais,this.E.fone])
 
@@ -101,7 +101,7 @@ class NFe{
 
     }
 
-    setAB(CNPJ,nNF,xMun="Caçapava",UF="SP",natOp="VENDA",indSinc="",codUf="35",ser="001",cUF,cNF="",mod="55",serie="1",tpNF="1",idDest="1",cMunFG,tpImp="1",tpEmis="1",cDV="",tpAmb="1",finNFe="1",indFinal="0",indPres="0",procEmi="",versao="4.00",verProc="",dhCont="",xJust=""){
+    setAB(CNPJ,nNF,xMun="Caçapava",UF="SP",natOp="VENDA",indSinc="",codUf="35",ser="001",cUF,cNF="",mod="55",serie="1",tpNF="1",idDest="1",cMunFG="3508504",tpImp="1",tpEmis="1",cDV="",tpAmb="1",finNFe="1",indFinal="0",indPres="0",procEmi="",versao="4.00",verProc="",dhCont="",xJust=""){
         this.A.CNPJ = CNPJ,
         this.A.nNF = nNF.padStart(9, '0'),        
         this.A.versao = versao,        
@@ -153,7 +153,7 @@ class NFe{
         this.Fat.desc = parseFloat(desc).toFixed(2)
     }
 
-    setC(xNome="Flexibus Sanfonados LTDA",CNPJ="00519547000106",IE="234033845113",IM="111222",xLgr="Av. Dr. Rosalvo de Almeida Telles",nro="2070",cpl="",bairro="Nova Caçapava",xMun="Caçapava",UF="SP",CEP="122863020",cPais="",xPais="BRASIL",fone="1236532230",xFant="",IEST="",CNAE="",CRT=""){       
+    setC(xNome="Flexibus Sanfonados LTDA",CNPJ="00519547000106",IE="234033845113",IM="111222",xLgr="Av. Dr. Rosalvo de Almeida Telles",nro="2070",cpl="",bairro="Nova Caçapava",xMun="Caçapava",UF="SP",CEP="122863020",cPais="",xPais="BRASIL",fone="1236532230",xFant="",CNAE="",CRT="",IEST=""){       
         this.C.xNome = xNome,
         this.C.xFant = xFant,
         this.C.IE = this.onlyNum(IE),
@@ -177,16 +177,15 @@ class NFe{
         this.codPais(this.C);
     }
 
-    setE(xNome="",CNPJ="",IE="",IM="",xLgr="",nro="",cpl="",bairro="",xMun="",UF="",CEP="",cPais="",xPais="",indIEDest="",fone="",IEST="",CNAE="",CRT="",xFant=""){   
+    setE(xNome="",CNPJ="",IE="",IM="",xLgr="",nro="",cpl="",bairro="",xMun="",UF="",CEP="",cPais="",xPais="",indIEDest="",fone="",ISUF="",email="",xFant=""){   
         console.log(indIEDest)    
         this.E.xNome = xNome,
         this.E.xFant = xFant,
         this.E.IE = this.onlyNum(IE),
         this.E.indIEDest = indIEDest,
-        this.E.IEST = IEST,
+        this.E.ISUF = ISUF,
         this.E.IM = this.onlyNum(IM),
-        this.E.CNAE = CNAE,
-        this.E.CRT = CRT,
+        this.E.email = email,
         this.E.CNPJ = this.onlyNum(CNPJ),
         this.E.xLgr = xLgr,
         this.E.nro = nro,
@@ -201,6 +200,7 @@ class NFe{
         this.E.fone = this.onlyNum(fone),
         this.getCodUf(this.E);
         this.codPais(this.E);
+//        console.log(this.E)
     }
 
     clearItens(){
