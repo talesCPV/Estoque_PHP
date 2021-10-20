@@ -26,6 +26,7 @@
 	      <select name="campo" id="selPesqPed">		
 	        <option value="todos">Todos</option>
 	        <option value="cli">Cliente</option>
+	        <option value="cod">Cod. Cliente</option>
 	        <option value="nf">NF</option>
 	        <option value="ped">Pedido</option>
 	        <option value="num">Numero do Carro</option>
@@ -63,6 +64,8 @@
 
                 if ($campo == "cli"){
                     $query_opt = $query_opt . " AND e.nome LIKE '%".$valor."%'";
+                }else if($campo == "cod"){
+                    $query_opt = $query_opt . " AND e.id = '".$valor."' ";
                 }else if($campo == "nf"){
                     $query_opt = $query_opt . " AND s.nf LIKE '%".$valor."%'";
                 }else if($campo == "ped"){

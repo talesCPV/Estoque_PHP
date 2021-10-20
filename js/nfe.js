@@ -177,7 +177,7 @@ class NFe{
         this.codPais(this.C);
     }
 
-    setE(xNome="",CNPJ="",IE="",IM="",xLgr="",nro="",cpl="",bairro="",xMun="",UF="",CEP="",cPais="",xPais="",indIEDest="",fone="",ISUF="",email="",xFant=""){   
+    setE(xNome="",CNPJ="",IE="",IM="",xLgr="",nro="",cpl="",bairro="",xMun="",UF="",CEP="",cPais="1058",xPais="BRASIL",indIEDest="",fone="",ISUF="",email="",xFant=""){   
         console.log(indIEDest)    
         this.E.xNome = xNome,
         this.E.xFant = xFant,

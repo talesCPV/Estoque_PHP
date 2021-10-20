@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta  charset="UTF-8"> 
+<title>Flexibus Articulados</title>
+<link rel="stylesheet" href="assets/sources/slideshow.css">
+<style>
+
+/*
+PALLET
+
+branco #FFFFFF
+verde #CBE86B
+beje #F2E9E1
+preto #1C140D
+
+
+*/
+
+@font-face {
+  font-family: 'flexFont';
+  src:  url('assets/fonts/Questrial-Regular.ttf') format('woff');
+}
+
+
+:root {
+  --cor1: #CBE86B;
+  --cor2: #FFFFFF;
+  --cor3: #5f4733;
+  --cor4: #1C140D;
+  --cor5: #FFFFFF;
+  --transp: 0.8;
+}
+
+* {
+  box-sizing: border-box;
+  text-decoration: none;
+  color: inherit;
+  font-family: 'flexFont', Fallback, sans-serif;
+}
+
+body{
+  background-color: var(--cor2);
+  /*background: url(assets/images/capa2.jpg);
+  background-size: 100vw 100vh ;*/
+
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+}
+
+form > input{
+  border: none;
+  border-bottom: solid 1px;
+  margin-bottom: 15px;
+  font-size: large;
+}
+
+form > button{
+  margin-top: 15px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#whatsapp{
+  display: block;
+  position: fixed;
+  top: 80vh;
+  left: 5vw;
+  z-index: 1;
+  transition-property: opacity, left, top, height;
+  transition-duration: 3s, 5s, 3s, 5s;
+}
+
+.main-screen{
+  max-width: 1400px;
+  margin: auto;
+}
+
+.hide-item{
+    display: none;
+}
+
+.hide-item:target{
+    display: block;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px 0;
+}
+
+.main-content{
+    padding: 20px;
+    min-height: 80vh;
+    background-color: var(--cor2);
+
+}
+
+html {
+  font-family: "Lucida Sans", sans-serif;
+}
+
+.header {
+  background-color: var(--cor2);
+  opacity: var(--transp);
+  color: #1C140D;
+  padding: 15px;
+  height: 10vh;
+  margin: 0 20px;
+  border-bottom: solid 2px var(--cor1);
+}
+
+.header img{
+    width: auto;
+    height: 100%;
+}
+
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  padding: 8px;
+  margin-bottom: 7px;  
+  color: #1C140D;
+}
+
+.menu li:hover {
+    opacity: 1;
+    background-color: var(--cor1);
+    color: var(--cor4);
+    cursor: pointer;
+}
+.menu li:hover::before{
+    border-radius: 15px;
+    background-color: var(--cor5);
+    opacity: 0;
+}
+
+.aside {
+  padding: 15px;
+  color: #1C140D;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer {
+  background-color: var(--cor2);
+  opacity: var(--transp);
+  color: #1C140D;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 15px;
+  height: 10vh;
+  margin: 0 20px;
+  border-top: solid 2px var(--cor1);;  
+}
+
+/* For desktop: */
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {
+    width: 25%;
+    background: var(--cor2);
+    opacity: var(--transp);
+    color: #1C140D;
+    min-height: 80vh;
+
+}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {
+  width: 50%;
+/*  border: solid var(--cor1); */
+}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+  }
+
+  .header h1 {
+      font-size: 35px;
+      content: 'teste';
+}
+
+  #whatsapp{
+    display: none;
+  }
+
+
+}
+</style>
+</head>
+<body>
+
+  <div id="whatsapp">
+    <a href="https://api.whatsapp.com/send?phone=551236532230" target="_blank" rel="noopener noreferrer"> 
+      <img src="assets/images/whatsapp.png" width="50" height="50">
+    </a>
+  </div>
+
+
+<div class="header">
+  <img src="assets/images/logo.png" >
+</div>
+
+<div class="main-screen">
+
+  <div class="row">
+    <div class="col-3 menu">
+      <ul id="menu">
+        <a id="m1" href="#1"><li>Elevações</li></a>
+        <a id="m2" href="#2"><li>Manutenções</li></a>
+        <a id="m3" href="#3"><li>Articulação</li></a>
+        <a id="m4" href="#4"><li>Fole de Fingers de Embarque</li></a>
+        <a id="m5" href="#5"><li>Gangways de Metrô e Trens</li></a>
+        <a id="m6" href="#6"><li>Projetos Especiais</li></a>
+        <a id="m7" href="#7"><li>Peças</li></a>
+        <a id="m8" href="#8"><li>Tintas</li></a>
+        <a id="m9" href="#9"><li>Contatos</li></a>
+        <a id="m10" href="#10"><li>Fale Conosco</li></a>
+      </ul>
+    </div>
+
+    <div class="col-6 main-content">
+      <div id="1" class="hide-item">        
+        <h1>Elevações</h1>
+        <div class="fotoslide"></div>
+        <p>A Flexibus  desenvolveu dois projetos para elevação , uma onde é executado direto no cliente, 
+          substituindo as curvas de alumínio inferior  por curvas  adaptadas sendo retirado parte do tecido 
+          elevando a sanfona ao nível adequado para cada modelo. A segunda opção é mais indicada  onde o 
+          material excedente é retirado das laterais e do fundo , mantendo a abertura e característica original 
+          da sanfona. Realizado na fábrica da Flexibus este serviço tem garantia sendo a solução definitiva para o problema de raspagem das barras no asfalto.
+          A elevação de sanfona é executada de acordo com as normas de engenharia especializada.</p>
+
+      </div>
+      <div id="2" class="hide-item">
+        <div class="fotoslide"></div>
+      </div>
+      <div id="3" class="hide-item">
+        <div class="fotoslide"></div>
+      </div>
+      <div id="4" class="hide-item">
+        <div class="fotoslide"></div>
+      </div>
+      <div id="5" class="hide-item">
+        <div class="fotoslide"></div>
+        <p>Serviço de manutenção em gangways de metrô, revitalização de toda frota no Metrô Rio</p>
+      </div>
+      <div id="6" class="hide-item">
+        <div class="fotoslide"></div>
+      </div>
+      <div id="7" class="hide-item">
+        <div class="fotoslide"></div>
+        <p>A Flexibus garante matéria-prima de primeira qualidade na fabricação das  peças de reposição sendo testadas e aprovadas.</p>
+      </div>
+      <div id="8" class="hide-item">
+        <h1>Tintas Automotivas</h1>
+        <div class="fotoslide"></div>
+      </div>
+      <div id="9" class="hide-item">
+        <h1>Contatos</h1>
+      
+        <a href="https://api.whatsapp.com/send?phone=551236532230" target="_blank" rel="noopener noreferrer">  
+          <h3 style="color: green;">
+            <img src="assets/images/whatsapp.png" width="30" height="30">  (12) 3653-2230 
+          </h3>          
+        </a>
+              
+          <ul>
+            <h2>Bruno José Mathias</h2>
+            <li>Representante Comercial</li>
+            <li>comercial@flexibus.com.br</li>
+            <a href="https://api.whatsapp.com/send?phone=5512991202360" target="_blank" rel="noopener noreferrer">
+              <li style="color: green;">(12)9.9120-2360 </li>
+            </a>
+          </ul>              
+
+          <ul>
+            <h2>Tânia Morgado</h2>
+            <li>Supervisão</li>
+            <li>tania@flexibus.com.br</li>
+            <a href="https://api.whatsapp.com/send?phone=5512997991867" target="_blank" rel="noopener noreferrer">
+              <li style="color: green;">(12)9.9799-1867</li>
+            </a>
+          </ul>          
+          
+          <ul> 
+            <h2>Tales Cembraneli Dantas</h2>
+            <li>Engenheiro de Manutenção e Projeto</li>
+            <li>tales@flexibus.com.br</li>
+            <a href="https://api.whatsapp.com/send?phone=5512997113793" target="_blank" rel="noopener noreferrer">
+            <li style="color: green;">(12)9.9711-3793</li>
+            </a>
+          </ul>
+          
+          <p>Nossa empresa se localiza na Av.Dr Rosalvo de Almeida Telles, 2070, Marginal da Dutra sentido Rio, Caçapava-SP CEP 12.283-020 - tel (12)3653-2230</p>
+
+
+          <div id="map">					
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3669.9354400106486!2d-45.687477954352595!3d-23.09945906289206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc5159ecb89903%3A0xf0d6fd106c75a36f!2sR.+Dr.+Rosalvo+de+Almeida+Teles%2C+2070+-+Parque+Res.+Nova+Ca%C3%A7apava%2C+Ca%C3%A7apava+-+SP!5e0!3m2!1spt-BR!2sbr!4v1526665336097"
+              width="600" 
+              height="450"
+              frameborder="0"
+              style="border:0"
+              allowfullscreen>
+            </iframe>					
+          </div>
+
+
+      </div>    
+      <div id="10" class="hide-item">
+        <h1>Fale Conosco</h1>
+        <form name="frmFaleConosco" action="ajax/sendMail.php" method="POST">
+          <label>Nome</label>
+          <input type="text" name="nome" id="edtNome">
+          <label>Email</label>
+          <input type="email" name="remetente" id="edtRem">
+          <label>Assunto</label>
+          <input type="text" name="assunto" id="edtAss">
+          <textarea name="corpo" cols="30" rows="10" id="edtCorpo"></textarea>
+          <button id="btnEnviar">Enviar</button>
+
+
+        </form>
+
+
+      </div>      
+    </div>
+
+    <div class="col-3 right">
+      <div class="aside">
+        <h2>Quem somos?</h2>
+        <p>Empresa 100% nacional, fundada em 1994 pelo sr. Jacy Dantas a fim de iniciar um processo de manutenção até então inédito no mercado nacional, atendendo uma necessidade cada vez maior das empresas de ônibus auxiliando-as  na manutenção dos seus carros articulados.</p>
+        <h2>Nossa Política</h2>
+        <p>Resolver todo problema de nosso cliente relacionado a toda parte de articulação e sanfonados, no menor tempo possível, com a melhor qualidade e praticando um preço justo</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <p>Flexibus Sanfonados LTDA | Caçapava-SP - Brasil</p>
+  <p>Av. Dr Rosalvo de Almeida Telles 2070, - Bairro Nova Caçapava | (12)3653-2230</p>
+</div>
+
+<script src="assets/sources/slideshow.js"></script>
+<script>
+
+setInterval(()=>{
+    plusSlides(1)
+  },5000)
+
+
+  document.getElementById('btnEnviar').addEventListener('click',(event)=>{
+    event.preventDefault()
+
+        const data = new URLSearchParams();        
+        data.append("nome", document.getElementById('edtNome').value);
+        data.append("remetente", document.getElementById('edtRem').value);
+        data.append("assunto", document.getElementById('edtAss').value);
+        data.append("corpo", document.getElementById('edtCorpo').value);
+
+        const myRequest = new Request("ajax/sendMail.php",{
+            method : "POST",
+            body : data
+        });
+
+        const myPromisse = new Promise((resolve,reject) =>{
+
+            fetch(myRequest)
+            .then(function (response){
+
+                if (response.status === 200) { 
+                    alert('Mensagem enviada com sucesso, entraremos em contato pelo email assim que possível')
+                    document.getElementById('edtNome').value = ""
+                    document.getElementById('edtRem').value = ""
+                    document.getElementById('edtAss').value = ""
+                    document.getElementById('edtCorpo').value = ""
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor, tente mais tarde"));
+                } 
+
+            });            
+
+        });    
+
+
+  })
+
+  // ELEVAÇÃO
+  document.getElementById('m1').addEventListener('click',()=>{
+    showDiv(1,[
+      {img:"capa.jpg",label:""},
+      {img:"elev01.jpg",label:"Elevação feita no cliente"},
+      {img:"elev02.jpg",label:"Substituição das curvas danificadas"},
+      {img:"elev03.jpg",label:"Troca completa de chão e varetas"},
+      {img:"elev04.jpg",label:"Instalação de chão removível novo no cliente"},
+      {img:"elev05.jpg",label:"Elevação feita no cliente, alteração realizada na parte inferior, mantendo as caracteristicas originais da sanfona"},
+      {img:"elev06.jpg",label:"Detalhe da altura das novas curvas instaladas"},
+      {img:"elev07.jpg",label:"Substituição de sanfona por outra do mesmo modelo serviço de elevação realizado na fábrica *Incluso higienização completa e troca de chão novo."},
+      {img:"elev08.jpg",label:"Elevação feita a partir da lateral ao invés do modelo feito direto no cliente que se retira na parte de baixo da curva"},
+      {img:"elev09.jpg",label:"Este modelo de elevação corrige definitivamente o problema das barras raspando no chão"}
+    ])
+  })
+
+  // MANUTENÇÃO
+  document.getElementById('m2').addEventListener('click',()=>{
+    showDiv(2,[
+      {img:"manut01.jpg",label:"Proteção sanfonada interna, troca de ziper, eliminação de rugas"},
+      {img:"manut02.jpg",label:"Troca completa de chão da sanfona"},
+      {img:"manut03.jpg",label:"Manutenção de alumínio aberto, recalafetação, etc."}
+    ])
+  })
+
+  // ARTICULAÇÃO
+  document.getElementById('m3').addEventListener('click',()=>{
+    showDiv(3,[
+      {img:"pist01.jpg",label:"Manutenção nos pistões da articulação, troca de óleo, retentores e pressurização"},
+      {img:"pist02.jpg",label:"Temos todas as peças do kit do Pistão"}])
+  })
+
+  // FOLE DO FINGER
+  document.getElementById('m4').addEventListener('click',()=>{
+    showDiv(4,[
+      {img:"finger04.jpg",label:"Fole do finger de embarque (Congonhas)"},
+      {img:"finger02.jpg",label:"Fole do finger para ponte modelo TEAM"},
+      {img:"finger03.jpg",label:"Totalmente fabricada em material anti-chama, atendento as normas internacionais"},
+      {img:"finger01.jpg",label:"Fole do finger modelo BRAFER, projeto Flexibus"},
+      {img:"finger05.jpg",label:"Fole do finger modelo TEAM"}
+])
+  })
+
+  // GANGWAYS 
+  document.getElementById('m5').addEventListener('click',()=>{
+    showDiv(5,[
+      {img:"gangway01.jpg",label:"Gangways antes da manutenção"},
+      {img:"gangway02.jpg",label:"Gangways antes da manutenção"},
+      {img:"gangway03.jpg",label:"Gangways antes da manutenção"},
+      {img:"gangway04.jpg",label:"Início do processo de desmontagem"},
+      {img:"gangway05.jpg",label:"Recostura completa do conjunto"},
+      {img:"gangway06.jpg",label:"Detalhe da recostura"},
+      {img:"gangway07.jpg",label:"Processo de montagem do conjunto"},
+      {img:"gangway08.jpg",label:"Calafetação"},
+      {img:"gangway09.jpg",label:"Detalhe da calafetação no fundo da dobra"},
+      {img:"gangway10.jpg",label:"Calafetação do flange de fixação"},
+      {img:"gangway11.jpg",label:"Montagem do flange"},
+      {img:"gangway12.jpg",label:"Peças prontas para expedição"},
+      {img:"gangway13.jpg",label:"Peças prontas para expedição"}
+    ])
+  })
+
+  // OUTROS PROJETOS
+  document.getElementById('m6').addEventListener('click',()=>{
+    showDiv(6,[
+      {img:"outros01.jpg",label:"Tombador, projeto especial desenvolvido para Bertolini"},
+      {img:"outros02.jpg",label:"Detalhe da sanfona do tombado na fábrica"},
+      {img:"outros03.jpg",label:"Sanfonas personalizadas"},
+      {img:"outros04.jpg",label:"Sanfonas personalizadas"},
+      {img:"outros05.jpg",label:"Sanfonas personalizadas (interno)"}
+    ])
+  })
+
+  // PEÇAS
+  document.getElementById('m7').addEventListener('click',()=>{
+    showDiv(7,[
+      {img:"pc01.jpg",label:"Esticador de Cabo de Aço"},
+      {img:"pc02.jpg",label:"Haste Telescópica"},
+      {img:"pc04.jpg",label:"Perfil de Borracha Vedante do Pórtico"},
+      {img:"pc05.jpg",label:"Ziper da Sanfoninha"},
+      {img:"pc06.jpg",label:"Detalhe do Ziper"},
+      {img:"pc07.jpg",label:"Barra de alumínio do Chão"},
+      {img:"pc09.jpg",label:"Tecido original da sanfona"},
+      {img:"pc11.jpg",label:"Pino Rei"},
+      {img:"pc13.jpg",label:"Curvas de alumínio para substituição"},
+      {img:"pc14.jpg",label:"Chão de Sanfona"},
+      {img:"pc15.jpg",label:"Cabo de Aço"},
+      {img:"pc16.jpg",label:"Base do Pórtico Central"}
+    ])
+  })
+
+  // TINTAS
+  document.getElementById('m8').addEventListener('click',()=>{
+    showDiv(8,[
+      {img:"tinta00.jpg",label:"Contamos com laboratório próprio para desenvolvimento de tintas conforme a necessidade do cliente"},
+      {img:"tinta01.jpg",label:"Desenvolvemos Tintas para Máquinas e Equipamentos"},
+      {img:"tinta02.jpg",label:"Desenvolvemos Tintas para Máquinas e Equipamentos"},
+      {img:"tinta03.jpg",label:"Tintas PU para pinturas de ônibus"},
+      {img:"tinta04.jpg",label:"Tintas PU para pinturas de ônibus"},
+      {img:"tinta05.jpg",label:"Alumínio fenólico para pintura de Rodas"},
+      {img:"tinta06.jpg",label:"Esmalte acrilado alumínio fenólico tinta para alta temperatura"},
+      {img:"tinta07.jpg",label:"Tintas EPOXI para piso (ANTES)"},
+      {img:"tinta08.jpg",label:"Tintas EPOXI para piso (DEPOIS)"},
+      {img:"tinta09.jpg",label:"Temos parceria com a FARBEN"}
+    ])
+  })
+
+  document.getElementById('m1').click()
+
+
+</script>
+
+</body>
+</html>
+
+
