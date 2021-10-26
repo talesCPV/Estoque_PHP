@@ -130,17 +130,22 @@
 
                 if(ok_chr.includes(text.charAt(i))){
                     out_text = out_text + text.charAt(i)
-
                 }
                 if((text.charAt(i) == ',' || text.charAt(i) == '.') && after_dot == 0){
                     out_text = out_text + '.';
                     after_dot = after_dot + 1;
                 }
             }
-
+            if(after_dot == 0 ){ // elimina os zeros a esquerda
+                out_text = String(parseInt(out_text))
+            }
 
         }
-        campo.value = out_text;
+        if(out_text.trim() == ''){
+            out_text = 0
+        }
+
+        campo.value = out_text
     }
 
     function hora(campo){

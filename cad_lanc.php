@@ -48,6 +48,8 @@
         <option value="CHQ"> Cheque </option>"
         <option value="DIN"> Dinheiro </option>"
         <option value="DEP"> Depósito </option>"
+        <option value="PIX"> PIX </option>"
+        <option value="TED"> TED/DOC </option>"
         <option value="AUT"> Débto Automático </option>"
       </select>
       <label> Valor do Título R$ *</label>

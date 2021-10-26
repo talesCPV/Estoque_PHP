@@ -296,7 +296,7 @@
             <div id="cliente" class="tab cliente frmShow" style="display:none">
                 <h2>Cliente</h2>
                     <label> Razão Social *</label>
-                    <input type="text" id="xNome" maxlength="60" value="" />
+                    <input type="text" id="xNome"  class="RazSoc" maxlength="60" value="" />
                     <label> Contribuinte ICMS</label>
                     <select id="indIEDest">
                         <option value="1">Contribuinte ICMS (informar a IE do destinatário)</option>
@@ -352,9 +352,9 @@
 
                 <form class="frmShow" id="W" method="POST" action="#">
                     <label>Valor total da NF R$</label>
-                    <input type="text" id="edtValorNF">
+                    <input type="text" id="edtValorNF" value="0" onkeyup="money(this)">
                     <label>Desconto R$</label>
-                    <input type="text" id="edtValorDesc" value='0'>
+                    <input type="text" id="edtValorDesc" value='0' onkeyup="money(this)">
                     <label>Dias entre as Parcelas</label>
                     <input type="text" id="edtDiasParcelas" value="30/45/60">
                     <label> Tipo de Pagamento</label>
@@ -382,7 +382,14 @@
                 
                 </form>
 
+                <select id="ckbEnt" style="margin: 10px; width: 98%;">
+                    <option value="SAN" selected>Sanfonados</option>
+                    <option value="FUN"> Tintas</option>
+                    <option value="OUT">Outros</option>
+                </select>
+
                 <button id="btnGeraNFe">Gerar NFe</button>
+                <button id="btnAddBol">Add Boletos</button>
             </form>
         </div>
         <div id="export" class="tab export" style="display:none">
@@ -536,6 +543,36 @@
 
 
     })
+    document.getElementById('btnAddBol').addEventListener('click',()=>{
+        
+
+        const emp = document.querySelector('.RazSoc').value
+        const dhIni = document.getElementById('dhEmi').value
+        const pgto = document.getElementById('cmbTpPgto').value
+        const origem = document.getElementById('ckbEnt').value
+        const valor = (parseFloat(document.getElementById('edtValorNF').value) - parseFloat(document.getElementById('edtValorDesc').value)).toFixed(2)
+        const dias = document.getElementById('edtDiasParcelas').value
+        const parcelas = dias.split('/')
+        const valorParc = (valor/parcelas.length).toFixed(2)
+        const today = new Date(dhIni);
+        today.setDate(today.getDate() + 1)
+
+        for(let i=0; i<parcelas.length; i++){
+            const ref = 'NF-'+document.getElementById('nNF').value +' '+(i+1)+'/'+ parcelas.length
+
+            const dia = new Date();
+            dia.setDate(today.getDate() + parseInt(parcelas[i]));
+            const data = (dia.getFullYear()+'-'+(dia.getMonth()+1).toString().padStart(2, '0')+'-'+dia.getDate().toString().padStart(2, '0'))
+            const query = `INSERT INTO tb_financeiro ( tipo, ref, emp, preco, data_pg, data_ini, resp, origem, pgto) VALUES ('ENTRADA', '${ref}', '${emp}', '${valorParc}','${data}', '${dhIni}' ,'SISTEMA','${origem}','${pgto}');`
+            
+            queryDB(query)
+
+
+        }
+        alert('Boletos adicionados com sucesso')
+        document.getElementById('btnAddBol').disabled = true;
+    })
+
     document.getElementById('btnBuscaPed').addEventListener('click',()=>{
         const sel = document.getElementById('selBuscaPed');
         const edt = document.getElementById('edtBuscaPed');
@@ -925,10 +962,7 @@
 
 
     })            
-/*                
-    document.getElementById('btnTeste').addEventListener('click',()=>{                          
-})
-*/            
+          
 /* DECLARAÇÃO DE FUNÇÕES */
 
     function openTab(tab) {
