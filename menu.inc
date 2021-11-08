@@ -61,15 +61,17 @@
       $main_perm = $e['perm'];
       $main_link = $e['link'];
       $main_ico = $e['icone'];
+      $main_id = $e['id'];
 
 // <i class='{$main_ico}' aria-hidden='true'></i>      
 
       if(in_array($classe, $main_perm)){
-        echo"<li style=' background: {$cor_menu}; color:{$cor_fonte_menu};'><a style='color:{$cor_fonte_menu};' href='". $main_link ."'> <i class='{$main_ico}' aria-hidden='false'> - </i>". $main_name ."</a><ul>";
+        echo"<li style=' background: {$cor_menu}; color:{$cor_fonte_menu};'><a id='".$main_id."' style='color:{$cor_fonte_menu};' href='". $main_link ."'> <i class='{$main_ico}' aria-hidden='false'> - </i>". $main_name ."</a><ul>";
 
         foreach ($e['itens'] as $a ) {
+          $sub_id = $a['id'];
           if(in_array($classe, $a['perm'])){
-            echo"<li style='background: {$cor_menu}; color:{$cor_fonte_menu};'><a style='color:{$cor_fonte_menu};' href='". $a['link']."'>  <i class='". $a['icone'] ."' aria-hidden='false'> </i> ". $a['nome'] ."</a></li>";
+            echo"<li style='background: {$cor_menu}; color:{$cor_fonte_menu};'><a id='".$sub_id."' style='color:{$cor_fonte_menu};' href='". $a['link']."'>  <i class='". $a['icone'] ."' aria-hidden='false'> </i> ". $a['nome'] ."</a></li>";
           }
         }
         echo("</ul></li>");
@@ -102,4 +104,10 @@
     document.getElementById('btnCalc').addEventListener('click',()=>{
       openHTML('calculadora.html','Calculadora');    
     })
+
+    document.getElementById('menuReajuste').addEventListener('click',(event)=>{
+       event.preventDefault();
+      openHTML('reajuste.html','Reajuste de Preços');    
+    })
+
   </script>

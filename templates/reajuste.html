@@ -1,0 +1,120 @@
+
+<style>
+
+  .main-screen{
+    display : flex;
+    flex-direction:column;
+  }
+
+  .visor{
+    margin-top : 10px;
+    padding : 10px;
+    font-size: 18px;
+    
+  }
+  
+
+  select{
+      width: 58%;
+  }
+
+  button{
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+  }
+
+
+</style>   
+
+<html>
+<div class="display"> 
+
+	<div class="main-screen">
+
+        <div class="row">
+            <label  class="visor">Tipo de Produto</label>
+            <select class="visor" id="cmbTipo">
+                <!--<option value="VENDA">Produtos</option> -->
+                <option value="SERVICO">Serviços</option>
+                <option value="CONJ">Conjuntos</option>
+                <option value="TINTA_E' OR tipo ='TINTA">Tintas</option>
+                <option value="PIGMTO">Pigmentos</option>
+            </select>    
+        </div>
+        <div class="row">
+            <input class="visor" type="radio" id="SOMA" name="SENT" value="SOMA" checked>
+            <label class="visor" for="SOMA">ACRÉSSIMO</label><br>
+            <input class="visor" type="radio" id="SUB" name="SENT" value="SUB">
+            <label class="visor" for="SUB">DECRÉSSIMO</label><br>
+        </div>
+        
+        <div class="row">
+            <label class="visor"> Valor (%)</label>
+            <input type="text" class="visor" id="edtVisor" value='' onkeyup="money(this)"/>    
+        </div>
+
+	
+        <button id="btnReajustar" class="visor">Reajustar</button>	
+
+	</div>
+
+
+</div>
+
+</html>
+
+<script>
+
+
+
+    document.getElementById('btnReajustar').addEventListener('click',()=>{
+
+
+        const tipo = document.getElementById('cmbTipo').value
+        const val = parseFloat(document.getElementById('edtVisor').value)
+        const perc = (val/100)+1
+        let query = `UPDATE tb_produto SET preco_comp = ROUND(preco_comp * ${perc} ,2) WHERE tipo='${tipo}'`
+        let acres = "acréssimo"
+
+//        console.log(document.getElementById('SUB').checked)
+
+        if(document.getElementById('SUB').checked){            
+            query = `UPDATE tb_produto SET preco_comp = ROUND(preco_comp / ${perc} ,2) WHERE tipo='${tipo}'`
+            acres = "decréssimo"
+
+
+        }
+
+
+/*        
+        switch(document.getElementById('cmbTipo').value){
+
+            case "SERVICO":
+                query = 2
+                break
+            case "CONJ":
+                query = 3
+                break
+            case "TINTA":
+                query = 4
+                break
+            case "PIGMTO":
+                query = 5
+                break        
+        }
+
+*/
+        if(confirm(`Deseja realmente um ${acres} de ${val}% para todos os(as) ${document.getElementById('cmbTipo').options[document.getElementById('cmbTipo').selectedIndex].text}?`)){
+            alert(query)
+
+        }else{
+            alert("não")
+
+        }
+
+    })
+
+
+
+</script>

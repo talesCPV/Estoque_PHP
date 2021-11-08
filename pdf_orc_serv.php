@@ -63,7 +63,7 @@
   		$pdf->Ln(10);
 
 		if($campo == "num"){
-			$query = "SELECT num_carro, obs, valor, data_exec FROM tb_serv_exec WHERE num_carro='{$num_carro}' ";
+			$query = "SELECT num_carro, obs, valor, data_exec FROM tb_serv_exec WHERE num_carro='{$num_carro}'";
 		}else if($campo == "ped"){
 			$query = "SELECT num_carro, obs, valor, data_exec FROM tb_serv_exec WHERE pedido='{$pedido}' ";
 		}else{
@@ -71,26 +71,13 @@
 		}
 
 		if($check){
-			$query = $query . " AND data_exec BETWEEN '{$inicio}' AND '{$final}'";
+			$query = $query . " AND data_exec BETWEEN '{$inicio}' AND '{$final}' order by data_exec";
 		}		
 
 		if (IsSet($_POST ["origem"])){
 
 			if($campo == "num"){
-//				$query = "SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota WHERE num_carro='{$num_carro}' ";
-/*
-				$arr = explode(',',$_POST ["valor"]);
-				$query_opt = '';
-				if(count($arr) > 0){
-					$query_opt = $query_opt . " num_carro LIKE '%{$arr[0]}%'";
 
-					for($i = 1; $i < count($arr); $i++){
-						$query_opt = $query_opt . " OR num_carro LIKE '%{$arr[$i]}%'";
-					}
-				}
-
-				$query =  "SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota  WHERE {$query_opt}";
-*/
 				session_start();
 				$query = $_SESSION["query"];
 
@@ -103,7 +90,7 @@
 			}
 
 			if($check){
-				$query = $query . " AND data_analise BETWEEN '{$inicio}' AND '{$final}'";
+				$query = $query . " AND data_analise BETWEEN '{$inicio}' AND '{$final}' order by data_analise";
 			}
 
 			
@@ -135,8 +122,9 @@
 			$total = $total + $fetch[2];
 			$data = $fetch[3];
 
-			if ($pdf->Gety() > 265){
-			    include "pdf_cabrod.inc";
+			if ($pdf->GetY() > 265 ){				;
+//				$pdf->SetY(250);
+				include "pdf_cabrod.inc";
 			}
 
 			if (IsSet($_POST ["origem"])){

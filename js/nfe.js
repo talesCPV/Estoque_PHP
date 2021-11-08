@@ -80,14 +80,17 @@ class NFe{
         let valorParc =  (totFin/parcelas.length).toFixed(2);
         let ultimaparc = totFin
         console.log(parcelas)
+        const today = new Date(this.A.dhEmi);
+        today.setDate(today.getDate())
+
         for(let i=0; i< parcelas.length; i++){
             if(i == parcelas.length-1){
                 valorParc = parseFloat(ultimaparc).toFixed(2);
             }else{
                 ultimaparc -= valorParc;
             }
-            const dia = new Date(this.A.dhEmi);
-            dia.setDate(dia.getDate() + parseInt(parcelas[i]) + 1);
+            const dia = new Date();
+            dia.setDate(today.getDate() + parseInt(parcelas[i]));
             const datasVenc = dia.getFullYear()+'-'+(dia.getMonth()+1).toString().padStart(2, '0')+'-'+dia.getDate().toString().padStart(2, '0') ;
             lineFat += add(['Y07',(i+1).toString().padStart(3, '0'),datasVenc,valorParc])
         }
