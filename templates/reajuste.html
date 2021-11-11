@@ -35,10 +35,11 @@
         <div class="row">
             <label  class="visor">Tipo de Produto</label>
             <select class="visor" id="cmbTipo">
-                <!--<option value="VENDA">Produtos</option> -->
+                <option value="VENDA">Produtos</option>
                 <option value="SERVICO">Serviços</option>
                 <option value="CONJ">Conjuntos</option>
                 <option value="TINTA_E' OR tipo ='TINTA">Tintas</option>
+                <option value="TINTA_E">Tintas Especiais</option>
                 <option value="PIGMTO">Pigmentos</option>
             </select>    
         </div>
@@ -66,8 +67,6 @@
 
 <script>
 
-
-
     document.getElementById('btnReajustar').addEventListener('click',()=>{
 
 
@@ -77,8 +76,6 @@
         let query = `UPDATE tb_produto SET preco_comp = ROUND(preco_comp * ${perc} ,2) WHERE tipo='${tipo}'`
         let acres = "acréssimo"
 
-//        console.log(document.getElementById('SUB').checked)
-
         if(document.getElementById('SUB').checked){            
             query = `UPDATE tb_produto SET preco_comp = ROUND(preco_comp / ${perc} ,2) WHERE tipo='${tipo}'`
             acres = "decréssimo"
@@ -87,29 +84,32 @@
         }
 
 
-/*        
-        switch(document.getElementById('cmbTipo').value){
+        if(tipo == "VENDA"){
 
-            case "SERVICO":
-                query = 2
-                break
-            case "CONJ":
-                query = 3
-                break
-            case "TINTA":
-                query = 4
-                break
-            case "PIGMTO":
-                query = 5
-                break        
+             query = `UPDATE tb_produto SET margem = ROUND((((preco_comp * (margem/100 +1)) * (${val}/100 +1) / preco_comp) -1)*100 ,2) WHERE tipo='VENDA' `
+
+            if(document.getElementById('SUB').checked){   
+                query = `UPDATE tb_produto SET margem = ROUND((((preco_comp * (margem/100 +1))  / (${val}/100 +1) / preco_comp) -1) *100 ,2) WHERE tipo='VENDA' `                        
+            }
+
         }
 
-*/
         if(confirm(`Deseja realmente um ${acres} de ${val}% para todos os(as) ${document.getElementById('cmbTipo').options[document.getElementById('cmbTipo').selectedIndex].text}?`)){
             alert(query)
+            const data = new URLSearchParams();
+            data.append('query',query);
 
-        }else{
-            alert("não")
+            const myRequest = new Request('ajax/ajax.php',{
+                method: 'POST',
+                body: data
+            });
+
+            fetch(myRequest)
+            .then((response)=>{
+                if(response.status == 200){
+                    alert( "Dados alterados com sucesso!")
+                }
+            })
 
         }
 

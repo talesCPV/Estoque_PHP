@@ -387,14 +387,6 @@
 						"icone": "fa fa-pencil-square-o",
 						"perm": [10,4]
 					},
-		 			{
-						"nome": "Exportar NFE",
-						"link": "gera_NFe.php",
-						"open": "",
-				    	"id": "menuNFGerar",
-						"icone": "fa fa-external-link",
-						"perm": [10,4]
-					},
 					{
 						"nome": "Exportar NFS",
 						"link": "gera_NFs.php",

@@ -35,6 +35,7 @@
 	        <option value="num_ped">Numero</option>
 	        <option value="cod_prod">Cod. Produto</option>
 	        <option value="cliente">Cliente</option>
+	        <option value="cod_cli">Cod. Cliente</option>
 	        <option value="vendtotal">Vendedor Total</option>
 	        <option value="vendfechado">Vendedor Fechados</option>
 	    </select></td><td>
@@ -137,6 +138,22 @@
 						INNER JOIN tb_empresa AS e 
 						ON p.id_emp = e.id
 						AND e.nome LIKE '%".$valor."%'";
+					if($on){
+						$query = $query . " AND p.data_ped >= '". $dat_ini ."'
+						AND p.data_ped <= '". $dat_fin ."'";
+					}				  
+					$query = $query . " ORDER BY p.data_ped DESC;";
+
+			  	}
+			  	else
+			  	if ($campo == "cod_cli"){
+	              	$query =  "SELECT p.id, p.num_ped, e.fantasia, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path, e.id
+						FROM tb_pedido AS p 
+						INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
+						ON p.id = i.id_ped
+						INNER JOIN tb_empresa AS e 
+						ON p.id_emp = e.id
+						AND e.id = '".$valor."' ";
 					if($on){
 						$query = $query . " AND p.data_ped >= '". $dat_ini ."'
 						AND p.data_ped <= '". $dat_fin ."'";

@@ -41,6 +41,7 @@
           $compra = $fetch[9];
           $margem = $fetch[10];
           $tipo = $fetch[11];
+          $cfop = $fetch[14];
         }
         
       }
@@ -118,6 +119,8 @@
       <input type="text" name="cod_cli" maxlength="20" value="<?php echo "$cod_cli" ?>"/>
       <label> NCM </label>
       <input type="text" name="ncm" maxlength="10" value="<?php echo "$ncm" ?>"/>
+      <label> CFOP </label>
+      <input type="text" name="cfop" maxlength="4" value="<?php echo "$cfop" ?>"/>
       <label> Preço de Compra R$</label>
       <input type="text" name="compra" maxlength="15" value="<?php echo "$compra" ?>" onkeyup="return money(this)"/>
       <label> Margem %</label>

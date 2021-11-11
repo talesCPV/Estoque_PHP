@@ -190,8 +190,8 @@
     
                     <label> Tipo de Operação</label>
                     <select id="tpNF" >
-                        <option value="0" selected>Entrada</option>
-                        <option value="1">Saída</option>
+                        <option value="0">Entrada</option>
+                        <option value="1" selected>Saída</option>
                     </select>
     
                     <label> Identificador de Local de destino da operação</label>
@@ -422,6 +422,9 @@
 
 /* CHAMADA DE FUNÇÕES DO DOM */    
 
+    document.getElementById('txtFiles').addEventListener('dblclick',()=>{
+        document.getElementById('btnExportNFe').click()
+    })
     document.querySelector('.tab-emitente').addEventListener('click',()=>{
         openTab('emitente')
     })
@@ -565,7 +568,6 @@
             
             queryDB(query)
 
-
         }
         alert('Boletos adicionados com sucesso')
         document.getElementById('btnAddBol').disabled = true;
@@ -662,7 +664,7 @@
                     IBGE_cMun(pedido[10],pedido[9],cMun,"I");
 
                     const pedcod = pedido[0];
-                    const query = ` SELECT p.cod, p.descricao, p.ncm, p.unidade, i.qtd, i.preco, p.tipo, i.und
+                    const query = ` SELECT p.cod, p.descricao, p.ncm, p.unidade, i.qtd, i.preco, p.tipo, i.und, p.cfop
                                     FROM tb_item_ped as i 
                                     INNER JOIN tb_produto AS p
                                     ON i.id_ped = ${pedcod}
@@ -680,36 +682,32 @@
                         tab.innerHTML = '<tr><th>CFOP</th><th>Cod</th><th>Descrição</th><th>Qtd.</th><th>Preço</th><th>Und.</th></tr>';
                         let total = 0;
                         dadosNF.itens = [];
-                        let prefCFOP = "51"
+                        let prefCFOP = "5"
                         if(pedido[10] != dadosNF.NF[5].UF){
-                            prefCFOP = "61"
+                            prefCFOP = "6"
                         }
+                        if(dadosNF.NF[2].tpNF == 0){
+                            prefCFOP = "1"
+                        }
+
 //                        console.log(prefCFOP)
                         myNfe.clearItens()
                         for(let i=0; i<data.length; i++){ // 1x a cada item do 
-                            let posCFOP = "02"
-                            if(parseInt(data[i].cod) < 1000){
-                                posCFOP = "01"
+                            let posCFOP = data[i].cfop
+                            if(posCFOP == null){
+                                    posCFOP = "102"
+                                if(parseInt(data[i].cod) < 1000){
+                                    posCFOP = "101"
+                                }
+                            }else{
+                                posCFOP = posCFOP.substring(1,4)
                             }
+
 //                            console.log(prefCFOP+posCFOP)
                             myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].und.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco),prefCFOP+posCFOP)
                             const campos = Object.entries(data[i]);
                             const perm = ['cod','descricao','ncn','und','qtd','preco'];
-/*
-                            if(i == 0){
-                                const row = document.createElement('tr');
-                                for(let j=0; j<campos.length; j++){ // passa campo a campo
-                                    if(perm.includes(campos[j][0])){
-                                        const label = document.createElement('th');
-//                                                    console.log(campos[j])
-                                        label.innerHTML = campos[j][0];
-                                        row.appendChild(label);
-                                    }                                    
-                                }
-                                tab.appendChild(row)
-                            }
-*/                            
-//                    const ckbSimpRem = frmB.querySelector('#ckbSimpRem').value;
+
                             const row = document.createElement('tr');
                             row.innerHTML = `<td>${prefCFOP+posCFOP}</td>`
                             for(let j=0; j<campos.length; j++){
@@ -723,6 +721,22 @@
                             }
                             total += parseFloat(data[i].preco) * parseFloat(data[i].qtd) ;
 //                                        console.log(data[i].preco) 
+
+                            row.addEventListener('dblclick',(event)=>{
+                            
+                                let target = event.target;
+                                while (target.nodeName != 'TR') {
+                                    target = target.parentElement;
+                                }
+                                let cel = target.cells;
+                                var cfop = prompt("CFOP:", cel[0].innerHTML);
+                                if (cfop != null) {
+                                    cel[0].innerHTML = cfop
+                                    myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].und.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco),cfop)
+                                }
+                            
+                            })
+
                             tab.appendChild(row)
 
                         }

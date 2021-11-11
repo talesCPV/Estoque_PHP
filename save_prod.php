@@ -33,9 +33,10 @@
 	if (IsSet($_POST ["cod_prod"])){
 		$cod_prod = $_POST ["cod_prod"];
 		$cod = $_POST ["cod"];
+		$cfop = $_POST ["cfop"];
 
 		$query = "UPDATE tb_produto SET  descricao = \"". $nome ." \", estoque = \"". $estoque ." \", etq_min = \"". $est_min ." \", unidade = \"". $unidade ." \", cod = \"". $cod ." \",
-				cod_bar = \"". $cod_bar ." \", id_emp = \"". $forn ." \", ncm = \"". $ncm ." \", preco_comp = \"". $compra ." \", margem = \"". $margem ." \", tipo = \"". $tipo ." \", cod_cli = \"". $cod_cli ." \"  WHERE id = \"". $cod_prod ."\" ;";
+				cod_bar = \"". $cod_bar ." \", cfop = \"". $cfop ." \", id_emp = \"". $forn ." \", ncm = \"". $ncm ." \", preco_comp = \"". $compra ." \", margem = \"". $margem ." \", tipo = \"". $tipo ." \", cod_cli = \"". $cod_cli ." \"  WHERE id = \"". $cod_prod ."\" ;";
 		mysqli_query($conexao, $query);
 		$query = "SET SQL_SAFE_UPDATES = 0;";
 		mysqli_query($conexao, $query);

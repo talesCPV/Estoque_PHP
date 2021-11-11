@@ -164,7 +164,7 @@
 					}
 			  	}
 
-				$query = $query . ' ORDER BY data_pg';
+				$query = $query . ' ORDER BY data_pg desc';
 
 			  	$result = mysqli_query($conexao, $query);
 
