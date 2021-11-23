@@ -609,6 +609,7 @@
         const resp = getData("ajax/ajax.php", data);
 
         resp.then((json)=>{
+//            console.log(json)
             const data = JSON.parse(json);
             const tbl =  document.getElementById('tblBuscaPed');
             tbl.innerHTML = "<tr> <th>Cod.</th> <th>Numero</th> <th>Cliente</th> <th>CNPJ</th> <th>Data</th></tr>";
@@ -651,7 +652,7 @@
                         pedido.push(row[k].innerHTML);
                     }
 
-                    console.log(pedido);
+//                    console.log(pedido);
                     loadCliente(pedido);
                     const indIEDest = document.getElementById("cliente").querySelector("#indIEDest").value
 //                    console.log(indIEDest);
@@ -674,9 +675,11 @@
                     const data = new URLSearchParams();        
                     data.append("query", query);
 
+//                    console.log(query)
                     const resp = getData("ajax/ajax.php", data);
 
                     resp.then((json)=>{
+//                        console.log(json)
                         const data = JSON.parse(json);
                         const tab = document.getElementById('tblItens');
                         tab.innerHTML = '<tr><th>CFOP</th><th>Cod</th><th>Descrição</th><th>Qtd.</th><th>Preço</th><th>Und.</th></tr>';
@@ -704,10 +707,9 @@
                             }
 
 //                            console.log(prefCFOP+posCFOP)
-                            myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].und.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco),prefCFOP+posCFOP)
+                            myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].unidade.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco),prefCFOP+posCFOP)
                             const campos = Object.entries(data[i]);
                             const perm = ['cod','descricao','ncn','und','qtd','preco'];
-
                             const row = document.createElement('tr');
                             row.innerHTML = `<td>${prefCFOP+posCFOP}</td>`
                             for(let j=0; j<campos.length; j++){
@@ -720,7 +722,7 @@
                                 row.appendChild(col);
                             }
                             total += parseFloat(data[i].preco) * parseFloat(data[i].qtd) ;
-//                                        console.log(data[i].preco) 
+//console.log(data[i]) 
 
                             row.addEventListener('dblclick',(event)=>{
                             
@@ -732,7 +734,7 @@
                                 var cfop = prompt("CFOP:", cel[0].innerHTML);
                                 if (cfop != null) {
                                     cel[0].innerHTML = cfop
-                                    myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].und.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco),cfop)
+                                    myNfe.addItem(i+1,data[i].cod.trim(),data[i].descricao.trim(),data[i].ncm.trim(),data[i].unidade.trim(),parseFloat(data[i].qtd).toFixed(4),parseFloat(data[i].preco),cfop)
                                 }
                             
                             })
