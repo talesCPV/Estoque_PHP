@@ -45,6 +45,8 @@
       ?>
       <label> Data </label>
       <input type="date" name="data_ent" value="<?php echo date('Y-m-d'); ?>">
+      <label>Observação</label>
+      <textarea name="obs" id="" cols="30" rows="10"></textarea>
       <label> Emitido por</label>
       <input type="text" name="resp" value="<?php if (IsSet($_COOKIE["usuario"])){ echo $_COOKIE["usuario"]; } ?>" readonly/>
       <button type="submit">Salvar</button>

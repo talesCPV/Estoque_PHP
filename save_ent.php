@@ -1,18 +1,19 @@
 <?php 
-// RECEBENDO OS DADOS PREENCHIDOS DO FORMULÁRIO !
+// RECEBENDO OS DADOS PREENCHIDOS DO FORMULï¿½RIO !
     $nf = $_POST ["nf"];
     $forn = $_POST ["forn"];
     $data_ent = $_POST ["data_ent"];
     $resp = $_POST ["resp"];
+    $obs = $_POST ["obs"];
 
 
 	include "conecta_mysql.inc";
 
 	if (!$conexao)
-		die ("Erro de conexão com localhost, o seguinte erro ocorreu -> ".mysql_error());
+		die ("Erro de conexï¿½o com localhost, o seguinte erro ocorreu -> ".mysql_error());
 
-	$query = "INSERT INTO tb_entrada ( nf, id_emp, data_ent, resp)
-			 VALUES ('$nf', '$forn', '$data_ent', '$resp')";   
+	$query = "INSERT INTO tb_entrada ( nf, id_emp, data_ent, resp, OBS)
+			 VALUES ('$nf', '$forn', '$data_ent', '$resp', '$obs')";   
 
 //	echo $query . "<br>";
 

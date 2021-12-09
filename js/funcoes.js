@@ -1085,7 +1085,7 @@ $(document).ready(function(){
             break;
 
         case 'pesq_ent.php#':
-            var cod = $.trim($(this).children('td').slice(0, 1).text());
+/*            var cod = $.trim($(this).children('td').slice(0, 1).text());
             var nf = $.trim($(this).children('td').slice(1, 2).text().toUpperCase());
             var forn = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
             var data = $.trim($(this).children('td').slice(3, 4).text());
@@ -1094,6 +1094,19 @@ $(document).ready(function(){
             var have_nf = $.trim($(this).children('td').slice(6, 7).text());
             var path = $.trim($(this).children('td').slice(7, 8).text());
             var e_id = $.trim($(this).children('td').slice(8, 9).text());
+*/            
+            var cod = $.trim($(this).children('td').slice(0, 1).text());
+            var nf = $.trim($(this).children('td').slice(1, 2).text().toUpperCase());
+            var obs = $.trim($(this).children('td').slice(2, 3).text().toUpperCase());
+            var forn = $.trim($(this).children('td').slice(3, 4).text().toUpperCase());
+            var data = $.trim($(this).children('td').slice(4, 5).text());
+            var status = $.trim($(this).children('td').slice(5, 6).text().toUpperCase());
+            var resp = $.trim($(this).children('td').slice(6, 7).text().toUpperCase());
+            var have_nf = $.trim($(this).children('td').slice(7, 8).text());
+            var path = $.trim($(this).children('td').slice(8, 9).text());
+            var e_id = $.trim($(this).children('td').slice(9, 10).text());
+            var id = $.trim($(this).children('td').slice(10, 11).text());
+
             var form = "<form id='frmPesqEnt' method='POST' action='edita_ent.php'><input type='hidden' name='cod_ent' value='"+id+"'>";
             form    += "<input type='hidden' name='status' value='"+status+"'>";
             var table = "<table><tr><td>Nota Fiscal:</td><td>"+nf+"</td></tr><tr><td>Fornecedor:</td><td>"+forn+"</td></tr><tr><td>Data:</td><td>"+data+"</td></tr><tr><td>Status:</td><td>"+status+"</td></tr>";

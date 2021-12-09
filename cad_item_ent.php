@@ -15,6 +15,7 @@
     <?php
       include "menu.inc";
       if (IsSet($_COOKIE["cod_ent"])){
+        echo($_COOKIE["cod_ent"]);
         $cod_ent = $_COOKIE["cod_ent"];
       }
     ?>

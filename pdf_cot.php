@@ -108,7 +108,7 @@
 	}
 
 
-	$query =  "SELECT p.cod, p.descricao, p.cod_bar, i.und, i.qtd, i.preco, p.ncm
+	$query =  "SELECT p.cod, p.descricao, i.und, i.qtd, i.preco, p.ncm
 	        FROM tb_item_ped as i 
 	        INNER JOIN tb_produto AS p
 	        ON i.id_ped = '". $cod_ped ."' AND i.id_prod = p.id;";
@@ -120,8 +120,8 @@
 
 		$pdf->SetFont('Arial','B',10);
 	  	$pdf->Cell(15,5,"Cod.",0,0,"L");
-	  	$pdf->Cell(85,5,"Descricao",0,0,"L");
-	  	$pdf->Cell(25,5,"Cod. Prod.",0,0,"L");
+	  	$pdf->Cell(103,5,"Descricao",0,0,"L");
+//	  	$pdf->Cell(25,5,"Cod. Prod.",0,0,"L");
 	  	$pdf->Cell(10,5,"Und.",0,0,"L");
 	  	$pdf->Cell(10,5,"Qtd.",0,0,"C");
 		if(isset($_POST['ver_preco'])){	  	
@@ -134,8 +134,8 @@
 
 
 	while($fetch = mysqli_fetch_row($result)){
-		$venda = $fetch[5];
-		$subtotal = $fetch[4] * $venda;
+		$venda = $fetch[4];
+		$subtotal = $fetch[3] * $venda;
 		$total = $total + $subtotal;
 
 
@@ -144,8 +144,8 @@
 		    include "pdf_cabrod.inc";
 			$pdf->SetFont('Arial','B',10);
 		  	$pdf->Cell(15,5,"Cod.",0,0,"L");
-		  	$pdf->Cell(85,5,utf8_decode("Descrição"),0,0,"L");
-		  	$pdf->Cell(25,5,"Cod.Prod.",0,0,"L");
+		  	$pdf->Cell(103,5,utf8_decode("Descrição"),0,0,"L");
+//		  	$pdf->Cell(25,5,"Cod.Prod.",0,0,"L");
 		  	$pdf->Cell(10,5,"Und.",0,0,"L");
 		  	$pdf->Cell(10,5,"Qtd.",0,0,"C");
 			if(isset($_POST['ver_preco'])){	  	
@@ -160,12 +160,12 @@
 
 
 	  	$pdf->Cell(15,5,strtoupper($fetch[0]),0,0,"L");
-	  	$pdf->Cell(85,5,utf8_decode(substr(strtoupper($fetch[1]), 0, 36)),0,0,"L");
-	  	$pdf->Cell(25,5,strtoupper($fetch[2]),0,0,"L");
-	  	$pdf->Cell(10,5,utf8_decode(strtoupper($fetch[3])),0,0,"L");
-	  	$pdf->Cell(10,5,strtoupper($fetch[4]),0,0,"C");
+	  	$pdf->Cell(103,5,utf8_decode(substr(strtoupper($fetch[1]), 0, 36)),0,0,"L");
+//	  	$pdf->Cell(25,5,strtoupper($fetch[2]),0,0,"L");
+	  	$pdf->Cell(10,5,utf8_decode(strtoupper($fetch[2])),0,0,"L");
+	  	$pdf->Cell(10,5,strtoupper($fetch[3]),0,0,"C");
 		if(isset($_POST['ver_preco'])){	  	
-		  	$pdf->Cell(22,5,money_format('%=*(#0.2n', $fetch[5]),0,0,"L");
+		  	$pdf->Cell(22,5,money_format('%=*(#0.2n', $fetch[4]),0,0,"L");
 		  	$pdf->Cell(20,5,money_format('%=*(#0.2n', $subtotal),0,0,"L");
   		}
   		$pdf->Ln(5);
