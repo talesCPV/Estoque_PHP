@@ -129,15 +129,10 @@
 
         $MNO = $M . $N .$O; //"M||\r\nN|\r\nN10d|0|102|\r\nO||||999|\r\nO07|99|0.00|\r\nO10|0.00|0.0000|\r\nQ|\r\nQ05|99|0.00|\r\nQ07|0.00|0.0000|\r\nS|\r\nS05|99|0.00|\r\nS07|0.00|0.0000|\r\n";
 
-
-
-
           $itens_txt = $itens_txt . $linha_txt . $MNO;
 
           $total = $total + $fetch[5] * $fetch[4];
 // arredondamento esta por aqui
-
-
 
         }
 
@@ -632,7 +627,7 @@
                 <td><button name=\"add_txt\" id=\"btnAddTxt\">+</button></td>
               </tr>
               <tr>
-                <td><button name=\"add_bol\" type=\"submit\">Add Boletos</button></td>
+                <td><button id='btnAddBol'>Add Boletos</button></td>
                 <td><select name='origem' id='selOrig'>
                   <option value='FUN'> Funilaria e Pintura </option>
                   <option value='SAN'> Sanfonados </option>
@@ -644,6 +639,19 @@
               </tr>
   
               <tr></tr></table>";
+
+              echo" <script> 
+                eval('
+                  document.getElementById('btnAddBol').addEventListener('click',(event)=>{
+                    event.preventDefault();
+                
+                    alert(1)  
+              
+                })
+                
+                ')
+              
+              </script>";
   
               }else{
                 echo " <label> Não existe ítens disponíveis, favor gerar pedido</label>";
@@ -1111,14 +1119,18 @@
   document.getElementById('btnNfe').addEventListener('click',(event)=>{
     event.preventDefault();
 
- 
       openHTML('geraNFe.html','Nota Fiscal Eletrônica');    
-  
-
 
   })
 
+/*
+  document.getElementById('btnAddBol').addEventListener('click',(event)=>{
+    event.preventDefault();
 
+    alert(1)  
+
+  })
+*/
 </script>
 
 </html>

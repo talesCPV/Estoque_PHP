@@ -55,9 +55,9 @@
 				$pdf->Cell(18,5,utf8_decode(date('d/m/Y', strtotime($final))),0,0,"L");
 			}
 		}else{
-			$func = strtoupper($_POST["func"]);
-			$pdf->Cell(124,5,utf8_decode("Técnico resp. pela avaliação: {$func} "),0,0,"L");
-			$pdf->Cell(15,5,utf8_decode(" DATA: " . date('d/m/Y', strtotime($inicio))),0,0,"L");
+//			$func = strtoupper($_POST["func"]);
+//			$pdf->Cell(124,5,utf8_decode("Técnico resp. pela avaliação: {$func} "),0,0,"L");
+			$pdf->Cell(15,5,utf8_decode("Data da Avaliação: " . date('d/m/Y', strtotime($inicio))),0,0,"L");
 
 		}
   		$pdf->Ln(10);
@@ -86,7 +86,15 @@
 				$pdf->Cell(124,5,utf8_decode($query),0,1,"L");
 
 			}else{
-				$query = 'SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota WHERE id_emp={$cliente}';
+				$query = "SELECT num_carro, obs, valor, data_analise, func, local, exec FROM tb_analise_frota WHERE id_emp='{$cliente}' ";
+				if (IsSet($_POST ["exec"])){
+					if($_POST ["exec"] == "2"){
+						$query = $query . " AND  exec ";
+					}else if($_POST ["exec"] == "3"){
+						$query = $query . " AND  NOT exec ";
+					}
+				
+				}
 			}
 
 			if($check){
@@ -109,11 +117,21 @@
 
 		if (IsSet($_POST ["origem"])){
 			$pdf->SetFont('Arial','B',15);
-			$pdf->Cell(190,5,utf8_decode("Análise de Frota "),0,0,"C");
+			$pdf->Cell(190,5,utf8_decode(strtoupper($_POST ["titulo"])),0,0,"C");
 			$pdf->Ln(15);
 		}
 
 		$cont = 0;
+/*
+		$pdf->Ln(5);
+		$pdf->SetFont('Arial','',5);
+		$pdf->Cell(20,5,$query,0,0,"L");
+
+// SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota WHERE id_emp={$cliente} AND data_analise BETWEEN '2022-01-07' AND '2022-01-10' order by data_analise
+
+		
+*/
+
 		while($fetch = mysqli_fetch_row($result)){
 			$cont++;
 			$carro = $fetch[0];
@@ -130,6 +148,7 @@
 			if (IsSet($_POST ["origem"])){
 				$func = utf8_decode(strtoupper($fetch[4]));
 				$local = utf8_decode(strtoupper($fetch[5]));
+				$exec = $fetch[6];
 			}
 
 
@@ -140,7 +159,12 @@
 			if(!IsSet($_POST ["origem"])){
 				$pdf->Cell(25,5," - ".date('d/m/Y', strtotime($fetch[3])),0,0,"L");
 			}else{
-				$pdf->Cell(30,5,utf8_decode("-   SERVIÇO A SER EXECUTADO ". $local) ,0,0,"L");
+				if($exec){
+					$pdf->SetTextColor(25,200,100);
+					$pdf->Cell(30,5,utf8_decode("-   SERVIÇO EXECUTADO ". $local) ,0,0,"L");
+				}else{
+					$pdf->Cell(30,5,utf8_decode("-   SERVIÇO A SER EXECUTADO ". $local) ,0,0,"L");
+				}
 			}
 			$pdf->SetTextColor(0);
   		  	$pdf->Ln(5);

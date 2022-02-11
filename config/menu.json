@@ -209,7 +209,16 @@
 							"id": "menuRecibos",
 							"icone": "fa fa-pencil-square-o",
 							"perm": [10,4,1]
+						},
+						{
+							"nome": "Dados Cadastrais",
+							"link": "dados.php",
+							"open": "",
+							"id": "menuRecibos",
+							"icone": "fa fa-pencil-square-o",
+							"perm": [10,4,1]
 						}
+
 
 											
 					  ]

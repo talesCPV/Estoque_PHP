@@ -1,4 +1,5 @@
 
+
 $(document).ready(function(){
 
     $.fn.perm = function(classe, area){ 
@@ -41,6 +42,26 @@ $(document).ready(function(){
     }
 
 
+    function dotoff(str){
+
+        str = str.substring(3,str.length)
+
+        let new_str = ''
+        for(let i=0; i< str.length; i++){
+            if(str[i] != '.'){
+                if(str[i] == ','){
+                    new_str += '.'
+                }else{
+                    new_str += str[i]
+                }
+            }
+        }
+
+        return new_str
+
+    }
+
+
     // DUPLO CLIQUE NA TEBELA tabItens
     $('#tabItens').on('dblclick','.tbl_row', function(){ // SELECIONANDO UM ÍTEM DA TABELA (DUPLO CLIQUE)
 
@@ -57,6 +78,8 @@ $(document).ready(function(){
         let myRow = this;
 
 //console.log(exec == "NÃO" ? "SELECTED":"")
+
+        valor = dotoff(valor)
 
         var table = "<table class=' page_form'><tr><td>Cod.:</td><td>"+id+"</td></tr><tr><td>Cliente:</td><td>"+ cliente +"</td></tr><tr><td>Data:</td><td>"+data+"</td></tr>";
         table += " <tr><td>Técnicos:</td><td><input type='text' name='func' maxlength='30' id='edtFunc' value='"+tec.toUpperCase()+"'/></td></tr><tr><td>Carro:</td><td><input type='text' name='dep' maxlength='15' id='edtCarro' value='"+carro.toUpperCase()+"'/></td></tr>";

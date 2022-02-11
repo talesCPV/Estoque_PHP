@@ -6,7 +6,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-    <title>Serviços Executados</title>
+    <title>Análise de Frota</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/edt_mask.js"></script>
@@ -27,9 +27,15 @@
 	      <select name="campo" id="selPesqPed">		
 	        <option value="todos">Todos</option>
 	        <option value="cli">Cliente</option>
+	        <option value="codcli">Código do Cliente</option>
 	        <option value="num">Numero do Carro</option>
 	    </select></td>
 	    <td><input type="text" name="valor" maxlength="12"/></td>
+		<td><select name="selexec" id="selExec">
+			<option value="1">Todos</option>
+			<option value="2">Executados</option>
+			<option value="3">Não Executados</option>
+		</select> </td>
       <td><button id="botao_inline" type="submit">OK</button></td>
 	</tr>  </table>
 				
@@ -44,7 +50,8 @@
     	</form>
 	  </div>
 	  <?php
-	  		$qtd_lin = 0;
+			  $qtd_lin = 0;
+			  $query;
 		    if (IsSet($_POST ["campo"])){
 
 				include "conecta_mysql.inc";
@@ -53,15 +60,19 @@
 
 			  	$campo = $_POST ["campo"];
 				$valor = $_POST ["valor"];
+				$exec = $_POST ["selexec"];
 				$data_exec = $_POST ["data_exec"];
 				$data_fin = $_POST ["data_fin"];
 				$check = false;
+				$cliente = "";
 
                 $query_opt = "";
 
 
                 if ($campo == "cli"){
                     $query_opt = $query_opt . " AND e.nome LIKE '%".$valor."%'";
+                }else if($campo == "codcli"){
+                    $query_opt = $query_opt . " AND e.id LIKE '%".$valor."%'";
                 }else if($campo == "num"){
 					$arr = explode(',',$valor);
 					if(count($arr) > 0){
@@ -75,6 +86,12 @@
 
 				}
 				
+				if ($exec == "2"){				
+					$query_opt = $query_opt . " AND  a.exec ";	
+				} else if ($exec == "3"){
+					$query_opt = $query_opt . " AND  NOT a.exec  ";	
+
+				}
 
                 if (IsSet($_POST ["ckbDatas"])){
 					$query_opt = $query_opt . " AND a.data_analise >= '". $data_exec ."' AND a.data_analise <= '". $data_fin ."'";
@@ -145,23 +162,39 @@
 			if ($qtd_lin > 0){
 		    	echo"
 			  	  <div class=\"page_form\" id= \"no_margin\">
-			  	  		<table class=\"search-table\"  border=\"0\">
+							<table class=\"search-table\"  border=\"0\">
 								<tr>
-									OBS:
 									<form class=\"login-form\" method=\"POST\" action=\"pdf_orc_serv.php\">
+										<input type='text' name='titulo' placeholder='Titulo do Relatório' value='Análise de Frota'/>
+										OBS:
 										<textarea id=\"edtObs\" name=\"edtObs\"> </textarea>
 										<input type=\"hidden\" name=\"origem\" value=\"ANALISE\">
 										<input type=\"hidden\" name=\"query\" value=\"". $campo ."\">
 										<input type=\"hidden\" name=\"valor\" value=\"". $query ."\">
 										<input type=\"hidden\" name=\"func\" value=\"". $func ."\">
+										<input type=\"hidden\" name=\"exec\" value=\"". $exec ."\">
 				  	  					<input type=\"hidden\" name=\"num_carro\" value=\"". $num_carro ."\">
 										<input type=\"hidden\" name=\"pedido\" value=\"". $status ."\">
-										<input type=\"hidden\" name=\"check\" value=\"". $check ."\">																					
+										<input type=\"hidden\" name=\"check\" value=\"". $check ."\">
 				  	  					<input type=\"hidden\" name=\"cod_cli\" value=\"". $cod_cli ."\">
 				  	  					<input type=\"hidden\" name=\"ini\" value=\"". $data_exec ."\">
-										<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">										
+										<input type=\"hidden\" name=\"fin\" value=\"". $data_fin ."\">
       									<button id=\"botao_inline\" type=\"submit\" style=\" margin: 0 10px;\">Orçamento</button>
-									  </form>									  
+									  </form>
+									  <form class=\"login-form\" id='frmRelat' method=\"POST\" action=\"pdf_relat_ana.php\">
+									  	<input type=\"hidden\" name=\"query\" value=\"". $query ."\">				
+										<button id='btnRelat' class='btnRelat' type='submit' style=' margin: 0 10px;'>Relatorio</button>										
+									</form>
+									<script>
+									const btnRelat = document.querySelector('.btnRelat');								
+									btnRelat.addEventListener('click',(event)=>{										
+										event.preventDefault();
+										const txt = document.getElementById('edtObs')
+										const frmRelat = document.getElementById('frmRelat')
+										frmRelat.appendChild(txt);
+										frmRelat.submit()
+									})
+									</script>
 								</td>
 			  	  			</tr>
 			  	  		</table>
