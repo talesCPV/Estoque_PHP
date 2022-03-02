@@ -200,13 +200,30 @@
 			$pdf->SetTextColor(200,0,0);
 			$pdf->Ln(10);
 			if(!IsSet($_POST ["origem"])){			
+				$pdf->Cell(30,5,"",0,0,"L");
 				$pdf->Cell(15,5,utf8_decode("Aguardo aprovação e/ou num. do pedido para emissão de nota fiscal"),0,0,"L");
+				$pdf->SetTextColor(0);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->Ln(10);
+				$pdf->Cell(60,5,"",0,0,"L");
+				$pdf->Cell(15,5,utf8_decode("******** CONDIÇÃO P/ FATURAMENTO ********"),0,0,"L");
+				$pdf->Ln(5);
+				$pdf->Cell(60,5,"",0,0,"L");
+				$pdf->Cell(15,5,utf8_decode("                  até R$2.000,00 - 30 dias          "),0,0,"L");
+				$pdf->Ln(5);
+				$pdf->Cell(60,5,"",0,0,"L");
+				$pdf->Cell(15,5,utf8_decode("         de R$2.000,00 a R$4.000,00 - 30/45    "),0,0,"L");
+				$pdf->Ln(5);
+				$pdf->Cell(60,5,"",0,0,"L");
+				$pdf->Cell(15,5,utf8_decode("            acima de R$4.000,00 - 30/45/60      "),0,0,"L");
+
 			}else{
 				$pdf->Cell(15,5,utf8_decode("*Lembrando que até a data da execução poderá haver acrescimos de serviços"),0,0,"L");
 				$pdf->Ln(5);
 				$pdf->Cell(15,5,utf8_decode("*Recomenda-se corrigir os problemas o mais rápido possivel."),0,0,"L");
 			}
 			$pdf->SetTextColor(0);
+			$pdf->SetFont('Arial','B',10);
 
 
 

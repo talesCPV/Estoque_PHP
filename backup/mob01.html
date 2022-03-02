@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Mobile</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+    *{
+        text-decoration: none;
+        color: inherit;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .sub{
+        height: 100vh;
+        width: 100%;
+        background-color: rgb(185, 204, 204);
+    }
+
+    .head{
+        min-height: 50px;
+        padding: 20px;
+        background-color: darkmagenta;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        font-size: larger;
+    }
+
+    .up{
+        border: 1px solid;
+    }
+
+    .content{
+        padding: 20px;
+    }
+
+    @media only screen and (max-width: 700px) {
+        .main{
+            flex-direction: column;
+        }
+    }
+
+</style>
+</head>
+<body>
+
+    <div id="top" class="main">
+
+        <div class="sub">
+            <div class="head">
+                <h1>  <a href="#main">Luz</a> </h1>
+                <h1>  <a href="#leds">Portas</a> </h1>
+                <h1>  <a href="#bomba">Bomba</a> </h1>
+           
+            </div>
+
+            <p>Controle universal do Sítio</p>
+
+        </div>
+        <div id="main" class="sub">
+            <div class="head">
+                <h1>Luz</h1>
+                <h1 class="up"> <a href="#top">↑</a> </h1> 
+            </div>
+        
+        </div>
+        <div id="leds" class="sub">
+            <div class="head">
+                <h1>Portas</h1>
+                <h1 class="up"> <a href="#top">↑</a> </h1> 
+            </div>
+
+            <div class="content">
+                <div>
+                    <input type="checkbox" name="ckb1">
+                    <label for="ckb1">Led01</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="ckb2">
+                    <label for="ckb2">Led02</label>
+                </div>
+
+                <button>Enviar</button>
+
+            </div>
+
+
+        </div>
+        <div id="bomba" class="sub">
+            <div class="head">
+                <h1>Bomba</h1>
+                <h1 class="up"> <a href="#top">↑</a> </h1> 
+            </div>
+            <div class="content">
+                <div>
+                    <input type="checkbox" name="bmb01">
+                    <label for="bmb01">Bomba</label>                
+                </div>
+                <button>Ligar</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+
+    </script>
+
+</body>
+</html>
