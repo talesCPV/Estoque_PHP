@@ -9,10 +9,15 @@ button{
     padding: 10px 20px;
     border-radius: 7px;
     cursor: pointer;
+    width: 100%;
 }
 
 button:hover{
     background-color: rgba(134, 218, 200, 0.671);
+}
+
+p{
+    padding-left: 10px;
 }
 
 ul {
@@ -45,7 +50,7 @@ li a:hover {
 
 .content{
     height: 100vh;
-    width: 100%;
+    width: 30%;
     padding-top: 50px;
     margin: auto;
 }
@@ -120,7 +125,8 @@ input:checked + .slider:before {
 </ul>
 
     <div id="luz" class="content">
-        Iluminação
+        <h1>Iluminação</h1>
+        
         <div id="ckbLuz00" style="display: flex; padding: 10px;">
             <label class="switch">
                 <input type="checkbox" checked>
@@ -178,11 +184,12 @@ input:checked + .slider:before {
             <p>Luz 08</p>
         </div>
 
-        <button id="btnFetch">Fetch</button>
+        <button id="btnFetch">Salvar</button>
     </div>
 
     <div id="bomba" class="content">
-        Bomba D'Água
+        <h1>Bomba D'Água</h1>
+        
         <div id="ckbBomba00" style="display: flex; padding: 10px;">
             <label class="switch">
                 <input type="checkbox" checked>
@@ -193,11 +200,13 @@ input:checked + .slider:before {
     </div>
 
     <div id="portas" class="content">
-        Portas
+        <h1>Portas</h1>
+        
     </div>
 
     <div id="sobre" class="content">
-        Sobre
+        <h1>Sobre</h1>
+        
     </div>
 
 </body>
