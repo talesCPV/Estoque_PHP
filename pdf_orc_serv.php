@@ -205,6 +205,20 @@
 				$pdf->SetTextColor(0);
 				$pdf->SetFont('Arial','B',8);
 				$pdf->Ln(10);
+
+				$unid = 'config/fatura.txt';
+
+				if(file_exists ($unid)){
+					$fp = fopen($unid, "a+");
+					while (!feof ($fp)) {
+					  $linha = fgets($fp,4096);
+					  $pdf->Cell(10,5,"",0,0,"L");
+					  $pdf->Cell(15,5,utf8_decode($linha),0,0,"L");
+					  $pdf->Ln(5);
+	  				}
+					fclose($fp);
+				}				
+/*
 				$pdf->Cell(60,5,"",0,0,"L");
 				$pdf->Cell(15,5,utf8_decode("******** CONDIÇÃO P/ FATURAMENTO ********"),0,0,"L");
 				$pdf->Ln(5);
@@ -216,7 +230,7 @@
 				$pdf->Ln(5);
 				$pdf->Cell(60,5,"",0,0,"L");
 				$pdf->Cell(15,5,utf8_decode("            acima de R$4.000,00 - 30/45/60      "),0,0,"L");
-
+*/
 			}else{
 				$pdf->Cell(15,5,utf8_decode("*Lembrando que até a data da execução poderá haver acrescimos de serviços"),0,0,"L");
 				$pdf->Ln(5);

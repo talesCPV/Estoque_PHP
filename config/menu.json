@@ -179,6 +179,14 @@
 							"perm": [10,4,3]
 						},
 						{
+							"nome": "Texto Fatura",
+							"link": "fatura.php",
+							"open": "",
+							"id": "menuEmail",
+							"icone": "fa  fa-credit-card",
+							"perm": [10,4]
+						},						
+						{
 							"nome": "Calendário",
 							"link": "calendario.php",
 							"open": "",

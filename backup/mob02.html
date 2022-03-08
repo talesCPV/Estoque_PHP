@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<style>
+
+button{
+    background-color: rgb(134, 218, 200);
+    padding: 10px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: rgba(134, 218, 200, 0.671);
+}
+
+ul {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    scroll-behavior: smooth;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+.content{
+    height: 100vh;
+    width: 100%;
+    padding-top: 50px;
+    margin: auto;
+}
+
+/* switch checkbox */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #21f3bf;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="#luz">Luz</a></li>
+  <li><a href="#bomba">Bomba D'água</a></li>
+  <li><a href="#portas">Portas</a></li>
+  <li><a href="#sobre">Sobre</a></li>
+</ul>
+
+    <div id="luz" class="content">
+        Iluminação
+        <div id="ckbLuz00" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <p>Luz 01</p>
+        </div>
+        <div id="ckbLux01" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <p>Luz 02</p>
+        </div>
+        <div id="ckbLux02" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <p>Luz 03</p>
+        </div>
+        <div id="ckbLux03" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <p>Luz 04</p>
+        </div>
+        <div id="ckbLux04" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <p>Luz 05</p>
+        </div>
+        <div id="ckbLux05" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <p>Luz 06</p>
+        </div>
+        <div id="ckbLux06" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <p>Luz 07</p>
+        </div>
+        <div id="ckbLux07" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <p>Luz 08</p>
+        </div>
+
+        <button id="btnFetch">Fetch</button>
+    </div>
+
+    <div id="bomba" class="content">
+        Bomba D'Água
+        <div id="ckbBomba00" style="display: flex; padding: 10px;">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <p></p>
+        </div>        
+    </div>
+
+    <div id="portas" class="content">
+        Portas
+    </div>
+
+    <div id="sobre" class="content">
+        Sobre
+    </div>
+
+</body>
+
+<script>
+
+    document.getElementById('btnFetch').addEventListener('click',()=>{
+        fetch('conteudo.txt')
+        .then((response)=>{
+            response.text().then((text)=>{
+                console.log(text)
+            })
+
+        })
+    })
+
+</script>
+
+</html>
+
+

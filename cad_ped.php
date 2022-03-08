@@ -71,10 +71,21 @@ echo"
       <label> Comprador</label>
       <input type="text" name="comprador" maxlength="30" />
       <label> Condição de Pagamento</label>
-      <textarea name="pgto" rows="5"  >Até R$ 2.000,00 - 30 dias
-De R$ 2.000,00 até R$ 4.000,00 - 30/45 dias
-Acima de R$ 4.000,00 - 30/45/60
-*** Desconto de 5%  para pagamento à vista   
+      <textarea name="pgto" rows="5"  >
+      
+      <?php
+        $unid = 'config/fatura.txt';
+
+        if(file_exists ($unid)){
+          $fp = fopen($unid, "a+");
+          while (!feof ($fp)) {
+            $linha = fgets($fp,4096);
+            echo($linha);
+          }
+          fclose($fp);
+        }      
+      ?>
+
       </textarea>
       <label> Obs:</label>
       <textarea  name="obs" rows="6" ></textarea>
