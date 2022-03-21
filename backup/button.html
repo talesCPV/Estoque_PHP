@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button</title>
+    <style>
+/* BUTTON STYLE */
+        button{
+            cursor: pointer;
+            background-color: #8457C4;
+            color: #F5F5F5;
+            font-weight: 600;
+            font-size: larger;
+            padding: 5px 10px;
+            margin: 10px;
+            border: 2px solid #F5F5F5;  
+            outline: 5px solid #8457C4;          
+            transition: 0.4s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            transition: 0s;
+
+        }
+        
+        button:hover {
+            background-color: #000000;
+            border: 2px solid #F5F5F5;  
+            outline: 5px solid #0a0a0a;          
+        }
+
+/* POP-UP */
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+   
+        .popup {
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            width: 30%;
+            position: relative;
+            transition: all 5s ease-in-out;
+        }
+
+        h2 {
+            margin-top: 0;
+            max-width: calc(100% - 30px);
+            color: rgb(163, 59, 59);
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .close:hover {
+            color: #06D85F;
+        }
+
+
+
+        .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+/* ALERT */
+
+        .alert{
+            z-index: 99;
+            visibility: hidden;
+            opacity: 0;
+            position: fixed;
+            background-color: #ffffff;
+            border: solid #000000 3px;
+            padding: 5px;
+            bottom: 10px;
+            left: 10px;
+            max-width: 200px;         
+        }
+
+    </style>
+</head>
+<body>
+    
+    <button id="btnPop">Pop-Up</button>
+    <button id="btnAle">Alert</button>
+
+    <div class="overlay">
+        <div class="popup">
+            <h2>Exemplo de Pop-Up</h2>
+            <a class="close" id="close-popup" href="#">&times;</a>
+            <div class="content">
+                Este é um exemplo de pop-up window, clique no X para fechar esta janela
+            </div>
+        </div>
+    </div>
+
+    <div class="alert">
+        <h2>Exemplo de Alert Pop-Up</h2>
+        <a class="close" id="close-alert" href="#">&times;</a>
+        <div class="content">
+            Este é um exemplo de Alert window, clique no X para fechar esta janela
+        </div>
+    </div>
+
+</body>
+<script>
+
+    document.getElementById('btnPop').addEventListener('click',()=>{
+        document.querySelector('.overlay').style = 'visibility: visible; opacity: 1;'
+    })
+
+    document.querySelector('#close-popup').addEventListener('click',()=>{
+        document.querySelector('.overlay').style = 'visibility: hidden; opacity: 0;'
+    })
+
+    document.getElementById('btnAle').addEventListener('click',()=>{
+        document.querySelector('.alert').style = 'visibility: visible; opacity: 1;'
+    })
+
+    document.querySelector('#close-alert').addEventListener('click',()=>{
+        document.querySelector('.alert').style = 'visibility: hidden; opacity: 0;'
+    })
+
+
+</script>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: row;
+            background-color: rgb(201, 168, 157);
+            max-width: 800px;
+            margin: 100px auto;
+
+        }
+
+        textarea{
+            padding: 5px;
+            font-size: larger;
+        }
+
+        .nomes{
+            display: flex;
+            flex-direction: column;
+        }
+
+
+/* BUTTON STYLE */
+button{
+            cursor: pointer;
+            background-color: #8457C4;
+            color: #F5F5F5;
+            font-weight: 600;
+            font-size: larger;
+            padding: 5px 10px;
+            margin: 10px;
+            border: 2px solid #F5F5F5;  
+            outline: 5px solid #8457C4;          
+            transition: 0.4s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            transition: 0s;
+
+        }
+        
+        button:hover {
+            background-color: #000000;
+            border: 2px solid #F5F5F5;  
+            outline: 5px solid #0a0a0a;          
+        }        
+
+        @media only screen and (max-width: 600px) {
+            body {
+                background-color: lightblue;
+                margin: 10px auto;
+
+                flex-direction: column;
+
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="nomes">
+        <label for="txtNomes">Nomes</label>
+        <textarea name="txtNomes" id="txtNomes" cols="30" rows="30"></textarea>
+        <label>Num. de jogadores p/ time</label>
+        <input type="text" id="edtNum" placeholder="Pessoas por Time" value="6">
+    </div>
+    <button id="btnSorteia">SORTEIA >></button>
+    <div class="nomes">
+        <label>Times</label>
+        <textarea name="txtTimes" id="txtTimes" cols="30" rows="33"></textarea>
+    </div >
+
+
+
+</body>
+<script>
+
+    const numTimes = document.getElementById('edtNum')
+    const jogadores = document.getElementById('txtNomes')
+    const times = document.getElementById('txtTimes')
+
+    numTimes.addEventListener('keyup',()=>{
+        const ok = ['0','1','2','3','4','5','6','7','8','9']
+        const val = numTimes.value
+        let out = ''
+        
+        for(let i=0; i< val.length; i++){
+            out += ok.includes(val[i]) ? val[i] : ''
+        }
+
+        numTimes.value = out
+    })
+
+
+    document.querySelector('#btnSorteia').addEventListener('click',()=>{
+        times.value = ''
+        if(numTimes.value.trim() === ''){
+            alert('Precisa colocar o num de jogadores por time.')
+            numTimes.focus()
+        }else{
+            const arr = jogadores.value.split('\n')
+            let qtd = 0
+            let q_times = 1
+            const q_jog = parseInt(numTimes.value)
+
+            while(arr.length > 0){
+                const sort =  Math.floor(Math.random() * arr.length )
+
+                if(arr[sort].trim() != ""){
+                    if(qtd == 0){
+                        if(arr.length >= q_jog){
+                            times.value += "Time "+q_times+"\r\n"
+                        }else{
+                            times.value += "Esperando de fora\r\n"
+                        }
+                        q_times++
+                    }
+                    times.value += "   "+arr[sort]+"\r\n"
+                    qtd++
+                    if(qtd >= q_jog){
+                        qtd = 0
+                    }
+                }
+                arr.splice(sort,1)
+            }
+
+        }
+
+
+        
+    })
+
+
+</script>
+</html>
