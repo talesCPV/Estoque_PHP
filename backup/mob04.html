@@ -153,7 +153,9 @@ button:hover {
 .alert{
     z-index: 99;
     visibility: hidden;
-    opacity: 0;
+/*    opacity: 1; 
+    transition: all 0.25s ease;
+*/    
     position: fixed;
     background-color: #ffffff;
     border: solid #000000 3px;
@@ -288,7 +290,13 @@ h2 {
     <a class="close" id="close-alert" >&times;</a>
     <div id="alert-content">
         Este é um exemplo de Alert window, clique no X para fechar esta janela
-        <p>Outro paragrafo.. blablabla blablabalbalba bla blabla blabla</p>
+<!-- 
+        <p id="macadd"></p>        
+        <label>Nome</label>
+        <input type="text" id="edtDisp">
+        <button id="btnSaveMac">Salvar</button>
+-->            
+
     </div>
 </div>
 
@@ -324,11 +332,24 @@ h2 {
         }
 
         sel.addEventListener('dblclick',()=>{
-            console.log(sel)
 
-            showAlert(true)
+            showAlert(true,"Cadastro de Dispositivos", 
+            `            
+                <p id="macadd"></p>        
+                <label>Nome</label>
+                <input type="text" id="edtDisp">
+                <button id="btnSaveMac">Salvar</button>
+            
+            `,            
+            `
+                document.getElementById('btnSaveMac').addEventListener('click',()=>{
+                    alert('Hello World!!!')
+                })            
+            `
+            
+            )
 
-            alert(sel.options[sel.selectedIndex].mac  )
+//            alert(sel.options[sel.selectedIndex].mac  )
         })
 
     }
@@ -382,9 +403,10 @@ h2 {
 
     function open_menu() {
         if (menu.style.display === "block") {
-        menu.style.display = "none";
+            menu.style.display = "none";
+            showAlert()
         } else {
-        menu.style.display = "block";
+            menu.style.display = "block";
         }
     }
     
@@ -410,13 +432,14 @@ h2 {
         showAlert(true)    
     })
 
-    function showAlert(op=false,title='',txt=''){
+    function showAlert(op=false,title='',txt='',js=""){
         if(op){
             document.querySelector('#alert-title').innerHTML = title
             document.querySelector('#alert-content').innerHTML = txt
-            document.querySelector('.alert').style = 'visibility: visible; opacity: 1;'
+            eval(js)
+            document.querySelector('.alert').style = 'visibility: visible; height: auto;'
         }else{
-            document.querySelector('.alert').style = 'visibility: hidden; opacity: 0;'
+            document.querySelector('.alert').style = 'visibility: hidden; height:0;'
         }
     }
 
