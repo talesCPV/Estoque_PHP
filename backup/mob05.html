@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        body {
+            font-size:12px;
+            font-family:sans-serif;
+            background:#b8e3ef;
+            text-align:center;
+        }
+
+/*  MENU  */
+
+        .menu {
+            position: absolute;
+            right: 10px;
+            z-index: 100;
+            padding:20px;
+            background: rgba(255,255,255,.75);
+            border-radius:3px;
+            color:#6fabbc;
+        }
+
+        .menu:hover {
+            cursor:pointer;
+            background: rgba(255,255,255,.95);
+            animation-play-state: paused;
+        }
+
+
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            background:#93c7d6;
+            max-height: 0;
+            max-width: 0;
+            transition: all 300ms ;
+            overflow: hidden;
+            visibility: hidden;
+            border-radius:3px;
+            opacity:0;
+            width: 100%;
+            }
+
+        .menu-item a {
+            padding:12px 0;
+            display: block;
+            transition:.25s
+        }
+
+        .menu-item a:hover {
+            background: #6fabbc;
+        }
+
+        a {
+            color:#fff;
+            text-transform:uppercase;
+            text-decoration: none;
+        }
+
+        ul.open {
+            max-height: 480px;
+            max-width: 100%;
+            visibility: visible;
+            opacity:1;
+        }
+
+
+
+        /* Credit */
+
+        #credit{
+            color:#fff;
+            text-transform:uppercase;
+            position: absolute;
+            bottom:10px;
+            left:50%;
+            transform:translateX(-50%);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div>
+        <i class="fa fa-bars menu" title="Click me!">☰</i>
+        <ul class="menu-list">
+          <li class="menu-item" ><a href="#">home</a></li>
+          <li class="menu-item"><a href="#">about</a></li>
+          <li class="menu-item"><a href="#">portfolio</a></li>
+          <li class="menu-item"><a href="#">blog</a></li>
+          <li class="menu-item"><a href="#">contact</a></li>
+        </ul>
+      </div>
+      
+      <a id="credit" href="https://kieranhunter.co.uk" target="_blank">Pen by Kieran hunter</a>
+    
+</body>
+
+<script>
+
+    document.querySelector('.menu').addEventListener('click',()=>{
+        document.querySelector('.menu-list').classList.toggle('open')
+
+    })
+
+</script>
+
+</html>

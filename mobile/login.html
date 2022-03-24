@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Mobile only</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css"  href="style/components.css" />
+    <style>
+
+        *{
+            box-sizing: border-box;
+        }
+
+        body{
+            background-color: rgb(228, 223, 198);
+        }
+
+        input[type="text"], input[type="password"]{
+            margin: 20px auto;
+            background-color: rgb(0,0,0,0); 
+            border: none;
+            border-bottom: solid 1px black;
+            font-size: larger;
+        }
+
+        label{
+            font-weight: 900;
+        }
+
+        #content{
+            width: 1200px;            
+            height: 100vh;
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: 5vh auto;
+            padding: 20px;
+            background-color: rgb(189, 175, 197);
+        }
+
+        .center-div{
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .center-div *{        
+            margin: auto;
+        }
+
+
+/********  LOCAL  *********/
+
+        #imgLogo{
+            margin: 40px auto;
+            width: 50vw;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="content">
+
+        <div class="center-div">
+            <img id="imgLogo" src="../img/logo.png" alt="" />
+            <p>Siflex versão p/ Celular</p>
+            <input type="text" id="edtUser" placeholder="Usuário">
+            <input type="password" id="edtPass" placeholder="Senha">
+            <button id="btnLogin">Login</button>
+        </div>
+
+
+    </div>
+
+    <script>
+
+        const user =  document.querySelector('#edtUser')
+        const pass =  document.querySelector('#edtPass')
+
+        document.querySelector('#btnLogin').addEventListener('click',()=>{
+
+
+            const data = new URLSearchParams();        
+            data.append("user", user.value.trim());
+            data.append("pass", pass.value.trim());
+
+            const myRequest = new Request("server/connect.php",{
+                method : "POST",
+                body : data
+            });
+
+        const myPromisse = new Promise((resolve,reject) =>{
+
+            fetch(myRequest)
+            .then(function (response){
+
+                if (response.status === 200) { 
+                    resolve(response.text());
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));
+                } 
+
+            });            
+
+        });
+
+        myPromisse.then((resolve)=>{
+            if(resolve.trim() != ""){
+                resp = resolve.split('|')                
+                localStorage.setItem("id",resp[2].trim());
+                localStorage.setItem("user",resp[1].trim());
+                localStorage.setItem("nome",resp[4].trim());
+                localStorage.setItem("class",resp[0].trim());
+                localStorage.setItem("email",resp[3].trim());
+                localStorage.setItem("menu",resp[5].trim());
+                window.open("main.html","_self")
+/*
+                const menu = JSON.parse(localStorage.getItem('menu'))
+                console.log(menu)
+*/
+                
+            }else{
+                alert("Usuário ou senha inválido!");
+                localStorage.clear();
+            }        
+
+        });
+
+
+        })
+
+
+
+    </script>
+
+</body>
+</html>
