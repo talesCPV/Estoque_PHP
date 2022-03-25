@@ -28,10 +28,7 @@
         .menu:hover {
             cursor:pointer;
             background: rgba(255,255,255,.95);
-            animation-play-state: paused;
         }
-
-
 
         .menu-list {
             list-style: none;
@@ -47,31 +44,35 @@
             width: 100%;
             }
 
-        .menu-item a {
+        .menu-item {
+            cursor: pointer;
             padding:12px 0;
             display: block;
-            transition:.25s
+            transition:.25s;
+            color:#fff;
+            text-transform:uppercase;
         }
 
-        .menu-item a:hover {
+        .menu-item:hover {
             background: #6fabbc;
         }
 
-        a {
-            color:#fff;
-            text-transform:uppercase;
-            text-decoration: none;
-        }
-
-        ul.open {
+        .menu-list.open {
             max-height: 480px;
             max-width: 100%;
             visibility: visible;
             opacity:1;
         }
 
-        .hide{
+
+        .sub-menu{
+            list-style: none;
             display: none;
+        }
+
+        .menu-item:hover .sub-menu{
+            background-color: #93c7d6;
+            display: block;
         }
 
 
@@ -136,25 +137,32 @@
         menuList.innerHTML = ""
 
 
-        function addItem(desc, href='#'){
+        function addItem(desc, href='#', itens = []){
             const li = document.createElement('li')
-            const a =  document.createElement('a')
-            a.innerHTML = desc
-            a.href = href
-            li.appendChild(a)
+            li.innerHTML = desc
+            li.id = href
+            itens.length > 0 ? li.appendChild(addSubItem(itens)) : 0            
             li.classList = 'menu-item'
             return li
+        }
+
+        function addSubItem(itens){
+            const ul = document.createElement('ul')
+            ul.classList = 'sub-menu'
+            for(let i=0; i<itens.length; i++){
+                const sub_li = document.createElement('li')
+                sub_li.innerHTML = itens[i].nome
+                sub_li.id = itens[i].id
+                sub_li.classList = 'menu-item'
+                ul.appendChild(sub_li)
+            }
+            return ul
         }
 
 
         for(let i=0; i<menu.length; i++){
             console.log(menu[i])
-            menuList.appendChild(addItem(menu[i].modulo,menu[i].link))
-
-
-
-
-
+            menuList.appendChild(addItem(menu[i].modulo,menu[i].link,menu[i].itens ))
         }
 
 

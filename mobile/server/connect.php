@@ -84,7 +84,8 @@
 							"link" => $item->link,
 							"open" => $item->open,
 							"icone" => $item->icone,
-							"id" => $item->id								
+							"id" => $item->id,
+							"edit" => $item->edit
 						) ;
 						array_push($menu_item->itens, $sub_menu_item);						
 					}				
