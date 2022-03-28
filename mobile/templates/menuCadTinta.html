@@ -1,0 +1,230 @@
+
+<style>
+
+  .calculator{
+    display : grid;
+    grid-template-areas: 
+    "visor  visor visor visor"
+    "ce     ce    ce    div"
+    "sete   oito  nove  mult"
+    "quatro cinco seis  sub"
+    "um     dois  tres  soma"
+    "zero   zero  ponto igual"
+    ;
+    gap: 10px;
+  }
+
+  .btn-calc{
+    padding : 5px;
+    border-radius:5px;
+    font-size: 18px;
+    height : 60px;
+
+  }
+
+  .visor{
+    grid-area: visor;
+    margin-top : 10px;
+    text-align : right;
+    padding : 10px;
+    font-size: 18px;
+  }
+  .ce{
+    grid-area: ce;
+    background:#3473DB;
+  }
+  .div   {grid-area: div;}
+  .mult   {grid-area: mult;}
+  .soma   {grid-area: soma;}
+  .sub   {grid-area: sub;}
+  .igual   {
+    grid-area: igual;
+    background:#28D161;  
+  }
+  .um     { grid-area: um;    }
+  .dois   { grid-area: dois;  }
+  .tres   { grid-area: tres;  }
+  .quatro { grid-area: quatro;}
+  .cinco  { grid-area: cinco; }
+  .seis   { grid-area: seis;  }
+  .sete   { grid-area: sete;  }
+  .oito   { grid-area: oito;  }
+  .nove   { grid-area: nove;  }
+  .zero   { grid-area: zero;  }
+  .ponto  { grid-area: ponto; }
+
+
+</style>   
+
+<html>
+<div class="display"> 
+
+	<div class="calculator">
+		<input type="text" class="visor" id="edtVisor" value='0'/>
+		<button class="um btn-calc">1</button>
+		<button class="dois btn-calc">2</button>
+		<button class="tres btn-calc">3</button>
+		<button class="quatro btn-calc">4</button>
+		<button class="cinco btn-calc">5</button>
+		<button class="seis btn-calc">6</button>
+		<button class="sete btn-calc">7</button>
+		<button class="oito btn-calc">8</button>
+		<button class="nove btn-calc">9</button>
+		<button class="zero btn-calc">0</button>
+		<button class="ce btn-calc">CE</button>
+		<button class="soma btn-calc">+</button>
+		<button class="sub btn-calc">-</button>
+		<button class="mult btn-calc">x</button>
+		<button class="div btn-calc">/</button>
+		<button class="igual btn-calc">=</button>	
+		<button class="ponto btn-calc">,</button>	
+	</div>
+
+
+</div>
+
+</html>
+
+<script>
+
+    const calc = new Object;
+    calc.screen = document.querySelector('.visor');
+    calc.oper = '';
+    calc.next = true;
+    calc.dot = false;
+    calc.value = 0;
+
+    calc.type = (N)=>{
+        if(calc.dot){
+            calc.screen.value += '.' + N;
+        }else{
+            if(calc.next){
+                calc.screen.value = N;
+            }else{
+                calc.screen.value += N;
+            }
+        }
+        calc.dot = false;
+        calc.next = false;            
+        number(calc.screen);
+    }
+
+    calc.equal = ()=>{
+        switch (calc.oper) {
+        case '+':
+        calc.value += parseFloat(calc.screen.value);
+            break;
+        case '-':
+        calc.value -= parseFloat(calc.screen.value);
+            break;
+        case '*':
+        calc.value *= parseFloat(calc.screen.value);
+            break;
+        case '/':
+        calc.value /= parseFloat(calc.screen.value);
+            break;
+        default:
+        calc.value = parseFloat(calc.screen.value);
+            break;
+
+        }
+        calc.screen.value = calc.value;
+        calc.next = true;
+        calc.oper = '';
+
+    }
+
+    calc.ce = ()=>{
+        calc.oper = '';
+        calc.next = true;
+        calc.value = 0;
+        calc.screen.value = 0;
+    }
+
+
+    document.querySelector('.um').addEventListener('click',()=>{
+        calc.type(1);
+    });
+    document.querySelector('.dois').addEventListener('click',()=>{			
+        calc.type(2);    
+    });
+    document.querySelector('.tres').addEventListener('click',()=>{			
+        calc.type(3);    
+    });
+    document.querySelector('.quatro').addEventListener('click',()=>{			
+        calc.type(4);    
+    });
+    document.querySelector('.cinco').addEventListener('click',()=>{			
+        calc.type(5);    
+    });
+    document.querySelector('.seis').addEventListener('click',()=>{			
+        calc.type(6);    
+    });
+    document.querySelector('.sete').addEventListener('click',()=>{			
+        calc.type(7);    
+    });
+    document.querySelector('.oito').addEventListener('click',()=>{			
+        calc.type(8);    
+    });
+    document.querySelector('.nove').addEventListener('click',()=>{			
+        calc.type(9);    
+    });
+    document.querySelector('.zero').addEventListener('click',()=>{			
+        calc.type(0);    
+    });	
+    document.querySelector('.ce').addEventListener('click',()=>{			
+        calc.ce();
+    });	
+    document.querySelector('.soma').addEventListener('click',()=>{			
+        calc.equal();
+        calc.oper = '+';
+    });	
+    document.querySelector('.sub').addEventListener('click',()=>{			
+        calc.equal();
+        calc.oper = '-';
+    });	
+    document.querySelector('.mult').addEventListener('click',()=>{			
+        calc.equal();
+        calc.oper = '*';
+    });	
+    document.querySelector('.div').addEventListener('click',()=>{			
+        calc.equal();
+        calc.oper = '/';
+    });	
+    document.querySelector('.igual').addEventListener('click',()=>{			
+        calc.equal();    
+    });	
+    document.querySelector('.ponto').addEventListener('click',()=>{			
+        calc.dot=true;    
+    });	
+
+    calc.screen.addEventListener('keyup',(key)=>{
+        const last = calc.screen.value.substr(calc.screen.value.length-1,1);
+        const old  = calc.screen.value.substr(0,calc.screen.value.length-1);
+        calc.screen.value = old
+        calc.type(last);
+
+        if(last === ',' || last === '.'){
+            calc.dot=true;
+        } else if(last === '+'){
+            calc.equal();
+            calc.oper = '+';
+        } else if(last === '-'){
+            calc.equal();
+            calc.oper = '-';
+        } else if(last === '*'){
+            calc.equal();
+            calc.oper = '*';
+        } else if(last === '/'){
+            calc.equal();
+            calc.oper = '/';
+        } else if(key.keyCode === 13){
+            calc.equal();
+        } else if(key.keyCode === 46){
+            calc.ce();
+        }
+
+    });
+
+
+</script>

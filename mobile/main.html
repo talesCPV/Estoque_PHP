@@ -32,6 +32,7 @@
 
         .menu-list {
             list-style: none;
+            z-index: 99;
             padding: 0;
             background:#93c7d6;
             max-height: 0;
@@ -58,7 +59,7 @@
         }
 
         .menu-list.open {
-            max-height: 480px;
+            max-height: 100vh;
             max-width: 100%;
             visibility: visible;
             opacity:1;
@@ -66,8 +67,20 @@
 
 
         .sub-menu{
+            padding-left: 0;
             list-style: none;
             display: none;
+            background-color: chocolate;
+        }
+
+        .sub-menu .menu-item{
+            background-color: #6fabbc;
+        }
+
+        .sub-menu .menu-item:hover{
+            /*background-color: #cad1d3;*/
+            font-weight: bolder;
+            padding-left: 40px;
         }
 
         .menu-item:hover .sub-menu{
@@ -75,8 +88,28 @@
             display: block;
         }
 
+        /*  MAIN SCREEN  */
 
-        /* Credit */
+        #mainScreen{
+            position: absolute;
+            z-index: -10;
+            top: 0;
+            left: 0;
+            padding: 70px 20px;
+        }
+
+        /* Title & Credit */
+
+        #title{
+            position: absolute;
+            z-index: -20;            
+            top:10px;
+            left:50%;
+            transform:translateX(-50%);
+            color:#fff;
+            font-size: 2em;
+            text-transform:uppercase;
+        }
 
         #credit{
             color:#fff;
@@ -91,28 +124,36 @@
 </head>
 <body>
 
-    <div>
+    <div> <!-- MENU -->
         <i class="fa fa-bars menu" title="Click me!">☰</i>
-        <ul class="menu-list">
-            <li class="menu-item" ><a href="#">home</a></li>
-            <li class="menu-item"><a href="#">about</a>
-                <ul class="hide">
-                    <li>sub item 01</li>
-                    <li>sub item 02</li>
-                    <li>sub item 03</li>
-                </ul>
-            </li>
-            <li class="menu-item"><a href="#">portfolio</a></li>
-            <li class="menu-item"><a href="#">blog</a></li>
-            <li class="menu-item"><a href="#">contact</a></li>
-        </ul>
+        <ul class="menu-list"></ul>
       </div>
-      
-      <a id="credit" href="#" target="_blank">SIFLEX 2.0</a>
+      <div id="title"> Home </div>
+      <div id="mainScreen"> <!-- MAIN CONTENT [TEMPLATES] -->
+        Main screen
+      </div>
+
+      <div id="credit">
+        SIFLEX 2.0
+      </div>
     
 </body>
 
 <script>
+
+    function openHTML(template,label){    
+        fetch( "templates/"+template)
+        .then( stream => stream.text() )
+        .then( text => {			  
+            
+            document.querySelector("#mainScreen").innerHTML = text;
+            document.querySelector("#title").innerHTML = label;
+
+            let script = document.querySelector("#mainScreen").getElementsByTagName('script');
+            eval(script[0].innerHTML);
+        }); 
+    }
+
 
     createMenu()
 
@@ -121,14 +162,16 @@
     })
 
     const itens = document.querySelectorAll('.menu-item')
-
+/*
     for(let i=0; i< itens.length; i++){
         document.querySelectorAll('.menu-item')[i].addEventListener('click',()=>{
-            alert(i)
+            console.log(document.querySelectorAll('.menu-item')[i])
+            document.querySelector('.menu-list').classList.remove('open')
+            openHTML('calculadora.html','Calculadora')
         })
 
     }
-
+*/
 
     function createMenu(){
         const menu = JSON.parse(localStorage.getItem('menu'))
@@ -136,13 +179,21 @@
 
         menuList.innerHTML = ""
 
+        function addEvent(list,obj){
+            list.addEventListener('click',()=>{
+                document.querySelector('.menu-list').classList.remove('open')
+                openHTML(obj.id+'.html',obj.nome)
+            })
+        }
 
-        function addItem(desc, href='#', itens = []){
+
+        function addItem(M){
             const li = document.createElement('li')
-            li.innerHTML = desc
-            li.id = href
-            itens.length > 0 ? li.appendChild(addSubItem(itens)) : 0            
+            li.innerHTML = M.modulo
+            li.id = M.id           
+            M.itens.length > 0 ? li.appendChild(addSubItem(M.itens)) : 0            
             li.classList = 'menu-item'
+            M.link != '#' ? addEvent(li,M) : 0
             return li
         }
 
@@ -154,20 +205,17 @@
                 sub_li.innerHTML = itens[i].nome
                 sub_li.id = itens[i].id
                 sub_li.classList = 'menu-item'
+                addEvent(sub_li,itens[i])
                 ul.appendChild(sub_li)
             }
             return ul
         }
 
-
         for(let i=0; i<menu.length; i++){
-            console.log(menu[i])
-            menuList.appendChild(addItem(menu[i].modulo,menu[i].link,menu[i].itens ))
+//            console.log(menu[i])
+            menuList.appendChild(addItem(menu[i] ))
         }
-
-
-        menuList.appendChild(addItem('SAIR','login.html'))
-
+//        menuList.appendChild(addItem('SAIR','login.html'))
     }
 
 
