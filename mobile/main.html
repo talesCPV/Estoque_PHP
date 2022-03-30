@@ -215,7 +215,18 @@
 //            console.log(menu[i])
             menuList.appendChild(addItem(menu[i] ))
         }
-//        menuList.appendChild(addItem('SAIR','login.html'))
+
+        sair = 	new Object
+            sair.modulo = "LOGOUT",
+            sair.link =  "logout.html",
+            sair.icone = "fa fa-home",
+            sair.id = "menuLogout",
+            sair.perm = [10,4,3,2,1],
+            sair.itens = []
+                    
+
+
+        menuList.appendChild(addItem(sair))
     }
 
 

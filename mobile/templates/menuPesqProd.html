@@ -1,0 +1,171 @@
+<!--  Cascate Style Sheet  -->
+<style>
+    fieldset{
+        width: calc(100vw - 56px);
+        border: solid 3px rgb(0,0,100);
+        border-radius: 10px;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        margin-bottom: 20px;
+    }
+
+    fieldset > *{
+        padding: 5px;
+        margin: 2px;
+    }
+
+    input{
+        min-width: 0;
+    }
+
+    #btnBusca{        
+        cursor: pointer;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+
+    #fdsResult{
+
+        height: calc(100vh - 325px);
+        overflow:auto;
+
+    }
+
+</style>
+
+<!--   HTML CODE   -->
+<html>
+    <fieldset>
+        <legend> Busca por:</legend>
+        <select id="selBusca">
+            <option value="p.descricao">Descrição</option>
+            <option value="p.id">Código</option>
+            <option value="e.nome">Fornecedor</option>
+            <option value="p.cod">Cod. Produto</option>
+            <option value="p.cod_bar">Cód. Barras</option>
+        </select>
+        <input type="text" id="edtBusca">
+        <button id="btnBusca">Pesquisar</button>
+    </fieldset>
+
+    <fieldset id="fdsResult">
+
+        
+
+    </fieldset>
+
+
+</html>
+
+<!--   SCRIPT CODE   -->
+<script>
+
+    function request(query){
+
+        const data = new URLSearchParams();        
+            data.append("query", query);
+
+            const myRequest = new Request("server/queryDB.php",{
+                method : "POST",
+                body : data
+            });
+
+        const myPromisse = new Promise((resolve,reject) =>{
+
+            fetch(myRequest)
+            .then(function (response){
+
+                if (response.status === 200) { 
+                    resolve(response.text());
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));
+                } 
+
+            });            
+
+        });
+
+        myPromisse.then((resolve)=>{
+
+//            console.log(resolve)
+            const json = JSON.parse(resolve)
+//            console.log(json[0])
+
+            createTab(json,['id','descricao'],['Cod','Descrição'])
+
+        });
+
+
+    }
+
+    function createTab(obj,fields,labels){
+
+        const mainResult = document.querySelector('#fdsResult')
+
+        const tab = document.createElement('table')
+        
+        function addRow(i=-1){
+
+            const row = document.createElement('tr')
+            if (i < 0){
+                for(let j=0; j<labels.length; j++){ // adding col
+                    const col =  document.createElement('th')
+                    col.innerHTML = [labels[j]]
+                    row.appendChild(col)
+                }
+            }else{
+                for(let j=0; j<fields.length; j++){ // adding col
+                    const col =  document.createElement('td')
+                    col.innerHTML = obj[i][fields[j]]
+                    row.appendChild(col)
+                }
+            }
+
+            tab.appendChild(row)
+        }
+
+
+        for(let i=0; i<obj.length; i++){ // adding row
+            
+            i == 0 ? addRow(-1) : 0
+            
+            addRow(i)
+
+
+
+/*            
+            for(let j=0; j<fields.length; j++){ // adding col
+                const col =  document.createElement('td')
+                col.innerHTML = obj[i][fields[j]]
+                row.appendChild(col)
+            }
+*/
+      
+
+        }
+
+        mainResult.innerHTML = ''
+        mainResult.appendChild(tab)
+
+
+    }
+
+
+
+    document.querySelector('#btnBusca').addEventListener('click',()=>{
+        const sel = document.querySelector('#selBusca').value
+        const edt = document.querySelector('#edtBusca').value
+
+        const query =  `SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON ${sel} LIKE '%${edt}%' AND p.id_emp = e.id ORDER BY cast(p.cod as unsigned integer);`;
+
+        request(query)
+
+//        alert(query)
+
+    })
+
+
+
+</script>
