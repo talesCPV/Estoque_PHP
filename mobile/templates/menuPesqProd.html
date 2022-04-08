@@ -7,6 +7,7 @@
         display: grid;
         grid-template-columns: 1fr 2fr;
         margin-bottom: 20px;
+        gap: 10px;
     }
 
     fieldset > *{
@@ -33,6 +34,17 @@
 
     }
 
+    /*   Tabela Zebrada   */
+    tr:nth-child(even) {background: #EEE}
+    tr:nth-child(odd) {background: #FFF} 
+    tr { cursor: pointer; }
+    tr:hover{
+        background-color:  rgb(247, 123, 123);
+    }
+
+
+
+
 </style>
 
 <!--   HTML CODE   -->
@@ -57,10 +69,12 @@
     </fieldset>
 
 
+
 </html>
 
 <!--   SCRIPT CODE   -->
 <script>
+
 
     function request(query){
 
@@ -89,11 +103,8 @@
 
         myPromisse.then((resolve)=>{
 
-//            console.log(resolve)
             const json = JSON.parse(resolve)
-//            console.log(json[0])
-
-            createTab(json,['id','descricao'],['Cod','Descrição'])
+            createTab(json,['id','descricao','unidade','preco_venda'],['Cod','Desc.','Und.','Preço'])
 
         });
 
@@ -105,6 +116,7 @@
         const mainResult = document.querySelector('#fdsResult')
 
         const tab = document.createElement('table')
+        tab.style.width = '85vw'
         
         function addRow(i=-1){
 
@@ -122,43 +134,48 @@
                     row.appendChild(col)
                 }
             }
+            row.metadata = obj[i]
+            row.addEventListener('click',(e)=>{
+                const metadata = e.currentTarget.metadata
+                console.log(metadata)
 
+                let body = `
+                    <table style='width:100%; text-transform:uppercase;'>
+                        <tr> <td> Cod.  </td> <td> ${metadata.cod}         </td> </tr>
+                        <tr> <td> Forn. </td> <td> ${metadata.nome}        </td> </tr>
+                        <tr> <td> Und.  </td> <td> ${metadata.unidade}     </td> </tr>
+                        <tr> <td> Qtd.  </td> <td> ${metadata.estoque}     </td> </tr>
+                        <tr> <td> Preço </td> <td style='font-size : 20px;'> ${metadata.preco_venda} </td> </tr>
+                    </table>
+
+                `
+                
+
+
+                showPop(metadata.descricao,body)
+
+
+            })
             tab.appendChild(row)
         }
 
 
-        for(let i=0; i<obj.length; i++){ // adding row
-            
-            i == 0 ? addRow(-1) : 0
-            
+        for(let i=0; i<obj.length; i++){ // adding row            
+            i == 0 ? addRow(-1) : 0            
             addRow(i)
-
-
-
-/*            
-            for(let j=0; j<fields.length; j++){ // adding col
-                const col =  document.createElement('td')
-                col.innerHTML = obj[i][fields[j]]
-                row.appendChild(col)
-            }
-*/
-      
-
         }
 
         mainResult.innerHTML = ''
         mainResult.appendChild(tab)
 
-
     }
-
 
 
     document.querySelector('#btnBusca').addEventListener('click',()=>{
         const sel = document.querySelector('#selBusca').value
         const edt = document.querySelector('#edtBusca').value
 
-        const query =  `SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON ${sel} LIKE '%${edt}%' AND p.id_emp = e.id ORDER BY cast(p.cod as unsigned integer);`;
+        const query =  `SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path, CONCAT('R$',FORMAT(p.preco_comp * (p.margem/100 +1),2, 'de_DE')) as preco_venda FROM tb_produto AS p INNER JOIN tb_empresa AS e ON ${sel} LIKE '%${edt}%' AND p.id_emp = e.id ORDER BY cast(p.cod as unsigned integer);`;
 
         request(query)
 

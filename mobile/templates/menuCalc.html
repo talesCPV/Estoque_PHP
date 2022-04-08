@@ -3,15 +3,17 @@
 
   .calculator{
     display : grid;
+    margin-left: calc((100vw - 315px)/2);
     grid-template-areas: 
     "visor  visor visor visor"
-    "ce     ce    ce    div"
-    "sete   oito  nove  mult"
-    "quatro cinco seis  sub"
-    "um     dois  tres  soma"
-    "zero   zero  ponto igual"
+    "ce     ce    ce    back"
+    "sete   oito  nove  div"
+    "quatro cinco seis  mult"
+    "um     dois  tres  sub"
+    "zero   zero  ponto soma"
+    "igual  igual igual igual"
     ;
-    gap: 10px;
+    gap: 5px;
   }
 
   .btn-calc{
@@ -33,14 +35,14 @@
     grid-area: ce;
     background:#3473DB;
   }
-  .div   {grid-area: div;}
-  .mult   {grid-area: mult;}
-  .soma   {grid-area: soma;}
-  .sub   {grid-area: sub;}
-  .igual   {
-    grid-area: igual;
-    background:#28D161;  
-  }
+  .div    { grid-area: div;   }
+  .mult   { grid-area: mult;  }
+  .soma   { grid-area: soma;  }
+  .sub    { grid-area: sub;   }
+  .igual  {
+            grid-area: igual;
+            background:#28D161;  
+          }
   .um     { grid-area: um;    }
   .dois   { grid-area: dois;  }
   .tres   { grid-area: tres;  }
@@ -52,6 +54,10 @@
   .nove   { grid-area: nove;  }
   .zero   { grid-area: zero;  }
   .ponto  { grid-area: ponto; }
+  .back   { 
+            grid-area: back;
+            font-size: xx-large;
+          }     
 
 
 </style>   
@@ -78,6 +84,7 @@
 		<button class="div btn-calc">/</button>
 		<button class="igual btn-calc">=</button>	
 		<button class="ponto btn-calc">,</button>	
+		<button class="back btn-back">⬅</button>	
 	</div>
 
 
@@ -141,6 +148,14 @@
         calc.screen.value = 0;
     }
 
+    calc.back = ()=>{
+        calc.screen.value = calc.screen.value.substr(0,calc.screen.value.length - 1);
+        calc.screen.value == '' ? calc.screen.value = '0' : 0
+
+        calc.dot = false;
+        calc.next = false;            
+        number(calc.screen);
+    }
 
     document.querySelector('.um').addEventListener('click',()=>{
         calc.type(1);
@@ -174,6 +189,9 @@
     });	
     document.querySelector('.ce').addEventListener('click',()=>{			
         calc.ce();
+    });	
+    document.querySelector('.back').addEventListener('click',()=>{			
+        calc.back();
     });	
     document.querySelector('.soma').addEventListener('click',()=>{			
         calc.equal();

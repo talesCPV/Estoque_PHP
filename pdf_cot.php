@@ -125,7 +125,7 @@
 	  	$pdf->Cell(10,5,"Und.",0,0,"L");
 	  	$pdf->Cell(10,5,"Qtd.",0,0,"C");
 		if(isset($_POST['ver_preco'])){	  	
-		  	$pdf->Cell(22,5,"Valor Unit.",0,0,"L");
+		  	$pdf->Cell(25,5,"Valor Unit.",0,0,"L");
 		  	$pdf->Cell(20,5,"SubTotal",0,0,"L");
 	  }
   		$pdf->Ln(5);
@@ -149,7 +149,7 @@
 		  	$pdf->Cell(10,5,"Und.",0,0,"L");
 		  	$pdf->Cell(10,5,"Qtd.",0,0,"C");
 			if(isset($_POST['ver_preco'])){	  	
-			  	$pdf->Cell(22,5,"Valor Unit.",0,0,"L");
+			  	$pdf->Cell(25,5,"Valor Unit.",0,0,"L");
 			  	$pdf->Cell(20,5,"SubTotal",0,0,"L");
 		  	}
 	  		$pdf->Ln(5);
@@ -165,7 +165,7 @@
 	  	$pdf->Cell(10,5,utf8_decode(strtoupper($fetch[2])),0,0,"L");
 	  	$pdf->Cell(10,5,strtoupper($fetch[3]),0,0,"C");
 		if(isset($_POST['ver_preco'])){	  	
-		  	$pdf->Cell(22,5,money_format('%=*(#0.2n', $fetch[4]),0,0,"L");
+		  	$pdf->Cell(25,5,money_format('%=*(#0.2n', $fetch[4]),0,0,"L");
 		  	$pdf->Cell(20,5,money_format('%=*(#0.2n', $subtotal),0,0,"L");
   		}
   		$pdf->Ln(5);
