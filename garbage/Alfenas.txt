@@ -1,0 +1,34 @@
+Km  | Cidade             | Apoio          | OBS:          
+**********************************************************
+0   | Alfenas            | MC, AG         |               
+20  | Matão              |                |               
+39  |                    | AG             |               
+48  | Guiaipava          | AG, AL         |               
+60  | Douradinho         | AG, AL         |               
+69  | Cordislândia       | AG, AL         |               
+83  | Turvolândia        | AG, AL         |               
+93* |                    | AG, AL         |               
+112 | Careaçu            | AG, AL, CC     |               
+120*| Posto 2001         | AG, AL         |               
+124 | S.S. da Bela Vista | AG, AL         |               
+140 | S. Rita do Sapucaí | MC, AG, AL     | SERRA         
+165 | S. José do Alegre  | AG, AL         |               
+181 | Itajubá            | AG, AL, CC, MC |               
+192 | Bairro S. ANtônio  | AG             |               
+200 | Venceslau Brás     | MC, AG, AL     | Serra Charco  
+215 |                    | AG, AL. EN     |               
+223 |                    | AG, AL         |               
+231 |                    | AG             | DH Pedrinhas  
+245 |                    | AG, AL         |               
+262 | Potin              |                |               
+270 | APARECIDA          |                |               
+                                                          
+*********************** LEGENDA ************************* 
+                                                          
+MC - Macarronada                                          
+AL - Alimentação                                          
+AG - Água                                                 
+CC - Coca Cola                                            
+EN - Energético                                           
+MC - Apoio Mecânico                                       
+*  - Distância Estimada                                    

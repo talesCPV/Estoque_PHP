@@ -1365,7 +1365,10 @@ $(document).ready(function(){
                     var tel = $.trim($(this).children('td').slice(14, 15).text());
                     var cel = $.trim($(this).children('td').slice(15, 16).text().toUpperCase());
                     var sal = $.trim($(this).children('td').slice(16, 17).text().toUpperCase());
-                    var tipo = $.trim($(this).children('td').slice(17, 18).text().toUpperCase());            
+                    var nasc = $.trim($(this).children('td').slice(17, 18).text().toUpperCase()).substr(0,10) ;            
+                    var tipo = $.trim($(this).children('td').slice(18, 19).text().toUpperCase());            
+
+                    console.log((nasc))
 
                     var query = "query=SELECT id, cargo FROM tb_cargos;";
                     var resp = queryDB(query);
@@ -1395,6 +1398,7 @@ $(document).ready(function(){
                     table  +=   "<tr><td>CEP </td><td> <input type='text' name='edtCEP' id='edtCEP' maxlength='10' value='"+cep+"'/></td></tr>";
                     table  +=   "<tr><td>Telefone </td><td> <input type='text' name='edtTel' id='edtTel' onkeyup='return telefone(this)' maxlength='15' value='"+tel+"'/></td></tr>";
                     table  +=   "<tr><td>Celular </td><td> <input type='text' name='edtCel' id='edtCel' onkeyup='return telefone(this)' maxlength='15' value='"+cel+"'/></td></tr>";
+                    table  +=   "<tr><td>Nascimento </td><td> <input type='date' name='cmbNasc' id= 'cmbNasc' class='selData' value='"+nasc+"'></td></tr>";
                     table  +=   "<tr><td>Cargo</td><td><select name='selCargo' id= 'selCargo'>"+ opt +"</select></td></tr>";
                     table  +=   "<tr><td>Admissão </td><td> <input type='date' name='cmbAdm' id= 'cmbAdm' class='selData' value='"+adm+"'></td></tr>";
                     table  +=   "<tr><td>Status</td><td><select name='selStatus' id= 'selStatus'>"+ opt2 +"</select></td></tr>";
@@ -1405,6 +1409,7 @@ $(document).ready(function(){
                         if(nome != ""){                              
                             var nome = $('#edtNome').val().trim().toUpperCase();
                             var adm = $('#cmbAdm').val();
+                            var data_nasc = $('#cmbNasc').val();
                             var status = $('#selStatus').val();
                             var rg = $('#edtRG').val().trim().toUpperCase();
                             var cpf = $('#edtCPF').val().trim().toUpperCase();
@@ -1420,7 +1425,8 @@ $(document).ready(function(){
 //                            var sal = $('#edtRG').val().trim().toUpperCase();
 //                            var tipo = $('#edtRG').val().trim().toUpperCase();   
 
-                            var query = "query=UPDATE tb_funcionario SET  nome='"+ nome +"', rg='"+ rg +"', cpf='"+ cpf+"', pis='"+ pis+"', endereco='"+ end+"', cidade='"+ cid+"', estado='"+ est+"', cep='"+ cep+"', data_adm='"+ adm+"', id_cargo='"+ id_cargo+"', tel='"+ tel+"', cel='"+ cel+"', status='"+ status+"' WHERE id="+id_func+";";
+                            var query = "query=UPDATE tb_funcionario SET  nome='"+ nome +"', rg='"+ rg +"', cpf='"+ cpf+"', pis='"+ pis+"', endereco='"+ end+"', cidade='"+ cid+"', estado='"+ est+"', cep='"+ cep+"', data_adm='"+ adm+"', id_cargo='"+ id_cargo+"', tel='"+ tel+"', cel='"+ cel+"', status='"+ status+"', data_nasc='"+ data_nasc+"'  WHERE id="+id_func+";";
+                            console.log(query)
                             queryDB(query);   
                             $('#frmRefresh').submit();                               
                         }else{

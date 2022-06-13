@@ -8,7 +8,8 @@
     <title>Cadastro de Funcionários</title>
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/funcoes.js"></script>
+    <script src="js/funcoes.js"></script> 
+    <!--<script src="js/funcionarios.js"></script> -->
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -53,7 +54,7 @@
 										 "<td style='display: none;'>" .$fetch[0] . "</td>".
 										 "<td>" .$fetch[1] . "</td>".
 										 "<td style='display: none;'>" . date('d/m/Y', strtotime($fetch[9])) . "</td>".
-								     	 "<td>" .$fetch[17] . "</td>".
+								     	 "<td>" .$fetch[18] . "</td>".
 								     	 "<td>" .$fetch[14] . "</td>".
 								     	 "<td style='display: none;'>" .$fetch[2] . "</td>".
 								     	 "<td style='display: none;'>" .$fetch[3] . "</td>".
@@ -68,6 +69,7 @@
 								     	 "<td style='display: none;'>" .$fetch[13] . "</td>".
 								     	 "<td style='display: none;'>" .$fetch[16] . "</td>".
 								     	 "<td style='display: none;'>" .$fetch[17] . "</td>".
+								     	 "<td style='display: none;'>" .$fetch[18] . "</td>".
 									  "</tr>";								     	 
 					        }
 						    echo"

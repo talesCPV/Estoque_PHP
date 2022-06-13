@@ -40,7 +40,8 @@ echo"
       <label> Cliente </label>
 ";
 
-        $query = "SELECT * from tb_empresa where tipo = \"CLI\" order by fantasia";
+//        $query = "SELECT * from tb_empresa where tipo = \"CLI\" order by fantasia";
+        $query = "SELECT * from tb_empresa order by fantasia";
         $result = mysqli_query($conexao, $query);
 
           echo "<td><select name=\"cliente\" id=\"emp\">";

@@ -215,6 +215,15 @@
 							"edit" : []
 						},
 						{
+							"nome": "Controles",
+							"link": "controles.php",
+							"open": "",
+							"id": "menuControles",
+							"icone": "fa fa-calendar-check-o",
+							"perm": [10,4,3],
+							"edit" : []
+						},						
+						{
 							"nome": "Almoxarifado",
 							"link": "inventario.php",
 							"open": "",

@@ -1,0 +1,168 @@
+
+<style>
+
+    fieldset{
+        width: calc(100vw - 60px) ;
+        border-radius: 10px;
+    }
+
+    select, input, textarea{
+        width: 100%;
+    }
+
+
+</style>   
+<html>
+
+    <fieldset>
+        <legend>Nova Cotação</legend>
+
+        <table>
+            <tr>
+                <td>Num. Pedido* </td>
+                <td><input type="text" id="edtNumPed"></td>
+            </tr>
+            <tr>
+                <td>Cliente</td>
+                <td><select id="cmbCliente"></select></td>
+            </tr>
+            <tr>
+                <td>Origem</td>
+                <td><select id="cmbOrigem">
+                    <option value="SAN" selected> Sanfonados </option>
+                    <option value="FUN" > Funilaria e Pintura </option>
+                    <option value="OUT" > Outros </option>
+                </select></td>
+            </tr>
+            <tr>
+                <td>Tipo </td>
+                <td> <select id="cmbTipo">
+                    <option value="VEN" > Venda </option>
+                    <option value="SER" > Serviço </option>                    
+                </select></td>
+            </tr>
+            <tr>
+                <td>Data</td>
+                <td><input id="edtData" type="date"></td>
+            </tr>
+            <tr>
+                <td>Data Entrega</td>
+                <td><input id="edtDataEnt" type="date"></td>
+            </tr>
+            <tr>
+                <td>Comprador</td>
+                <td><input id="edtComp" type="text"></td>
+            </tr>
+            <tr>
+                <td>Condição de Pgto.</td>
+                <td><textarea id="txtCondPgto" cols="30" rows="5"></textarea></td>
+            </tr>
+            <tr>
+                <td>Obs.</td>
+                <td><textarea id="txtObs" cols="30" rows="5"></textarea></td>
+            </tr>
+            <tr>
+                <td>Emitido Por:</td>
+                <td><input id="edtVend" type="text" readonly></td>
+            </tr>
+        </table>
+
+        <button id="btnCriar" >Criar Pedido</button>
+
+    </fieldset>
+
+</html>
+<script>
+
+    geraCod()
+    getCli()
+
+
+    document.querySelector('#edtVend').value =  localStorage.getItem("nome")
+
+    document.querySelector('#btnCriar').addEventListener('click',()=>{
+        newPed();
+    })
+
+    
+    document.querySelector('#cmbCliente').addEventListener('change',(e)=>{
+        e.target.nome = e.target.options[e.target.selectedIndex].nome
+        e.target.cod = e.target.options[e.target.selectedIndex].id
+    })
+
+
+    function geraCod(){
+
+
+        const today = new Date()
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        let cod = year + month + day
+        cod = cod.substr(2,cod.length-1)
+
+        document.querySelector('#edtData').value = year+'-'+month+'-'+day
+
+        request(`select * from tb_pedido where num_ped like '%${cod}%'`).then((resolve)=>{
+            let index = 1            
+            if(resolve.trim() != ''){
+                const json = JSON.parse(resolve)
+                index = json.length + 1
+            }
+            document.querySelector('#edtNumPed').value = cod +'-' + index            
+        })
+
+    }
+
+    function getCli(){
+        request('SELECT id,nome from tb_empresa where tipo = "CLI" order by fantasia').then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const sel = document.querySelector('#cmbCliente')
+            sel.innerHTML = '<option selected>Selecione o Cliente</option>'
+            for(let i=0; i<json.length; i++){
+                const opt = document.createElement('option')
+                opt.nome = json[i].nome.toUpperCase()
+                opt.id =  json[i].id
+                opt.innerHTML = json[i].id.padStart(4, '0') + " - " + json[i].nome.toUpperCase()
+                sel.appendChild(opt)
+            }    
+            
+//            console.log(sel)
+//            sel.event.change()
+        })
+    }
+
+    
+    function newPed(){
+
+
+
+        const pedido = new Object
+
+        pedido.idEmp = document.querySelector('#cmbCliente').value
+        pedido.cod = document.querySelector('#cmbCliente').cod
+        pedido.cliente = document.querySelector('#cmbCliente').nome
+        pedido.dataPed = document.querySelector('#edtData').value
+        pedido.dataEnt = document.querySelector('#edtDataEnt').value
+        pedido.vend = document.querySelector('#edtVend').value
+        pedido.comp = document.querySelector('#edtComp').value
+        pedido.numPed = document.querySelector('#edtNumPed').value
+        pedido.orig = document.querySelector('#cmbOrigem').value
+        pedido.condPgto = document.querySelector('#txtCondPgto').value
+        pedido.obs = document.querySelector('#txtObs').value
+
+        localStorage.setItem("pedido",JSON.stringify(pedido));            
+        openHTML('CadItemPed.html',`Cotação - ${pedido.numPed}`)
+/*
+        request(`INSERT INTO tb_pedido ( id_emp, data_ped, data_ent, resp, comp, num_ped, origem, cond_pgto, obs) VALUES ('${pedido.idEmp}', '${pedido.dataPed}', '${pedido.dataEnt}','${pedido.vend}', '${pedido.comp}', '${pedido.numPed}', '${pedido.orig}','${pedido.condPgto}', '${pedido.obs}')`)
+        .then((resolve)=>{
+            localStorage.setItem("pedido",JSON.stringify(pedido));            
+            openHTML('CadItemPed.html',`Cotação - ${pedido.numPed}`)
+        })
+*/
+
+    }
+
+
+</script>

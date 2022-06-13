@@ -29,6 +29,7 @@
 	        <option value="cli">Cliente</option>
 	        <option value="codcli">Código do Cliente</option>
 	        <option value="num">Numero do Carro</option>
+	        <option value="cod">Cod.</option>
 	    </select></td>
 	    <td><input type="text" name="valor" maxlength="12"/></td>
 		<td><select name="selexec" id="selExec">
@@ -73,6 +74,8 @@
                     $query_opt = $query_opt . " AND e.nome LIKE '%".$valor."%'";
                 }else if($campo == "codcli"){
                     $query_opt = $query_opt . " AND e.id LIKE '%".$valor."%'";
+                }else if($campo == "cod"){
+                    $query_opt = $query_opt . " AND a.id = '".$valor."'";
                 }else if($campo == "num"){
 					$arr = explode(',',$valor);
 					if(count($arr) > 0){
@@ -169,8 +172,9 @@
 										OBS:
 										<textarea id=\"edtObs\" name=\"edtObs\"> </textarea>
 										<input type=\"hidden\" name=\"origem\" value=\"ANALISE\">
-										<input type=\"hidden\" name=\"query\" value=\"". $campo ."\">
-										<input type=\"hidden\" name=\"valor\" value=\"". $query ."\">
+										<input type=\"hidden\" name=\"campo\" value=\"". $campo ."\">
+										<input type=\"hidden\" name=\"query\" value=\"". $query ."\">
+										<input type=\"hidden\" name=\"valor\" value=\"". $_POST ["valor"] ."\">
 										<input type=\"hidden\" name=\"func\" value=\"". $func ."\">
 										<input type=\"hidden\" name=\"exec\" value=\"". $exec ."\">
 				  	  					<input type=\"hidden\" name=\"num_carro\" value=\"". $num_carro ."\">

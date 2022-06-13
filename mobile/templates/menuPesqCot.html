@@ -1,0 +1,221 @@
+<style>
+
+    fieldset{
+        min-width: 90vw;
+        max-width: 90vw;
+    }
+
+    #fstBuscaPed{
+        display: grid;
+        grid-template-areas:
+        "select  input input"
+        "lblInicio dteInicio dteInicio"
+        "lblFinal dteFinal dteFinal"
+        "lblData ckbData ckbData"
+        "button button button";
+    }
+
+
+    /*   Tabela Zebrada   */
+    tr:nth-child(even) {background: #EEE}
+    tr:nth-child(odd) {background: #FFF} 
+    tr { cursor: pointer; }
+    tr:hover{
+        background-color:  rgb(247, 123, 123);
+    }
+
+</style>
+
+<html>
+
+    <fieldset id="fstBuscaPed">
+        <legend>Pedidos e Cotações</legend>
+            <select id="cmbBusca" style="grid-area: select;">
+                <option value="todos">Todos</option>
+                <option value="sanf">Sanfonados</option>
+                <option value="funi">Fun. e Pintura</option>
+                <option value="aberto">Cotacoes</option>
+                <option value="fechado">Pedidos</option>
+                <option value="faturado">Faturados</option>
+                <option value="interno">Uso Interno</option>
+                <option value="cod">Codigo</option>
+                <option value="num_ped">Numero</option>
+                <option value="cod_prod">Cod. Produto</option>
+                <option value="cliente">Cliente</option>
+                <option value="cod_cli">Cod. Cliente</option>
+                <option value="vendtotal">Vendedor Total</option>
+                <option value="vendfechado">Vendedor Fechados</option>
+            </select>
+            <input type="text" id="edtBusca" placeholder="Digite a busca" style="grid-area: input;">
+            <p style="grid-area: lblInicio;">Início</p>
+            <input type="date" id="dteInicio" style="grid-area: dteInicio;">
+            <p style="grid-area: lblFinal;">Final</p>
+            <input type="date" id="dteFinal" style="grid-area: dteFinal;">
+            <label for="ckbData" style="grid-area: lblData;">Todo Histórico</label>
+            <input type="checkbox" id="ckbData" style="grid-area: ckbData;">
+            <button id="btnBusca" style="grid-area: button;">OK</button>
+    </fieldset>
+    <fieldset id="fstMostraPed">
+        <legend></legend>
+    </fieldset>
+
+</html>
+
+<script>
+
+
+
+    const today = new Object   
+        today.date = new Date()
+        today.day = today.date.getDate()
+        today.month = today.date.getMonth() +1 
+        today.year = today.date.getFullYear()
+        today.lastDays = [31,0,31,30,31,30,31,31,30,31,30,31]
+        today.lastDays[1] = today.year%4 == 0 ? 29 : 28 // ano bissexto
+        today.formatDate = today.year+'-'+today.month.toString().padStart(2, '0')+'-'+today.day.toString().padStart(2, '0')
+        today.firstDM = today.year+'-'+today.month.toString().padStart(2, '0')+'-01'
+        today.lastDM =  today.year+'-'+today.month.toString().padStart(2, '0')+'-'+today.lastDays[today.date.getMonth()] 
+        
+        document.querySelector('#dteInicio').value = today.firstDM
+        document.querySelector('#dteFinal').value = today.lastDM
+
+        document.querySelector('#btnBusca').addEventListener('click',()=>{
+
+            request(getQuery()).then((resolve)=>{
+                const tab = document.querySelector('#fstMostraPed')
+                tab.innerHTML = ''
+
+                const json = JSON.parse(resolve)
+                tab.appendChild(createTab(json,['num_ped','fantasia','data_ped','status','venda'],['Num.','Cliente','Data','Status','Valor']))
+                console.log(json)
+
+            })
+
+        })
+
+        function getQuery(){
+            const sel = document.querySelector('#cmbBusca').value
+            const edt = document.querySelector('#edtBusca').value
+            const datas = document.querySelector('#ckbData').checked ? '' : ` 
+                        AND p.data_ped >= '${document.querySelector('#dteInicio').value}' 
+						AND p.data_ped <= '${document.querySelector('#dteFinal').value}' `
+
+
+            let query = ` SELECT p.id, p.num_ped, e.fantasia, p.comp, p.data_ped, p.data_ent, p.status, i.venda, p.path, e.id as cod_emp
+					      FROM tb_pedido AS p 
+					      INNER JOIN (SELECT id_ped, ROUND(SUM(qtd * preco),2) AS venda FROM tb_item_ped GROUP BY id_ped) AS i
+					      ON p.id = i.id_ped
+                          INNER JOIN tb_empresa AS e
+                          ON p.id_emp = e.id `
+
+            switch (sel) {
+            case 'sanf':
+                query += `AND p.origem = 'SAN' ${datas}`
+                break
+            case 'funi':
+                query += `AND p.origem = 'FUN' ${datas}`
+                break;
+            case 'aberto':
+                query += `AND p.status = 'ABERTO' ${datas}`
+                break;
+            case 'fechado':
+                query += `AND p.status = 'FECHADO' ${datas}`
+                break;
+            case 'faturado':
+                query += `AND p.status = 'PAGO' ${datas}`
+                break;
+            case 'interno':
+                query += `AND p.status = 'INTERNO' ${datas}`
+                break;
+            case 'cod':
+                query += `AND p.id = '${edt}'`
+                break;
+            case 'num_ped':
+                query += `AND p.num_ped = '${edt}'`
+                break;
+            case 'cod_prod':
+                query += `INNER JOIN tb_item_ped as ip 
+                          INNER JOIN tb_produto as prod 
+                          ON p.id = ip.id_ped  
+                          AND ip.id_prod = prod.id 
+                          AND prod.cod = '${edt}'`
+                break;
+            case 'cliente':
+                query += `AND e.nome LIKE '%${edt}%' ${datas}`
+                break;
+            case 'cod_cli':
+                query += `AND e.id = '${edt}' ${datas}`
+                break;
+            case 'vendtotal':
+                query += `AND p.resp LIKE '%${edt}%' ${datas}`
+                break;
+            case 'vendfechado':
+                query += `AND p.resp LIKE '%${edt}%'
+						  AND p.status = 'FECHADO' ${datas}`
+                break;
+            default:
+                query +=  datas
+            }
+
+            query += ' ORDER BY p.data_ped DESC;'
+
+//            console.log(query)
+            return query
+
+        }
+
+        function createTab(obj,fields,labels){
+
+            const tab = document.createElement('table')
+            tab.style.width = '85vw'
+
+            function addRow(i=-1){
+
+                const row = document.createElement('tr')
+                if (i < 0){
+                    for(let j=0; j<labels.length; j++){ // adding col
+                        const col =  document.createElement('th')
+                        col.innerHTML = [labels[j]]
+                        row.appendChild(col)
+                    }
+                }else{
+                    for(let j=0; j<fields.length; j++){ // adding col
+                        const col =  document.createElement('td')
+                        col.innerHTML = obj[i][fields[j]].toUpperCase()
+                        row.appendChild(col)
+                    }
+                }
+                row.metadata = obj[i]
+                row.addEventListener('click',(e)=>{
+                    const metadata = e.currentTarget.metadata
+                    console.log(metadata)
+
+                    let body = `
+                        <table style='width:100%; text-transform:uppercase;'>
+                            <tr> <td> Cod. Ped </td> <td> ${metadata.id}         </td> </tr>
+                            <tr> <td> Num. Ped </td> <td> ${metadata.num_ped}         </td> </tr>
+                            <tr> <td> Cliente. </td> <td> ${metadata.fantasia.toUpperCase()}        </td> </tr>
+                            <tr> <td> Data do Pedido  </td> <td> ${metadata.data_ped}     </td> </tr>
+                            <tr> <td> Data de Entrega  </td> <td> ${metadata.data_ent}     </td> </tr>
+                            <tr> <td> Status </td> <td> ${metadata.status} </td> </tr>
+                            <tr> <td> Valor </td> <td style='font-size : 20px;'>R$ ${metadata.venda} </td> </tr>
+                        </table>
+
+                    `                
+                    showPop('Pedido: '+metadata.num_ped,body)
+
+                })
+                tab.appendChild(row)
+            }
+
+            for(let i=0; i<obj.length; i++){ // adding row            
+                i == 0 ? addRow(-1) : 0            
+                addRow(i)
+            }
+
+            return tab
+
+        }
+
+
+</script>

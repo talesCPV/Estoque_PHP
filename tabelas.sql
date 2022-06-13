@@ -300,6 +300,15 @@ CREATE TABLE tb_ref_sanf (
 	FOREIGN KEY(id_modelo) REFERENCES tb_sanfonas(id)    
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+CREATE TABLE tb_comercial(
+    id INT NOT NULL AUTO_INCREMENT,
+    id_agenda INT NOT NULL,
+    dia datetime DEFAULT CURRENT_TIMESTAMP,
+    resumo VARCHAR(500) NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(id_agenda) REFERENCES tb_agenda(id)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
 
 INSERT INTO tb_analise_frota (id_emp, data_analise, num_carro, func, local, valor, obs) VALUES (166, '2021-06-28', 'sss', 'Bruno Mathias', 'No Cliente', 0, 'teste de cadastro' );
 
@@ -337,16 +346,10 @@ ALTER TABLE tb_serv_exec ADD valor double NOT NULL DEFAULT 0;
 ALTER table tb_funcionario ADD vale double NOT NULL DEFAULT 0;
 ALTER table tb_funcionario ADD obs varchar(200) DEFAULT NULL;
 
+ALTER table tb_funcionario ADD data_nasc datetime DEFAULT NULL;
 
-
-
-Análise de Frota
-
-Busca por: 	
-	
+UPDATE tb_funcionario set data_nasc='1977-03-19' where id = 1;	
 		
-SELECT a.id, e.fantasia, a.num_carro, a.data_analise, a.func, a.exec, a.obs, e.id, a.valor FROM tb_analise_frota as a INNER JOIN tb_empresa as e ON a.id_emp = e.id AND a.num_carro LIKE '%10292%' AND a.num_carro LIKE '%10276%' order by a.data_analise desc;
-
 SET SQL_SAFE_UPDATES = 0;
 UPDATE tb_empresa SET fantasia = nome ;
 

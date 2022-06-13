@@ -6,11 +6,20 @@
     <title>Document</title>
     <style>
 
+        *{
+            box-sizing: border-box;
+        }
+
         body {
             font-size:12px;
             font-family:sans-serif;
             background:#b8e3ef;
             text-align:center;
+        }
+
+        fieldset{
+            width: calc(100vw - 60px) ;
+            border-radius: 10px;
         }
 
 /*  MENU  */
@@ -88,7 +97,7 @@
         }
 
 /* BUTTON STYLE */
-button{
+        button{
             cursor: pointer;
             background-color: #8457C4;
             color: #F5F5F5;
@@ -204,7 +213,7 @@ button{
             font-size: 2em;
             text-transform:uppercase;
         }
-
+/*
         #credit{
             color:#fff;
             text-transform:uppercase;
@@ -213,7 +222,7 @@ button{
             left:50%;
             transform:translateX(-50%);
         }
-
+*/
     </style>
 </head>
 <body>
@@ -223,8 +232,13 @@ button{
         <ul class="menu-list"></ul>
     </div>
     <div id="title"> Flexibus </div>
-    <div id="mainScreen"></div> <!-- MAIN CONTENT [TEMPLATES] -->
-    <div id="credit"> SIFLEX 2.0 </div>
+    <div id="mainScreen">
+
+        <!--         <button id="btnTeste">TESTE</button>  -->
+
+
+    </div> <!-- MAIN CONTENT [TEMPLATES] -->
+    <!-- <div id="credit"> SIFLEX 2.0 </div> -->
     
     <div class="overlay">
         <div class="popup">
@@ -240,29 +254,63 @@ button{
         <div class="content" id="alert-content"></div>
     </div>    
 
+
 </body>
 
 <script>
+/*
+    document.getElementById('btnTeste').addEventListener('click',()=>{
+        openHTML('CadItemPed.html',`Cotação - XXXXX`)
+    })
+*/
 
-    function openHTML(template,label){    
+function request(query){
+
+    const data = new URLSearchParams();        
+        data.append("query", query);
+
+        const myRequest = new Request("server/queryDB.php",{
+            method : "POST",
+            body : data
+        });
+
+    const myPromisse = new Promise((resolve,reject) =>{
+
+        fetch(myRequest)
+        .then(function (response){
+
+            if (response.status === 200) { 
+                resolve(response.text());
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));
+            } 
+
+        });            
+
+    });
+
+    return myPromisse
+
+}
+
+
+    function openHTML(template,label){ 
         fetch( "templates/"+template)
         .then( stream => stream.text() )
-        .then( text => {			  
+        .then( text => {
+/*            
             if(text[1] == '?' || text[1] == '!'){
                 openHTML('notfound.html','Em Desenvolvimento')
             }else{
+*/                
                 document.querySelector("#mainScreen").innerHTML = text;
                 document.querySelector("#title").innerHTML = label;
 
                 const script = document.querySelector("#mainScreen").getElementsByTagName('script');
                 eval(script[0].innerHTML);
-
-            }
-
-
+//            }
         }); 
     }
-
 
     createMenu()
 
@@ -343,16 +391,18 @@ button{
 
 
 
-    function showPop(title, content){
+    function showPop(title, content, script = ''){
         document.querySelector('#pop-title').innerHTML = title
         document.querySelector('#pop-content').innerHTML = content
         document.querySelector('.overlay').style = 'visibility: visible; opacity: 1;'
+        script.trim() != '' ? eval(script) : 0
     }
 
-    function showAlert(title, content){
+    function showAlert(title, content, script = ''){
         document.querySelector('#alert-title').innerHTML = title
         document.querySelector('#alert-content').innerHTML = content
         document.querySelector('.alert').style = 'visibility: visible; opacity: 1;'
+        script.trim() != '' ? eval(script) : 0
     }
 
 </script>

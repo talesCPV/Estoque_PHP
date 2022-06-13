@@ -1,4 +1,3 @@
-<!--  Cascate Style Sheet  -->
 <style>
     fieldset{
         width: calc(100vw - 56px);
@@ -75,42 +74,6 @@
 <!--   SCRIPT CODE   -->
 <script>
 
-
-    function request(query){
-
-        const data = new URLSearchParams();        
-            data.append("query", query);
-
-            const myRequest = new Request("server/queryDB.php",{
-                method : "POST",
-                body : data
-            });
-
-        const myPromisse = new Promise((resolve,reject) =>{
-
-            fetch(myRequest)
-            .then(function (response){
-
-                if (response.status === 200) { 
-                    resolve(response.text());
-                } else { 
-                    reject(new Error("Houve algum erro na comunicação com o servidor"));
-                } 
-
-            });            
-
-        });
-
-        myPromisse.then((resolve)=>{
-
-            const json = JSON.parse(resolve)
-            createTab(json,['id','descricao','unidade','preco_venda'],['Cod','Desc.','Und.','Preço'])
-
-        });
-
-
-    }
-
     function createTab(obj,fields,labels){
 
         const mainResult = document.querySelector('#fdsResult')
@@ -148,17 +111,12 @@
                         <tr> <td> Preço </td> <td style='font-size : 20px;'> ${metadata.preco_venda} </td> </tr>
                     </table>
 
-                `
-                
-
-
+                `                
                 showPop(metadata.descricao,body)
-
 
             })
             tab.appendChild(row)
         }
-
 
         for(let i=0; i<obj.length; i++){ // adding row            
             i == 0 ? addRow(-1) : 0            
@@ -170,14 +128,19 @@
 
     }
 
-
     document.querySelector('#btnBusca').addEventListener('click',()=>{
         const sel = document.querySelector('#selBusca').value
         const edt = document.querySelector('#edtBusca').value
 
         const query =  `SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path, CONCAT('R$',FORMAT(p.preco_comp * (p.margem/100 +1),2, 'de_DE')) as preco_venda FROM tb_produto AS p INNER JOIN tb_empresa AS e ON ${sel} LIKE '%${edt}%' AND p.id_emp = e.id ORDER BY cast(p.cod as unsigned integer);`;
 
-        request(query)
+        request(query).then((resolve)=>{
+
+            const json = JSON.parse(resolve)
+            createTab(json,['id','descricao','unidade','preco_venda'],['Cod','Desc.','Und.','Preço'])
+
+
+        })
 
 //        alert(query)
 

@@ -18,7 +18,8 @@
         $cliente = $_POST ["cod_cli"];
         $inicio = $_POST ["ini"];
 		$final = $_POST ["fin"];
-		$campo = $_POST ["query"];
+		$campo = $_POST ["campo"];
+		$valor = $_POST ["valor"];
 		$num_carro = $_POST ["num_carro"];
 		$pedido = $_POST ["pedido"];
 		$compl = " AND s.data_exec >= '{$inicio}' AND s.data_exec <= '{$final}'";
@@ -77,16 +78,37 @@
 		if (IsSet($_POST ["origem"])){
 
 			if($campo == "num"){
+				$query_opt = '';
+				$arr = explode(',',$valor);
+				if(count($arr) > 0){
+					$query_opt = " AND (a.num_carro LIKE '%{$arr[0]}%'";
 
+					for($i = 1; $i < count($arr); $i++){
+						$query_opt = $query_opt . " OR a.num_carro LIKE '%{$arr[$i]}%'";
+					}
+					$query_opt = $query_opt . ')';
+				}
 				session_start();
 				$query = $_SESSION["query"];
 
+				$query = "SELECT num_carro, obs, valor, data_analise, func, local, exec FROM tb_analise_frota as a INNER JOIN tb_empresa as e ON a.id_emp = e.id  ON a.id_emp = e.id " . $query_opt;
 
-				$pdf->SetFont('Arial','',8);				
+				$pdf->SetFont('Arial','',4);				
 				$pdf->Cell(124,5,utf8_decode($query),0,1,"L");
 
+// SELECT a.id, e.fantasia, a.num_carro, a.data_analise, a.func, a.exec, a.obs, e.id, a.valor
+// FROM tb_analise_frota as a
+// INNER JOIN tb_empresa as e
+// ON a.id_emp = e.id  AND (a.num_carro LIKE '%0000%') order by a.data_analise desc
+
 			}else{
-				$query = "SELECT num_carro, obs, valor, data_analise, func, local, exec FROM tb_analise_frota WHERE id_emp='{$cliente}' ";
+				if($campo == "cod"){
+					$query = "SELECT num_carro, obs, valor, data_analise, func, local, exec FROM tb_analise_frota WHERE id='{$valor}' ";
+//					$pdf->Cell(124,5,utf8_decode($query),0,1,"L");
+
+				}else{
+					$query = "SELECT num_carro, obs, valor, data_analise, func, local, exec FROM tb_analise_frota WHERE id_emp='{$cliente}' ";
+				}
 				if (IsSet($_POST ["exec"])){
 					if($_POST ["exec"] == "2"){
 						$query = $query . " AND  exec ";
@@ -128,8 +150,7 @@
 		$pdf->Cell(20,5,$query,0,0,"L");
 
 // SELECT num_carro, obs, valor, data_analise, func, local FROM tb_analise_frota WHERE id_emp={$cliente} AND data_analise BETWEEN '2022-01-07' AND '2022-01-10' order by data_analise
-
-		
+// SELECT num_carro, obs, valor, data_analise, func, local, exec FROM tb_analise_frota as a INNER JOIN tb_empresa as e ON a.id_emp = e.id  ON a.id_emp = e.id  AND (a.num_carro LIKE '%0000%')
 */
 
 		while($fetch = mysqli_fetch_row($result)){

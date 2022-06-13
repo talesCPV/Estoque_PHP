@@ -1,0 +1,214 @@
+
+<style>
+
+    .my-grid{
+        display: grid;
+        grid-template-areas: 
+        "sel edt"
+        "btn btn";
+
+    }
+
+
+</style>   
+<html>
+    <fieldset>
+        <legend>Cotação</legend>
+        <p id="lblCli">Cliente:</p>
+        <p id="lblComp">Comprador:</p>
+        <button id="btnEdtPed">Editar</button>
+    </fieldset>
+
+    <fieldset id="fdsPedItens" style="display: none;">
+        <legend>Itens:</legend>
+        <table id="tblPedItens">
+            <tr><th>Cod.</th><th>Desc.</th><th>Und.</th><th>Qtd</th><th>Unitario</th><th>Sub Total</th></tr>
+        </table>
+    </fieldset>
+
+    <fieldset class="my-grid">
+        <legend>Adicionar Ítens</legend>
+        <select id="selBusca" style="grid-area:sel;">
+            <option value="p.descricao">Descrição</option>
+            <option value="p.id">Código</option>
+            <option value="e.nome">Fornecedor</option>
+            <option value="p.cod">Cod. Produto</option>
+            <option value="p.cod_bar">Cód. Barras</option>
+        </select>
+        <input id="edtBusca" type="text" style="grid-area:edt;">
+        <button id="btnBusca" style="grid-area:btn;">Pesquisar</button>
+    </fieldset>
+
+ </html>
+<script>
+    const pedido = JSON.parse(localStorage.getItem("pedido"))
+    console.log(pedido)
+    
+
+
+    document.querySelector('#lblCli').innerHTML = 'Cliente: '+pedido.cliente
+    document.querySelector('#lblComp').innerHTML = 'Comprador: '+pedido.comp
+
+    document.querySelector('#btnEdtPed').addEventListener('click',()=>{
+
+        const iter = Object.entries(pedido) 
+
+        console.log(iter)
+
+            const html = `
+                    <fieldset>
+                        <legend>Cotação</legend>
+
+                        <table>
+                            <tr>
+                                <td>Num. Pedido* </td>
+                                <td><input type="text" id="${iter[5][0]}" value="${iter[5][1]}" ></td>
+                            </tr>
+                            <tr>
+                                <td>Cliente</td>
+                                <td><select id="cmbCliente"></select></td>
+                            </tr>
+                            <tr>
+                                <td>Origem</td>
+                                <td><select id="cmbOrigem">
+                                    <option value="SAN" selected> Sanfonados </option>
+                                    <option value="FUN" > Funilaria e Pintura </option>
+                                    <option value="OUT" > Outros </option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td>Tipo </td>
+                                <td> <select id="cmbTipo">
+                                    <option value="VEN" > Venda </option>
+                                    <option value="SER" > Serviço </option>                    
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td>Data</td>
+                                <td><input id="edtData" type="date"></td>
+                            </tr>
+                            <tr>
+                                <td>Data Entrega</td>
+                                <td><input id="edtDataEnt" type="date"></td>
+                            </tr>
+                            <tr>
+                                <td>Comprador</td>
+                                <td><input id="edtComp" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Condição de Pgto.</td>
+                                <td><textarea id="txtCondPgto" cols="30" rows="5"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Obs.</td>
+                                <td><textarea id="txtObs" cols="30" rows="5"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Emitido Por:</td>
+                                <td><input id="edtVend" type="text" readonly></td>
+                            </tr>
+                        </table>
+
+                        <button id="btnCriar" >Criar Pedido</button>
+
+                    </fieldset>
+            `
+
+
+
+
+
+
+        showPop('Editar Pedido',html)
+
+
+
+    })
+
+    document.querySelector('#btnBusca').addEventListener('click', ()=>{
+        const sel = document.querySelector('#selBusca').value
+        const edt = document.querySelector('#edtBusca').value
+        const query =  `SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome as fornecedor, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path, FORMAT(p.preco_comp * (p.margem/100 +1),2, 'de_DE') as preco_venda FROM tb_produto AS p INNER JOIN tb_empresa AS e ON ${sel} LIKE '%${edt}%' AND p.id_emp = e.id ORDER BY cast(p.cod as unsigned integer);`;
+
+        request(query).then((resolve)=>{
+            const json = JSON.parse(resolve)
+            const div = document.createElement('div')
+            div.innerHTML = ''
+            const sel = document.createElement('select')
+                sel.id = 'cmbProd'
+
+            for(let i=0; i<json.length; i++){                
+                const opt = document.createElement('option')
+                opt.id= JSON.stringify(json[i])
+                opt.innerHTML = json[i].descricao.toUpperCase()
+                sel.appendChild(opt)
+                
+            }
+            div.appendChild(sel)
+            div.innerHTML += '<label>Qtd</label><input type="text" id="edtQtd"><button id="btnAdd">Adicionar</button>'
+
+            
+//        e.target.cod = e.target.options[e.target.selectedIndex].id
+
+            const  scpt = `
+
+                function addTabItem(obj){
+                    const fields = ['cod','descricao','unidade','_qtd_','preco_venda','_subtotal_']
+                    const tab = document.querySelector('#tblPedItens')
+                    
+                    function addTD(field){
+                        val = obj[field]
+                        const td = document.createElement('td')
+                        td.innerHTML = val
+                        return td
+                    }
+
+                    const tr = document.createElement('tr')
+                    for(let i=0; i<fields.length; i++){
+                        tr.appendChild(addTD(fields[i]))
+                    }
+                    
+                    tab.appendChild(tr)
+                }
+
+                document.querySelector('#btnAdd').addEventListener('click',()=>{  
+                    
+                    function comaDot(S){
+                        let arr = S.split('')
+                        for(let i=0; i< arr.length; i++){
+                            arr[i] = arr[i] == ',' ? '.' : arr[i]
+                        }
+                        return arr.join('')
+                    }                    
+
+                    const e = document.querySelector('#cmbProd')
+                    const obj = JSON.parse(e.options[e.selectedIndex].id )
+                    obj._qtd_ =  parseFloat(document.querySelector('#edtQtd').value).toFixed(2)
+                    obj.preco_venda = parseFloat(comaDot(obj.preco_venda)).toFixed(2)
+                    obj._subtotal_ = (obj.preco_venda * obj._qtd_)
+
+                    addTabItem(obj)
+
+                    document.querySelector('.close').click()
+                    document.querySelector('#fdsPedItens'). style="display: block;"
+
+                })            
+            `
+
+//            console.log(json)
+
+            
+
+
+            showPop('Adicionar Produto',div.innerHTML,scpt)
+
+
+            
+        })
+
+    })
+
+
+
+
+</script>
