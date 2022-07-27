@@ -1,0 +1,264 @@
+<?php
+  include "valida.inc";
+?>
+<!DOCTYPE HTML>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+    <title>Análise Financeira</title>
+    <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/edt_mask.js"></script>
+	<script src="js/pesq_anafin.js"></script>
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" 
+        integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" 
+        crossorigin="anonymous">
+    </script>    	
+</head>
+<body  style='background:#A80000;'>
+  <header>
+
+  </header>
+  <div class="page_container">  
+  	  <div class="page_form">
+  	  	<p class="logo"> Fluxo de Caixa</p> <br>
+  	  		<table class="search-table"><tr><td>
+			<label> Busca por: </label> </td><td>
+			<select id="cmbPesq">
+				<optgroup label="Geral">
+				<option value="todos">Todos</option>
+				<option value="entrada">Entradas</option>
+				<option value="saida">Saídas</option>
+				<option value="cli">Cliente / Fornecedor</option>
+				<option value="nf">Nota Fiscal</option>
+				<optgroup label="Entradas">
+				<option value="fun_todos">Funilaria Pintura</option>
+				<option value="san_todos">Sanfonados</option>
+				<optgroup label="Saídas">
+				<option value="comp">Compras</option>
+				<option value="imp">Impostos</option>
+				<option value="pgto">Pgto Funcionários</option>
+				<option value="fixo">Custo Fixo</option>
+
+			</select></td><td>
+			<input type="text" id="edtValor" maxlength="12"/></td><td>
+			<button class="botao_inline" id="btnOK" >OK</button></td></tr>  </table>
+			
+			<table class="search-table" ><tr>
+				<td>
+					<label for="ckbDatas">Início / Final</label>
+					<input type="checkbox" id="ckbDatas" checked>		
+				</td>
+				<td> <input type="date" id='data_ini' class="selData" > </td>
+				<td> <input type="date" id='data_fin' class="selData" > </td>
+			</tr> </table>		
+
+	  </div>
+
+	</div>
+
+
+	<div class="page_container" id="frmTable" style="display: none;">  
+		<div class="page_form" id="no_margin">
+			<p class="logo"> Fluxo de Caixa</p> <br>
+			<div id="myTable"></div>
+		</div>
+	</div>
+
+
+	<div class="overlay">	
+		<div class="popup">
+			<h2 id="popTitle"></h2>
+			<div class="close" >&times</div>
+			<div class="content"></div>
+		</div>
+	</div>
+
+</body>
+<script>
+
+  var data
+
+  function financeiro_pdf(){
+
+/*
+	var imgData = new Image()
+		imgData.src = 'assets/logo.png'
+*/
+	var doc = new jsPDF({
+			orientation: 'p',
+			unit: 'mm',
+			format: 'a4'
+		})  
+
+	doc.setFontSize(11)
+	doc.setFont(undefined, 'bold')
+	doc.setFont(undefined,'normal')
+
+//	doc.text('Locador',txt.x, txt.y)
+	doc.setFontSize(15)
+	doc.setTextColor(38,99,108);
+	doc.text('Michele S. Lopes / Natalia Savassa',10 ,20)
+	doc.setFontSize(11)
+	doc.setTextColor(0,0,0);
+//	doc.text('Locatário',txt.x, txt.y)
+	doc.setFontSize(15)
+	doc.setTextColor(38,99,108);
+//	doc.text(data.cliente,txt.x + 20, txt.y)
+
+	doc.save('Financeiro.pdf')
+
+	}
+
+	function formatData(dt){
+		return dt.substr(8,2)+'/'+dt.substr(5,2)+'/'+dt.substr(0,4)
+	}
+
+	function formatMoney(mn){
+		return parseFloat(mn).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+	}
+
+
+	function addTable(dados){
+		console.log(dados)
+
+		tbl = document.createElement('table')
+		tbl.classList.add('search-table')
+		tbl.id='tabItens'
+		tbl.innerHTML = '<tr><th>Cod.</th><th>Tipo</th><th>Orig.</th><th>Referência / NF</th><th>Empresa</th><th>Vencimento</th><th>Pgto</th><th>Valor</th></tr>'
+
+		tot = 0
+
+
+		for(let i=0; i<dados.length; i++){
+			tot += parseFloat(dados[i].preco)
+			tr = document.createElement('tr')
+			tr.innerHTML = `<td>${dados[i].id}</td><td>${dados[i].tipo}</td><td>${dados[i].origem}</td><td>${dados[i].ref}</td><td>${dados[i].emp}</td><td>${formatData(dados[i].data_pg)}</td><td>${dados[i].pgto}</td><td>${formatMoney(dados[i].preco)}</td>`
+			tr.dados = dados[i]
+
+			tbl.appendChild(tr)
+		}
+
+
+		document.querySelector('#myTable').innerHTML = ''
+		document.querySelector('#myTable').appendChild(tbl)
+
+	}
+
+	document.querySelector('#btnOK').addEventListener('click',()=>{
+
+		const campo =  document.querySelector('#cmbPesq').value
+		const valor = document.querySelector('#edtValor').value
+		const data_ini = document.querySelector('#data_ini').value
+		const data_fin = document.querySelector('#data_fin').value
+		let query = 'SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro'
+
+		if (campo == "fun_todos"){
+			query +=  " where origem = 'FUN'";
+		}else if (campo == "san_todos"){
+			query +=  " where origem = 'SAN'";
+		}else if (campo == "entrada"){
+			query +=  " where tipo = 'ENTRADA'";
+		}else if (campo == "fixo"){
+			query +=  " where tipo = 'SAIDA' and origem = 'FIX'";
+		}else if (campo == "pgto"){
+			query +=  " where tipo = 'SAIDA' and origem = 'PGT'";
+		}else if (campo == "saida"){
+			query +=  " where tipo = 'SAIDA'";
+		}else if (campo == "comp"){
+			query +=  " where tipo = 'SAIDA' and origem = 'COM'";
+		}else if (campo == "imp"){
+			query +=  " where tipo = 'SAIDA' and origem = 'IMP'";
+		}else if (campo == "cli"){
+			query +=  ` where emp LIKE '%${valor}%'`;
+		}else if (campo == "nf"){
+			query +=  ` where ref LIKE '%${valor}%'`;
+		}
+
+		if(document.querySelector('#ckbDatas').checked){
+			if (campo == "todos"){
+				query += ' WHERE'
+			}else{
+				query += ' AND'
+			}
+
+			query += ` data_pg >= '${data_ini}' and data_pg <= '${data_fin}'` ;
+		}
+
+		query += ' ORDER BY data_pg desc';
+
+console.log(query)				
+
+
+		const params = new URLSearchParams();        
+			params.append("query", query);
+
+		const myRequest = new Request("ajax/ajax.php",{
+			method : "POST",
+			body : params
+		});
+
+		return new Promise((resolve,reject) =>{
+			fetch(myRequest)
+			.then(response => {
+				return 	response.json()
+			})
+			
+			.then(dados => {
+				addTable(dados)
+
+				document.querySelector('#frmTable').style = `"display :${dados.length > 0 ? 'block' : 'none' };"`
+			})
+			.catch(error => {		
+				document.querySelector('#frmTable').style = "display :none;"			
+			});
+		}); 
+			
+
+	})
+
+
+
+
+	document.querySelector('#data_ini').addEventListener('change',()=>{
+		ini = document.querySelector('#data_ini').value
+		fin = document.querySelector('#data_fin').value
+		console.log(fin)
+		if(fin < ini || fin == ''){
+			h = new Date(ini)
+			h.setDate(h.getDate() + 30)
+			fin = h.getFullYear()+'-'+(h.getMonth()+1).toString().padStart(2, '0')+'-'+h.getDate()
+			console.log(fin)
+			document.querySelector('#data_fin').value = fin
+		}
+	})
+
+
+    tbl = document.querySelector('#tabItens')
+	if(tbl != null){
+		row = tbl.rows[tbl.rows.length-1]
+		row.style = 'background : gray; color: white; font-size : 14px;'
+
+		for(let i=0; i<row.cells.length; i++){
+			txt = row.cells[i].innerText
+			if(txt[0] == '('){
+				row.cells[i].style = 'color : red;'
+			}else if(txt[0] == 'R'){
+				row.cells[i].style = 'color : blue;'
+			}
+		}
+
+		document.querySelector('#btnAnalise').addEventListener('click',()=>{
+
+
+			financeiro_pdf()
+
+
+		})
+
+	}
+
+
+</script>
+</html>

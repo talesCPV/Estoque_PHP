@@ -9,7 +9,12 @@
     <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/edt_mask.js"></script>
-    <script src="js/pesq_anafin.js"></script>
+	<script src="js/pesq_anafin.js"></script>
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" 
+        integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" 
+        crossorigin="anonymous">
+    </script>    	
 </head>
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
@@ -256,7 +261,8 @@
 			  	  				</form></td>
 								</tr>
 			  	  		</table>
-			    	</form>
+					</form>					
+					<button id='btnAnalise'>Teste</button>
 				  </div>";
 				}
 	  ?>
@@ -275,6 +281,37 @@
 <script>
 
   var data
+
+  function financeiro_pdf(){
+
+/*
+	var imgData = new Image()
+		imgData.src = 'assets/logo.png'
+*/
+	var doc = new jsPDF({
+			orientation: 'p',
+			unit: 'mm',
+			format: 'a4'
+		})  
+
+	doc.setFontSize(11)
+	doc.setFont(undefined, 'bold')
+	doc.setFont(undefined,'normal')
+
+//	doc.text('Locador',txt.x, txt.y)
+	doc.setFontSize(15)
+	doc.setTextColor(38,99,108);
+	doc.text('Michele S. Lopes / Natalia Savassa',10 ,20)
+	doc.setFontSize(11)
+	doc.setTextColor(0,0,0);
+//	doc.text('Locatário',txt.x, txt.y)
+	doc.setFontSize(15)
+	doc.setTextColor(38,99,108);
+//	doc.text(data.cliente,txt.x + 20, txt.y)
+
+	doc.save('Financeiro.pdf')
+
+	}
 
 
 
@@ -304,6 +341,15 @@
 				row.cells[i].style = 'color : blue;'
 			}
 		}
+
+		document.querySelector('#btnAnalise').addEventListener('click',()=>{
+
+
+			financeiro_pdf()
+
+
+		})
+
 	}
 
 
