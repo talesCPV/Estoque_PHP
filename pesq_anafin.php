@@ -64,8 +64,8 @@
 			<label for="ckbDatas">Início / Final</label>
 			
 			<table class="search-table"  border="0"><tr>
-				<td> <input type="date" name="data_ini" class="selData" value="<?php echo date('Y-m-d',mktime(0, 0, 0, date('m') , 1 , date('Y'))); ?>"> </td>
-				<td> <input type="date" name="data_fin" class="selData" value="<?php echo date('Y-m-d',mktime(23, 59, 59, date('m'), date("t"), date('Y'))); ?>"> </td></tr> </table>
+				<td> <input type="date" name="data_ini" id='data_ini' class="selData" value="<?php echo date('Y-m-d',mktime(0, 0, 0, date('m') , 1 , date('Y'))); ?>"> </td>
+				<td> <input type="date" name="data_fin" id='data_fin' class="selData" value="<?php echo date('Y-m-d',mktime(23, 59, 59, date('m'), date("t"), date('Y'))); ?>"> </td></tr> </table>
 			<label> Tipo de Pagto.</label>
 			<select name="selPgt" id="selPgt">
 				<option value="TDS" selected> Todos </option>
@@ -276,7 +276,21 @@
 
   var data
 
-  
+
+
+	document.querySelector('#data_ini').addEventListener('change',()=>{
+		ini = document.querySelector('#data_ini').value
+		fin = document.querySelector('#data_fin').value
+		if(fin < ini){
+			h = new Date(ini)
+			h.setDate(h.getDate() + 30)
+			fin = h.getFullYear()+'-'+(h.getMonth()+1).toString().padStart(2, '0')+'-'+h.getDate()
+			console.log(fin)
+			document.querySelector('#data_fin').value = fin
+		}
+	})
+
+
     tbl = document.querySelector('#tabItens')
 	if(tbl != null){
 		row = tbl.rows[tbl.rows.length-1]
