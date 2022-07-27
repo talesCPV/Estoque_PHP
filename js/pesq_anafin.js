@@ -52,15 +52,114 @@ $(document).ready(function(){
         var venc = $.trim($(this).children('td').slice(5, 6).text().toUpperCase());
         var pgto = $.trim($(this).children('td').slice(6, 7).text().toUpperCase());
         var valor = $.trim($(this).children('td').slice(7, 8).text().toUpperCase());
+
+        const obj =  new Object
+            obj.id = id
+            obj.tipo = tipo
+            obj.origem = origem
+            obj.ref = ref
+            obj.emp = emp
+            obj.venc = venc
+            obj.pgto = pgto
+            obj.valor = valor
+
+        data = obj
+
+        openHTML('anafin.html',tipo+' - '+origem)
+
+/*        
+
+        function addSel(ARR){
+            function addOP(V,N){
+                const out = document.createElement('option')
+                out.value = V
+                out.innerHTML = N
+                return out
+            }
+            const sel =  document.createElement('select')
+            for(let i=0; i<ARR[0].length; i++){
+                sel.appendChild(addOP(ARR[0][i],ARR[1][i]))
+            }
+            return sel
+        }
+
+
+        function addInput(T,N,V,I){
+            const out = document.createElement('input')
+            console.log(I)
+            if(V != undefined){
+                out.value = V
+            }
+            if(T != undefined){                
+                out.type = T
+            }
+            if(N != undefined){
+                out.name = N
+            }
+            if(I != undefined){
+                out.id = I
+            }
+                return out
+        }
+
+        function addTR(C1,C2){
+            const tr = document.createElement('tr')
+
+            function addTD(H){
+                const td = document.createElement('td')
+                    if(typeof H === 'object'){
+                        td.appendChild(H)
+                    }else{
+                        td.innerHTML = H
+                    }
+                return td
+            }
+
+            tr.appendChild(addTD(C1))
+            tr.appendChild(addTD(C2))
+            return tr
+        }
+
+
+        const frm = document.createElement('form')
+            frm.id = 'frmPesqProd'
+            frm.method = 'POST'
+
+        frm.appendChild(addInput('hidden','id',id))
+        frm.appendChild(addInput('hidden','hidDel',0,'hidDel'))
+        
+        const tb = document.createElement('table')
+        tb.appendChild(addTR('Referência',addInput('text','ref',ref,'edtRef')))
+        tb.appendChild(addTR('Tipo',addSel([['ENTRADA','SAIDA'],['a Receber','a Pagar']])))
+//        tb.appendChild(addTR('Entrada',addSel([['SAN','FUN'],['Sanfonados','Funilaria e Pintura']])))
+        tb.appendChild(addTR('Origem',addSel([['SAN','FUN'],['Sanfonados','Funilaria e Pintura']])))
+
+        tb.appendChild(addTR('Valor',addInput('text','valor',valor,'edtValor')))
+
+
+        
+        frm.appendChild(tb)
+
         var form = "<form id='frmPesqProd' method='POST' ><input type='hidden' name='id' value='"+id+"'><input type='hidden' name='hidDel' id='hidDel' value='0'>";
         var table = "<table><tr><td>Referência / NF</td><td> <input type='text' name='ref' maxlength='30' id='edtRef' value='"+ref+"' /></td></tr>";
         var Btn = "<br>Acesso apenas p/ consulta<br><br>";
 
-        if(tipo == 'ENTRADA'){
+        var opt = [['SAN','FUN'],['IMP','CMP','FIX','PGT']]
+        var opt_name = [['Sanfonados','Funilaria e Pintura'],['Impostos','Compras','Custo Fixo','Pagto a Funcionarios']]
+        var opt_index = 0
+
+        if(tipo == 'ENTRADA'){            
             table = table +  "<tr><td>Entrada/Saida</td><td> <select name='tipo' id='selTipo'><option value='ENTRADA' selected> A Receber </option><option value='SAIDA'> A Pagar </option> </select></tr>";
+            opt_index = 1
         }else{
             table = table +  "<tr><td>Entrada/Saida</td><td> <select name='tipo' id='selTipo'><option value='ENTRADA'> A Receber </option><option value='SAIDA' selected> A Pagar </option> </select></tr>";
         }
+
+        var sel = "<select name='origem' id='selOrig'>"
+        for(let i=0; i<opt[opt_index].length; i++){
+            sel += `<option value='${opt[i]}' selected> Funilaria e Pintura </option><option value='SAN'> Sanfonados</option> option value='FUN' selected> A Receber </option><option value='OUT'> Outros </option> </select></tr>`;
+        }
+
         if(origem == 'FUN'){
             table = table +  "<tr><td>Origem</td><td> <select name='origem' id='selOrig'><option value='FUN' selected> Funilaria e Pintura </option><option value='SAN'> Sanfonados</option> option value='FUN' selected> A Receber </option><option value='OUT'> Outros </option> </select></tr>";
         }
@@ -127,9 +226,13 @@ $(document).ready(function(){
         });
 
         $(".content").html(form + Btn);
+
+//        document.querySelector('.content').appendChild(frm)
+
         $('#popTitle').html(id+'-'+ref+' - '+emp);
 
         $(".overlay").css("visibility", "visible").css("opacity", "1");  
+*/
 
     });
 

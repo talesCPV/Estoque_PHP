@@ -32,9 +32,8 @@
       </select>
       <label id="lblOrigem"> Origem </label>
       <select name="origem" id="selOrig">";
-        <option value="FUN"> Funilaria e Pintura </option>"
         <option value="SAN"> Sanfonados </option>"
-        <option value="OUT"> Outro </option>"
+        <option value="FUN"> Funilaria e Pintura </option>"
       </select>
       <label id="lblDest"> Sacado *</label>
       <input type="text" name="dest" maxlength="50" id="edtDest"/>
@@ -64,4 +63,33 @@
 </div>
 
 </body>
+
+<script>
+
+  document.querySelector('#selTipo').addEventListener('change',()=>{
+
+    val =  document.querySelector('#selTipo').value
+
+
+    if(val == 'ENTRADA'){
+      document.querySelector('#selOrig').innerHTML = `
+        <option value="FUN"> Funilaria e Pintura </option>"
+        <option value="SAN"> Sanfonados </option>"
+    `
+    }else{
+      document.querySelector('#selOrig').innerHTML = `
+        <option value="IMP"> Impostos</option>"
+        <option value="COM"> Compras </option>"
+        <option value="FIX"> Fixo </option>"    
+        <option value="PGT"> Pgto a Funcionário </option>"    
+    `
+    }
+
+
+  })
+
+
+
+</script>
+
 </html>

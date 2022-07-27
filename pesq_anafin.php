@@ -14,7 +14,18 @@
 <body <?php echo" style='background: {$_SESSION["cor_fundo"]};' " ?> >
   <header>
     <?php
-      include "menu.inc";
+	  include "menu.inc";
+	// CENTRO DE CUSTO        
+	$centro_custo = 0;
+	if(file_exists ( "config/config.json")){           
+		
+		$fp = fopen( "config/config.json", "r");
+		$JSON = fread($fp, filesize( "config/config.json"));
+		fclose($fp);
+
+		$json_str = json_decode($JSON, true);
+		$centro_custo = floatval ($json_str["financeiro"]["centro_custo"]);
+	}		  
     ?>
   </header>
   <div class="page_container">  
@@ -30,14 +41,21 @@
 				<option value="saida">Saídas</option>
 				<option value="cli">Cliente / Fornecedor</option>
 				<option value="nf">Nota Fiscal</option>
-				<optgroup label="Funilaria e Pintura">
-				<option value="fun_todos">Todos</option>
-				<option value="fun_entrada">Entradas</option>
-				<option value="fun_saida">Saídas</option>
-				<optgroup label="Sanfonados">
-				<option value="san_todos">Todos</option>
+				<optgroup label="Entradas">
+				<option value="fun_todos">Funilaria Pintura</option>
+				<option value="san_todos">Sanfonados</option>
+				<optgroup label="Saídas">
+				<option value="comp">Compras</option>
+				<option value="imp">Impostos</option>
+				<option value="pgto">Pgto Funcionários</option>
+				<option value="fixo">Custo Fixo</option>
+
+<!--
 				<option value="san_entrada">Entradas</option>
 				<option value="san_saida">Saídas</option>
+				<option value="fun_entrada">Entradas</option>
+				<option value="fun_saida">Saídas</option>
+-->				
 			</select></td><td>
 			<input type="text" name="valor" maxlength="12"/></td><td>
 			<button class="botao_inline" type="submit">OK</button></td></tr>  </table>
@@ -115,15 +133,15 @@
 					}
 				}
 			  	else
-			  	if ($campo == "fun_entrada"){
-					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where tipo = 'ENTRADA' and origem = 'FUN' ";
+			  	if ($campo == "fixo"){
+					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where tipo = 'SAIDA' and origem = 'FIX' ";
 					if($on){
 						$query = $query . "and data_pg >= '$data_ini' and data_pg <= '$data_fin'". $pgto;
 					}
 				}
 			  	else
-			  	if ($campo == "san_entrada"){
-					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem , pgtofrom tb_financeiro where tipo = 'ENTRADA' and origem = 'SAN' ";
+			  	if ($campo == "pgto"){
+					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where tipo = 'SAIDA' and origem = 'PGT' ";
 					if($on){
 						$query = $query . "and data_pg >= '$data_ini' and data_pg <= '$data_fin'". $pgto;
 					}
@@ -136,15 +154,15 @@
 					}
 			  	}
 			  	else
-			  	if ($campo == "fun_saida"){
-					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where tipo = 'SAIDA' and origem = 'FUN' ";
+			  	if ($campo == "comp"){
+					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where tipo = 'SAIDA' and origem = 'COM' ";
 					if($on){
 						$query = $query . "and data_pg >= '$data_ini' and data_pg <= '$data_fin'". $pgto;
 					}
 			  	}
 			  	else
-			  	if ($campo == "san_saida"){
-					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where tipo = 'SAIDA' and origem = 'SAN' ";
+			  	if ($campo == "imp"){
+					$query =  "SELECT id, ref, emp, data_pg, preco, tipo, origem, pgto from tb_financeiro where tipo = 'SAIDA' and origem = 'IMP' ";
 					if($on){
 						$query = $query . "and data_pg >= '$data_ini' and data_pg <= '$data_fin'". $pgto;
 					}
@@ -207,9 +225,13 @@
 								         "<td>" . money_format('%=*(#0.2n', $fetch[4]) . "</td></tr>";
 							}
 							$saldo = $tot_ent - $tot_sai;
-							echo "<tr><td></td><td></td><td></td><td></td><td></td><td>SALDO</td><th></th><th>". money_format('%=*(#0.2n', $saldo) ."</th></tr>";
+							if ($campo == "comp"){
+//echo $centro_custo;							
+								echo "<tr><td></td><th colspan='2'>Orçamento Mensal</th><th>".money_format('%=*(#0.2n', $centro_custo)."</th><th>Saldo</th><th>". money_format('%=*(#0.2n', $centro_custo + $saldo) ."</th><th>Total</th><th>". money_format('%=*(#0.2n', $saldo) ."</th></tr>";
+							}else{
+								echo "<tr><td></td><td></td><td></td><td></td><td></td><td>SALDO</td><th></th><th>". money_format('%=*(#0.2n', $saldo) ."</th></tr>";
 
-
+							}
 
 						    echo"
 						</table> 
@@ -250,4 +272,26 @@
 </div>
 
 </body>
+<script>
+
+  var data
+
+  
+    tbl = document.querySelector('#tabItens')
+	if(tbl != null){
+		row = tbl.rows[tbl.rows.length-1]
+		row.style = 'background : gray; color: white; font-size : 14px;'
+
+		for(let i=0; i<row.cells.length; i++){
+			txt = row.cells[i].innerText
+			if(txt[0] == '('){
+				row.cells[i].style = 'color : red;'
+			}else if(txt[0] == 'R'){
+				row.cells[i].style = 'color : blue;'
+			}
+		}
+	}
+
+
+</script>
 </html>

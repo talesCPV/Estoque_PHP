@@ -34,12 +34,22 @@
         fwrite($fp, $texto);
         fclose($fp);
      }
-     if (IsSet($_POST ["edtLousa"])){
-        $destino = $_POST ["destino"];
-        $texto = "\n \n".$user." escreveu em ".date('d/m/Y')."\n \n".$_POST ["edtLousa"];
-        $fp = fopen("lousa/".$destino.".txt", "a");
-        fwrite($fp, $texto);
+
+      if (IsSet($_POST ["edtCusto"])){
+        $arquivo = "config/config.json";
+        $fp = fopen($arquivo, "r");
+        $config = fread($fp, filesize($arquivo));
         fclose($fp);
+        
+        $json_str = json_decode($config, true);
+        $json_str["financeiro"] = array(
+          "centro_custo" => "{$_POST ["edtCusto"]}"
+        );
+
+        $fp = fopen($arquivo, "w");
+        fwrite($fp, json_encode($json_str));
+        fclose($fp);
+
       }
 
       if (IsSet($_POST ["menu-color"])){
@@ -76,7 +86,19 @@
      
      }
 
+// Configurações Gerais
+     $arquivo = "config/config.json";
+     $centro_custo = '0.00';
+     if(file_exists ($arquivo)){           
+      
+      $fp = fopen($arquivo, "r");
+      $JSON = fread($fp, filesize($arquivo));
+      fclose($fp);
 
+      $json_str = json_decode($JSON, true);
+// CENTRO DE CUSTO        
+       $centro_custo = $json_str["financeiro"]["centro_custo"];
+     }
      $arquivo = "config/colors.json";
 
      if(file_exists ($arquivo)){    
@@ -171,6 +193,9 @@
         echo"</textarea>";
 
       ?>
+
+        <label for="edtCusto">Centro de Custo R$</label>
+        <input type="text" name="edtCusto" id="edtCusto" <?php echo"value='". trim($centro_custo) ."'" ?> />
 
         <label> Cores <br></label>
         <table><tr>

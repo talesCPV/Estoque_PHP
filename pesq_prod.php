@@ -53,11 +53,11 @@
 			  	$campo = $_POST ["campo"];
 			  	$valor = $_POST ["valor"];
 			  	if ($campo == "desc"){
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.descricao LIKE '%".$valor."%' AND p.id_emp = e.id ORDER BY cast(p.cod as unsigned integer);";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.descricao LIKE '%".$valor."%' AND p.id_emp = e.id ORDER BY p.descricao;";
 			  	}
 			  	else
 			  	if ($campo == "cod"){
-			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod = '".$valor."' AND p.id_emp = e.id ;";
+			  		$query =  "SELECT p.id, p.cod, p.descricao, p.unidade, p.estoque, p.cod_bar, e.nome, p.preco_comp, p.margem, p.ncm, p.tipo, p.img_path FROM tb_produto AS p INNER JOIN tb_empresa AS e ON p.cod LIKE '%".$valor."%' AND p.id_emp = e.id ORDER BY p.cod;";
 			  	}
 			  	else
 			  	if ($campo == "cod_bar"){

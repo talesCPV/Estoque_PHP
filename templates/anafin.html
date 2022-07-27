@@ -1,0 +1,210 @@
+
+<style>
+
+    fieldset{
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    input{
+        padding: 5px;
+    }
+
+    .inline{
+        display: flex;
+        width: 80%;
+        margin: auto;
+    }
+
+    .inline *{
+        margin: 5px 10px;
+        width: 50%;
+    }
+
+    button{
+        width: 100%;
+        margin: 10px auto;
+    }
+
+    button:hover{
+        cursor: pointer;
+    }
+
+
+</style>   
+
+<html>
+    <fieldset>
+
+        <div class="inline">
+            <label> Referência / NF *</label>
+            <input type="text" name="ref" maxlength="30" id="edtRef"/>    
+        </div>
+        <div class="inline">
+            <label> Entrada / Saída </label>
+            <select name="tipo" id="selTipo">";
+                <option value="ENTRADA"> A Receber </option>"
+                <option value="SAÍDA"> A Pagar </option>"
+            </select>    
+        </div>
+        <div class="inline">
+            <label> Origem </label>
+            <select name="origem" id="selOrig">";
+                <option value="SAN"> Sanfonados </option>"
+                <option value="FUN"> Funilaria e Pintura </option>"
+                <option value="OUT"> Outros </option>"
+            </select>
+        </div>
+        <div class="inline">
+            <label> Sacado *</label>
+            <input type="text" name="dest" maxlength="50" id="edtDest"/>
+        </div>
+        <div class="inline">
+            <label> Data Recebimento / Vencimento</label>
+            <input type="date" name="data_venc" id="edtDataVenc" />
+        </div>
+        <div class="inline">
+            <label> Tipo de Pagto.</label>
+            <select  id="cmbPgto">
+                <option value="BOL"> Boleto </option>
+                <option value="DEB"> Cartão de Débto </option>
+                <option value="CRD"> Cartão de Crédito </option>
+                <option value="CHQ"> Cheque </option>
+                <option value="DIN"> Dinheiro </option>
+                <option value="DEP"> Depósito </option>
+                <option value="PIX"> PIX </option>
+                <option value="TED"> TED/DOC </option>
+                <option value="AUT"> Débto Automático </option>
+            </select>
+        </div>
+        <div class="inline">
+            <label> Valor do Título R$ *</label>
+            <input type="text" name="valor" id="edtValor" maxlength="15" onkeyup="return float_number(this)" />
+        </div>
+        <button onclick="return obrigatorio(['edtRef','edtDest','edtValor'])" id="btnUpdate">Salvar</button>
+        <button id="btnDelete">Deletar</button>
+
+    </fieldset>
+
+</html>
+
+<script>
+
+    function dateTransform(dt){
+        dt = dt.split('/')
+        return `${dt[2]}-${dt[1]}-${dt[0]}`
+    }
+
+    function moneyTransform(mn){
+        allow = ['0','1','2','3','4','5','6','7','8','9']
+        out = ''
+        for(let i=0; i<mn.length; i++){
+            out += allow.includes(mn[i]) ? mn[i] : ''
+            out += mn[i] == ',' ? '.' : ''
+        }
+        return out
+    }
+
+    function changeTipo(val){
+        if(val == 'ENTRADA'){
+        document.querySelector('#selOrig').innerHTML = `
+            <option value="FUN"> Funilaria e Pintura </option>"
+            <option value="SAN"> Sanfonados </option>"
+        `
+        }else{
+        document.querySelector('#selOrig').innerHTML = `
+            <option value="IMP"> Impostos</option>"
+            <option value="COM"> Compras </option>"
+            <option value="FIX"> Fixo </option>"    
+            <option value="PGT"> Pgto a Funcionário </option>"    
+        `
+        }
+
+    }
+
+    document.querySelector('#selTipo').addEventListener('change',()=>{
+        val =  document.querySelector('#selTipo').value
+        changeTipo(val)
+    })
+
+    document.querySelector('#btnUpdate').addEventListener('click',()=>{
+
+        query = `UPDATE tb_financeiro 
+        SET  tipo='${document.querySelector('#selTipo').value}',
+             ref='${document.querySelector('#edtRef').value}',
+             emp='${document.querySelector('#edtDest').value}',
+             preco='${document.querySelector('#edtValor').value}',
+             data_pg='${document.querySelector('#edtDataVenc').value}',
+             origem='${document.querySelector('#selOrig').value}',
+             pgto='${document.querySelector('#cmbPgto').value}'
+             WHERE id = '${data.id}';`
+
+        const params = new URLSearchParams();        
+            params.append("query", query);
+
+        const myRequest = new Request("ajax/ajax.php",{
+            method : "POST",
+            body : params
+        });
+
+        return new Promise((resolve,reject) =>{
+            fetch(myRequest)
+            .then(function (response){
+                if (response.status === 200) { 
+                    resolve(response.text());
+                    document.querySelector(".overlay").style.visibility = "hidden";
+		            document.querySelector(".overlay").style.opacity = 0;   
+                } else { 
+                    reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                } 
+            });
+        });   
+
+    })
+
+
+    document.querySelector('#btnDelete').addEventListener('click',()=>{
+
+        if(confirm('Deseja realmente deletar este registro?')){
+
+            query = `DELETE FROM tb_financeiro WHERE id = '${data.id}';`
+
+            const params = new URLSearchParams();        
+                params.append("query", query);
+
+            const myRequest = new Request("ajax/ajax.php",{
+                method : "POST",
+                body : params
+            });
+
+            return new Promise((resolve,reject) =>{
+                fetch(myRequest)
+                .then(function (response){
+                    if (response.status === 200) { 
+                        resolve(response.text());
+                        document.querySelector(".overlay").style.visibility = "hidden";
+                        document.querySelector(".overlay").style.opacity = 0;   
+                    } else { 
+                        reject(new Error("Houve algum erro na comunicação com o servidor"));                    
+                    } 
+                });
+            });   
+        }
+
+    })
+
+
+//   console.log(data)
+
+    document.querySelector('#edtRef').value = data.ref
+    document.querySelector('#selTipo').value = data.tipo
+    changeTipo(data.tipo)
+    document.querySelector('#selOrig').value = data.origem
+    document.querySelector('#edtDest').value = data.emp
+    document.querySelector('#edtDataVenc').value = dateTransform(data.venc)
+    document.querySelector('#cmbPgto').value = data.pgto
+    document.querySelector('#edtValor').value = moneyTransform(data.valor)
+
+
+</script>
