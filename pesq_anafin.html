@@ -6,10 +6,8 @@
 <head>
   <meta charset="UTF-8">
     <title>Análise Financeira</title>
-    <link rel="stylesheet" type="text/css"  href="css/estilo.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/edt_mask.js"></script>
-	<script src="js/pesq_anafin.js"></script>
+	<link rel="stylesheet" type="text/css"  href="css/estilo.css" />
+	<script src="js/edt_mask.js"></script>
     <script 
         src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" 
         integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" 
@@ -78,7 +76,30 @@
 </body>
 <script>
 
-  var data
+	const today = new Date()
+    console.log(today.toJSON())
+
+
+  	var data
+
+	function openHTML(template,label){    
+		fetch( "templates/"+template)
+		.then( stream => stream.text() )
+		.then( text => {			  
+			document.querySelector(".content").innerHTML = text;
+			document.querySelector("#popTitle").innerHTML = label;
+			document.querySelector(".overlay").style.visibility = "visible";
+			document.querySelector(".overlay").style.opacity = 1;
+
+			let script = document.querySelector(".content").getElementsByTagName('script');
+			eval(script[0].innerHTML);
+		}); 
+	}
+
+	document.querySelector('.close').addEventListener('click',()=>{
+		document.querySelector('.overlay').style = 'visibility : hidden; opacity:0;'
+	})
+
 
   function financeiro_pdf(){
 
@@ -135,6 +156,8 @@
 			tot += parseFloat(dados[i].preco)
 			tr = document.createElement('tr')
 			tr.innerHTML = `<td>${dados[i].id}</td><td>${dados[i].tipo}</td><td>${dados[i].origem}</td><td>${dados[i].ref}</td><td>${dados[i].emp}</td><td>${formatData(dados[i].data_pg)}</td><td>${dados[i].pgto}</td><td>${formatMoney(dados[i].preco)}</td>`
+			dados[i].format_dt = formatData(dados[i].data_pg)
+			dados[i].format_money = formatMoney(dados[i].preco)
 			tr.dados = dados[i]
 
 			tbl.appendChild(tr)
@@ -207,8 +230,22 @@ console.log(query)
 			
 			.then(dados => {
 				addTable(dados)
-
 				document.querySelector('#frmTable').style = `"display :${dados.length > 0 ? 'block' : 'none' };"`
+
+				document.querySelector('#frmTable').addEventListener('click',(e)=>{
+					data = e.target.parentNode.dados;
+
+					console.log(data)
+
+					openHTML('anafin.html',data.tipo+' - '+data.origem)
+
+
+
+    			})
+
+
+
+
 			})
 			.catch(error => {		
 				document.querySelector('#frmTable').style = "display :none;"			

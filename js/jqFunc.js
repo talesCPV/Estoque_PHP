@@ -14,6 +14,11 @@ function openHTML(template,label){
 }
 
 
+	document.querySelector('.close').addEventListener('click',()=>{
+		document.querySelector('.overlay').style = 'visibility : hidden; opacity:0;'
+	})
+
+
 $(document).ready(function(){
 
 //	MENU

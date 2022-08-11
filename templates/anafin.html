@@ -76,13 +76,14 @@
                 <option value="PIX"> PIX </option>
                 <option value="TED"> TED/DOC </option>
                 <option value="AUT"> Débto Automático </option>
+                <option value="15"> Gerado pelo Sistema </option>
             </select>
         </div>
         <div class="inline">
             <label> Valor do Título R$ *</label>
-            <input type="text" name="valor" id="edtValor" maxlength="15" onkeyup="return float_number(this)" />
+            <input type="text" name="valor" id="edtPreco" maxlength="15" onkeyup="return float_number(this)" />
         </div>
-        <button onclick="return obrigatorio(['edtRef','edtDest','edtValor'])" id="btnUpdate">Salvar</button>
+        <button onclick="return obrigatorio(['edtRef','edtDest','edtPreco'])" id="btnUpdate">Salvar</button>
         <button id="btnDelete">Deletar</button>
 
     </fieldset>
@@ -195,16 +196,18 @@
     })
 
 
-//   console.log(data)
+   console.log(data)
 
     document.querySelector('#edtRef').value = data.ref
     document.querySelector('#selTipo').value = data.tipo
     changeTipo(data.tipo)
     document.querySelector('#selOrig').value = data.origem
     document.querySelector('#edtDest').value = data.emp
-    document.querySelector('#edtDataVenc').value = dateTransform(data.venc)
+//    document.querySelector('#edtDataVenc').value = dateTransform(data.venc)
+    document.querySelector('#edtDataVenc').value = data.data_pg
     document.querySelector('#cmbPgto').value = data.pgto
-    document.querySelector('#edtValor').value = moneyTransform(data.valor)
+//    document.querySelector('#edtValor').value = moneyTransform(data.valor)
+    document.querySelector('#edtPreco').value = parseFloat(data.preco).toFixed(2)
 
 
 </script>

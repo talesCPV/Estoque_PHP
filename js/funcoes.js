@@ -61,7 +61,6 @@
 
     }
 
-
     function validaCampo(obj)
     {
         for(var i = 0; i<obj.length; i++){
@@ -84,7 +83,6 @@
              return true;
         }
     }
-
 
     function valida_senha(obj)
     {

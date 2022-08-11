@@ -52,7 +52,6 @@ function float_number(campo,casas=2){
     campo.value = out_text;
 }
 
-
 function format_num(campo,casas=2){
     var ok_chr = new Array('1','2','3','4','5','6','7','8','9','0');
     var text = campo;
